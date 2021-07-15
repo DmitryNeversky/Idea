@@ -1,0 +1,23 @@
+/*header*/
+
+.header-spacer {
+    flex: 1 1 auto;
+}
+
+/*left panel*/
+
+.left-panel-container {
+    width: fit-content;
+    height: 100%;
+}
+
+.left-panel-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-panel {
+    padding: 20px;
+}

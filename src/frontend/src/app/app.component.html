@@ -1,7 +1,25 @@
-<header></header>
+<!--header-->
 
-<!--left-sidebar-->
+<mat-toolbar color="primary">
+    <button (click)="drawer.toggle()" mat-icon-button class="" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>My App</span>
+    <span class="header-spacer"></span>
+    <button mat-icon-button class="favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+    </button>
+</mat-toolbar>
 
-<!-- router-outlet -->
+<!--navbar-->
 
-<footer></footer>
+<mat-drawer-container class="left-panel-container mat-elevation-z8" autosize>
+    <mat-drawer #drawer class="left-panel" mode="side">
+        <div class="left-panel-content">
+
+        </div>
+    </mat-drawer>
+</mat-drawer-container>
