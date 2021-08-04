@@ -1,0 +1,21 @@
+.header-spacer {
+    flex: 1 1 auto;
+}
+
+/*left panel*/
+
+.left-panel-container {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.left-panel-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-panel .mat-list-item-content {
+    padding: 0 !important;
+}

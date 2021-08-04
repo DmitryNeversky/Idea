@@ -1,7 +1,30 @@
-<header></header>
+<mat-toolbar color="primary">
+    <button (click)="drawer.toggle()" mat-icon-button aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>My App</span>
+    <span class="header-spacer"></span>
+    <button mat-icon-button class="notification-icon">
+        <mat-icon matBadge="8" matBadgePosition="after" matBadgeColor="warn">notifications</mat-icon>
+    </button>
+    <button mat-icon-button class="account-icon">
+        <mat-icon>account_circle</mat-icon>
+    </button>
+</mat-toolbar>
 
-<!--left-sidebar-->
+<!--navbar-->
 
-<!-- router-outlet -->
+<mat-drawer-container class="left-panel-container mat-elevation-z8" [hasBackdrop]="true" autosize>
+    <mat-drawer #drawer class="left-panel" mode="over">
+        <mat-list>
+            <mat-list-item><button mat-button><mat-icon>home</mat-icon>Главная</button></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><button mat-button><mat-icon>lightbulb</mat-icon>Идеи</button></mat-list-item>
+        </mat-list>
+    </mat-drawer>
+    <mat-drawer-content class="left-panel-content">
 
-<footer></footer>
+        <router-outlet></router-outlet>
+
+    </mat-drawer-content>
+</mat-drawer-container>
