@@ -1,0 +1,41 @@
+/*@media screen and (max-width: 600px) {*/
+/*    mat-card {*/
+/*        width: 320px;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (min-width: 600px) and (max-width: 800px) {*/
+/*    mat-card {*/
+/*        width: 600px;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (min-width: 800px) and (max-width: 1200px) {*/
+/*    mat-card {*/
+/*        width: 960px;*/
+/*    }*/
+/*}*/
+
+mat-card {
+    margin-bottom: 40px;
+    padding: 0;
+}
+
+mat-card-title {
+    padding: 10px 20px;
+    background: silver;
+}
+
+mat-card-title, mat-card-footer, mat-card-content {
+    padding: 10px 20px;
+}
+
+mat-card-title, mat-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+mat-card-content {
+    margin: 0;
+}

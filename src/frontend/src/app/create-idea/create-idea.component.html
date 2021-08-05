@@ -1,0 +1,11 @@
+<form [formGroup]="mainForm" (ngSubmit)="create()">
+    <mat-form-field appearance="fill">
+        <mat-label>Заголовок</mat-label>
+        <input matInput formControlName="title">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Основная идея</mat-label>
+        <textarea matInput formControlName="text"></textarea>
+    </mat-form-field>
+    <button type="submit" mat-flat-button>создать</button>
+</form>

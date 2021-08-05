@@ -21,16 +21,21 @@ import {RouterModule} from "@angular/router";
 import { IdeasComponent } from './ideas/ideas.component';
 import { IdeaComponent } from './idea/idea.component';
 import {MatMenuModule} from "@angular/material/menu";
+import {AppRoutingModule} from "./app-routing.module";
+import { CreateIdeaComponent } from './create-idea/create-idea.component';
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
     AppComponent,
     IdeasComponent,
     IdeaComponent,
+    CreateIdeaComponent,
   ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+
         MatSidenavModule,
         MatFormFieldModule,
         MatSelectModule,
@@ -42,10 +47,13 @@ import {MatMenuModule} from "@angular/material/menu";
         MatBadgeModule,
         MatCardModule,
         MatGridListModule,
+        MatMenuModule,
+
         HttpClientModule,
         ReactiveFormsModule,
         RouterModule,
-        MatMenuModule
+        AppRoutingModule,
+        MatInputModule,
     ],
   providers: [IdeaService],
   bootstrap: [AppComponent]

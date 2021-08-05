@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Idea} from "../models/Idea";
 import {environment} from "../../environments/environment";
@@ -21,8 +21,8 @@ export class IdeaService {
     return this.httpClient.get<Idea>(`${this.apiBaseUrl}/ideas/${id}`);
   }
 
-  public add(formData: FormData): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiBaseUrl}/ideas/add`, formData);
+  public add(formData: FormData): Observable<Idea> {
+    return this.httpClient.post<Idea>(`${this.apiBaseUrl}/ideas/add`, formData);
   }
 
   public update(formData: FormData): Observable<Idea> {

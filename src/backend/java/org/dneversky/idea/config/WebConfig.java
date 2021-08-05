@@ -9,12 +9,16 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 
 @Configuration
 public class WebConfig {
 
-    @Value("{allowedOrigin}")
+    @Value("${allowedOrigin}")
     private String allowedOrigin;
 
     @Bean

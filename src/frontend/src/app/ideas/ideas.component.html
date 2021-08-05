@@ -1,1 +1,4 @@
 <app-idea *ngFor="let idea of ideas" [idea]="idea"></app-idea>
+<button [routerLink]="['create']" mat-fab color="accent" class="create-widget">
+    <mat-icon>add</mat-icon>
+</button>
