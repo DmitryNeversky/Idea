@@ -13,21 +13,18 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatListModule} from "@angular/material/list";
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatCardModule} from "@angular/material/card";
-import { IdeaItemComponent } from './idea-item/idea-item.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {IdeaService} from "./services/idea.service";
 import {HttpClientModule} from "@angular/common/http";
-import { CreateIdeaPageComponent } from './create-idea-page/create-idea-page.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import { IdeasComponent } from './ideas/ideas.component';
 import { IdeaComponent } from './idea/idea.component';
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
     AppComponent,
-    IdeaItemComponent,
-    CreateIdeaPageComponent,
     IdeasComponent,
     IdeaComponent,
   ],
@@ -47,7 +44,8 @@ import { IdeaComponent } from './idea/idea.component';
         MatGridListModule,
         HttpClientModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        MatMenuModule
     ],
   providers: [IdeaService],
   bootstrap: [AppComponent]

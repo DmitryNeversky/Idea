@@ -4,12 +4,34 @@
     </button>
     <span>My App</span>
     <span class="header-spacer"></span>
-    <button mat-icon-button class="notification-icon">
+    <button mat-icon-button [matMenuTriggerFor]="NotifyMenu" class="notification-icon">
         <mat-icon matBadge="8" matBadgePosition="after" matBadgeColor="warn">notifications</mat-icon>
     </button>
-    <button mat-icon-button class="account-icon">
+    <mat-menu #NotifyMenu="matMenu">
+        <div class="mat-menu-card">
+            <div class="mat-menu-header">
+                <span>Title</span>
+                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </div>
+            <div class="mat-menu-content">
+                <p>Lorem ipsum dolor sit amet.</p>
+            </div>
+            <div class="mat-menu-footer">
+                <span>Date</span>
+            </div>
+        </div>
+    </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="account-icon">
         <mat-icon>account_circle</mat-icon>
     </button>
+    <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item><mat-icon>account_box</mat-icon> Аккаунт</button>
+        <button mat-menu-item><mat-icon>lightbulb</mat-icon> Мои идеи</button>
+        <button mat-menu-item><mat-icon>settings</mat-icon> Настройки</button>
+        <button mat-menu-item><mat-icon>exit_to_app</mat-icon> Выйти</button>
+    </mat-menu>
 </mat-toolbar>
 
 <!--navbar-->
@@ -24,7 +46,7 @@
     </mat-drawer>
     <mat-drawer-content class="left-panel-content">
 
-        <router-outlet></router-outlet>
+<!--        <router-outlet></router-outlet>-->
 
     </mat-drawer-content>
 </mat-drawer-container>

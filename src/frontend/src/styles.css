@@ -2,3 +2,7 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden; }
+
+app-root .mat-list-base .mat-list-item .mat-list-item-content, app-root .mat-list-base .mat-list-option .mat-list-item-content {
+    padding: 0;
+}
