@@ -3,3 +3,52 @@
     right: 5%;
     bottom: 5%;
 }
+
+.filter-container {}
+
+.filter-content {
+    display: flex;
+}
+
+.filter-content mat-form-field {
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 800px) {
+    .filter-content {
+        display: block;
+    }
+    .filter-content mat-form-field {
+        margin-top: 10px;
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 20px 0;
+}
+
+.pagination-pages {
+    margin: 0 5px;
+}
+
+.pagination-left {
+    margin-right: 20px;
+}
+
+.pagination-right {
+    margin-left: 20px;
+}
+
+.no-ideas {
+    text-align: center;
+    margin: 10% 0;
+    font-size: large;
+    color: #a8a8a8;
+}
+
+.mat-form-field {
+    display: block;
+}
+

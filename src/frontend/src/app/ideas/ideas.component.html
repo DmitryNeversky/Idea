@@ -1,4 +1,47 @@
-<app-idea *ngFor="let idea of ideas" [idea]="idea"></app-idea>
+<mat-card class="filter-container">
+    <mat-card-content class="filter-content">
+        <mat-form-field appearance="outline">
+            <mat-label>Найти</mat-label>
+            <input matInput placeholder="Заголовок или #id" [(ngModel)]="search">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Select</mat-label>
+            <mat-select>
+                <mat-option value="one">First option</mat-option>
+                <mat-option value="two">Second option</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Select</mat-label>
+            <mat-select>
+                <mat-option value="one">First option</mat-option>
+                <mat-option value="two">Second option</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-flat-button (click)="filter()" color="primary">Применить</button>
+    </mat-card-content>
+</mat-card>
+
+<div *ngIf="ideas.length > 0; else noIdeas">
+    <app-idea *ngFor="let idea of paginatedIdeas" [idea]="idea"></app-idea>
+</div>
+
+<ng-template #noIdeas class="no-ideas">Идей не найдено</ng-template>
+
 <button [routerLink]="['create']" mat-fab color="accent" class="create-widget">
     <mat-icon>add</mat-icon>
 </button>
+
+<div class="pagination">
+    <button class="pagination-left" mat-mini-fab color="warn" [disabled]="pageIndex == 0" (click)="goIndex(pageIndex - 1)">
+        <mat-icon>arrow_back_ios</mat-icon>
+    </button>
+    <div class="pagination-pages" *ngFor="let page of pages">
+        <button mat-mini-fab [ngClass]="pageIndex == page ? 'accent' : 'primary'" (click)="goIndex(page)">{{page + 1}}</button>
+    </div>
+    <button class="pagination-right" mat-mini-fab color="warn"
+            [disabled]="pageIndex == ideas.length / pageSize - 1 || ideas.length == 0"
+            (click)="goIndex(pageIndex + 1)">
+        <mat-icon>arrow_forward_ios</mat-icon>
+    </button>
+</div>

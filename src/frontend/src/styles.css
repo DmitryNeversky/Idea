@@ -3,6 +3,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden; }
 
+.accent { background: #ffd740 !important; color: black !important; }
+.warn { background: #f44336 !important; color: white !important; }
+.primary { background: #673ab7 !important; color: white !important; }
+
 app-root .mat-list-base .mat-list-item .mat-list-item-content, app-root .mat-list-base .mat-list-option .mat-list-item-content {
     padding: 0;
 }
@@ -19,4 +23,8 @@ small.status {
     background: #f35454;
     font-weight: bold;
     color: white;
+}
+
+.filter-container .mat-form-field-wrapper {
+    padding: 0;
 }

@@ -16,7 +16,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {IdeaService} from "./services/idea.service";
 import {HttpClientModule} from "@angular/common/http";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import { IdeasComponent } from './ideas/ideas.component';
 import { IdeaComponent } from './idea/idea.component';
@@ -24,6 +24,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import {AppRoutingModule} from "./app-routing.module";
 import { CreateIdeaComponent } from './create-idea/create-idea.component';
 import {MatInputModule} from "@angular/material/input";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {SearchPipe} from "./pipes/ideas-filter/search.pipe";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import {MatInputModule} from "@angular/material/input";
     IdeasComponent,
     IdeaComponent,
     CreateIdeaComponent,
+      SearchPipe
   ],
     imports: [
         BrowserModule,
@@ -54,6 +57,8 @@ import {MatInputModule} from "@angular/material/input";
         RouterModule,
         AppRoutingModule,
         MatInputModule,
+        MatPaginatorModule,
+        FormsModule,
     ],
   providers: [IdeaService],
   bootstrap: [AppComponent]
