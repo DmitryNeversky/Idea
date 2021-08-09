@@ -1,7 +1,11 @@
 <mat-card>
     <mat-card-title>
         <span class="title">{{idea.title}}</span>
-        <small class="status">Onlooking</small>
+        <ng-container [ngSwitch]="idea.status">
+            <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>
+            <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>
+            <small class="status" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'">Отказано</small>
+        </ng-container>
     </mat-card-title>
     <mat-card-content>
         <p>{{idea.text}}</p>

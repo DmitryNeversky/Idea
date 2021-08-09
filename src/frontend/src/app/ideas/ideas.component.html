@@ -5,10 +5,11 @@
             <input matInput placeholder="Заголовок или #id" [(ngModel)]="search">
         </mat-form-field>
         <mat-form-field appearance="outline">
-            <mat-label>Select</mat-label>
+            <mat-label>Статус</mat-label>
             <mat-select>
-                <mat-option value="one">First option</mat-option>
-                <mat-option value="two">Second option</mat-option>
+                <mat-option value="ACCEPTED">Принято</mat-option>
+                <mat-option value="LOOKING">Рассматривается</mat-option>
+                <mat-option value="REFUSED">Отказано</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
@@ -26,7 +27,7 @@
     <app-idea *ngFor="let idea of paginatedIdeas" [idea]="idea"></app-idea>
 </div>
 
-<ng-template #noIdeas class="no-ideas">Идей не найдено</ng-template>
+<ng-template #noIdeas><p class="no-ideas">Идей не найдено</p></ng-template>
 
 <button [routerLink]="['create']" mat-fab color="accent" class="create-widget">
     <mat-icon>add</mat-icon>

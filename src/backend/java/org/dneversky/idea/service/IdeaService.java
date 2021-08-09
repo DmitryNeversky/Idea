@@ -1,6 +1,7 @@
 package org.dneversky.idea.service;
 
 import org.dneversky.idea.model.Idea;
+import org.dneversky.idea.model.Status;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class IdeaService {
 
     public Idea add(String title, String text) {
         // User requesting
-        return ideaRepository.save(new Idea(title, text));
+        return ideaRepository.save(new Idea(title, text, Status.LOOKING));
     }
 
     public Idea put(Idea idea) {

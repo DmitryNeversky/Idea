@@ -12,22 +12,26 @@ public class Idea {
     private String title;
     private String text;
 
+    private Status status;
+
     private int rating;
     private int looks;
 
     public Idea() {}
 
-    public Idea(String id, String title, String text, int rating, int looks) {
+    public Idea(String id, String title, String text, Status status, int rating, int looks) {
         this.id = id;
         this.title = title;
         this.text = text;
+        this.status = status;
         this.rating = rating;
         this.looks = looks;
     }
 
-    public Idea(String title, String text) {
+    public Idea(String title, String text, Status status) {
         this.title = title;
         this.text = text;
+        this.status = status;
     }
 
     public String getId() {
@@ -52,6 +56,14 @@ public class Idea {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public int getRating() {
