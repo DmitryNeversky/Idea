@@ -1,10 +1,10 @@
 package org.dneversky.idea.repository;
 
-import org.dneversky.idea.entity.Idea;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.dneversky.idea.model.Idea;
+import org.springframework.data.keyvalue.repository.KeyValueRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IdeaRepository extends JpaRepository<Idea, Integer> {
+public interface IdeaRepository extends KeyValueRepository<Idea, String> {
 
 }

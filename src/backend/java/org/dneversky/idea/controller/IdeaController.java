@@ -1,6 +1,6 @@
 package org.dneversky.idea.controller;
 
-import org.dneversky.idea.entity.Idea;
+import org.dneversky.idea.model.Idea;
 import org.dneversky.idea.service.IdeaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class IdeaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Idea> get(@PathVariable int id) {
+    public ResponseEntity<Idea> get(@PathVariable String id) {
 
         return new ResponseEntity<>(ideaService.get(id), HttpStatus.OK);
     }

@@ -1,31 +1,41 @@
-package org.dneversky.idea.entity;
+package org.dneversky.idea.model;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
-@Entity
+@RedisHash("idea")
 public class Idea {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     private String title;
     private String text;
+
     private int rating;
     private int looks;
 
-    @ManyToOne
-    private User author;
-
     public Idea() {}
+
+    public Idea(String id, String title, String text, int rating, int looks) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.rating = rating;
+        this.looks = looks;
+    }
 
     public Idea(String title, String text) {
         this.title = title;
         this.text = text;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -58,25 +68,5 @@ public class Idea {
 
     public void setLooks(int looks) {
         this.looks = looks;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    @Override
-    public String toString() {
-        return "Idea{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", text='" + text + '\'' +
-                ", rating=" + rating +
-                ", looks=" + looks +
-                ", author=" + author +
-                '}';
     }
 }

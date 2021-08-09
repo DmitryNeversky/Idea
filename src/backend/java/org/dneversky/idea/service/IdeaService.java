@@ -1,6 +1,6 @@
 package org.dneversky.idea.service;
 
-import org.dneversky.idea.entity.Idea;
+import org.dneversky.idea.model.Idea;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,13 @@ public class IdeaService {
 
     public List<Idea> getAll() {
 
-        return ideaRepository.findAll();
+        return (List<Idea>) ideaRepository.findAll();
     }
 
-    public Idea get(int id) {
+    public Idea get(String id) {
         Optional<Idea> findIdea = ideaRepository.findById(id);
-        return findIdea.orElse(null);
 
+        return findIdea.orElse(null);
     }
 
     public Idea add(String title, String text) {
