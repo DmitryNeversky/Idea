@@ -6,13 +6,12 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Статус</mat-label>
-            <mat-select [(ngModel)]="status" (change)="filter()">
+            <mat-select [(ngModel)]="status" (selectionChange)="filter()">
                 <mat-option value="ACCEPTED">Принято</mat-option>
                 <mat-option value="LOOKING">Рассматривается</mat-option>
                 <mat-option value="REFUSED">Отказано</mat-option>
             </mat-select>
         </mat-form-field>
-        <button mat-flat-button (click)="filter()" color="primary">Применить</button>
         <mat-button-toggle-group>
             <mat-button-toggle value="5">Алфавиту</mat-button-toggle>
             <mat-button-toggle value="10">Просмотрам</mat-button-toggle>
@@ -29,7 +28,7 @@
     </mat-card-content>
 </mat-card>
 
-<div *ngIf="paginatedIdeas; else noIdeas">
+<div *ngIf="filteredIdeas.length > 0; else noIdeas">
     <app-idea *ngFor="let idea of paginatedIdeas" [idea]="idea"></app-idea>
 </div>
 

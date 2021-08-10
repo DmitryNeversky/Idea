@@ -69,8 +69,12 @@ export class IdeasComponent implements OnInit {
     this.pageIndex = index;
     this.paginatedIdeas = [];
 
-    for (let i = 0; i < this.pageSize; i++)
-      this.paginatedIdeas.push(this.filteredIdeas[index * this.pageSize + i]);
+    if(this.filteredIdeas.length == 0) {
+      this.filteredIdeas = [];
+    } else {
+      for (let i = 0; i < this.pageSize; i++)
+        this.paginatedIdeas.push(this.filteredIdeas[index * this.pageSize + i]);
+    }
 
     this.initPagination(this.filteredIdeas.length);
   }
