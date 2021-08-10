@@ -61,8 +61,7 @@ export class IdeasComponent implements OnInit {
         this.pages.push(i);
     }
 
-
-    if(this.ideas.length > 1)
+    if(this.ideas.length > 1 && this.filteredIdeas.length > 1)
       this.pages.push(size - 1);
   }
 

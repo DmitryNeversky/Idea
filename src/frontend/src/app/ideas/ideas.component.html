@@ -2,28 +2,34 @@
     <mat-card-content class="filter-content">
         <mat-form-field appearance="outline">
             <mat-label>Найти</mat-label>
-            <input matInput placeholder="Заголовок или #id" [(ngModel)]="search">
+            <input matInput placeholder="Заголовок или #id" [(ngModel)]="search" (input)="filter()">
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Статус</mat-label>
-            <mat-select>
+            <mat-select [(ngModel)]="status" (change)="filter()">
                 <mat-option value="ACCEPTED">Принято</mat-option>
                 <mat-option value="LOOKING">Рассматривается</mat-option>
                 <mat-option value="REFUSED">Отказано</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Select</mat-label>
-            <mat-select>
-                <mat-option value="one">First option</mat-option>
-                <mat-option value="two">Second option</mat-option>
-            </mat-select>
-        </mat-form-field>
         <button mat-flat-button (click)="filter()" color="primary">Применить</button>
+        <mat-button-toggle-group>
+            <mat-button-toggle value="5">Алфавиту</mat-button-toggle>
+            <mat-button-toggle value="10">Просмотрам</mat-button-toggle>
+            <mat-button-toggle value="15">Новизне</mat-button-toggle>
+            <mat-button-toggle value="20">Голосам</mat-button-toggle>
+        </mat-button-toggle-group>
+        <mat-button-toggle-group >
+            <mat-button-toggle value="1">1</mat-button-toggle>
+            <mat-button-toggle value="5">5</mat-button-toggle>
+            <mat-button-toggle value="10">10</mat-button-toggle>
+            <mat-button-toggle value="15">15</mat-button-toggle>
+            <mat-button-toggle value="20">20</mat-button-toggle>
+        </mat-button-toggle-group>
     </mat-card-content>
 </mat-card>
 
-<div *ngIf="ideas.length > 0; else noIdeas">
+<div *ngIf="paginatedIdeas; else noIdeas">
     <app-idea *ngFor="let idea of paginatedIdeas" [idea]="idea"></app-idea>
 </div>
 
@@ -41,7 +47,7 @@
         <button mat-mini-fab [ngClass]="pageIndex == page ? 'accent' : 'primary'" (click)="goIndex(page)">{{page + 1}}</button>
     </div>
     <button class="pagination-right" mat-mini-fab color="warn"
-            [disabled]="pageIndex == ideas.length / pageSize - 1 || ideas.length == 0"
+            [disabled]="this.pageIndex == filteredIdeas.length - 1 || filteredIdeas.length <= 1"
             (click)="goIndex(pageIndex + 1)">
         <mat-icon>arrow_forward_ios</mat-icon>
     </button>
