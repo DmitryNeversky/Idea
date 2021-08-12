@@ -13,8 +13,9 @@ export class IdeasComponent implements OnInit {
   public status: string;
 
   public pageIndex: number = 0;
-  public pageSize: number = 1;
-  public pages: number[] = [];
+  public pageSize: number = 5;
+  public pagers: number[] = [];
+  public pagerSize: number = 0;
 
   public ideas: Idea[];
   public paginatedIdeas: Idea[];
@@ -23,7 +24,7 @@ export class IdeasComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.ideas = this.activatedRoute.snapshot.data.ideas;
+    this.ideas = this.activatedRoute.snapshot.data.ideas.filter((idea: Idea) => idea);
 
     this.filteredIdeas = this.ideas;
     this.goIndex(0);
@@ -31,38 +32,41 @@ export class IdeasComponent implements OnInit {
 
   initPagination(size: number) {
 
-    this.pages = [];
-    this.pages.push(0);
+    this.pagerSize = size;
+
+    this.pagers = [];
+    this.pagers.push(0);
+
+    if(this.pageSize * size - this.filteredIdeas.length == 0)
+      size = size - 1;
 
     if(size > 7) {
 
       if(this.pageIndex < 4) {
-        for(let i = 1; i < 6; i++) {
-          this.pages.push(i);
-        }
+        for(let i = 1; i < 6; i++)
+          this.pagers.push(i);
+
       } else if (this.pageIndex >= 4) {
-        this.pages.push(this.pageIndex - 2);
-        this.pages.push(this.pageIndex - 1);
+        this.pagers.push(this.pageIndex - 2);
+        this.pagers.push(this.pageIndex - 1);
 
-        if(this.pageIndex != size - 1)
-          this.pages.push(this.pageIndex);
+        if(this.pageIndex != size)
+          this.pagers.push(this.pageIndex);
 
-        if(this.pageIndex < size - 4) {
-          this.pages.push(this.pageIndex + 1);
-          this.pages.push(this.pageIndex + 2);
-        } else if (this.pageIndex >= size - 4 && this.pageIndex < size - 2) {
-          this.pages.push(this.pageIndex + 1);
-          if (this.pageIndex == size - 4)
-            this.pages.push(this.pageIndex + 2);
+        if(this.pageIndex < size - 3) {
+          this.pagers.push(this.pageIndex + 1);
+          this.pagers.push(this.pageIndex + 2);
+        } else if (this.pageIndex >= size - 3 && this.pageIndex < size - 1) {
+          this.pagers.push(this.pageIndex + 1);
+          if (this.pageIndex == size - 3)
+            this.pagers.push(this.pageIndex + 2);
         }
       }
+      this.pagers.push(size);
     } else {
-      for (let i = 1; i < size - 1; i++)
-        this.pages.push(i);
+      for (let i = 1; i <= size; i++)
+        this.pagers.push(i);
     }
-
-    if(this.ideas.length > 1 && this.filteredIdeas.length > 1)
-      this.pages.push(size - 1);
   }
 
   goIndex(index: number) {
@@ -71,12 +75,15 @@ export class IdeasComponent implements OnInit {
 
     if(this.filteredIdeas.length == 0) {
       this.filteredIdeas = [];
-    } else {
+    } else if (this.filteredIdeas.length / this.pageSize) {
       for (let i = 0; i < this.pageSize; i++)
         this.paginatedIdeas.push(this.filteredIdeas[index * this.pageSize + i]);
     }
 
-    this.initPagination(this.filteredIdeas.length);
+    for(let i = 0; i < Math.floor(this.filteredIdeas.length / this.pageSize); i++) {
+
+    }
+    this.initPagination(Math.floor(this.filteredIdeas.length / this.pageSize));
   }
 
   filter() {
@@ -95,8 +102,44 @@ export class IdeasComponent implements OnInit {
     this.goIndex(0);
   }
 
-  setPageSize(event: any) {
-    this.pageSize = event.value;
+  sort(value: number) {
+    switch (value) {
+      case 1:
+        this.filteredIdeas = this.filteredIdeas.sort((a, b) => {
+          if (a.title.toLowerCase() > b.title.toLowerCase())
+            return 1
+          else if (a.title.toLowerCase() < b.title.toLowerCase())
+            return -1
+          else return 0
+        });
+        break;
+      case 2:
+        this.filteredIdeas = this.filteredIdeas.sort((a, b) => {
+          if (a.looks > b.looks)
+            return 1
+          else if (a.looks < b.looks)
+            return -1
+          else return 0
+        });
+        break;
+      case 3:
+        this.filteredIdeas = this.filteredIdeas.sort((a, b) => {
+          if (a.rating > b.rating)
+            return 1
+          else if (a.rating < b.rating)
+            return -1
+          else return 0
+        });
+        break;
+      case 4:
+        break;
+    }
+
+    this.goIndex(0);
+  }
+
+  setPageSize(value: number) {
+    this.pageSize = value;
     this.goIndex(0);
   }
 }

@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="idea">
     <mat-card-title>
         <span class="title">{{idea.title}}</span>
         <ng-container [ngSwitch]="idea.status">

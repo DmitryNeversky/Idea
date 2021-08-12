@@ -25,7 +25,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import { CreateIdeaComponent } from './create-idea/create-idea.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {SearchPipe} from "./pipes/ideas-filter/search.pipe";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -33,7 +33,6 @@ import {SearchPipe} from "./pipes/ideas-filter/search.pipe";
     IdeasComponent,
     IdeaComponent,
     CreateIdeaComponent,
-      SearchPipe
   ],
     imports: [
         BrowserModule,
@@ -59,6 +58,7 @@ import {SearchPipe} from "./pipes/ideas-filter/search.pipe";
         MatInputModule,
         MatPaginatorModule,
         FormsModule,
+        MatButtonToggleModule,
     ],
   providers: [IdeaService],
   bootstrap: [AppComponent]

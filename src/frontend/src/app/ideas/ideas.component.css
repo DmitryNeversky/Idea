@@ -8,6 +8,13 @@
 
 .filter-content {
     display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (min-width: 1024px){
+    .filter-content mat-form-field {
+        width: 320px;
+    }
 }
 
 .filter-content mat-form-field {
@@ -29,7 +36,7 @@
     margin: 40px 0 20px 0;
 }
 
-.pagination-pages {
+.pagination-pagers {
     margin: 0 5px;
 }
 

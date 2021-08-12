@@ -13,22 +13,22 @@
             </mat-select>
         </mat-form-field>
         <mat-button-toggle-group>
-            <mat-button-toggle value="5">Алфавиту</mat-button-toggle>
-            <mat-button-toggle value="10">Просмотрам</mat-button-toggle>
-            <mat-button-toggle value="15">Новизне</mat-button-toggle>
-            <mat-button-toggle value="20">Голосам</mat-button-toggle>
+            <mat-button-toggle (click)="sort(1)" value="1">Алфавиту</mat-button-toggle>
+            <mat-button-toggle (click)="sort(2)" value="2">Просмотрам</mat-button-toggle>
+            <mat-button-toggle (click)="sort(3)" value="3">Голосам</mat-button-toggle>
+            <mat-button-toggle (click)="sort(4)" value="4">Новизне</mat-button-toggle>
+
         </mat-button-toggle-group>
-        <mat-button-toggle-group >
-            <mat-button-toggle value="1">1</mat-button-toggle>
-            <mat-button-toggle value="5">5</mat-button-toggle>
-            <mat-button-toggle value="10">10</mat-button-toggle>
-            <mat-button-toggle value="15">15</mat-button-toggle>
-            <mat-button-toggle value="20">20</mat-button-toggle>
+        <mat-button-toggle-group value="{{pageSize}}">
+            <mat-button-toggle (click)="setPageSize(5)" value="5">5</mat-button-toggle>
+            <mat-button-toggle (click)="setPageSize(10)" value="10">10</mat-button-toggle>
+            <mat-button-toggle (click)="setPageSize(15)" value="15">15</mat-button-toggle>
+            <mat-button-toggle (click)="setPageSize(20)" value="20">20</mat-button-toggle>
         </mat-button-toggle-group>
     </mat-card-content>
 </mat-card>
 
-<div *ngIf="filteredIdeas.length > 0; else noIdeas">
+<div *ngIf="paginatedIdeas.length > 0; else noIdeas">
     <app-idea *ngFor="let idea of paginatedIdeas" [idea]="idea"></app-idea>
 </div>
 
@@ -42,11 +42,11 @@
     <button class="pagination-left" mat-mini-fab color="warn" [disabled]="pageIndex == 0" (click)="goIndex(pageIndex - 1)">
         <mat-icon>arrow_back_ios</mat-icon>
     </button>
-    <div class="pagination-pages" *ngFor="let page of pages">
-        <button mat-mini-fab [ngClass]="pageIndex == page ? 'accent' : 'primary'" (click)="goIndex(page)">{{page + 1}}</button>
+    <div class="pagination-pagers" *ngFor="let pager of pagers">
+        <button mat-mini-fab [ngClass]="pageIndex == pager ? 'accent' : 'primary'" (click)="goIndex(pager)">{{pager + 1}}</button>
     </div>
     <button class="pagination-right" mat-mini-fab color="warn"
-            [disabled]="this.pageIndex == filteredIdeas.length - 1 || filteredIdeas.length <= 1"
+            [disabled]="this.pageIndex == pagerSize || pagerSize == this.pageIndex"
             (click)="goIndex(pageIndex + 1)">
         <mat-icon>arrow_forward_ios</mat-icon>
     </button>
