@@ -13,6 +13,6 @@
     <mat-card-footer>
         <button mat-button>User (voevoda)</button>
         <small>{{idea.date | date: 'dd-MM-yyyy'}}</small>
-        <button [routerLink]="['/']" mat-button>Смотреть</button>
+        <button [routerLink]="['/ideas', idea.id]" mat-button>Смотреть</button>
     </mat-card-footer>
 </mat-card>

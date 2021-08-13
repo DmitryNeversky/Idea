@@ -26,6 +26,8 @@ import {CreateIdeaComponent} from './create-idea/create-idea.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { IdeaFillComponent } from './idea-fill/idea-fill.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     IdeasComponent,
     IdeaComponent,
     CreateIdeaComponent,
+    IdeaFillComponent,
+    HomeComponent,
   ],
     imports: [
         BrowserModule,
