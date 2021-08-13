@@ -8,6 +8,7 @@ export class Idea {
     rating: number;
     looks: number;
     author: User;
+    date: Date;
 
     constructor(title: string, text: string, status: string) {
         this.title = title;

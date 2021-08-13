@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Idea} from "../models/Idea";
 import {ActivatedRoute} from "@angular/router";
 
@@ -105,33 +105,40 @@ export class IdeasComponent implements OnInit {
   sort(value: number) {
     switch (value) {
       case 1:
-        this.filteredIdeas = this.filteredIdeas.sort((a, b) => {
-          if (a.title.toLowerCase() > b.title.toLowerCase())
-            return 1
-          else if (a.title.toLowerCase() < b.title.toLowerCase())
-            return -1
-          else return 0
+        this.filteredIdeas.sort((a: Idea, b: Idea) => {
+          if(b.title.toLowerCase() < a.title.toLowerCase())
+            return 1;
+          else if(a.title.toLowerCase() < b.title.toLowerCase())
+            return -1;
+          else return 0;
         });
         break;
       case 2:
         this.filteredIdeas = this.filteredIdeas.sort((a, b) => {
-          if (a.looks > b.looks)
+          if (b.looks > a.looks)
             return 1
-          else if (a.looks < b.looks)
+          else if (b.looks < a.looks)
             return -1
           else return 0
         });
         break;
       case 3:
         this.filteredIdeas = this.filteredIdeas.sort((a, b) => {
-          if (a.rating > b.rating)
+          if (b.rating > a.rating)
             return 1
-          else if (a.rating < b.rating)
+          else if (b.rating < a.rating)
             return -1
           else return 0
         });
         break;
       case 4:
+        this.filteredIdeas = this.filteredIdeas.sort((a, b) => {
+          if (b.date > a.date)
+            return 1
+          else if (b.date < a.date)
+            return -1
+          else return 0
+        });
         break;
     }
 

@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
@@ -18,11 +18,11 @@ import {IdeaService} from "./services/idea.service";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
-import { IdeasComponent } from './ideas/ideas.component';
-import { IdeaComponent } from './idea/idea.component';
+import {IdeasComponent} from './ideas/ideas.component';
+import {IdeaComponent} from './idea/idea.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {AppRoutingModule} from "./app-routing.module";
-import { CreateIdeaComponent } from './create-idea/create-idea.component';
+import {CreateIdeaComponent} from './create-idea/create-idea.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";

@@ -3,6 +3,8 @@ package org.dneversky.idea.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+import java.time.LocalDateTime;
+
 @RedisHash("idea")
 public class Idea {
 
@@ -17,21 +19,15 @@ public class Idea {
     private int rating;
     private int looks;
 
+    private LocalDateTime date;
+
     public Idea() {}
 
-    public Idea(String id, String title, String text, Status status, int rating, int looks) {
-        this.id = id;
+    public Idea(String title, String text, Status status, LocalDateTime date) {
         this.title = title;
         this.text = text;
         this.status = status;
-        this.rating = rating;
-        this.looks = looks;
-    }
-
-    public Idea(String title, String text, Status status) {
-        this.title = title;
-        this.text = text;
-        this.status = status;
+        this.date = date;
     }
 
     public String getId() {
@@ -80,5 +76,13 @@ public class Idea {
 
     public void setLooks(int looks) {
         this.looks = looks;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 }

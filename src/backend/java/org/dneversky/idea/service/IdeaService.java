@@ -5,6 +5,7 @@ import org.dneversky.idea.model.Status;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class IdeaService {
 
     public Idea add(String title, String text) {
         // User requesting
-        return ideaRepository.save(new Idea(title, text, Status.LOOKING));
+        return ideaRepository.save(new Idea(title, text, Status.LOOKING, LocalDateTime.now()));
     }
 
     public Idea put(Idea idea) {
