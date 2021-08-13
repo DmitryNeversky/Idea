@@ -91,7 +91,7 @@ export class IdeasComponent implements OnInit {
 
     if (this.search) {
       if (this.search.includes('#'))
-        this.filteredIdeas = this.filteredIdeas.filter((idea: Idea) => idea.id == this.search.slice(1));
+        this.filteredIdeas = this.filteredIdeas.filter((idea: Idea) => idea.id.includes(this.search.slice(1)));
       else
         this.filteredIdeas = this.filteredIdeas.filter((idea: Idea) => idea.title.toLowerCase().includes(this.search.toLowerCase()));
     }

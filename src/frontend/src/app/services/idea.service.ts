@@ -17,7 +17,7 @@ export class IdeaService {
     return this.httpClient.get<Idea[]>(`${this.apiBaseUrl}/ideas`);
   }
 
-  public get(id: number): Observable<Idea> {
+  public get(id: string): Observable<Idea> {
     return this.httpClient.get<Idea>(`${this.apiBaseUrl}/ideas/${id}`);
   }
 

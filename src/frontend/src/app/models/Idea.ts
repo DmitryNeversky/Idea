@@ -1,7 +1,7 @@
 import {User} from "./User";
 
 export class Idea {
-    id: number | string;
+    id: string;
     title: string;
     text: string;
     status: string;
