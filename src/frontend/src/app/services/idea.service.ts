@@ -25,7 +25,7 @@ export class IdeaService {
     return this.httpClient.post<Idea>(`${this.apiBaseUrl}/ideas/add`, formData);
   }
 
-  public update(formData: FormData): Observable<Idea> {
+  public put(formData: FormData): Observable<Idea> {
     return this.httpClient.put<Idea>(`${this.apiBaseUrl}/ideas/put/${formData.get('id')}`, formData);
   }
 

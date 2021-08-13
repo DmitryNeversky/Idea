@@ -26,8 +26,11 @@ import {CreateIdeaComponent} from './create-idea/create-idea.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import { IdeaFillComponent } from './idea-fill/idea-fill.component';
+import {IdeaFillComponent} from "./idea-fill/idea-fill.component";
 import { HomeComponent } from './home/home.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { UpdateIdeaComponent } from './update-idea/update-idea.component';
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { HomeComponent } from './home/home.component';
     CreateIdeaComponent,
     IdeaFillComponent,
     HomeComponent,
+    UpdateIdeaComponent,
   ],
     imports: [
         BrowserModule,
@@ -54,15 +58,17 @@ import { HomeComponent } from './home/home.component';
         MatCardModule,
         MatGridListModule,
         MatMenuModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatButtonToggleModule,
+        MatDialogModule,
 
         HttpClientModule,
         ReactiveFormsModule,
         RouterModule,
         AppRoutingModule,
-        MatInputModule,
-        MatPaginatorModule,
         FormsModule,
-        MatButtonToggleModule,
+        SharedModule,
     ],
   providers: [IdeaService],
   bootstrap: [AppComponent]

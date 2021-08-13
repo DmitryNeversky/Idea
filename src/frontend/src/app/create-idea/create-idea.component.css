@@ -1,0 +1,20 @@
+mat-form-field {
+    display: block;
+}
+
+.form-container {
+    margin: 5%;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: end;
+}
+
+.form-actions button:last-child {
+    margin-left: 10px;
+}
+
+.mat-form-field textarea {
+    height: 200px;
+}

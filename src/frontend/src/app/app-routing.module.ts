@@ -6,6 +6,7 @@ import {CreateIdeaComponent} from "./create-idea/create-idea.component";
 import {IdeaFillComponent} from "./idea-fill/idea-fill.component";
 import {IdeaResolver} from "./shared/resolvers/idea.resolver";
 import {HomeComponent} from "./home/home.component";
+import {UpdateIdeaComponent} from "./update-idea/update-idea.component";
 
 const routes: Routes = [
     {
@@ -14,26 +15,29 @@ const routes: Routes = [
     },
     {
         path: 'ideas',
-        pathMatch: 'full',
         component: IdeasComponent,
         resolve: {
             ideas: IdeasResolver
         },
-        children: [
-            {
-                path: ':id',
-                component: IdeaFillComponent,
-                resolve: {
-                    idea: IdeaResolver
-                }
-            }
-        ]
+    },
+    {
+        path: 'ideas/id/:id',
+        component: IdeaFillComponent,
+        resolve: {
+            idea: IdeaResolver
+        }
+    },
+    {
+        path: 'ideas/:id/update',
+        component: UpdateIdeaComponent,
+        resolve: {
+            idea: IdeaResolver
+        }
     },
     {
         path: 'ideas/create',
         component: CreateIdeaComponent
-    }
-
+    },
 ]
 
 @NgModule({
