@@ -12,6 +12,8 @@ export class IdeasComponent implements OnInit {
   public search: string;
   public status: string;
 
+  public reverse: boolean = false;
+
   public pageIndex: number = 0;
   public pageSize: number = 5;
   public pagers: number[] = [];
@@ -27,6 +29,7 @@ export class IdeasComponent implements OnInit {
     this.ideas = this.activatedRoute.snapshot.data.ideas.filter((idea: Idea) => idea);
 
     this.filteredIdeas = this.ideas;
+    this.sort(1);
     this.goIndex(0);
   }
 
@@ -80,9 +83,6 @@ export class IdeasComponent implements OnInit {
         this.paginatedIdeas.push(this.filteredIdeas[index * this.pageSize + i]);
     }
 
-    for(let i = 0; i < Math.floor(this.filteredIdeas.length / this.pageSize); i++) {
-
-    }
     this.initPagination(Math.floor(this.filteredIdeas.length / this.pageSize));
   }
 
@@ -142,6 +142,15 @@ export class IdeasComponent implements OnInit {
         break;
     }
 
+    if(this.reverse)
+      this.filteredIdeas.reverse();
+
+    this.goIndex(0);
+  }
+
+  reverseSort() {
+    this.reverse = !this.reverse;
+    this.filteredIdeas.reverse();
     this.goIndex(0);
   }
 

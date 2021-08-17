@@ -8,6 +8,10 @@ mat-card-title {
     background: silver;
 }
 
+.title {
+    align-self: center;
+}
+
 mat-card-title, mat-card-footer, mat-card-content {
     padding: 10px 20px;
 }

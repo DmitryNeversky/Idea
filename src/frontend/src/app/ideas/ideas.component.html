@@ -12,12 +12,15 @@
                 <mat-option value="REFUSED">Отказано</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-button-toggle-group>
+        <mat-button-toggle-group value="1">
             <mat-button-toggle (click)="sort(1)" value="1">Алфавиту</mat-button-toggle>
             <mat-button-toggle (click)="sort(2)" value="2">Просмотрам</mat-button-toggle>
             <mat-button-toggle (click)="sort(3)" value="3">Голосам</mat-button-toggle>
             <mat-button-toggle (click)="sort(4)" value="4">Новизне</mat-button-toggle>
-
+            <button mat-button class="reverse-sort-button"
+                    (click)="reverseSort()" [ngClass]="reverse ? 'mat-button-toggle-checked' : 'mat-button-toggle'">
+                <mat-icon>sort</mat-icon>
+            </button>
         </mat-button-toggle-group>
         <mat-button-toggle-group value="{{pageSize}}">
             <mat-button-toggle (click)="setPageSize(5)" value="5">5</mat-button-toggle>
