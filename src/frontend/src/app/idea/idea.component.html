@@ -8,7 +8,7 @@
         </ng-container>
     </mat-card-title>
     <mat-card-content>
-        <p>{{(idea.text.length > 600) ? (idea.text | slice:0:600) + '...' : (idea.text)}}</p>
+        <p>{{idea.text | truncate: 600}}</p>
     </mat-card-content>
     <mat-card-footer>
         <button mat-button>User (voevoda)</button>

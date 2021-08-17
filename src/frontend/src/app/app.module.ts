@@ -32,6 +32,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { UpdateIdeaComponent } from './update-idea/update-idea.component';
 import {SharedModule} from "./shared/shared.module";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     IdeaFillComponent,
     HomeComponent,
     UpdateIdeaComponent,
+    TruncatePipe,
   ],
     imports: [
         BrowserModule,
