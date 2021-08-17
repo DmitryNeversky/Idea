@@ -27,3 +27,7 @@ small.status {
 .filter-container .mat-form-field-wrapper {
     padding: 0;
 }
+
+mat-button-toggle button {
+    height: 100%;
+}
