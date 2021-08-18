@@ -33,6 +33,8 @@ import { UpdateIdeaComponent } from './update-idea/update-idea.component';
 import {SharedModule} from "./shared/shared.module";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { TruncatePipe } from './pipes/truncate.pipe';
+import {MatTableModule} from "@angular/material/table";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { TruncatePipe } from './pipes/truncate.pipe';
         FormsModule,
         SharedModule,
         MatProgressBarModule,
+        MatTableModule,
+        FlexLayoutModule,
     ],
   providers: [IdeaService],
   bootstrap: [AppComponent]

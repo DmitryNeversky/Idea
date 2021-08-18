@@ -10,7 +10,17 @@
 }
 
 .left-panel-content {
-    padding: 0 2%;
+    padding: 2%;
+}
+
+.left-panel-content::-webkit-scrollbar {
+    width: 5px;
+    background: none
+}
+
+.left-panel-content::-webkit-scrollbar-thumb {
+    background: rgba(200, 200, 200, 0.8);
+    border-radius: 25px
 }
 
 .left-panel .mat-list-item-content {

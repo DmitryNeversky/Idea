@@ -11,10 +11,6 @@ mat-form-field {
     justify-content: end;
 }
 
-.form-actions button:last-child {
-    margin-left: 10px;
-}
-
 .mat-form-field textarea {
     height: 200px;
 }

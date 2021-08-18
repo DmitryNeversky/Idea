@@ -1,11 +1,22 @@
-<form [formGroup]="mainForm" (ngSubmit)="create()">
-    <mat-form-field appearance="fill">
-        <mat-label>Заголовок</mat-label>
-        <input matInput formControlName="title">
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-        <mat-label>Основная идея</mat-label>
-        <textarea matInput formControlName="text"></textarea>
-    </mat-form-field>
-    <button type="submit" mat-flat-button>создать</button>
-</form>
+<div class="row" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+    <mat-card fxFlex="80%">
+        <mat-card-content>
+            <form [formGroup]="mainForm" (ngSubmit)="create()">
+                <mat-form-field appearance="fill">
+                    <mat-label>Заголовок</mat-label>
+                    <input matInput formControlName="title">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Основная идея</mat-label>
+                    <textarea matInput formControlName="text"></textarea>
+                </mat-form-field>
+                <button type="submit" mat-button color="accent">создать</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <mat-card fxFlex="20%">
+        <mat-card-content>
+            <h1>There</h1>
+        </mat-card-content>
+    </mat-card>
+</div>
