@@ -13,6 +13,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class CreateIdeaComponent {
 
+  public tags: string[];
+
   public mainForm: FormGroup = new FormGroup({
     title: new FormControl('', []),
     text: new FormControl('', []),
@@ -37,4 +39,8 @@ export class CreateIdeaComponent {
     }, error => console.log(error));
   }
 
+  setTags(tags: any) {
+    console.log(tags);
+    this.tags = tags;
+  }
 }

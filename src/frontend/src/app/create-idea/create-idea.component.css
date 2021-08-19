@@ -19,11 +19,15 @@ mat-form-field {
     height: 200px;
 }
 
-ul.advices {
+.advices {
+    height: fit-content;
+}
+
+.advices ul {
     padding-left: 15px;
     list-style: auto;
 }
 
-ul.advices li {
+.advices ul li {
     margin-bottom: 10px;
 }

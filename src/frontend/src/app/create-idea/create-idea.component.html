@@ -1,6 +1,7 @@
 <div class="row" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
     <mat-card fxFlex="80%">
         <mat-card-content>
+            <h1>Создание идеи</h1>
             <form [formGroup]="mainForm" (ngSubmit)="create()">
                 <mat-form-field appearance="fill">
                     <mat-label>Заголовок</mat-label>
@@ -10,6 +11,7 @@
                     <mat-label>Основная идея</mat-label>
                     <textarea matInput formControlName="text"></textarea>
                 </mat-form-field>
+                <app-chips (tagsEmitter)="setTags(tags)"></app-chips>
                 <div class="form-actions">
                     <button type="button" mat-button color="primary">сохранить</button>
                     <button type="submit" mat-flat-button color="primary">создать</button>
@@ -17,10 +19,10 @@
             </form>
         </mat-card-content>
     </mat-card>
-    <mat-card fxFlex="20%">
+    <mat-card class="advices" fxFlex="20%">
         <mat-card-content>
             <h3>Советы по созданию</h3>
-            <ul class="advices">
+            <ul>
                 <li>Убедитесь, что до вас такой идеи не было написано</li>
                 <li>Четко сформулируйте и опишите мысль</li>
             </ul>
