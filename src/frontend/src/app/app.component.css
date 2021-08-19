@@ -1,37 +1,40 @@
+/*Header*/
+
 .header-spacer {
     flex: 1 1 auto;
 }
 
 /*left panel*/
 
-.left-panel-container {
-    height: 90%;
+.row {
+    padding-bottom: 64px;
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.left-panel button {
+    color: #f35454;
+    padding: 15px 0;
+}
+
+/*Content*/
+
+.content {
+    padding: 20px;
     overflow-y: auto;
 }
 
-.left-panel-content {
-    padding: 2%;
-}
-
-.left-panel-content::-webkit-scrollbar {
+.content::-webkit-scrollbar {
     width: 5px;
     background: none
 }
 
-.left-panel-content::-webkit-scrollbar-thumb {
-    background: rgba(200, 200, 200, 0.8);
+.content::-webkit-scrollbar-thumb {
+    background: #673ab7;
     border-radius: 25px
-}
-
-.left-panel .mat-list-item-content {
-    padding: 0 !important;
-}
-
-.left-panel .mat-button {
-    width: 100%;
-    height: 100%;
-    color: #f35454;
-    text-align: left;
 }
 
 /*Notifies*/

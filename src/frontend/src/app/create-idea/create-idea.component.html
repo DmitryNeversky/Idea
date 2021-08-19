@@ -10,13 +10,20 @@
                     <mat-label>Основная идея</mat-label>
                     <textarea matInput formControlName="text"></textarea>
                 </mat-form-field>
-                <button type="submit" mat-button color="accent">создать</button>
+                <div class="form-actions">
+                    <button type="button" mat-button color="primary">сохранить</button>
+                    <button type="submit" mat-flat-button color="primary">создать</button>
+                </div>
             </form>
         </mat-card-content>
     </mat-card>
     <mat-card fxFlex="20%">
         <mat-card-content>
-            <h1>There</h1>
+            <h3>Советы по созданию</h3>
+            <ul class="advices">
+                <li>Убедитесь, что до вас такой идеи не было написано</li>
+                <li>Четко сформулируйте и опишите мысль</li>
+            </ul>
         </mat-card-content>
     </mat-card>
 </div>

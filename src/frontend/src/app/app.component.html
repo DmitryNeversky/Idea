@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-    <button (click)="drawer.toggle()" mat-icon-button aria-label="Example icon-button with menu icon">
+    <button (click)="togglePanel()" mat-icon-button aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
     <span>My App</span>
@@ -37,17 +37,16 @@
 
 <!--navbar-->
 
-<mat-drawer-container class="left-panel-container mat-elevation-z8" [hasBackdrop]="true" autosize>
-    <mat-drawer #drawer class="left-panel" mode="over">
-        <mat-list>
-            <mat-list-item><button mat-button (click)="drawer.close()" routerLink="/"><mat-icon>home</mat-icon>Главная</button></mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item><button mat-button (click)="drawer.close()" routerLink="ideas"><mat-icon>lightbulb</mat-icon>Идеи</button></mat-list-item>
-        </mat-list>
-    </mat-drawer>
-    <mat-drawer-content class="left-panel-content">
-
+<div class="row" fxLayout="row" fxFill>
+    <div *ngIf="!expanded" class="left-panel mat-elevation-z3" fxFlex="column" fxFlex.gt-xs="fit-content" fxHide.xs>
+        <button mat-button color="warn"><mat-icon>home</mat-icon></button>
+        <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon></button>
+    </div>
+    <div *ngIf="expanded" class="left-panel mat-elevation-z3" fxFlex.gt-xs="fit-content" fxHide.xs>
+        <button mat-button color="warn"><mat-icon>home</mat-icon><span class="name">Главная</span></button>
+        <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon><span class="name">Идеи</span></button>
+    </div>
+    <div class="content" fxFlex>
         <router-outlet></router-outlet>
-
-    </mat-drawer-content>
-</mat-drawer-container>
+    </div>
+</div>

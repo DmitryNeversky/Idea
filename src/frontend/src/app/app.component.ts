@@ -10,6 +10,7 @@ import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route
 export class AppComponent {
 
   public loading: boolean = false;
+  public expanded: boolean = false;
 
   public ideas: Idea[] | undefined;
 
@@ -34,4 +35,7 @@ export class AppComponent {
     });
   }
 
+  togglePanel() {
+    this.expanded = !this.expanded;
+  }
 }

@@ -8,9 +8,22 @@ mat-form-field {
 
 .form-actions {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
+}
+
+.form-actions button {
+    margin-left: 10px;
 }
 
 .mat-form-field textarea {
     height: 200px;
+}
+
+ul.advices {
+    padding-left: 15px;
+    list-style: auto;
+}
+
+ul.advices li {
+    margin-bottom: 10px;
 }

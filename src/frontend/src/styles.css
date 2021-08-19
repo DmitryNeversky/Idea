@@ -11,12 +11,6 @@ app-root .mat-list-base .mat-list-item .mat-list-item-content, app-root .mat-lis
     padding: 0;
 }
 
-app-ideas {
-    width: 100%;
-    height: 100%;
-    padding: 2.5% 5%;
-}
-
 small.status {
     padding: .25% 1%;
     font-size: 10pt;
@@ -28,4 +22,14 @@ small.status {
 
 mat-button-toggle button {
     height: 100%;
+}
+
+.left-panel .mat-button-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.left-panel button .name {
+    padding: 0 20px;
 }
