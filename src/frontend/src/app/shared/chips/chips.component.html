@@ -1,17 +1,17 @@
 <mat-form-field class="example-chip-list" appearance="outline">
     <mat-label>О чем идея</mat-label>
-    <mat-chip-list #chipList aria-label="Fruit selection">
+    <mat-chip-list #chipList aria-label="tag selection">
         <mat-chip
-                *ngFor="let fruit of tags"
+                *ngFor="let tag of tags"
                 [selectable]="selectable"
                 [removable]="removable"
-                (removed)="remove(fruit)">
-            {{fruit}}
+                (removed)="remove(tag)">
+            {{tag}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
         <input
                 placeholder="Добавьте еще..."
-                #fruitInput
+                #tagInput
                 [formControl]="tagCtrl"
                 [matAutocomplete]="auto"
                 [matChipInputFor]="chipList"

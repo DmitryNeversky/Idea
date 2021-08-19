@@ -11,9 +11,9 @@
                     <mat-label>Основная идея</mat-label>
                     <textarea matInput formControlName="text"></textarea>
                 </mat-form-field>
-                <app-chips (tagsEmitter)="setTags(tags)"></app-chips>
+                <app-chips (tagsEmitter)="setTags($event)" #chips></app-chips>
                 <div class="form-actions">
-                    <button type="button" mat-button color="primary">сохранить</button>
+                    <button type="button" (click)="chips.emitChips()" mat-button color="primary">сохранить</button>
                     <button type="submit" mat-flat-button color="primary">создать</button>
                 </div>
             </form>

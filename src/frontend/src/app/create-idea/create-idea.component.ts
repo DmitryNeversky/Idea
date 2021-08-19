@@ -34,13 +34,13 @@ export class CreateIdeaComponent {
       this.router.navigateByUrl('ideas');
       this._snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,
+        horizontalPosition: "start",
         data: "Идея успешно создана!"
       });
     }, error => console.log(error));
   }
 
   setTags(tags: any) {
-    console.log(tags);
     this.tags = tags;
   }
 }

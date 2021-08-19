@@ -24,12 +24,12 @@ export class ChipsComponent {
   tags: string[] = ['Lemon'];
   allTags: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
   constructor() {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
         startWith(null),
-        map((fruit: string | null) => fruit ? this._filter(fruit) : this.allTags.slice()));
+        map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
   }
 
   add(event: MatChipInputEvent): void {
@@ -42,29 +42,30 @@ export class ChipsComponent {
     event.chipInput!.clear();
 
     this.tagCtrl.setValue(null);
-    this.tagsEmitter.emit(this.tags);
   }
 
-  remove(fruit: string): void {
-    const index = this.tags.indexOf(fruit);
+  remove(tag: string): void {
+    const index = this.tags.indexOf(tag);
 
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
-
-    this.tagsEmitter.emit(this.tags);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
     if(!this.tags.includes(event.option.viewValue))
       this.tags.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
+    this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allTags.filter(fruit => fruit.toLowerCase().includes(filterValue));
+    return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
+  }
+
+  emitChips() {
+    this.tagsEmitter.emit(this.tags);
   }
 }
