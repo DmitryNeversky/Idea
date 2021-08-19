@@ -1,10 +1,10 @@
 <mat-card class="filter-container">
-    <mat-card-content class="filter-content">
-        <mat-form-field appearance="outline">
+    <mat-card-content class="filter-content row" fxLayout.lt-lg="column" fxLayout.gt-lg="row" fxLayoutGap.lt-lg="10px">
+        <mat-form-field appearance="outline" fxFlex="20%">
             <mat-label>Найти</mat-label>
             <input matInput placeholder="Заголовок или #id" [(ngModel)]="search" (input)="filter()">
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" fxFlex="20%">
             <mat-label>Статус</mat-label>
             <mat-select [(ngModel)]="status" (selectionChange)="filter()">
                 <mat-option value="ACCEPTED">Принято</mat-option>
@@ -12,7 +12,7 @@
                 <mat-option value="REFUSED">Отказано</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-button-toggle-group value="1">
+        <mat-button-toggle-group value="1" fxFlex="fit-content">
             <mat-button-toggle (click)="sort(1)" value="1">Алфавиту</mat-button-toggle>
             <mat-button-toggle (click)="sort(2)" value="2">Просмотрам</mat-button-toggle>
             <mat-button-toggle (click)="sort(3)" value="3">Голосам</mat-button-toggle>
@@ -22,7 +22,7 @@
                 <mat-icon>sort</mat-icon>
             </button>
         </mat-button-toggle-group>
-        <mat-button-toggle-group value="{{pageSize}}">
+        <mat-button-toggle-group value="{{pageSize}}" fxFlex="fit-content">
             <mat-button-toggle (click)="setPageSize(5)" value="5">5</mat-button-toggle>
             <mat-button-toggle (click)="setPageSize(10)" value="10">10</mat-button-toggle>
             <mat-button-toggle (click)="setPageSize(15)" value="15">15</mat-button-toggle>
@@ -49,7 +49,7 @@
         <button mat-mini-fab [ngClass]="pageIndex == pager ? 'accent' : 'primary'" (click)="goIndex(pager)">{{pager + 1}}</button>
     </div>
     <button class="pagination-right" mat-mini-fab color="warn"
-            [disabled]="this.pageIndex == pagerSize || pagerSize == this.pageIndex"
+            [disabled]="this.pageIndex == pagerSize"
             (click)="goIndex(pageIndex + 1)">
         <mat-icon>arrow_forward_ios</mat-icon>
     </button>

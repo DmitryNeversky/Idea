@@ -24,6 +24,11 @@ mat-button-toggle button {
     height: 100%;
 }
 
+mat-button-toggle-group {
+    flex-wrap: wrap;
+    width: fit-content;
+}
+
 .left-panel .mat-button-wrapper {
     display: flex;
     align-items: center;

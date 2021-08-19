@@ -1,8 +1,12 @@
+/*Other*/
+
 .create-widget {
     position: fixed;
     right: 5%;
     bottom: 5%;
 }
+
+/*Filter*/
 
 .filter-container {}
 
@@ -11,24 +15,12 @@
     justify-content: space-between;
 }
 
-@media screen and (min-width: 1024px){
-    .filter-content mat-form-field {
-        width: 320px;
-    }
+.reverse-sort-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
-.filter-content mat-form-field {
-    margin-right: 10px;
-}
-
-@media screen and (max-width: 800px) {
-    .filter-content {
-        display: block;
-    }
-    .filter-content mat-form-field {
-        margin-top: 10px;
-    }
-}
+/*Pagination*/
 
 .pagination {
     display: flex;
@@ -53,13 +45,4 @@
     margin: 10% 0;
     font-size: large;
     color: #a8a8a8;
-}
-
-.mat-form-field {
-    display: block;
-}
-
-.reverse-sort-button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
 }

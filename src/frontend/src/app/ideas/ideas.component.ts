@@ -35,13 +35,13 @@ export class IdeasComponent implements OnInit {
 
   initPagination(size: number) {
 
-    this.pagerSize = size;
-
     this.pagers = [];
     this.pagers.push(0);
 
     if(this.pageSize * size - this.filteredIdeas.length == 0)
       size = size - 1;
+
+    this.pagerSize = size;
 
     if(size > 7) {
 
