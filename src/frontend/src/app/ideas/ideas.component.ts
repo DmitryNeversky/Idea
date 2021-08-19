@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Idea} from "../models/Idea";
 import {ActivatedRoute} from "@angular/router";
+import {SharedService} from "../shared/shared.service";
 
 @Component({
   selector: 'app-ideas',
@@ -23,7 +24,8 @@ export class IdeasComponent implements OnInit {
   public paginatedIdeas: Idea[];
   public filteredIdeas: Idea[];
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute,
+              private sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.ideas = this.activatedRoute.snapshot.data.ideas.filter((idea: Idea) => idea);
@@ -70,6 +72,8 @@ export class IdeasComponent implements OnInit {
       for (let i = 1; i <= size; i++)
         this.pagers.push(i);
     }
+
+    this.sharedService.emitChange();
   }
 
   goIndex(index: number) {

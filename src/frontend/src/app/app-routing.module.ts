@@ -11,11 +11,13 @@ import {UpdateIdeaComponent} from "./update-idea/update-idea.component";
 const routes: Routes = [
     {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+        data: { animation: 'home' },
     },
     {
         path: 'ideas',
         component: IdeasComponent,
+        data: { animation: 'ideas' },
         resolve: {
             ideas: IdeasResolver
         },
@@ -23,6 +25,7 @@ const routes: Routes = [
     {
         path: 'ideas/id/:id',
         component: IdeaFillComponent,
+        data: { animation: 'idea' },
         resolve: {
             idea: IdeaResolver
         }
@@ -30,13 +33,15 @@ const routes: Routes = [
     {
         path: 'ideas/:id/update',
         component: UpdateIdeaComponent,
+        data: { animation: 'idea-update' },
         resolve: {
             idea: IdeaResolver
         }
     },
     {
         path: 'ideas/create',
-        component: CreateIdeaComponent
+        component: CreateIdeaComponent,
+        data: { animation: 'idea-create' },
     },
 ]
 

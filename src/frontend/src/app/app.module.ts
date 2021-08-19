@@ -35,6 +35,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { TruncatePipe } from './pipes/truncate.pipe';
 import {MatTableModule} from "@angular/material/table";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {SharedService} from "./shared/shared.service";
 
 @NgModule({
   declarations: [
@@ -78,7 +79,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
         MatTableModule,
         FlexLayoutModule,
     ],
-  providers: [IdeaService],
+  providers: [IdeaService, SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

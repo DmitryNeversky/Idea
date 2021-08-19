@@ -1,11 +1,14 @@
 import {Component} from '@angular/core';
 import {Idea} from "./models/Idea";
-import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
+import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet} from "@angular/router";
+import {routesAnimation} from "./animation/routes-animation";
+import {SharedService} from "./shared/shared.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations: [routesAnimation]
 })
 export class AppComponent {
 
@@ -14,7 +17,7 @@ export class AppComponent {
 
   public ideas: Idea[] | undefined;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private sharedService: SharedService) {
     this.router.events.subscribe((event: any) => {
       switch (true) {
         case event instanceof NavigationStart: {
@@ -33,9 +36,28 @@ export class AppComponent {
         }
       }
     });
+
+    sharedService.changeEmitted$.subscribe(() => {
+      let scrollToTop = window.setInterval(() => {
+        let pos = document.getElementById('content').scrollTop;
+        if (pos > 0) {
+          document.getElementById('content').scrollTo(0, pos - 20);
+        } else {
+          window.clearInterval(scrollToTop);
+        }
+      }, 16);
+    });
+  }
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 
   togglePanel() {
     this.expanded = !this.expanded;
+  }
+
+  scrollToTop() {
+    window.scrollTo(0, 0);
   }
 }

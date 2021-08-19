@@ -39,14 +39,14 @@
 
 <div class="row" fxLayout="row" fxFill>
     <div *ngIf="!expanded" class="left-panel mat-elevation-z3" fxFlex="column" fxFlex.gt-xs="fit-content" fxHide.xs>
-        <button mat-button color="warn"><mat-icon>home</mat-icon></button>
+        <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon></button>
         <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon></button>
     </div>
     <div *ngIf="expanded" class="left-panel mat-elevation-z3" fxFlex.gt-xs="fit-content">
-        <button mat-button color="warn"><mat-icon>home</mat-icon><span class="name">Главная</span></button>
+        <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon><span class="name">Главная</span></button>
         <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon><span class="name">Идеи</span></button>
     </div>
-    <div class="content" fxFlex>
-        <router-outlet></router-outlet>
+    <div class="content" id="content" [@routesAnimation]="prepareRoute(outlet)" fxFlex>
+        <router-outlet #outlet="outlet"></router-outlet>
     </div>
 </div>
