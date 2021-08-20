@@ -43,7 +43,7 @@
 
 <div class="pagination">
     <button class="pagination-left" mat-mini-fab color="warn" [disabled]="pageIndex == 0" (click)="goIndex(pageIndex - 1)">
-        <mat-icon>arrow_back_ios</mat-icon>
+        <mat-icon>navigate_before</mat-icon>
     </button>
     <div class="pagination-pagers" *ngFor="let pager of pagers">
         <button mat-mini-fab [ngClass]="pageIndex == pager ? 'accent' : 'primary'" (click)="goIndex(pager)">{{pager + 1}}</button>
@@ -51,6 +51,6 @@
     <button class="pagination-right" mat-mini-fab color="warn"
             [disabled]="pageIndex == pagerSize || filteredIdeas.length == 0"
             (click)="goIndex(pageIndex + 1)">
-        <mat-icon>arrow_forward_ios</mat-icon>
+        <mat-icon>navigate_next</mat-icon>
     </button>
 </div>

@@ -5,6 +5,7 @@ import org.dneversky.idea.service.IdeaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,7 +32,8 @@ public class IdeaController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Idea> add(@RequestParam String title, @RequestParam String text, @RequestParam List<String> tags) {
+    public ResponseEntity<Idea> add(@RequestParam String title, @RequestParam String text,
+                                    @RequestParam List<String> tags, @RequestParam List<MultipartFile> images) {
 
         return new ResponseEntity<>(ideaService.add(title, text, tags), HttpStatus.CREATED);
     }

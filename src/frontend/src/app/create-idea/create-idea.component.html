@@ -30,9 +30,21 @@
                     </mat-error>
                 </mat-form-field>
                 <app-chips [tags]="tags" (tagsEmitter)="setTags($event)" #chips></app-chips>
+                <div class="load-images" fxLayout="row">
+                    <img fxFlex="24%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages" class="image mat-elevation-z2"
+                        (click)="imagesLoader.removeImage($event)" alt="load.image">
+                </div>
                 <div class="form-actions">
-                    <button type="button" (click)="save()" mat-button color="primary">сохранить</button>
-                    <button type="submit" (click)="chips.emitChips()" mat-flat-button color="primary">создать</button>
+                    <div class="action">
+                        <input type="file" class="add-image-input" (change)="imagesLoader.load($event)" accept="image/*" multiple #addImage>
+                        <button type="button" mat-icon-button (click)="addImage.click()">
+                            <mat-icon color="warn">add_photo_alternate</mat-icon>
+                        </button>
+                    </div>
+                    <div class="action">
+                        <button type="button" (click)="save()" mat-button color="primary">сохранить</button>
+                        <button type="submit" (click)="chips.emitChips()" mat-flat-button color="primary">создать</button>
+                    </div>
                 </div>
             </form>
         </mat-card-content>

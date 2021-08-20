@@ -38,3 +38,11 @@ mat-button-toggle-group {
 .left-panel button .name {
     padding: 0 20px;
 }
+
+.add-image-input {
+    display: none;
+}
+
+.add-image-label {
+    cursor: pointer;
+}

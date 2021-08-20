@@ -14,7 +14,7 @@ export class IdeaFillComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.idea = this.activatedRoute.snapshot.data.get('idea');
+    this.idea = this.activatedRoute.snapshot.data.idea;
     console.log(this.idea);
   }
 

@@ -1,1 +1,41 @@
-<p>idea-fill works!</p>
+<mat-card>
+    <mat-card-title fxLayout="row">
+        <span fxFlex="90%">{{idea.title}}</span>
+        <ng-container [ngSwitch]="idea.status">
+            <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>
+            <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>
+            <small class="status" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'">Отказано</small>
+        </ng-container>
+    </mat-card-title>
+    <mat-card-content>
+        <p>{{idea.text}}</p>
+    </mat-card-content>
+    <mat-card-footer fxLayout="row">
+        <button mat-button fxFlex="fit-content">Юрий Викторович (программист 3 категории)</button>
+    </mat-card-footer>
+</mat-card>
+
+<!--<div class="row" fxLayout.xs="column" fxLayout.gt-md="row" fxLayoutGap="0.5%">-->
+<!--    <mat-card fxFlex="80%">-->
+<!--        <mat-card-title>-->
+<!--            <span>{{idea.title}}</span>-->
+<!--        </mat-card-title>-->
+<!--        <mat-card-content>-->
+<!--            <p>{{idea.text}}</p>-->
+<!--        </mat-card-content>-->
+<!--        <mat-card-footer>-->
+
+<!--        </mat-card-footer>-->
+<!--    </mat-card>-->
+<!--    <mat-card fxFlex="20%" fxLayout="column">-->
+<!--        <p>Рейтинг: <strong>{{idea.rating}}</strong></p>-->
+<!--        <p>Просмотры: <strong>{{idea.looks}}</strong></p>-->
+<!--        <p><ng-container [ngSwitch]="idea.status">-->
+<!--            <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>-->
+<!--            <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>-->
+<!--            <small class="status" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'">Отказано</small>-->
+<!--        </ng-container>-->
+<!--        </p>-->
+<!--        <p>Создана: <strong>{{idea.date | date: 'dd-MM-yyyy'}}</strong></p>-->
+<!--    </mat-card>-->
+<!--</div>-->
