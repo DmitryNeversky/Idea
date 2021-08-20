@@ -29,7 +29,6 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {IdeaFillComponent} from "./idea-fill/idea-fill.component";
 import { HomeComponent } from './home/home.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { UpdateIdeaComponent } from './update-idea/update-idea.component';
 import {SharedModule} from "./shared/shared.module";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { TruncatePipe } from './pipes/truncate.pipe';
@@ -45,7 +44,6 @@ import {SharedService} from "./shared/shared.service";
     CreateIdeaComponent,
     IdeaFillComponent,
     HomeComponent,
-    UpdateIdeaComponent,
     TruncatePipe,
   ],
     imports: [
