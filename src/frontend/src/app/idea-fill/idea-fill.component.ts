@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Idea} from "../models/Idea";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-idea-fill',
@@ -9,7 +10,11 @@ import {Idea} from "../models/Idea";
 })
 export class IdeaFillComponent implements OnInit {
 
+  public uploadImagePath: string = environment.uploadPath + "images/";
+
   public idea: Idea;
+
+  public resizableImage: string;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
@@ -18,4 +23,7 @@ export class IdeaFillComponent implements OnInit {
     console.log(this.idea);
   }
 
+  resize(image: string) {
+    this.resizableImage = image;
+  }
 }

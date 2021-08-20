@@ -1,3 +1,33 @@
 mat-card {
     height: fit-content;
 }
+
+.load-images {
+    flex-wrap: wrap;
+}
+
+.load-images img{
+    margin-right: 1%;
+    margin-bottom: 1%;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.canvas {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: #0000008c;
+    cursor: pointer;
+}
+
+.canvas img {
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

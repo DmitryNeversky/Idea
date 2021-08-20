@@ -1,7 +1,7 @@
-<mat-card>
+<mat-card fxLayout="column" fxLayoutGap="2%">
     <mat-card-title fxLayout="row">
         <span fxFlex="90%">{{idea.title}}</span>
-        <ng-container [ngSwitch]="idea.status">
+        <ng-container fxFlex="10%" [ngSwitch]="idea.status">
             <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>
             <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>
             <small class="status" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'">Отказано</small>
@@ -10,10 +10,21 @@
     <mat-card-content>
         <p>{{idea.text}}</p>
     </mat-card-content>
+    <mat-card-content>
+        <p *ngIf="idea.images"><strong>Прикрепленные изображения</strong></p>
+        <div class="load-images" fxLayout="row">
+            <img [src]="uploadImagePath + image" (click)="resize(image)" *ngFor="let image of idea.images"
+                 class="image mat-elevation-z2" alt="loaded.image" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
+        </div>
+    </mat-card-content>
     <mat-card-footer fxLayout="row">
         <button mat-button fxFlex="fit-content">Юрий Викторович (программист 3 категории)</button>
     </mat-card-footer>
 </mat-card>
+
+<div class="canvas" (click)="resize(null)" *ngIf="resizableImage">
+    <img src="{{uploadImagePath + resizableImage}}" alt="resize.image">
+</div>
 
 <!--<div class="row" fxLayout.xs="column" fxLayout.gt-md="row" fxLayoutGap="0.5%">-->
 <!--    <mat-card fxFlex="80%">-->
