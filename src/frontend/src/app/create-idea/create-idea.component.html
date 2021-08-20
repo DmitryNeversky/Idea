@@ -6,15 +6,33 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Заголовок</mat-label>
                     <input matInput formControlName="title">
+                    <mat-error *ngIf="mainForm.get('title').hasError('required')">заполните поле</mat-error>
+                    <mat-error *ngIf="mainForm.get('title').hasError('minlength')">
+                        минимальная длина {{mainForm.get('title').errors.minlength.requiredLength}} символов
+                        (сейчас {{mainForm.get('title').errors.minlength.actualLength}})
+                    </mat-error>
+                    <mat-error *ngIf="mainForm.get('title').hasError('maxlength')">
+                        максимальная длина {{mainForm.get('title').errors.maxlength.requiredLength}} символов
+                        (сейчас {{mainForm.get('title').errors.maxlength.actualLength}})
+                    </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Основная идея</mat-label>
                     <textarea matInput formControlName="text"></textarea>
+                    <mat-error *ngIf="mainForm.get('text').hasError('required')">заполните поле</mat-error>
+                    <mat-error *ngIf="mainForm.get('text').hasError('minlength')">
+                        минимальная длина {{mainForm.get('text').errors.minlength.requiredLength}} символов
+                        (сейчас {{mainForm.get('text').errors.minlength.actualLength}})
+                    </mat-error>
+                    <mat-error *ngIf="mainForm.get('text').hasError('maxlength')">
+                        максимальная длина {{mainForm.get('text').errors.maxlength.requiredLength}} символов
+                        (сейчас {{mainForm.get('text').errors.maxlength.actualLength}})
+                    </mat-error>
                 </mat-form-field>
-                <app-chips (tagsEmitter)="setTags($event)" #chips></app-chips>
+                <app-chips [tags]="tags" (tagsEmitter)="setTags($event)" #chips></app-chips>
                 <div class="form-actions">
-                    <button type="button" (click)="chips.emitChips()" mat-button color="primary">сохранить</button>
-                    <button type="submit" mat-flat-button color="primary">создать</button>
+                    <button type="button" (click)="save()" mat-button color="primary">сохранить</button>
+                    <button type="submit" (click)="chips.emitChips()" mat-flat-button color="primary">создать</button>
                 </div>
             </form>
         </mat-card-content>

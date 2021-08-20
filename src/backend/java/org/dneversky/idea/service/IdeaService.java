@@ -29,9 +29,9 @@ public class IdeaService {
         return findIdea.orElse(null);
     }
 
-    public Idea add(String title, String text) {
+    public Idea add(String title, String text, List<String> tags) {
         // User requesting
-        return ideaRepository.save(new Idea(title, text, Status.LOOKING, LocalDateTime.now()));
+        return ideaRepository.save(new Idea(title, text, Status.LOOKING, LocalDateTime.now(), tags));
     }
 
     public Idea put(Idea idea) {

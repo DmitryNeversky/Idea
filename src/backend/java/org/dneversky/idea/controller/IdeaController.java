@@ -31,9 +31,9 @@ public class IdeaController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Idea> add(@RequestParam String title, @RequestParam String text) {
+    public ResponseEntity<Idea> add(@RequestParam String title, @RequestParam String text, @RequestParam List<String> tags) {
 
-        return new ResponseEntity<>(ideaService.add(title, text), HttpStatus.CREATED);
+        return new ResponseEntity<>(ideaService.add(title, text, tags), HttpStatus.CREATED);
     }
 
     @PutMapping("/put/{idea}")

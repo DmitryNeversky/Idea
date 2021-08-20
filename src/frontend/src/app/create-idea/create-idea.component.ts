@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {IdeaService} from "../services/idea.service";
 import {Idea} from "../models/Idea";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SnackbarComponent} from "../shared/snackbar/snackbar.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
@@ -11,24 +11,33 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './create-idea.component.html',
   styleUrls: ['./create-idea.component.css']
 })
-export class CreateIdeaComponent {
+export class CreateIdeaComponent implements OnInit{
 
   public tags: string[];
 
   public mainForm: FormGroup = new FormGroup({
-    title: new FormControl('', []),
-    text: new FormControl('', []),
+    title: new FormControl('', [Validators.minLength(8), Validators.maxLength(256), Validators.required]),
+    text: new FormControl('', [Validators.minLength(64), Validators.maxLength(32768), Validators.required]),
   });
 
   constructor(private ideaService: IdeaService,
+              private activatedRoute: ActivatedRoute,
               private router: Router,
               private _snackBar: MatSnackBar) { }
 
+  ngOnInit() {
+    this.tags = this.activatedRoute.snapshot.data.tags;
+  }
+
   create() {
+    if(this.mainForm.invalid)
+      return
+
     let formData = new FormData();
 
     formData.append('title', this.mainForm.get('title').value);
     formData.append('text', this.mainForm.get('text').value);
+    this.tags.forEach(t => formData.append('tags', t));
 
     this.ideaService.add(formData).subscribe((response: Idea) => {
       this.router.navigateByUrl('ideas');
@@ -38,6 +47,10 @@ export class CreateIdeaComponent {
         data: "Идея успешно создана!"
       });
     }, error => console.log(error));
+  }
+
+  save() {
+
   }
 
   setTags(tags: any) {

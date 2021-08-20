@@ -34,6 +34,7 @@
 .content {
     padding: 20px;
     overflow-y: auto;
+    background: #f8f8f8;
 }
 
 .content::-webkit-scrollbar {

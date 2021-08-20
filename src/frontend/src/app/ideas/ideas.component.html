@@ -49,7 +49,7 @@
         <button mat-mini-fab [ngClass]="pageIndex == pager ? 'accent' : 'primary'" (click)="goIndex(pager)">{{pager + 1}}</button>
     </div>
     <button class="pagination-right" mat-mini-fab color="warn"
-            [disabled]="this.pageIndex == pagerSize"
+            [disabled]="pageIndex == pagerSize || filteredIdeas.length == 0"
             (click)="goIndex(pageIndex + 1)">
         <mat-icon>arrow_forward_ios</mat-icon>
     </button>

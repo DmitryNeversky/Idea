@@ -7,6 +7,7 @@ import {IdeaFillComponent} from "./idea-fill/idea-fill.component";
 import {IdeaResolver} from "./shared/resolvers/idea.resolver";
 import {HomeComponent} from "./home/home.component";
 import {UpdateIdeaComponent} from "./update-idea/update-idea.component";
+import {TagResolver} from "./shared/resolvers/tag.resolver";
 
 const routes: Routes = [
     {
@@ -42,6 +43,9 @@ const routes: Routes = [
         path: 'ideas/create',
         component: CreateIdeaComponent,
         data: { animation: 'idea-create' },
+        resolve: {
+            tags: TagResolver
+        }
     },
 ]
 
