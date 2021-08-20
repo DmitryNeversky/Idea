@@ -7,6 +7,7 @@ import {IdeaFillComponent} from "./idea-fill/idea-fill.component";
 import {IdeaResolver} from "./shared/resolvers/idea.resolver";
 import {HomeComponent} from "./home/home.component";
 import {TagResolver} from "./shared/resolvers/tag.resolver";
+import {UpdateIdeaComponent} from "./update-idea/update-idea.component";
 
 const routes: Routes = [
     {
@@ -38,6 +39,14 @@ const routes: Routes = [
             tags: TagResolver
         }
     },
+    {
+        path: 'ideas/update/:id',
+        component: UpdateIdeaComponent,
+        data: { animation: 'update-idea' },
+        resolve: {
+            idea: IdeaResolver
+        }
+    }
 ]
 
 @NgModule({

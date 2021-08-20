@@ -33,15 +33,19 @@ public class IdeaController {
 
     @PostMapping("/add")
     public ResponseEntity<Idea> add(@RequestParam String title, @RequestParam String text,
-                                    @RequestParam List<String> tags, @RequestParam List<MultipartFile> images) {
+                                    @RequestParam(required = false) List<String> tags,
+                                    @RequestParam(required = false) List<MultipartFile> images) {
 
-        return new ResponseEntity<>(ideaService.add(title, text, tags), HttpStatus.CREATED);
+        return new ResponseEntity<>(ideaService.add(title, text, tags, images), HttpStatus.CREATED);
     }
 
     @PutMapping("/put/{idea}")
-    public ResponseEntity<Idea> put(@PathVariable Idea idea) {
+    public ResponseEntity<Idea> put(@PathVariable Idea idea, @RequestParam String title,
+                                    @RequestParam String text, @RequestParam(required = false) List<String> tags,
+                                    @RequestParam(required = false) List<MultipartFile> addImages,
+                                    @RequestParam(required = false) List<String> removeImages) {
 
-        return new ResponseEntity<>(ideaService.put(idea), HttpStatus.OK);
+        return new ResponseEntity<>(ideaService.put(idea, title, text, tags, addImages, removeImages), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{idea}")

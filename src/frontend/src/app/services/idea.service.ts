@@ -25,8 +25,8 @@ export class IdeaService {
     return this.httpClient.post<Idea>(`${this.apiBaseUrl}/ideas/add`, formData);
   }
 
-  public put(formData: FormData): Observable<Idea> {
-    return this.httpClient.put<Idea>(`${this.apiBaseUrl}/ideas/put/${formData.get('id')}`, formData);
+  public put(formData: FormData, id: string): Observable<Idea> {
+    return this.httpClient.put<Idea>(`${this.apiBaseUrl}/ideas/put/${id}`, formData);
   }
 
   public delete(id: number): Observable<void> {

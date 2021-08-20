@@ -1,0 +1,32 @@
+mat-form-field {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-container {
+    margin: 5%;
+}
+
+.load-images {
+    flex-wrap: wrap;
+}
+
+.load-images img{
+    margin-right: 1%;
+    margin-bottom: 1%;
+    border-radius: 5%;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.form-actions button {
+    margin-left: 10px;
+}
+
+.mat-form-field textarea {
+    height: 200px;
+}

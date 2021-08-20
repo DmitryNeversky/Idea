@@ -9,6 +9,8 @@ export class Idea {
     looks: number;
     author: User;
     date: Date;
+    tags: string[];
+    images: string[];
 
     constructor(title: string, text: string, status: string) {
         this.title = title;

@@ -35,6 +35,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
 import {MatTableModule} from "@angular/material/table";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {SharedService} from "./shared/shared.service";
+import { UpdateIdeaComponent } from './update-idea/update-idea.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {SharedService} from "./shared/shared.service";
     IdeaFillComponent,
     HomeComponent,
     TruncatePipe,
+    UpdateIdeaComponent,
   ],
     imports: [
         BrowserModule,

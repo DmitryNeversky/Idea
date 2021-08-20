@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {TagService} from "../../services/tag.service";
 
 @Component({
   selector: 'app-chips',
@@ -27,7 +28,8 @@ export class ChipsComponent {
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
-  constructor() {
+  constructor(private tagService: TagService) {
+    // tagService.getAll().subscribe((response: string[]) => this.allTags = response);
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
         startWith(null),
         map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));

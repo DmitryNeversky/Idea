@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RedisHash("idea")
@@ -22,16 +23,16 @@ public class Idea {
 
     private LocalDateTime date;
 
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
+    private List<String> images = new ArrayList<>();
 
     public Idea() {}
 
-    public Idea(String title, String text, Status status, LocalDateTime date, List<String> tags) {
+    public Idea(String title, String text, Status status, LocalDateTime date) {
         this.title = title;
         this.text = text;
         this.status = status;
         this.date = date;
-        this.tags = tags;
     }
 
     public String getId() {
@@ -96,5 +97,17 @@ public class Idea {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public void addImage(String image) {
+        getImages().add(image);
     }
 }
