@@ -115,7 +115,7 @@ public class IdeaService {
         }
 
         if (idea.getFiles() != null) {
-            for (String pair : idea.getFiles()) {
+            for (String pair : idea.getFiles().keySet()) {
                 if (Files.exists(Paths.get(uploadPath + "files/" + pair))) {
                     try {
                         Files.delete(Paths.get(uploadPath + "files/" + pair));
@@ -160,7 +160,7 @@ public class IdeaService {
                 try {
                     Path path = Paths.get(uploadPath + "files/" + fileName);
                     Files.copy(pair.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-                    idea.addFile(fileName);
+                    idea.addFile(fileName, pair.getOriginalFilename());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

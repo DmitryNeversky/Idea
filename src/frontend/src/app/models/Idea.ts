@@ -11,7 +11,7 @@ export class Idea {
     date: Date;
     tags: string[];
     images: string[];
-    files: string[];
+    files: Map<string, string>;
 
     constructor(title: string, text: string, status: string) {
         this.title = title;

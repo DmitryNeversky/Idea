@@ -1,7 +1,6 @@
 export class FilesLoader {
 
     public files = [];
-    public oldFiles = [];
     public dataTransfer = new DataTransfer();
 
     public loadFiles(event: any) {

@@ -5,7 +5,9 @@ import org.springframework.data.redis.core.RedisHash;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RedisHash("idea")
 public class Idea {
@@ -25,7 +27,7 @@ public class Idea {
 
     private List<String> tags = new ArrayList<>();
     private List<String> images = new ArrayList<>();
-    private List<String> files = new ArrayList<>();
+    private Map<String, String> files = new HashMap<>();
 
     public Idea() {}
 
@@ -112,15 +114,15 @@ public class Idea {
         getImages().add(image);
     }
 
-    public List<String> getFiles() {
+    public Map<String, String> getFiles() {
         return files;
     }
 
-    public void setFiles(List<String> files) {
+    public void setFiles(Map<String, String> files) {
         this.files = files;
     }
 
-    public void addFile(String file) {
-        getFiles().add(file);
+    public void addFile(String key, String value) {
+        getFiles().put(key, value);
     }
 }

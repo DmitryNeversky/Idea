@@ -36,6 +36,8 @@ import {MatTableModule} from "@angular/material/table";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {SharedService} from "./shared/shared.service";
 import { UpdateIdeaComponent } from './update-idea/update-idea.component';
+import { ImagevarPipe } from './pipes/imagevar.pipe';
+import { FilenamePipe } from './pipes/filename.pipe';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { UpdateIdeaComponent } from './update-idea/update-idea.component';
     HomeComponent,
     TruncatePipe,
     UpdateIdeaComponent,
+    ImagevarPipe,
+    FilenamePipe,
   ],
     imports: [
         BrowserModule,

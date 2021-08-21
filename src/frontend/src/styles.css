@@ -13,6 +13,8 @@ app-root .mat-list-base .mat-list-item .mat-list-item-content, app-root .mat-lis
 }
 
 small.status {
+    width: fit-content;
+    height: fit-content;
     padding: .25% 1%;
     font-size: 10pt;
 }
@@ -46,4 +48,14 @@ mat-button-toggle-group {
 
 .files > p {
     overflow-wrap: break-word;
+}
+
+.card-content {
+    padding: 5% 0;
+}
+
+@media screen and (min-width: 600px){
+    .card-content {
+        padding: 2% 0;
+    }
 }

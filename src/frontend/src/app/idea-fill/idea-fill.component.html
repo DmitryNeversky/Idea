@@ -1,30 +1,29 @@
 <mat-card fxLayout="column" fxLayoutGap="2%">
-    <mat-card-title fxLayout="row">
-        <span fxFlex="90%">{{idea.title}}</span>
-        <ng-container fxFlex="10%" [ngSwitch]="idea.status">
+    <mat-card-title fxLayout="row" fxLayout.xs="column" fxLayoutGap.xs="4%">
+        <span fxFlex.xs="100%" fxFlex.gt-xs="90%" fxFlexOrder.xs="2">{{idea.title}}</span>
+        <ng-container fxFlex [ngSwitch]="idea.status">
             <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>
             <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>
             <small class="status" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'">Отказано</small>
         </ng-container>
     </mat-card-title>
-    <mat-card-content>
+    <mat-card-content class="card-content">
         <p>{{idea.text}}</p>
     </mat-card-content>
     <mat-card-content *ngIf="idea.images.length > 0">
         <p><strong>Прикрепленные изображения</strong></p>
-        <div fxLayout="row wrap">
+        <div fxLayout="row wrap" class="load-images">
             <img [src]="uploadImagePath + image" (click)="resize(image)" *ngFor="let image of idea.images"
                  class="image mat-elevation-z2" alt="loaded.image" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
         </div>
     </mat-card-content>
-    <mat-card-content *ngIf="idea.files.length > 0">
+    <mat-card-content *ngIf="idea.files">
         <p><strong>Прикрепленные документы</strong></p>
-        <div fxLayout="row wrap">
-<!--            <img [src]="uploadImagePath + image" (click)="resize(image)" *ngFor="let image of idea.images"-->
-<!--                 class="image mat-elevation-z2" alt="loaded.image" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">-->
-            <div class="files" *ngFor="let file of idea.files" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
-                <span>{{file}}</span>
-            </div>
+        <div fxLayout="row wrap" fxLayoutGap="5%">
+            <a href="#" download="assets/uploaded/files/{{file.value}}" class="files" *ngFor="let file of idea.files | keyvalue" fxFlex.xs="45%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
+                <img [src]="'assets/images/' + (file.value | imagevar)" alt="image">
+                <p>{{file.value | filename}}</p>
+            </a>
         </div>
     </mat-card-content>
     <mat-card-footer fxLayout.xs="column wrap" fxLayout.gt-xs="row">

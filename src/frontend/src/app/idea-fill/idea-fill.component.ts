@@ -20,7 +20,6 @@ export class IdeaFillComponent implements OnInit {
 
   ngOnInit(): void {
     this.idea = this.activatedRoute.snapshot.data.idea;
-    console.log(this.idea);
   }
 
   resize(image: string) {
