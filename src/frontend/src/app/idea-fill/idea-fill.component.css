@@ -2,10 +2,6 @@ mat-card {
     height: fit-content;
 }
 
-.load-images {
-    flex-wrap: wrap;
-}
-
 .load-images img{
     margin-right: 1%;
     margin-bottom: 1%;

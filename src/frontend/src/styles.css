@@ -40,10 +40,10 @@ mat-button-toggle-group {
     padding: 0 20px;
 }
 
-.add-image-input {
-    display: none;
+.files {
+    text-align: center;
 }
 
-.add-image-label {
-    cursor: pointer;
+.files > p {
+    overflow-wrap: break-word;
 }

@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SnackbarComponent} from "../shared/snackbar/snackbar.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ImagesLoader} from "../custom/ImagesLoader";
+import {FilesLoader} from "../custom/FilesLoader";
 
 @Component({
   selector: 'app-create-idea',
@@ -15,6 +16,7 @@ import {ImagesLoader} from "../custom/ImagesLoader";
 export class CreateIdeaComponent implements OnInit{
 
   public imagesLoader = new ImagesLoader();
+  public filesLoader = new FilesLoader();
 
   public tags: string[];
 
@@ -43,6 +45,8 @@ export class CreateIdeaComponent implements OnInit{
     this.tags.forEach(t => formData.append('tags', t));
     for(let i = 0; i < this.imagesLoader.dataTransfer.files.length; i++)
       formData.append('images', this.imagesLoader.dataTransfer.files[i]);
+    for (let i = 0; i < this.filesLoader.dataTransfer.files.length; i++)
+      formData.append("files", this.filesLoader.dataTransfer.files[i])
 
     this.ideaService.add(formData).subscribe((response: Idea) => {
       this.router.navigateByUrl('ideas');

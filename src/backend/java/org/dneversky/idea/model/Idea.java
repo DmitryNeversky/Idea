@@ -25,6 +25,7 @@ public class Idea {
 
     private List<String> tags = new ArrayList<>();
     private List<String> images = new ArrayList<>();
+    private List<String> files = new ArrayList<>();
 
     public Idea() {}
 
@@ -109,5 +110,17 @@ public class Idea {
 
     public void addImage(String image) {
         getImages().add(image);
+    }
+
+    public List<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<String> files) {
+        this.files = files;
+    }
+
+    public void addFile(String file) {
+        getFiles().add(file);
     }
 }

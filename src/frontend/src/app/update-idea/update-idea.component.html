@@ -29,17 +29,32 @@
                 </mat-error>
             </mat-form-field>
             <app-chips [tags]="idea.tags" (tagsEmitter)="setTags($event)" #chips></app-chips>
-            <div class="load-images" fxLayout="row">
-                <img fxFlex="24%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages" class="image mat-elevation-z2"
+            <div class="load-images" fxLayout="row wrap">
+                <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages" class="image mat-elevation-z2"
                      (click)="imagesLoader.removeImage($event)" alt="load.image">
-                <img fxFlex="24%" src="{{ uploadPath + image }}" *ngFor="let image of idea.images" class="image mat-elevation-z2"
+                <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ uploadPath + image }}" *ngFor="let image of idea.images" class="image mat-elevation-z2"
                      (click)="imagesLoader.remImage($event, image)" alt="load.image">
+            </div>
+            <div class="load-files" fxLayout="row wrap" fxLayoutGap="5%">
+                <div fxFlex="15%" class="files" *ngFor="let file of idea.files" (click)="filesLoader.remFile($event, file)">
+<!--                    <img [src]="'assets/' + file.icon" alt="images.image">-->
+                    <p>{{file}}</p>
+                </div>
+                <div fxFlex="15%" class="files" *ngFor="let file of filesLoader.files; let index = index" (click)="filesLoader.removeFile(file, index)">
+                    <img [src]="'assets/' + file.icon" alt="images.image">
+                    <p>{{file.name}}</p>
+                </div>
             </div>
             <div class="form-actions">
                 <div class="action">
-                    <input type="file" class="add-image-input" (change)="imagesLoader.load($event)" accept="image/*" multiple #addImage>
+                    <input type="file" style="display: none" (change)="imagesLoader.load($event)" accept="image/*" multiple #addImage>
+                    <input type="file" style="display: none" (change)="filesLoader.loadFiles($event)"
+                           accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.xml" multiple #addFile>
                     <button type="button" mat-icon-button (click)="addImage.click()">
                         <mat-icon color="warn">add_photo_alternate</mat-icon>
+                    </button>
+                    <button type="button" mat-icon-button (click)="addFile.click()">
+                        <mat-icon color="warn">description</mat-icon>
                     </button>
                 </div>
                 <div class="action">

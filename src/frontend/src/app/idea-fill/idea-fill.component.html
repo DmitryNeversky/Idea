@@ -10,11 +10,21 @@
     <mat-card-content>
         <p>{{idea.text}}</p>
     </mat-card-content>
-    <mat-card-content>
-        <p *ngIf="idea.images"><strong>Прикрепленные изображения</strong></p>
-        <div class="load-images" fxLayout="row">
+    <mat-card-content *ngIf="idea.images.length > 0">
+        <p><strong>Прикрепленные изображения</strong></p>
+        <div fxLayout="row wrap">
             <img [src]="uploadImagePath + image" (click)="resize(image)" *ngFor="let image of idea.images"
                  class="image mat-elevation-z2" alt="loaded.image" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
+        </div>
+    </mat-card-content>
+    <mat-card-content *ngIf="idea.files.length > 0">
+        <p><strong>Прикрепленные документы</strong></p>
+        <div fxLayout="row wrap">
+<!--            <img [src]="uploadImagePath + image" (click)="resize(image)" *ngFor="let image of idea.images"-->
+<!--                 class="image mat-elevation-z2" alt="loaded.image" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">-->
+            <div class="files" *ngFor="let file of idea.files" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
+                <span>{{file}}</span>
+            </div>
         </div>
     </mat-card-content>
     <mat-card-footer fxLayout.xs="column wrap" fxLayout.gt-xs="row">

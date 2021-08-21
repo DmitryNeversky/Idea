@@ -7,10 +7,6 @@ mat-form-field {
     margin: 5%;
 }
 
-.load-images {
-    flex-wrap: wrap;
-}
-
 .load-images img{
     margin-right: 1%;
     margin-bottom: 1%;

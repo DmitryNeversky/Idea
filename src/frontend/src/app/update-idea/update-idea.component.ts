@@ -7,6 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Idea} from "../models/Idea";
 import {SnackbarComponent} from "../shared/snackbar/snackbar.component";
 import {environment} from "../../environments/environment";
+import {FilesLoader} from "../custom/FilesLoader";
 
 @Component({
   selector: 'app-update-idea',
@@ -20,6 +21,7 @@ export class UpdateIdeaComponent implements OnInit {
   public idea: Idea;
 
   public imagesLoader = new ImagesLoader();
+  public filesLoader = new FilesLoader();
 
   public tags: string[];
 
@@ -50,6 +52,9 @@ export class UpdateIdeaComponent implements OnInit {
     this.imagesLoader.removeImagesList.forEach(x => formData.append('removeImages', x));
     for (let i = 0; i < this.imagesLoader.dataTransfer.files.length; i++)
       formData.append('addImages', this.imagesLoader.dataTransfer.files[i]);
+    this.filesLoader.removeFilesList.forEach(x => formData.append('removeFiles', x));
+    for (let i = 0; i < this.filesLoader.dataTransfer.files.length; i++)
+      formData.append("addFiles", this.filesLoader.dataTransfer.files[i])
 
     this.ideaService.put(formData, this.idea.id).subscribe((response: Idea) => {
       this.router.navigateByUrl('ideas');
