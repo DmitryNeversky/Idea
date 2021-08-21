@@ -17,8 +17,24 @@
                  class="image mat-elevation-z2" alt="loaded.image" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
         </div>
     </mat-card-content>
-    <mat-card-footer fxLayout="row">
-        <button mat-button fxFlex="fit-content">Юрий Викторович (программист 3 категории)</button>
+    <mat-card-footer fxLayout.xs="column wrap" fxLayout.gt-xs="row">
+        <div fxFlex="fit-content" class="left">
+            <button mat-button>Юрий Викторович (программист 3 категории)</button>
+        </div>
+        <div fxFlex class="right">
+            <div class="rating">
+                <button class="silver" mat-icon-button><mat-icon>thumb_up</mat-icon></button>
+                <strong>{{idea.rating}}</strong>
+                <button class="silver" mat-icon-button><mat-icon>thumb_down</mat-icon></button>
+            </div>
+            <div class="looks">
+                <strong>{{idea.looks}}</strong>
+                <mat-icon class="silver">visibility</mat-icon>
+            </div>
+            <div class="date">
+                <strong>{{idea.date | date: 'dd-MM-yyyy'}}</strong>
+            </div>
+        </div>
     </mat-card-footer>
 </mat-card>
 

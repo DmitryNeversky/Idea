@@ -13,6 +13,27 @@ mat-card {
     cursor: pointer;
 }
 
+.right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 600px) {
+    .right {
+        justify-content: space-between;
+    }
+}
+
+.right > div {
+    display: flex;
+    align-items: center;
+    margin: 0 2%;
+}
+
+.right > div > strong {
+    margin: 10px;
+}
+
 .canvas {
     margin: auto;
     position: absolute;

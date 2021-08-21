@@ -6,6 +6,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: h
 .accent { background: #ffd740 !important; color: #000000bf !important; }
 .warn { background: #f44336 !important; color: white !important; }
 .primary { background: #673ab7 !important; color: white !important; }
+.silver { color: #c7c7c7 !important; }
 
 app-root .mat-list-base .mat-list-item .mat-list-item-content, app-root .mat-list-base .mat-list-option .mat-list-item-content {
     padding: 0;
