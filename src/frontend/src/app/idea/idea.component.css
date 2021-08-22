@@ -10,6 +10,28 @@ mat-card-title {
 
 .title {
     align-self: center;
+    overflow-wrap: anywhere;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 600px) {
+    .right {
+        justify-content: space-between;
+    }
+}
+
+.right > div {
+    display: flex;
+    align-items: center;
+    margin: 0 2%;
+}
+
+.right > div > strong {
+    margin: 10px;
 }
 
 mat-card-title, mat-card-footer, mat-card-content {
@@ -18,7 +40,6 @@ mat-card-title, mat-card-footer, mat-card-content {
 
 mat-card-title, mat-card-footer {
     display: flex;
-    justify-content: space-between;
     align-items: baseline;
 }
 

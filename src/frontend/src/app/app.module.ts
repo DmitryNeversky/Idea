@@ -39,6 +39,7 @@ import { UpdateIdeaComponent } from './update-idea/update-idea.component';
 import { ImagevarPipe } from './pipes/imagevar.pipe';
 import { FilenamePipe } from './pipes/filename.pipe';
 import { SizePipe } from './pipes/size.pipe';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { SizePipe } from './pipes/size.pipe';
         MatProgressBarModule,
         MatTableModule,
         FlexLayoutModule,
+        MatTooltipModule,
     ],
   providers: [IdeaService, SharedService],
   bootstrap: [AppComponent]

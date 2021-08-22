@@ -1,7 +1,7 @@
 <mat-card *ngIf="idea">
-    <mat-card-title>
-        <span class="title">{{idea.title}}</span>
-        <ng-container [ngSwitch]="idea.status">
+    <mat-card-title fxLayout.xs="column wrap" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
+        <span fxFlex.gt-xs="100%" fxFlexOrder.xs="2" class="title">{{idea.title}}</span>
+        <ng-container fxFlex [ngSwitch]="idea.status">
             <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>
             <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>
             <small class="status" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'">Отказано</small>
@@ -10,9 +10,23 @@
     <mat-card-content>
         <p>{{idea.text | truncate: 600}}</p>
     </mat-card-content>
-    <mat-card-footer>
-        <button mat-button>User (voevoda)</button>
-        <small>{{idea.date | date: 'dd-MM-yyyy'}}</small>
-        <button [routerLink]="['/ideas', 'id', idea.id]" mat-button>Смотреть</button>
+    <mat-card-footer fxLayout.xs="column wrap" fxLayout.gt-xs="row">
+        <div class="left" fxFlex="70%">
+            <button mat-button>User (voevoda)</button>
+        </div>
+        <div class="right" fxLayout="row" fxFlex>
+            <div class="rating">
+                <strong>{{idea.rating}}</strong>
+                <mat-icon class="silver" matTooltip="Рейтинг">bar_chart</mat-icon>
+            </div>
+            <div class="looks">
+                <strong>{{idea.looks}}</strong>
+                <mat-icon matTooltip="Просмотры" class="silver">visibility</mat-icon>
+            </div>
+            <div class="date">
+                <strong>{{idea.date | date: 'dd-MM-yyyy'}}</strong>
+                <mat-icon matTooltip="Дата создания" class="silver">date_range</mat-icon>
+            </div>
+        </div>
     </mat-card-footer>
 </mat-card>
