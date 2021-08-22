@@ -1,7 +1,9 @@
 <mat-card>
     <mat-card-content>
+
         <h1>Редактирование идеи</h1>
         <form [formGroup]="mainForm" (ngSubmit)="update()">
+
             <mat-form-field appearance="fill">
                 <mat-label>Заголовок</mat-label>
                 <input matInput [value]="idea.title" formControlName="title">
@@ -15,6 +17,7 @@
                     (сейчас {{mainForm.get('title').errors.maxlength.actualLength}})
                 </mat-error>
             </mat-form-field>
+
             <mat-form-field appearance="fill">
                 <mat-label>Основная идея</mat-label>
                 <textarea matInput [value]="idea.text" formControlName="text"></textarea>
@@ -28,14 +31,17 @@
                     (сейчас {{mainForm.get('text').errors.maxlength.actualLength}})
                 </mat-error>
             </mat-form-field>
+
             <app-chips [tags]="idea.tags" (tagsEmitter)="setTags($event)" #chips></app-chips>
+
             <div class="load-images" fxLayout="row wrap" *ngIf="idea.images.length > 0 || imagesLoader.dataTransfer.items.length > 0">
                 <p fxFlex="100%"><strong>Прикрепленные изображения</strong></p>
-                <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages" class="image mat-elevation-z2"
-                     (click)="imagesLoader.removeImage($event)" alt="load.image">
                 <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ uploadPath + image }}" *ngFor="let image of idea.images" class="image mat-elevation-z2"
                      (click)="imagesLoader.remImage($event, image)" alt="load.image">
+                <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages; let index = index" class="image mat-elevation-z2"
+                     (click)="imagesLoader.removeImage(image, index)" alt="load.image">
             </div>
+
             <div fxLayout="row wrap" fxLayoutGap="5%" *ngIf="(idea.files | size) > 0 || filesLoader.files.length > 0">
                 <p fxFlex="100%"><strong>Прикрепленные документы</strong></p>
                 <br>
@@ -54,6 +60,7 @@
                     </button>
                 </div>
             </div>
+
             <div class="form-actions">
                 <div class="action">
                     <input type="file" style="display: none" (change)="imagesLoader.load($event)" accept="image/*" multiple #addImage>
@@ -70,6 +77,7 @@
                     <button type="submit" (click)="chips.emitChips()" mat-button color="primary">готово</button>
                 </div>
             </div>
+
         </form>
     </mat-card-content>
 </mat-card>

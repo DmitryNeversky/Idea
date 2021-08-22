@@ -39,9 +39,9 @@ export class ImagesLoader {
         }
     }
 
-    removeImage(event: any) {
-        this.dataTransfer.items.remove(event.target);
-        event.target.remove();
+    removeImage(image: any, index: number) {
+        this.dataTransfer.items.remove(index);
+        this.loadImages = this.loadImages.filter(x => x != image);
     }
 
     public removeImagesList: string[] = [];

@@ -32,8 +32,8 @@
                 <app-chips [tags]="tags" (tagsEmitter)="setTags($event)" #chips></app-chips>
                 <div class="load-images" fxLayout="row wrap" *ngIf="imagesLoader.dataTransfer.items.length > 0">
                     <p fxFlex="100%"><strong>Прикрепленные изображения</strong></p>
-                    <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages" class="image mat-elevation-z2"
-                        (click)="imagesLoader.removeImage($event)" alt="load.image">
+                    <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages; let index = index" class="image mat-elevation-z2"
+                        (click)="imagesLoader.removeImage($event, index)" alt="load.image">
                 </div>
                 <div class="load-files" fxLayout="row wrap" fxLayoutGap="5%" *ngIf="filesLoader.files.length > 0">
                     <p fxFlex="100%"><strong>Прикрепленные документы</strong></p>
