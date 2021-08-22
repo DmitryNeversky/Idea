@@ -1,7 +1,7 @@
 <mat-card fxLayout="column" fxLayoutGap="2%">
 
     <mat-card-title fxLayout="row" fxLayout.xs="column" fxLayoutGap.xs="4%">
-        <span fxFlex.xs="100%" fxFlex.gt-xs="90%" fxFlexOrder.xs="2">{{idea.title}}</span>
+        <span class="title" fxFlex.xs="100%" fxFlex.gt-xs="90%" fxFlexOrder.xs="2">{{idea.title}}</span>
         <ng-container fxFlex [ngSwitch]="idea.status">
             <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>
             <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>
@@ -10,7 +10,7 @@
     </mat-card-title>
 
     <mat-card-content class="card-content">
-        <p>{{idea.text}}</p>
+        <p class="text">{{idea.text}}</p>
     </mat-card-content>
 
     <mat-card-content *ngIf="idea.images.length > 0">

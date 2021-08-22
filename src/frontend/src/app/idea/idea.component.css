@@ -8,30 +8,24 @@ mat-card-title {
     background: silver;
 }
 
-.title {
-    align-self: center;
-    overflow-wrap: anywhere;
-}
-
-.right {
-    display: flex;
-    justify-content: flex-end;
-}
-
 @media screen and (max-width: 600px) {
-    .right {
+    .meta {
         width: 100%;
         justify-content: space-between;
     }
+    button.look {
+        width: 100%;
+        margin-top: 5px;
+    }
 }
 
-.right > div {
+.meta > div {
     display: flex;
     align-items: center;
-    margin: 0 2%;
+    margin-right: 2%;
 }
 
-.right > div > strong {
+.meta > div > strong {
     margin: 10px;
 }
 
