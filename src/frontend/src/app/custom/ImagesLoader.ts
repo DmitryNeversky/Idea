@@ -47,12 +47,12 @@ export class ImagesLoader {
     public removeImagesList: string[] = [];
 
     remImage(event: any, image: any) {
-        if (event.target.hasAttribute('remove')) {
-            event.target.removeAttribute('remove');
+        if (event.target.classList.contains('remove')) {
+            event.target.classList.remove('remove');
             this.removeImagesList = this.removeImagesList.filter(x => x != image);
             event.target.style.opacity = '1';
         } else {
-            event.target.setAttribute('remove', null);
+            event.target.classList.add('remove');
             this.removeImagesList.push(image);
             event.target.style.opacity = '0.5';
         }

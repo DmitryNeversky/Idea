@@ -12,6 +12,8 @@ mat-form-field {
     margin-right: 1%;
     margin-bottom: 1%;
     border-radius: 5%;
+    cursor: pointer;
+    transition: .3s;
 }
 
 .form-actions {
