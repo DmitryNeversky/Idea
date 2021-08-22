@@ -1,6 +1,7 @@
 <div class="row" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
     <mat-card fxFlex="80%">
         <mat-card-content>
+
             <h1>Создание идеи</h1>
             <form [formGroup]="mainForm" (ngSubmit)="create()">
                 <mat-form-field appearance="fill">
@@ -16,6 +17,7 @@
                         (сейчас {{mainForm.get('title').errors.maxlength.actualLength}})
                     </mat-error>
                 </mat-form-field>
+
                 <mat-form-field appearance="fill">
                     <mat-label>Основная идея</mat-label>
                     <textarea matInput formControlName="text"></textarea>
@@ -29,12 +31,15 @@
                         (сейчас {{mainForm.get('text').errors.maxlength.actualLength}})
                     </mat-error>
                 </mat-form-field>
+
                 <app-chips [tags]="tags" (tagsEmitter)="setTags($event)" #chips></app-chips>
+
                 <div class="load-images" fxLayout="row wrap" *ngIf="imagesLoader.dataTransfer.items.length > 0">
                     <p fxFlex="100%"><strong>Прикрепленные изображения</strong></p>
                     <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages; let index = index" class="image mat-elevation-z2"
-                        (click)="imagesLoader.removeImage($event, index)" alt="load.image">
+                         (click)="imagesLoader.removeImage(image, index)" alt="load.image">
                 </div>
+
                 <div class="load-files" fxLayout="row wrap" fxLayoutGap="5%" *ngIf="filesLoader.files.length > 0">
                     <p fxFlex="100%"><strong>Прикрепленные документы</strong></p>
                     <div fxFlex="15%" *ngFor="let file of filesLoader.files; let index = index" class="files" (click)="filesLoader.removeFile(file, index)">
@@ -42,7 +47,9 @@
                         <p>{{file.name}}</p>
                     </div>
                 </div>
+
                 <div class="form-actions">
+
                     <div class="action">
                         <input type="file" style="display: none" (change)="imagesLoader.load($event)" accept="image/*" multiple #addImage>
                         <button type="button" mat-icon-button (click)="addImage.click()">
@@ -54,10 +61,12 @@
                             <mat-icon color="warn">description</mat-icon>
                         </button>
                     </div>
+
                     <div class="action">
                         <button type="button" (click)="save()" mat-button color="primary">сохранить</button>
                         <button type="submit" (click)="chips.emitChips()" mat-flat-button color="primary">создать</button>
                     </div>
+
                 </div>
             </form>
         </mat-card-content>
