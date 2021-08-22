@@ -11,10 +11,10 @@
         <p>{{idea.text | truncate: 600}}</p>
     </mat-card-content>
     <mat-card-footer fxLayout.xs="column wrap" fxLayout.gt-xs="row">
-        <div class="left" fxFlex="70%">
-            <button mat-button>User (voevoda)</button>
+        <div class="left" fxFlex.gt-xs>
+            <a href="#">User (voevoda) User (voevoda) User (voevoda) User (voevoda)</a>
         </div>
-        <div class="right" fxLayout="row" fxFlex>
+        <div class="right" fxLayout="row" fxFlex.gt-xs>
             <div class="rating">
                 <strong>{{idea.rating}}</strong>
                 <mat-icon class="silver" matTooltip="Рейтинг">bar_chart</mat-icon>

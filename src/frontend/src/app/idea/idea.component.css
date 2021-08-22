@@ -20,6 +20,7 @@ mat-card-title {
 
 @media screen and (max-width: 600px) {
     .right {
+        width: 100%;
         justify-content: space-between;
     }
 }
@@ -36,6 +37,7 @@ mat-card-title {
 
 mat-card-title, mat-card-footer, mat-card-content {
     padding: 10px 20px;
+    margin: 0;
 }
 
 mat-card-title, mat-card-footer {
