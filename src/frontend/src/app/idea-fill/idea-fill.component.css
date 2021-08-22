@@ -1,5 +1,14 @@
+mat-card-title {
+    display: flex;
+    align-items: center;
+}
+
 mat-card {
     height: fit-content;
+}
+
+mat-card-footer {
+    margin-bottom: -10px;
 }
 
 .title {
@@ -8,6 +17,7 @@ mat-card {
 }
 
 .load-images img{
+    max-height: 110px;
     margin-right: 1%;
     margin-bottom: 1%;
     border-radius: 5%;
@@ -44,7 +54,8 @@ mat-card {
 }
 
 .canvas img {
-    width: 90%;
+    max-width: 100%;
+    width: auto;
     height: 90%;
     position: absolute;
     margin: auto;
@@ -52,4 +63,7 @@ mat-card {
     left: 0;
     right: 0;
     bottom: 0;
+    background: white;
+    max-height: 100%;
+    box-shadow: 0 0 10px 1px;
 }

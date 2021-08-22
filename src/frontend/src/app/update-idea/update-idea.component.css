@@ -8,6 +8,7 @@ mat-form-field {
 }
 
 .load-images img{
+    max-height: 110px;
     margin-right: 1%;
     margin-bottom: 1%;
     border-radius: 5%;

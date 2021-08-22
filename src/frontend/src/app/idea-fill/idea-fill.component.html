@@ -25,7 +25,7 @@
         <p><strong>Прикрепленные документы</strong></p>
         <br>
         <div fxLayout="row wrap" fxLayoutGap="5%">
-            <a href="#" download="assets/uploaded/files/{{file.value}}" class="files" *ngFor="let file of idea.files | keyvalue" fxFlex.xs="45%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
+            <a href="assets/uploaded/files/{{file.key}}" target="_blank" class="files" *ngFor="let file of idea.files | keyvalue" fxFlex.xs="45%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
                 <img [src]="'assets/images/' + (file.value | imagevar)" alt="image">
                 <p>{{file.value | filename}}</p>
             </a>
@@ -57,6 +57,6 @@
     </mat-card-footer>
 </mat-card>
 
-<div class="canvas" (click)="resize(null)" *ngIf="resizableImage">
-    <img src="{{uploadImagePath + resizableImage}}" alt="resize.image">
+<div class="canvas" (click)="resize(null)" [@fade] *ngIf="resizableImage">
+    <img [src]="uploadImagePath + resizableImage" alt="resize.image">
 </div>
