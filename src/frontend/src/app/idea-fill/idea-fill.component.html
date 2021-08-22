@@ -9,7 +9,7 @@
         <span class="title">{{idea.title}}</span>
     </mat-card-title>
 
-    <mat-card-content class="card-content">
+    <mat-card-content fxFlex="100%" class="card-content">
         <p class="text">{{idea.text}}</p>
     </mat-card-content>
 
@@ -60,28 +60,3 @@
 <div class="canvas" (click)="resize(null)" *ngIf="resizableImage">
     <img src="{{uploadImagePath + resizableImage}}" alt="resize.image">
 </div>
-
-<!--<div class="row" fxLayout.xs="column" fxLayout.gt-md="row" fxLayoutGap="0.5%">-->
-<!--    <mat-card fxFlex="80%">-->
-<!--        <mat-card-title>-->
-<!--            <span>{{idea.title}}</span>-->
-<!--        </mat-card-title>-->
-<!--        <mat-card-content>-->
-<!--            <p>{{idea.text}}</p>-->
-<!--        </mat-card-content>-->
-<!--        <mat-card-footer>-->
-
-<!--        </mat-card-footer>-->
-<!--    </mat-card>-->
-<!--    <mat-card fxFlex="20%" fxLayout="column">-->
-<!--        <p>Рейтинг: <strong>{{idea.rating}}</strong></p>-->
-<!--        <p>Просмотры: <strong>{{idea.looks}}</strong></p>-->
-<!--        <p><ng-container [ngSwitch]="idea.status">-->
-<!--            <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>-->
-<!--            <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>-->
-<!--            <small class="status" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'">Отказано</small>-->
-<!--        </ng-container>-->
-<!--        </p>-->
-<!--        <p>Создана: <strong>{{idea.date | date: 'dd-MM-yyyy'}}</strong></p>-->
-<!--    </mat-card>-->
-<!--</div>-->

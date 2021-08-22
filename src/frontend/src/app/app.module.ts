@@ -19,7 +19,6 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {IdeasComponent} from './ideas/ideas.component';
-import {IdeaComponent} from './idea/idea.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {AppRoutingModule} from "./app-routing.module";
 import {CreateIdeaComponent} from './create-idea/create-idea.component';
@@ -40,6 +39,7 @@ import { ImagevarPipe } from './pipes/imagevar.pipe';
 import { FilenamePipe } from './pipes/filename.pipe';
 import { SizePipe } from './pipes/size.pipe';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {IdeaComponent} from "./idea/idea.component";
 
 @NgModule({
   declarations: [

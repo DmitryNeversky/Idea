@@ -1,9 +1,12 @@
 <mat-card class="filter-container">
+
     <mat-card-content class="filter-content row" fxLayout.lt-lg="column" fxLayout.gt-lg="row" fxLayoutGap.lt-lg="10px">
+
         <mat-form-field appearance="outline" fxFlex="20%">
             <mat-label>Найти</mat-label>
             <input matInput placeholder="Заголовок или #id" [(ngModel)]="search" (input)="filter()">
         </mat-form-field>
+
         <mat-form-field appearance="outline" fxFlex="20%">
             <mat-label>Статус</mat-label>
             <mat-select [(ngModel)]="status" (selectionChange)="filter()">
@@ -12,6 +15,7 @@
                 <mat-option value="REFUSED">Отказано</mat-option>
             </mat-select>
         </mat-form-field>
+
         <mat-button-toggle-group value="1" fxFlex="fit-content">
             <mat-button-toggle (click)="sort(1)" value="1">Алфавиту</mat-button-toggle>
             <mat-button-toggle (click)="sort(2)" value="2">Просмотрам</mat-button-toggle>
@@ -22,12 +26,14 @@
                 <mat-icon>sort</mat-icon>
             </button>
         </mat-button-toggle-group>
+
         <mat-button-toggle-group value="{{pageSize}}" fxFlex="fit-content">
             <mat-button-toggle (click)="setPageSize(5)" value="5">5</mat-button-toggle>
             <mat-button-toggle (click)="setPageSize(10)" value="10">10</mat-button-toggle>
             <mat-button-toggle (click)="setPageSize(15)" value="15">15</mat-button-toggle>
             <mat-button-toggle (click)="setPageSize(20)" value="20">20</mat-button-toggle>
         </mat-button-toggle-group>
+
     </mat-card-content>
 </mat-card>
 

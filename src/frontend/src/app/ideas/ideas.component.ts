@@ -32,7 +32,6 @@ export class IdeasComponent implements OnInit {
 
     this.filteredIdeas = this.ideas;
     this.sort(1);
-    this.goIndex(0);
   }
 
   initPagination(size: number) {
@@ -84,7 +83,8 @@ export class IdeasComponent implements OnInit {
       this.filteredIdeas = [];
     } else if (this.filteredIdeas.length / this.pageSize) {
       for (let i = 0; i < this.pageSize; i++)
-        this.paginatedIdeas.push(this.filteredIdeas[index * this.pageSize + i]);
+        if(this.filteredIdeas[index * this.pageSize + i])
+          this.paginatedIdeas.push(this.filteredIdeas[index * this.pageSize + i]);
     }
 
     this.initPagination(Math.floor(this.filteredIdeas.length / this.pageSize));

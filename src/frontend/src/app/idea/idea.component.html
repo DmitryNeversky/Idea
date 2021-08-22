@@ -1,7 +1,7 @@
 <mat-card *ngIf="idea">
     <mat-card-title fxLayout.xs="column wrap" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
         <span fxFlex.gt-xs="100%" fxFlexOrder.xs="2" class="title">{{idea.title}}</span>
-        <ng-container fxFlex [ngSwitch]="idea.status">
+        <ng-container [ngSwitch]="idea.status">
             <small class="status-circle" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'"></small>
             <small class="status-circle" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'"></small>
             <small class="status-circle" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'"></small>
