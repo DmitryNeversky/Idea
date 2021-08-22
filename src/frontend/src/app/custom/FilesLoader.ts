@@ -49,15 +49,15 @@ export class FilesLoader {
 
     public removeFilesList: string[] = [];
 
-    remFile(event: any, file: any) {
-        if (event.target.hasAttribute('remove')) {
-            event.target.removeAttribute('remove');
-            this.removeFilesList = this.removeFilesList.filter(x => x != file);
-            event.target.style.opacity = '1';
+    public remFile(event: any, key: string) {
+        if (!event.target.classList.contains('removed')) {
+            this.removeFilesList.push(key);
+            event.target.classList.add('removed');
+            event.target.classList.add('canceled');
         } else {
-            event.target.setAttribute('remove', null);
-            this.removeFilesList.push(file);
-            event.target.style.opacity = '0.5';
+            this.removeFilesList = this.removeFilesList.filter(x => x != key);
+            event.target.classList.remove('removed');
+            event.target.classList.remove('canceled');
         }
     }
 }

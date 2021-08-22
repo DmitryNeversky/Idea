@@ -26,3 +26,7 @@ mat-form-field {
 .mat-form-field textarea {
     height: 200px;
 }
+
+.canceled {
+    color: #f35454;
+}

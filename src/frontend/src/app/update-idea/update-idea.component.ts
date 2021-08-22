@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ImagesLoader} from "../custom/ImagesLoader";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {IdeaService} from "../services/idea.service";

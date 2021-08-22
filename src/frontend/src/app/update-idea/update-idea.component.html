@@ -39,13 +39,19 @@
             <div fxLayout="row wrap" fxLayoutGap="5%" *ngIf="(idea.files | size) > 0 || filesLoader.files.length > 0">
                 <p fxFlex="100%"><strong>Прикрепленные документы</strong></p>
                 <br>
-                <div fxFlex="15%" class="files" *ngFor="let file of idea.files | keyvalue" (click)="filesLoader.remFile($event, file.key)">
+                <div fxFlex="15%" class="files" *ngFor="let file of idea.files | keyvalue">
                     <img [src]="'assets/images/' + (file.value | imagevar)" alt="image">
                     <p>{{file.value | filename}}</p>
+                    <button type="button" mat-icon-button (click)="filesLoader.remFile($event, file.key)" class="cancel">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
                 </div>
-                <div fxFlex="15%" class="files" *ngFor="let file of filesLoader.files; let index = index" (click)="filesLoader.removeFile(file, index)">
+                <div fxFlex="15%" class="files" *ngFor="let file of filesLoader.files; let index = index">
                     <img [src]="'assets/' + file.icon" alt="images.image">
                     <p>{{file.name}}</p>
+                    <button type="button" mat-icon-button (click)="filesLoader.removeFile(file, index)" class="cancel">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
                 </div>
             </div>
             <div class="form-actions">
