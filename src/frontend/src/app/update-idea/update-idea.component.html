@@ -29,13 +29,16 @@
                 </mat-error>
             </mat-form-field>
             <app-chips [tags]="idea.tags" (tagsEmitter)="setTags($event)" #chips></app-chips>
-            <div fxLayout="row wrap">
+            <div class="load-images" fxLayout="row wrap" *ngIf="idea.images.length > 0 || imagesLoader.dataTransfer.items.length > 0">
+                <p fxFlex="100%"><strong>Прикрепленные изображения</strong></p>
                 <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages" class="image mat-elevation-z2"
                      (click)="imagesLoader.removeImage($event)" alt="load.image">
                 <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ uploadPath + image }}" *ngFor="let image of idea.images" class="image mat-elevation-z2"
                      (click)="imagesLoader.remImage($event, image)" alt="load.image">
             </div>
-            <div fxLayout="row wrap" fxLayoutGap="5%">
+            <div fxLayout="row wrap" fxLayoutGap="5%" *ngIf="(idea.files | size) > 0 || filesLoader.files.length > 0">
+                <p fxFlex="100%"><strong>Прикрепленные документы</strong></p>
+                <br>
                 <div fxFlex="15%" class="files" *ngFor="let file of idea.files | keyvalue" (click)="filesLoader.remFile($event, file.key)">
                     <img [src]="'assets/images/' + (file.value | imagevar)" alt="image">
                     <p>{{file.value | filename}}</p>

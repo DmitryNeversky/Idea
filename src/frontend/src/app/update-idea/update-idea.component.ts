@@ -34,6 +34,7 @@ export class UpdateIdeaComponent implements OnInit {
 
   ngOnInit() {
     this.idea = this.activatedRoute.snapshot.data.idea;
+
     this.mainForm = new FormGroup({
       title: new FormControl(this.idea.title, [Validators.minLength(8), Validators.maxLength(256), Validators.required]),
       text: new FormControl(this.idea.text, [Validators.minLength(64), Validators.maxLength(32768), Validators.required]),

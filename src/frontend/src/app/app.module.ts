@@ -38,6 +38,7 @@ import {SharedService} from "./shared/shared.service";
 import { UpdateIdeaComponent } from './update-idea/update-idea.component';
 import { ImagevarPipe } from './pipes/imagevar.pipe';
 import { FilenamePipe } from './pipes/filename.pipe';
+import { SizePipe } from './pipes/size.pipe';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { FilenamePipe } from './pipes/filename.pipe';
     UpdateIdeaComponent,
     ImagevarPipe,
     FilenamePipe,
+    SizePipe,
   ],
     imports: [
         BrowserModule,

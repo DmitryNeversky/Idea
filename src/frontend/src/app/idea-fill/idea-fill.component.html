@@ -17,8 +17,9 @@
                  class="image mat-elevation-z2" alt="loaded.image" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
         </div>
     </mat-card-content>
-    <mat-card-content *ngIf="idea.files">
+    <mat-card-content *ngIf="(idea.files | size) > 0">
         <p><strong>Прикрепленные документы</strong></p>
+        <br>
         <div fxLayout="row wrap" fxLayoutGap="5%">
             <a href="#" download="assets/uploaded/files/{{file.value}}" class="files" *ngFor="let file of idea.files | keyvalue" fxFlex.xs="45%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
                 <img [src]="'assets/images/' + (file.value | imagevar)" alt="image">
