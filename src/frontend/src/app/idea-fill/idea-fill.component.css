@@ -2,6 +2,11 @@ mat-card {
     height: fit-content;
 }
 
+.title {
+    margin-left: 10px;
+    line-height: 1.5;
+}
+
 .load-images img{
     margin-right: 1%;
     margin-bottom: 1%;

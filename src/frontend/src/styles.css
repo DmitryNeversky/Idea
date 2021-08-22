@@ -17,6 +17,12 @@ small.status {
     height: fit-content;
     padding: .25% 1%;
     font-size: 10pt;
+    border-radius: 25px;
+}
+
+small.status-fill {
+    width: 100%;
+    text-align: center;
 }
 
 small.status-circle {
@@ -73,6 +79,13 @@ button.cancel {
 .title {
     align-self: center;
     overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: 600px) {
+    small.status {
+        padding: .5% 2%;
+        border-radius: 4px;
+    }
 }
 
 @media screen and (min-width: 600px){
