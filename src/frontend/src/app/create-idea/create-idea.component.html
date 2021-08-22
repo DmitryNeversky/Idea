@@ -42,6 +42,7 @@
 
                 <div class="load-files" fxLayout="row wrap" fxLayoutGap="5%" *ngIf="filesLoader.files.length > 0">
                     <p fxFlex="100%"><strong>Прикрепленные документы</strong></p>
+                    <br>
                     <div fxFlex="15%" *ngFor="let file of filesLoader.files; let index = index" class="files" (click)="filesLoader.removeFile(file, index)">
                         <img [src]="'assets/' + file.icon" alt="images.image">
                         <p>{{file.name}}</p>
