@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden; background-color: #f7f7f7 }
 
 .accent { background: #ffd740 !important; color: #000000bf !important; }
 .warn { background: #f44336 !important; color: white !important; }
@@ -44,6 +44,10 @@ mat-button-toggle button {
 mat-button-toggle-group {
     flex-wrap: wrap;
     width: fit-content;
+}
+
+.mat-horizontal-content-container {
+    padding-bottom: 0 !important;
 }
 
 .left-panel .mat-button-wrapper {

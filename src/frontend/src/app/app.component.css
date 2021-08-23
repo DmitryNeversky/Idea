@@ -13,6 +13,7 @@
 .left-panel {
     display: flex;
     flex-direction: column;
+    background-color: white;
 }
 
 .left-panel button {

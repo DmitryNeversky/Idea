@@ -17,7 +17,7 @@ export class AppComponent {
 
   public ideas: Idea[] | undefined;
 
-  constructor(private router: Router, private sharedService: SharedService) {
+  constructor(public router: Router, private sharedService: SharedService) {
     this.router.events.subscribe((event: any) => {
       switch (true) {
         case event instanceof NavigationStart: {

@@ -1,0 +1,25 @@
+mat-card {
+    width: 50%;
+    margin: 0 auto;
+    transform: translate(0px, 20%);
+}
+
+mat-hint {
+    color: #39fb48e6;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.form-actions button {
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 600px){
+    mat-card {
+        width: 90%;
+    }
+}

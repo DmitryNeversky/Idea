@@ -8,45 +8,61 @@ import {IdeaResolver} from "./shared/resolvers/idea.resolver";
 import {HomeComponent} from "./home/home.component";
 import {TagResolver} from "./shared/resolvers/tag.resolver";
 import {UpdateIdeaComponent} from "./update-idea/update-idea.component";
+import {AuthGuard} from "./auth.guard";
+import {AuthorizationComponent} from "./authorization/authorization.component";
+import {RegistrationComponent} from "./registration/registration.component";
 
 const routes: Routes = [
     {
         path: '',
         component: HomeComponent,
         data: { animation: 'home' },
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'ideas',
+                component: IdeasComponent,
+                data: { animation: 'ideas' },
+                resolve: {
+                    ideas: IdeasResolver
+                },
+            },
+            {
+                path: 'ideas/id/:id',
+                component: IdeaFillComponent,
+                data: { animation: 'idea' },
+                resolve: {
+                    idea: IdeaResolver
+                }
+            },
+            {
+                path: 'ideas/create',
+                component: CreateIdeaComponent,
+                data: { animation: 'idea-create' },
+                resolve: {
+                    tags: TagResolver
+                }
+            },
+            {
+                path: 'ideas/update/:id',
+                component: UpdateIdeaComponent,
+                data: { animation: 'update-idea' },
+                resolve: {
+                    idea: IdeaResolver
+                }
+            }
+        ]
     },
     {
-        path: 'ideas',
-        component: IdeasComponent,
-        data: { animation: 'ideas' },
-        resolve: {
-            ideas: IdeasResolver
-        },
+        path: 'auth',
+        component: AuthorizationComponent,
+        data: { animation: 'auth' }
     },
     {
-        path: 'ideas/id/:id',
-        component: IdeaFillComponent,
-        data: { animation: 'idea' },
-        resolve: {
-            idea: IdeaResolver
-        }
+        path: 'registration',
+        component: RegistrationComponent,
+        data: { animation: 'registration' }
     },
-    {
-        path: 'ideas/create',
-        component: CreateIdeaComponent,
-        data: { animation: 'idea-create' },
-        resolve: {
-            tags: TagResolver
-        }
-    },
-    {
-        path: 'ideas/update/:id',
-        component: UpdateIdeaComponent,
-        data: { animation: 'update-idea' },
-        resolve: {
-            idea: IdeaResolver
-        }
-    }
 ]
 
 @NgModule({

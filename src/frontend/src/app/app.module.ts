@@ -26,20 +26,27 @@ import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {IdeaFillComponent} from "./idea-fill/idea-fill.component";
-import { HomeComponent } from './home/home.component';
+import {HomeComponent} from './home/home.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {SharedModule} from "./shared/shared.module";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import { TruncatePipe } from './pipes/truncate.pipe';
+import {TruncatePipe} from './pipes/truncate.pipe';
 import {MatTableModule} from "@angular/material/table";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {SharedService} from "./shared/shared.service";
-import { UpdateIdeaComponent } from './update-idea/update-idea.component';
-import { ImagevarPipe } from './pipes/imagevar.pipe';
-import { FilenamePipe } from './pipes/filename.pipe';
-import { SizePipe } from './pipes/size.pipe';
+import {UpdateIdeaComponent} from './update-idea/update-idea.component';
+import {ImagevarPipe} from './pipes/imagevar.pipe';
+import {FilenamePipe} from './pipes/filename.pipe';
+import {SizePipe} from './pipes/size.pipe';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {IdeaComponent} from "./idea/idea.component";
+import {RegistrationComponent} from './registration/registration.component';
+import {AuthorizationComponent} from './authorization/authorization.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 
 @NgModule({
   declarations: [
@@ -54,6 +61,8 @@ import {IdeaComponent} from "./idea/idea.component";
     ImagevarPipe,
     FilenamePipe,
     SizePipe,
+    RegistrationComponent,
+    AuthorizationComponent,
   ],
     imports: [
         BrowserModule,
@@ -86,8 +95,17 @@ import {IdeaComponent} from "./idea/idea.component";
         MatTableModule,
         FlexLayoutModule,
         MatTooltipModule,
+        MatStepperModule,
+        MatRadioModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ],
-  providers: [IdeaService, SharedService],
+  providers: [IdeaService, SharedService,
+          {
+            provide: STEPPER_GLOBAL_OPTIONS,
+            useValue: { displayDefaultIndicatorType: false }
+          }
+      ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
