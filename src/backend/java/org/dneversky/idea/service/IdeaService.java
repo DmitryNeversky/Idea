@@ -1,9 +1,11 @@
 package org.dneversky.idea.service;
 
-import org.dneversky.idea.model.Idea;
+import org.dneversky.idea.entity.Idea;
+import org.dneversky.idea.entity.User;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class IdeaService {
@@ -30,21 +33,22 @@ public class IdeaService {
         this.ideaRepository = ideaRepository;
     }
 
+    @Cacheable(value = "ideasCache")
     public List<Idea> getAll() {
 
-        return (List<Idea>) ideaRepository.findAll();
+        return ideaRepository.findAll();
     }
 
-    public Idea get(String id) {
+    public Idea get(int id) {
         Optional<Idea> findIdea = ideaRepository.findById(id);
 
         return findIdea.orElse(null);
     }
 
-    public Idea add(String title, String text, List<String> tags, List<MultipartFile> images, List<MultipartFile> files) {
+    public Idea add(String title, String text, Set<String> tags, List<MultipartFile> images, List<MultipartFile> files, User author) {
         // User requesting
 
-        Idea idea = new Idea(title, text, Status.LOOKING, LocalDateTime.now());
+        Idea idea = new Idea(title, text, Status.LOOKING, LocalDateTime.now(), author);
         if(tags != null)
             idea.setTags(tags);
         if(images != null)
@@ -55,8 +59,8 @@ public class IdeaService {
         return ideaRepository.save(idea);
     }
 
-    public Idea put(Idea idea, String title, String text, List<String> tags, List<MultipartFile> addImages,
-                    List<String> removeImages, List<MultipartFile> addFiles, List<String> removeFiles) {
+    public Idea put(Idea idea, String title, String text, Set<String> tags, List<MultipartFile> addImages,
+                         List<String> removeImages, List<MultipartFile> addFiles, List<String> removeFiles) {
         Optional<Idea> findIdea = ideaRepository.findById(idea.getId());
         if(!findIdea.isPresent())
             return null;

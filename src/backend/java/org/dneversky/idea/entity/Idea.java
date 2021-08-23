@@ -1,19 +1,19 @@
-package org.dneversky.idea.model;
+package org.dneversky.idea.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
+import org.dneversky.idea.model.Status;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-@RedisHash("idea")
+@Entity
 public class Idea {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     private String title;
     private String text;
@@ -23,27 +23,28 @@ public class Idea {
     private int rating;
     private int looks;
 
-    private LocalDateTime date;
+    private LocalDateTime createdDate;
 
-    private List<String> tags = new ArrayList<>();
-    private List<String> images = new ArrayList<>();
+    private Set<String> tags;
+    private Set<String> images;
     private Map<String, String> files = new HashMap<>();
+
+    @ManyToOne
+    @JoinColumn(name = "idea_id", nullable = false)
+    private User author;
 
     public Idea() {}
 
-    public Idea(String title, String text, Status status, LocalDateTime date) {
+    public Idea(String title, String text, Status status, LocalDateTime createdDate, User author) {
         this.title = title;
         this.text = text;
         this.status = status;
-        this.date = date;
+        this.createdDate = createdDate;
+        this.author = author;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -86,32 +87,28 @@ public class Idea {
         this.looks = looks;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public List<String> getTags() {
+    public Set<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(Set<String> tags) {
         this.tags = tags;
     }
 
-    public List<String> getImages() {
+    public Set<String> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(Set<String> images) {
         this.images = images;
-    }
-
-    public void addImage(String image) {
-        getImages().add(image);
     }
 
     public Map<String, String> getFiles() {
@@ -120,6 +117,18 @@ public class Idea {
 
     public void setFiles(Map<String, String> files) {
         this.files = files;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public void addImage(String image) {
+        getImages().add(image);
     }
 
     public void addFile(String key, String value) {
