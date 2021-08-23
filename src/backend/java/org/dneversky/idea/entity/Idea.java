@@ -1,12 +1,10 @@
 package org.dneversky.idea.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.dneversky.idea.model.Status;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Idea {
@@ -18,24 +16,38 @@ public class Idea {
     private String title;
     private String text;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     private int rating;
     private int looks;
 
-    private LocalDateTime createdDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
 
+    @ElementCollection
+    @CollectionTable(name = "idea_tag", joinColumns = @JoinColumn(name = "idea_id"))
+    @Column(name = "tag", nullable = false)
     private Set<String> tags;
+
+    @ElementCollection
+    @CollectionTable(name = "idea_image", joinColumns = @JoinColumn(name = "idea_id"))
+    @Column(name = "image", nullable = false)
     private Set<String> images;
-    private Map<String, String> files = new HashMap<>();
+
+    @ElementCollection
+    @CollectionTable(name = "idea_file", joinColumns = {@JoinColumn(name = "idea_id")})
+    @MapKeyColumn(name = "file_path")
+    @Column(name = "file_name", nullable = false)
+    private Map<String, String> files;
 
     @ManyToOne
-    @JoinColumn(name = "idea_id", nullable = false)
+    @JoinColumn(name = "idea_id")
     private User author;
 
     public Idea() {}
 
-    public Idea(String title, String text, Status status, LocalDateTime createdDate, User author) {
+    public Idea(String title, String text, Status status, Date createdDate, User author) {
         this.title = title;
         this.text = text;
         this.status = status;
@@ -87,11 +99,11 @@ public class Idea {
         this.looks = looks;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -127,11 +139,21 @@ public class Idea {
         this.author = author;
     }
 
+    public void addTag(String tag) {
+        if(this.tags == null) {
+            this.tags = new HashSet<>();
+        } this.tags.add(tag);
+    }
+
     public void addImage(String image) {
-        getImages().add(image);
+        if(this.images == null) {
+            this.images = new HashSet<>();
+        } this.images.add(image);
     }
 
     public void addFile(String key, String value) {
-        getFiles().put(key, value);
+        if(this.files == null) {
+            this.files = new HashMap<>();
+        } this.files.put(key, value);
     }
 }

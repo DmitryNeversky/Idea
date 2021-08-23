@@ -6,6 +6,7 @@ import org.dneversky.idea.model.Status;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,11 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class IdeaService {
@@ -33,7 +30,6 @@ public class IdeaService {
         this.ideaRepository = ideaRepository;
     }
 
-    @Cacheable(value = "ideasCache")
     public List<Idea> getAll() {
 
         return ideaRepository.findAll();
@@ -48,7 +44,7 @@ public class IdeaService {
     public Idea add(String title, String text, Set<String> tags, List<MultipartFile> images, List<MultipartFile> files, User author) {
         // User requesting
 
-        Idea idea = new Idea(title, text, Status.LOOKING, LocalDateTime.now(), author);
+        Idea idea = new Idea(title, text, Status.LOOKING, new Date(), author);
         if(tags != null)
             idea.setTags(tags);
         if(images != null)

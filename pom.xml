@@ -97,12 +97,12 @@
 <!--      <version>${spring.boot.starter}</version>-->
 <!--    </dependency>-->
 
-<!--    &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-json &ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-starter-json</artifactId>-->
-<!--      <version>${spring.boot.starter}</version>-->
-<!--    </dependency>-->
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-json -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-json</artifactId>
+      <version>${spring.boot.starter}</version>
+    </dependency>
 
 <!--    &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat &ndash;&gt;-->
 <!--    <dependency>-->

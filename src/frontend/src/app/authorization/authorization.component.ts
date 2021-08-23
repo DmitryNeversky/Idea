@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../services/auth.service";
+import {User} from "../models/User";
 
 @Component({
   selector: 'app-authorization',
@@ -10,7 +12,7 @@ export class AuthorizationComponent implements OnInit {
 
   public mainForm: FormGroup;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     this.mainForm = new FormGroup({
@@ -22,6 +24,12 @@ export class AuthorizationComponent implements OnInit {
   auth() {
     if(this.mainForm.invalid)
       return
+
+    let user = new User();
+    user.username = this.mainForm.get('email').value;
+    user.password = this.mainForm.get('password').value;
+
+    this.authService.auth(user);
   }
 
 }

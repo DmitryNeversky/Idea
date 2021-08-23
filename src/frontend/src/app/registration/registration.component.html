@@ -85,7 +85,7 @@
                 </form>
             </mat-step>
             <mat-step state="verified">
-                <form [formGroup]="finalFormGroup">
+                <form [formGroup]="finalFormGroup" (ngSubmit)="registration()">
                     <ng-template matStepLabel>Завершение</ng-template>
                     <div fxLayout="row wrap" class="form-content">
                         <mat-form-field fxFlex="45%" appearance="fill">
@@ -98,7 +98,7 @@
                             <button mat-flat-button color="primary" matStepperPrevious>назад</button>
                         </div>
                         <div class="action">
-                            <button mat-flat-button color="primary" matStepperNext>завершить</button>
+                            <button type="submit" mat-flat-button color="primary" matStepperNext>завершить</button>
                         </div>
                     </div>
                 </form>

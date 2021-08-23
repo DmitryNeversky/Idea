@@ -18,40 +18,42 @@ const routes: Routes = [
         component: HomeComponent,
         data: { animation: 'home' },
         canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'ideas',
-                component: IdeasComponent,
-                data: { animation: 'ideas' },
-                resolve: {
-                    ideas: IdeasResolver
-                },
-            },
-            {
-                path: 'ideas/id/:id',
-                component: IdeaFillComponent,
-                data: { animation: 'idea' },
-                resolve: {
-                    idea: IdeaResolver
-                }
-            },
-            {
-                path: 'ideas/create',
-                component: CreateIdeaComponent,
-                data: { animation: 'idea-create' },
-                resolve: {
-                    tags: TagResolver
-                }
-            },
-            {
-                path: 'ideas/update/:id',
-                component: UpdateIdeaComponent,
-                data: { animation: 'update-idea' },
-                resolve: {
-                    idea: IdeaResolver
-                }
-            }
-        ]
+    },
+    {
+        path: 'ideas',
+        component: IdeasComponent,
+        data: { animation: 'ideas' },
+        canActivate: [AuthGuard],
+        resolve: {
+            ideas: IdeasResolver
+        },
+    },
+    {
+        path: 'ideas/id/:id',
+        component: IdeaFillComponent,
+        data: { animation: 'idea' },
+        canActivate: [AuthGuard],
+        resolve: {
+            idea: IdeaResolver
+        }
+    },
+    {
+        path: 'ideas/create',
+        component: CreateIdeaComponent,
+        data: { animation: 'idea-create' },
+        canActivate: [AuthGuard],
+        resolve: {
+            tags: TagResolver
+        }
+    },
+    {
+        path: 'ideas/update/:id',
+        component: UpdateIdeaComponent,
+        data: { animation: 'update-idea' },
+        canActivate: [AuthGuard],
+        resolve: {
+            idea: IdeaResolver
+        }
     },
     {
         path: 'auth',

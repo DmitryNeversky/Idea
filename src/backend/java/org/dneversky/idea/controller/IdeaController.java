@@ -37,10 +37,9 @@ public class IdeaController {
     public ResponseEntity<Idea> add(@RequestParam String title, @RequestParam String text,
                                     @RequestParam(required = false) Set<String> tags,
                                     @RequestParam(required = false) List<MultipartFile> images,
-                                    @RequestParam(required = false) List<MultipartFile> files,
-                                    User user) {
+                                    @RequestParam(required = false) List<MultipartFile> files) {
 
-        return new ResponseEntity<>(ideaService.add(title, text, tags, images, files, user), HttpStatus.CREATED);
+        return new ResponseEntity<>(ideaService.add(title, text, tags, images, files, new User()), HttpStatus.CREATED);
     }
 
     @PutMapping("/put/{idea}")

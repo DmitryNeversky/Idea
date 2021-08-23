@@ -2,7 +2,7 @@ import {Idea} from "./Idea";
 
 export class User {
     id: number | string;
-    email: string;
+    username: string;
     password: string;
     firstName: string;
     secondName: string;

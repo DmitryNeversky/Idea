@@ -8,6 +8,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.session.data.redis.RedisSessionRepository;
 
 import java.time.Duration;
 
@@ -26,6 +27,12 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
 
         return redisTemplate;
+    }
+
+    @Bean
+    public RedisSessionRepository sessionRepository() {
+
+        return new RedisSessionRepository(redisTemplate());
     }
 
     @Bean
