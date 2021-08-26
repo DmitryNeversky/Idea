@@ -1,5 +1,6 @@
 package org.dneversky.idea.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,12 +9,14 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.session.data.redis.RedisSessionRepository;
 
 import java.time.Duration;
 
 @Configuration
 public class RedisConfig {
+
+    @Value("${ideas.cache.ttl.minutes}")
+    private Integer IDEAS_TTL;
 
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
@@ -30,12 +33,6 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisSessionRepository sessionRepository() {
-
-        return new RedisSessionRepository(redisTemplate());
-    }
-
-    @Bean
     public RedisCacheConfiguration cacheConfiguration() {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(90))
@@ -47,9 +44,7 @@ public class RedisConfig {
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return (builder) -> builder
                 .withCacheConfiguration("ideasCache",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)))
-                .withCacheConfiguration("userCache",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)));
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(IDEAS_TTL)));
     }
 
 }

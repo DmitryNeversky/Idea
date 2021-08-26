@@ -1,11 +1,18 @@
 package org.dneversky.idea.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.*;
 import org.dneversky.idea.model.Status;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 @Entity
 public class Idea {
 
@@ -45,104 +52,12 @@ public class Idea {
     @JoinColumn(name = "idea_id")
     private User author;
 
-    public Idea() {}
-
     public Idea(String title, String text, Status status, Date createdDate, User author) {
         this.title = title;
         this.text = text;
         this.status = status;
         this.createdDate = createdDate;
         this.author = author;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public int getLooks() {
-        return looks;
-    }
-
-    public void setLooks(int looks) {
-        this.looks = looks;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Set<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<String> tags) {
-        this.tags = tags;
-    }
-
-    public Set<String> getImages() {
-        return images;
-    }
-
-    public void setImages(Set<String> images) {
-        this.images = images;
-    }
-
-    public Map<String, String> getFiles() {
-        return files;
-    }
-
-    public void setFiles(Map<String, String> files) {
-        this.files = files;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public void addTag(String tag) {
-        if(this.tags == null) {
-            this.tags = new HashSet<>();
-        } this.tags.add(tag);
     }
 
     public void addImage(String image) {
@@ -155,5 +70,19 @@ public class Idea {
         if(this.files == null) {
             this.files = new HashMap<>();
         } this.files.put(key, value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Idea idea = (Idea) o;
+
+        return Objects.equals(id, idea.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1214633758;
     }
 }

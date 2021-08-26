@@ -1,4 +1,4 @@
-package org.dneversky.idea.controller;
+package org.dneversky.idea.api;
 
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.entity.User;
