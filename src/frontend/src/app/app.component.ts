@@ -39,14 +39,7 @@ export class AppComponent {
     });
 
     sharedService.changeEmitted$.subscribe(() => {
-      let scrollToTop = window.setInterval(() => {
-        let pos = document.getElementById('content').scrollTop;
-        if (pos > 0) {
-          document.getElementById('content').scrollTo(0, pos - 20);
-        } else {
-          window.clearInterval(scrollToTop);
-        }
-      }, 16);
+      this.scrollToTop();
     });
   }
 
@@ -59,6 +52,17 @@ export class AppComponent {
   }
 
   scrollToTop() {
-    window.scrollTo(0, 0);
+    let scrollToTop = window.setInterval(() => {
+      let pos = document.getElementById('content').scrollTop;
+      if (pos > 0) {
+        document.getElementById('content').scrollTo(0, pos - 20);
+      } else {
+        window.clearInterval(scrollToTop);
+      }
+    }, 16);
+  }
+
+  logout() {
+    this.auth.logout();
   }
 }

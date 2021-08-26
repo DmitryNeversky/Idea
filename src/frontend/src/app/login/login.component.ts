@@ -11,6 +11,8 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
+  preloader: boolean = false;
+
   public mainForm: FormGroup;
 
   constructor(private authService: AuthService,
@@ -31,11 +33,14 @@ export class LoginComponent implements OnInit {
     formData.append('username', this.mainForm.get('email').value);
     formData.append('password', this.mainForm.get('password').value);
 
-    console.log("calling a service")
+    this.preloader = true;
 
     this.authService.login(formData).subscribe(() => {
-      console.log("trying navigate...");
+      this.preloader = false;
       this.router.navigate(['/']);
+    }, error => {
+      console.log(error);
+      this.preloader = false;
     });
   }
 

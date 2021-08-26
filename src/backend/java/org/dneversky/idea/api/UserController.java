@@ -10,10 +10,6 @@ import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,10 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -42,9 +38,14 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
-        return ResponseEntity.ok().body(userService.getUserByUsername(username));
+    public ResponseEntity<User> getUser(Principal principal) {
+        return ResponseEntity.ok().body(userService.getUserByUsername(principal.getName()));
     }
+
+//    @GetMapping("/user")
+//    public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
+//        return ResponseEntity.ok().body(userService.getUserByUsername(username));
+//    }
 
     @PostMapping("/registration")
     public ResponseEntity<User> saveUser(@RequestBody User user) {

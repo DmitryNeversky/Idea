@@ -49,6 +49,7 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import { UserComponent } from './user/user.component';
 import {AuthInterceptor} from "./auth.interceptor";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const INTERCEPTOR_PROVIDER: Provider = {
     provide: HTTP_INTERCEPTORS,
@@ -108,6 +109,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
         MatRadioModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatProgressSpinnerModule,
     ],
   providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDER,
           {

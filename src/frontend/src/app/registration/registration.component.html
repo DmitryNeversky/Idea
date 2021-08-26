@@ -8,35 +8,39 @@
                     <ng-template matStepLabel>Личные данные</ng-template>
                     <div fxLayout="row wrap" class="form-content">
                         <mat-form-field fxFlex="45%" appearance="fill">
-                            <mat-label>Имя</mat-label>
+                            <mat-label>имя</mat-label>
                             <input matInput formControlName="firstName">
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
-                            <mat-label>Отчество</mat-label>
+                            <mat-label>отчество</mat-label>
                             <input matInput formControlName="secondName">
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
-                            <mat-label>Фамилия</mat-label>
+                            <mat-label>фамилия</mat-label>
                             <input matInput formControlName="lastName">
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
-                            <mat-label>Телефон</mat-label>
+                            <mat-label>телефон</mat-label>
                             <input type="tel" matInput formControlName="phone">
+                            <mat-icon matSuffix>phone</mat-icon>
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
-                            <mat-label>Дата рождения</mat-label>
-                            <input matInput [matDatepicker]="picker" formControlName="birthday">
+                            <mat-label>дата рождения</mat-label>
+                            <input matInput [matDatepicker]="picker" placeholder="01.01.2001" formControlName="birthday">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
-                            <mat-label>Должность</mat-label>
-                            <input matInput formControlName="post">
+                            <mat-label>должность</mat-label>
+                            <mat-select formControlName="post">
+                                <mat-option value="one">First option</mat-option>
+                                <mat-option value="two">Second option</mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                     <div class="form-actions">
                         <div class="action">
-                            <button mat-flat-button color="primary" disabled matStepperPrevious>назад</button>
+                            <button mat-button color="primary" routerLink="/auth" matStepperPrevious>авторизация</button>
                         </div>
                         <div class="action">
                             <button mat-flat-button color="primary" matStepperNext>далее</button>
@@ -61,7 +65,10 @@
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>пароль</mat-label>
-                            <input type="password" matInput formControlName="password">
+                            <input [type]="hide ? 'password' : 'text'" matInput formControlName="password">
+                            <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
                             <mat-error *ngIf="secondFormGroup.get('password').hasError('required')">заполните поле</mat-error>
                             <mat-error *ngIf="secondFormGroup.get('password').hasError('minlength')">
                                 минимальная длина {{secondFormGroup.get('password').errors.minlength.requiredLength}} символов
@@ -104,5 +111,6 @@
                 </form>
             </mat-step>
         </mat-stepper>
+        <mat-spinner mode="indeterminate" *ngIf="preloader"></mat-spinner>
     </mat-card-content>
 </mat-card>

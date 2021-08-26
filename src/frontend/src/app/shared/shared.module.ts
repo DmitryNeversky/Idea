@@ -17,7 +17,7 @@ import {MatOptionModule} from "@angular/material/core";
     declarations: [
         DialogComponent,
         SnackbarComponent,
-        ChipsComponent
+        ChipsComponent,
     ],
     exports: [
         ChipsComponent

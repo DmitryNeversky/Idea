@@ -12,6 +12,7 @@ import {AuthGuard} from "./auth.guard";
 import {LoginComponent} from "./login/login.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {UserComponent} from "./user/user.component";
+import {UserResolver} from "./shared/resolvers/user.resolver";
 
 const routes: Routes = [
     {
@@ -59,7 +60,10 @@ const routes: Routes = [
     {
         path: 'user',
         component: UserComponent,
-        data: { animation: 'user' }
+        data: { animation: 'user' },
+        resolve: {
+            user: UserResolver
+        }
     },
     {
         path: 'auth',

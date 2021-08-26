@@ -4,9 +4,7 @@ export class User {
     id: number | string;
     username: string;
     password: string;
-    firstName: string;
-    secondName: string;
-    lastName: string;
+    name: string;
     phone: string;
     birthday: Date;
     post: string;
@@ -14,5 +12,4 @@ export class User {
     online: boolean;
     lastVisit: Date;
     registeredDate: Date;
-    secureToke: boolean;
 }

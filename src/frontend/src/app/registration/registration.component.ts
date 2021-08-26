@@ -11,6 +11,9 @@ import {AuthService} from "../services/auth.service";
 })
 export class RegistrationComponent implements OnInit {
 
+  hide: boolean = true;
+  preloader: boolean = false;
+
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   finalFormGroup: FormGroup;
@@ -27,8 +30,7 @@ export class RegistrationComponent implements OnInit {
       secondName: ['', [Validators.maxLength(32), Validators.required]],
       lastName: ['', [Validators.maxLength(32), Validators.required]],
       phone: ['', [Validators.minLength(11), Validators.maxLength(11), Validators.required]],
-      birthday: [new Date(2, 1, 19), [Validators.required]],
-      sex: ['', [Validators.required]],
+      birthday: ['', [Validators.required]],
       post: ['', [Validators.required, Validators.maxLength(64)]]
     });
     this.secondFormGroup = this._formBuilder.group({
@@ -47,8 +49,20 @@ export class RegistrationComponent implements OnInit {
     let user = new User();
     user.username = this.secondFormGroup.get('email').value;
     user.password = this.secondFormGroup.get('password').value;
+    user.name = this.firstFormGroup.get('firstName').value
+        + " " + this.firstFormGroup.get('secondName').value
+        + " " + this.firstFormGroup.get('lastName').value;
+    user.birthday = this.firstFormGroup.get('birthday').value;
+    user.post = this.firstFormGroup.get('post').value;
 
-    this.authService.registration(user).subscribe(x => console.log(x));
+    this.preloader = true;
+
+    this.authService.registration(user).subscribe(() => {
+      this.preloader = false;
+    }, error => {
+      console.log(error);
+      this.preloader = false;
+    });
   }
 
 }

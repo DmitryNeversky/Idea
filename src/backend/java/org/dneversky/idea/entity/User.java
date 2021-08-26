@@ -1,10 +1,12 @@
 package org.dneversky.idea.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,6 +30,8 @@ public class User {
     private String name;
     private String phone;
     private String post;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDate birthday;
     private LocalDate registeredDate;
 
