@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, Provider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
@@ -15,7 +15,7 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {MatCardModule} from "@angular/material/card";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {IdeaService} from "./services/idea.service";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {IdeasComponent} from './ideas/ideas.component';
@@ -41,12 +41,20 @@ import {SizePipe} from './pipes/size.pipe';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {IdeaComponent} from "./idea/idea.component";
 import {RegistrationComponent} from './registration/registration.component';
-import {AuthorizationComponent} from './authorization/authorization.component';
+import {LoginComponent} from './login/login.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
+import { UserComponent } from './user/user.component';
+import {AuthInterceptor} from "./auth.interceptor";
+
+const INTERCEPTOR_PROVIDER: Provider = {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+}
 
 @NgModule({
   declarations: [
@@ -62,7 +70,8 @@ import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
     FilenamePipe,
     SizePipe,
     RegistrationComponent,
-    AuthorizationComponent,
+    LoginComponent,
+    UserComponent,
   ],
     imports: [
         BrowserModule,
@@ -100,7 +109,7 @@ import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
         MatDatepickerModule,
         MatNativeDateModule,
     ],
-  providers: [IdeaService, SharedService,
+  providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDER,
           {
             provide: STEPPER_GLOBAL_OPTIONS,
             useValue: { displayDefaultIndicatorType: false }

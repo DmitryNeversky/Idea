@@ -2,7 +2,7 @@
     <mat-card-title>Вход в систему</mat-card-title>
 
     <mat-card-content>
-        <form fxLayout="column" fxLayoutGap="5%" [formGroup]="mainForm" (ngSubmit)="auth()">
+        <form fxLayout="column" fxLayoutGap="5%" [formGroup]="mainForm" (ngSubmit)="login()">
             <mat-form-field appearance="fill">
                 <mat-label>email</mat-label>
                 <input type="email" matInput placeholder="pat@example.com" formControlName="email">

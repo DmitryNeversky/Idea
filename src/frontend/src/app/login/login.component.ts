@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
 import {User} from "../models/User";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-authorization',
-  templateUrl: './authorization.component.html',
-  styleUrls: ['./authorization.component.css']
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class AuthorizationComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
   public mainForm: FormGroup;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.mainForm = new FormGroup({
@@ -21,15 +23,20 @@ export class AuthorizationComponent implements OnInit {
     });
   }
 
-  auth() {
+  login() {
     if(this.mainForm.invalid)
       return
 
-    let user = new User();
-    user.username = this.mainForm.get('email').value;
-    user.password = this.mainForm.get('password').value;
+    const formData = new FormData();
+    formData.append('username', this.mainForm.get('email').value);
+    formData.append('password', this.mainForm.get('password').value);
 
-    this.authService.auth(user);
+    console.log("calling a service")
+
+    this.authService.login(formData).subscribe(() => {
+      console.log("trying navigate...");
+      this.router.navigate(['/']);
+    });
   }
 
 }

@@ -3,6 +3,7 @@ import {Idea} from "./models/Idea";
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet} from "@angular/router";
 import {routesAnimation} from "./animation/routes-animation";
 import {SharedService} from "./shared/shared.service";
+import {AuthService} from "./services/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
 
   public ideas: Idea[] | undefined;
 
-  constructor(public router: Router, private sharedService: SharedService) {
+  constructor(public router: Router, private sharedService: SharedService, public auth: AuthService) {
     this.router.events.subscribe((event: any) => {
       switch (true) {
         case event instanceof NavigationStart: {

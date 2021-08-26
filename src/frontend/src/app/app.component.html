@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" *ngIf="router.url != '/auth' && router.url != '/registration'">
+<mat-toolbar color="primary">
     <button (click)="togglePanel()" mat-icon-button aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
@@ -37,7 +37,7 @@
 
 <!--navbar-->
 
-<div class="row" fxLayout="row" fxFill *ngIf="router.url != '/auth' && router.url != '/registration'">
+<div class="row" fxLayout="row" fxFill>
     <div *ngIf="!expanded" class="left-panel mat-elevation-z3" fxFlex="column" fxFlex.gt-xs="fit-content" fxHide.xs>
         <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon></button>
         <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon></button>
@@ -50,5 +50,3 @@
         <router-outlet #outlet="outlet"></router-outlet>
     </div>
 </div>
-
-<router-outlet *ngIf="router.url == '/auth' || router.url == '/registration'"></router-outlet>

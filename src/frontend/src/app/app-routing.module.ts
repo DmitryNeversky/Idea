@@ -9,8 +9,9 @@ import {HomeComponent} from "./home/home.component";
 import {TagResolver} from "./shared/resolvers/tag.resolver";
 import {UpdateIdeaComponent} from "./update-idea/update-idea.component";
 import {AuthGuard} from "./auth.guard";
-import {AuthorizationComponent} from "./authorization/authorization.component";
+import {LoginComponent} from "./login/login.component";
 import {RegistrationComponent} from "./registration/registration.component";
+import {UserComponent} from "./user/user.component";
 
 const routes: Routes = [
     {
@@ -56,8 +57,13 @@ const routes: Routes = [
         }
     },
     {
+        path: 'user',
+        component: UserComponent,
+        data: { animation: 'user' }
+    },
+    {
         path: 'auth',
-        component: AuthorizationComponent,
+        component: LoginComponent,
         data: { animation: 'auth' }
     },
     {

@@ -22,19 +22,20 @@
 
   <dependencies>
 
-<!--    &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test &ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-starter-test</artifactId>-->
-<!--      <version>${spring.boot.starter}</version>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>${spring.boot.starter}</version>
+      <scope>test</scope>
+    </dependency>
 
-<!--    <dependency>-->
-<!--      <groupId>org.junit.jupiter</groupId>-->
-<!--      <artifactId>junit-jupiter-api</artifactId>-->
-<!--      <version>5.7.2</version>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.7.2</version>
+      <scope>test</scope>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
     <dependency>
@@ -63,11 +64,11 @@
       <version>3.6.2</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework.session</groupId>
-      <artifactId>spring-session-data-redis</artifactId>
-      <version>${spring.boot.starter}</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.session</groupId>-->
+<!--      <artifactId>spring-session-data-redis</artifactId>-->
+<!--      <version>${spring.boot.starter}</version>-->
+<!--    </dependency>-->
 
     <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
     <dependency>
@@ -88,6 +89,21 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
       <version>${spring.boot.starter}</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
+      <version>3.18.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.20</version>
+      <scope>provided</scope>
     </dependency>
 
     <!--    &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail &ndash;&gt;-->

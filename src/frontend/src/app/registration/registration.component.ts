@@ -48,7 +48,7 @@ export class RegistrationComponent implements OnInit {
     user.username = this.secondFormGroup.get('email').value;
     user.password = this.secondFormGroup.get('password').value;
 
-    this.authService.registration(user);
+    this.authService.registration(user).subscribe(x => console.log(x));
   }
 
 }
