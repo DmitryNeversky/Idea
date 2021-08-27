@@ -1,12 +1,11 @@
 package org.dneversky.idea.service;
 
+import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,19 +15,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class IdeaService {
 
     @Value("${uploadPath}")
     private String uploadPath;
 
     private final IdeaRepository ideaRepository;
-
-    public IdeaService(IdeaRepository ideaRepository) {
-        this.ideaRepository = ideaRepository;
-    }
+    private final UserService userService;
 
     public List<Idea> getAll() {
 
@@ -41,10 +42,9 @@ public class IdeaService {
         return findIdea.orElse(null);
     }
 
-    public Idea add(String title, String text, Set<String> tags, List<MultipartFile> images, List<MultipartFile> files, User author) {
-        // User requesting
+    public Idea add(String title, String text, Set<String> tags, List<MultipartFile> images, List<MultipartFile> files, String username) {
 
-        Idea idea = new Idea(title, text, Status.LOOKING, new Date(), author);
+        Idea idea = new Idea(title, text, Status.LOOKING, LocalDate.now(), userService.getUserByUsername(username));
         if(tags != null)
             idea.setTags(tags);
         if(images != null)

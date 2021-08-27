@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class AuthService {
 
-  apiBaseUrl: string = environment.apiBaseUrl;
+  private apiBaseUrl: string = environment.apiBaseUrl;
 
   constructor(private httpClient: HttpClient,
               private router: Router) {}
@@ -19,15 +19,15 @@ export class AuthService {
   login(formData: FormData): Observable<any> {
     return this.httpClient.post<any>(`${this.apiBaseUrl}/api/login`, formData)
         .pipe(
-          tap(x => {
-            localStorage.setItem('access_token', x['access_token']);
-            localStorage.setItem('refresh_token', x['refresh_token']);
+          tap(response => {
+            localStorage.setItem('access_token', response['access_token']);
+            localStorage.setItem('refresh_token', response['refresh_token']);
           })
         );
   }
 
   registration(user: User): Observable<User> {
-    return this.httpClient.post<User>(`${this.apiBaseUrl}/api/registration`, user);
+    return this.httpClient.post<User>(`${this.apiBaseUrl}/api/user/save`, user);
   }
 
   logout(): void {

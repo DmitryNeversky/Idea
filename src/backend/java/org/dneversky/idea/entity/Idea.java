@@ -1,58 +1,73 @@
 package org.dneversky.idea.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.dneversky.idea.model.Status;
-import org.hibernate.Hibernate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 @Entity
 public class Idea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
+    @NotNull
+    @Size(min = 8, max = 256)
     private String title;
+
+    @NotNull
+    @Size(min = 256, max = 32768)
+    @Lob
     private String text;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private int rating;
-    private int looks;
+    @NotNull
+    private int rating = 0;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    @NotNull
+    private int looks = 0;
 
-    @ElementCollection
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate createdDate;
+
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_tag", joinColumns = @JoinColumn(name = "idea_id"))
-    @Column(name = "tag", nullable = false)
     private Set<String> tags;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_image", joinColumns = @JoinColumn(name = "idea_id"))
-    @Column(name = "image", nullable = false)
     private Set<String> images;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_file", joinColumns = {@JoinColumn(name = "idea_id")})
     @MapKeyColumn(name = "file_path")
-    @Column(name = "file_name", nullable = false)
     private Map<String, String> files;
 
-    @ManyToOne
-    @JoinColumn(name = "idea_id")
+    @ManyToOne(cascade = CascadeType.DETACH)
     private User author;
 
-    public Idea(String title, String text, Status status, Date createdDate, User author) {
+    public Idea(String title, String text, Status status, LocalDate createdDate, User author) {
         this.title = title;
         this.text = text;
         this.status = status;
@@ -70,19 +85,5 @@ public class Idea {
         if(this.files == null) {
             this.files = new HashMap<>();
         } this.files.put(key, value);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Idea idea = (Idea) o;
-
-        return Objects.equals(id, idea.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 1214633758;
     }
 }

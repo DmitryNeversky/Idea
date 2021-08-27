@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {StepperOrientation} from "@angular/cdk/stepper";
 import {User} from "../models/User";
 import {AuthService} from "../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registration',
@@ -20,7 +21,8 @@ export class RegistrationComponent implements OnInit {
   orientation: StepperOrientation = "horizontal";
 
   constructor(private _formBuilder: FormBuilder,
-              private authService: AuthService) {}
+              private authService: AuthService,
+              private router: Router) {}
 
   ngOnInit() {
     if(window.screen.width <= 600) this.orientation = "vertical";
@@ -31,7 +33,7 @@ export class RegistrationComponent implements OnInit {
       lastName: ['', [Validators.maxLength(32), Validators.required]],
       phone: ['', [Validators.minLength(11), Validators.maxLength(11), Validators.required]],
       birthday: ['', [Validators.required]],
-      post: ['', [Validators.required, Validators.maxLength(64)]]
+      post: ['', [Validators.required, Validators.maxLength(96)]]
     });
     this.secondFormGroup = this._formBuilder.group({
       email: ['', [Validators.email, Validators.maxLength(64), Validators.required]],
@@ -43,7 +45,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   registration() {
-    if(this.secondFormGroup.invalid)
+    if(this.firstFormGroup.invalid || this.secondFormGroup.invalid)
       return
 
     let user = new User();
@@ -52,13 +54,15 @@ export class RegistrationComponent implements OnInit {
     user.name = this.firstFormGroup.get('firstName').value
         + " " + this.firstFormGroup.get('secondName').value
         + " " + this.firstFormGroup.get('lastName').value;
-    user.birthday = this.firstFormGroup.get('birthday').value;
+    user.phone = this.firstFormGroup.get('phone').value;
+    user.birthday = new Date(this.firstFormGroup.get('birthday').value).toLocaleDateString(); // need format
     user.post = this.firstFormGroup.get('post').value;
 
     this.preloader = true;
 
     this.authService.registration(user).subscribe(() => {
       this.preloader = false;
+      this.router.navigate(['/auth']);
     }, error => {
       console.log(error);
       this.preloader = false;

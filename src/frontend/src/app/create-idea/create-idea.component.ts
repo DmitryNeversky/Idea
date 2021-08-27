@@ -22,7 +22,7 @@ export class CreateIdeaComponent implements OnInit{
 
   public mainForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.minLength(8), Validators.maxLength(256), Validators.required]),
-    text: new FormControl('', [Validators.minLength(64), Validators.maxLength(32768), Validators.required]),
+    text: new FormControl('', [Validators.minLength(256), Validators.maxLength(32768), Validators.required]),
   });
 
   constructor(private ideaService: IdeaService,

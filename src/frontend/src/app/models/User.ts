@@ -6,7 +6,7 @@ export class User {
     password: string;
     name: string;
     phone: string;
-    birthday: Date;
+    birthday: string;
     post: string;
     ideas: Idea[];
     online: boolean;

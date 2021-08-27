@@ -3,7 +3,6 @@ package org.dneversky.idea.config;
 import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.filter.CustomAuthenticationFilter;
 import org.dneversky.idea.filter.CustomAuthorizationFilter;
-import org.dneversky.idea.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -40,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/api/token/refresh", "/api/registration").permitAll();
+        http.authorizeRequests().antMatchers("/api/token/refresh", "/api/user/save").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(filter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

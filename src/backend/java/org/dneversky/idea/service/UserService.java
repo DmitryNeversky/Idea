@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,7 +61,14 @@ public class UserService implements UserDetailsService {
             return null;
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRegisteredDate(LocalDate.now());
         return userRepository.save(user);
+    }
+
+    public void deleteUser(User user) {
+        // delete avatar
+        log.info("Deleting user {}", user.getUsername());
+        userRepository.delete(user);
     }
 
     public List<Role> getRoles() {
@@ -80,6 +88,17 @@ public class UserService implements UserDetailsService {
             return null;
         }
         return roleRepository.save(role);
+    }
+
+    public void deleteRole(Role role) {
+        log.info("Deleting role {}", role.getName());
+        userRepository.findAll().forEach(u -> {
+            if(u.getRoles().contains(role)) {
+                u.getRoles().remove(role);
+                userRepository.save(u);
+            }
+        });
+        roleRepository.delete(role);
     }
 
     public void addRoleToUser(String username, String roleName) {
