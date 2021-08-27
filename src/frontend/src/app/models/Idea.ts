@@ -7,15 +7,11 @@ export class Idea {
     status: string;
     rating: number;
     looks: number;
-    author: User;
-    date: Date;
+    createdDate: Date;
     tags: string[];
     images: string[];
     files: Map<string, string>;
-
-    constructor(title: string, text: string, status: string) {
-        this.title = title;
-        this.text = text;
-        this.status = status;
-    }
+    author: User;
+    removeImages: string[];
+    removeFiles: string[];
 }

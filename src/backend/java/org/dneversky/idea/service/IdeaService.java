@@ -1,8 +1,8 @@
 package org.dneversky.idea.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Idea;
-import org.dneversky.idea.entity.User;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,14 +19,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class IdeaService {
 
     @Value("${uploadPath}")
-    private String uploadPath;
+    private String UPLOAD_PATH;
 
     private final IdeaRepository ideaRepository;
     private final UserService userService;
@@ -42,54 +42,22 @@ public class IdeaService {
         return findIdea.orElse(null);
     }
 
-    public Idea add(String title, String text, Set<String> tags, List<MultipartFile> images, List<MultipartFile> files, String username) {
+    public Idea add(Idea idea, List<MultipartFile> addImages, List<MultipartFile> addFiles, String username) {
 
-        Idea idea = new Idea(title, text, Status.LOOKING, LocalDate.now(), userService.getUserByUsername(username));
-        if(tags != null)
-            idea.setTags(tags);
-        if(images != null)
-            uploadImages(idea, images);
-        if(files != null)
-            uploadFiles(idea, files);
+        idea.setStatus(Status.LOOKING);
+        idea.setCreatedDate(LocalDate.now());
+        idea.setAuthor(userService.getUserByUsername(username));
+
+        uploadImages(idea, addImages);
+        uploadFiles(idea, addFiles);
 
         return ideaRepository.save(idea);
     }
 
-    public Idea put(Idea idea, String title, String text, Set<String> tags, List<MultipartFile> addImages,
-                         List<String> removeImages, List<MultipartFile> addFiles, List<String> removeFiles) {
-        Optional<Idea> findIdea = ideaRepository.findById(idea.getId());
-        if(!findIdea.isPresent())
-            return null;
+    public Idea put(Idea idea, List<MultipartFile> addImages, List<MultipartFile> addFiles) {
 
-        idea.setTitle(title);
-        idea.setText(text);
-        idea.setTags(tags);
-
-        if (removeImages != null) {
-            removeImages.forEach(x -> {
-                if (Files.exists(Paths.get(uploadPath + "images/" + x))) {
-                    try {
-                        Files.delete(Paths.get(uploadPath + "images/" + x));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                idea.getImages().remove(x);
-            });
-        }
-
-        if (removeFiles != null) {
-            removeFiles.forEach(x -> {
-                if (Files.exists(Paths.get(uploadPath + "files/" + x))) {
-                    try {
-                        Files.delete(Paths.get(uploadPath + "files/" + x));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                idea.getFiles().remove(x);
-            });
-        }
+        removeImages(idea);
+        removeFiles(idea);
 
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
@@ -102,67 +70,69 @@ public class IdeaService {
         if(findIdea.isPresent())
             ideaRepository.delete(idea);
 
-        if (idea.getImages() != null) {
-            for (String pair : idea.getImages()) {
-                if (Files.exists(Paths.get(uploadPath + "images/" + pair))) {
-                    try {
-                        Files.delete(Paths.get(uploadPath + "images/" + pair));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        if (idea.getFiles() != null) {
-            for (String pair : idea.getFiles().keySet()) {
-                if (Files.exists(Paths.get(uploadPath + "files/" + pair))) {
-                    try {
-                        Files.delete(Paths.get(uploadPath + "files/" + pair));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
+        removeImages(idea);
+        removeFiles(idea);
     }
 
-    private void uploadImages(Idea idea, List<MultipartFile> images) {
-        if (images != null) {
-            for (MultipartFile pair : images) {
+    private void uploadImages(Idea idea, List<MultipartFile> addImages) {
+        if (addImages != null) {
+            for (MultipartFile pair : addImages) {
                 if (Objects.requireNonNull(pair.getOriginalFilename()).isEmpty())
                     continue;
-
                 String fileName = java.util.UUID.randomUUID() + "_"
                         + StringUtils.cleanPath(Objects.requireNonNull(pair.getOriginalFilename()));
-
                 try {
-                    Path path = Paths.get(uploadPath + "/images/" + fileName);
+                    Path path = Paths.get(UPLOAD_PATH + "/images/" + fileName);
                     Files.copy(pair.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                     idea.addImage(fileName);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("Uploading idea's images error: {}", e.getMessage());
                 }
             }
         }
     }
 
-    public void uploadFiles(Idea idea, List<MultipartFile> files){
-
-        if(files != null) {
-            for (MultipartFile pair : files) {
+    private void uploadFiles(Idea idea, List<MultipartFile> addFiles){
+        if(addFiles != null) {
+            for (MultipartFile pair : addFiles) {
                 if (Objects.requireNonNull(pair.getOriginalFilename()).isEmpty())
                     continue;
-
                 String fileName = java.util.UUID.randomUUID() + "_"
                         + StringUtils.cleanPath(Objects.requireNonNull(pair.getOriginalFilename()));
-
                 try {
-                    Path path = Paths.get(uploadPath + "files/" + fileName);
+                    Path path = Paths.get(UPLOAD_PATH + "files/" + fileName);
                     Files.copy(pair.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                     idea.addFile(fileName, pair.getOriginalFilename());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("Uploading idea's files error: {}", e.getMessage());
+                }
+            }
+        }
+    }
+
+    private void removeImages(Idea idea) {
+        if (idea.getImages() != null) {
+            for (String pair : idea.getImages()) {
+                if (Files.exists(Paths.get(UPLOAD_PATH + "images/" + pair))) {
+                    try {
+                        Files.delete(Paths.get(UPLOAD_PATH + "images/" + pair));
+                    } catch (IOException e) {
+                        log.error("Removing idea's images error: {}", e.getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    private void removeFiles(Idea idea) {
+        if (idea.getFiles() != null) {
+            for (String pair : idea.getFiles().keySet()) {
+                if (Files.exists(Paths.get(UPLOAD_PATH + "files/" + pair))) {
+                    try {
+                        Files.delete(Paths.get(UPLOAD_PATH + "files/" + pair));
+                    } catch (IOException e) {
+                        log.error("Removing idea's files error: {}", e.getMessage());
+                    }
                 }
             }
         }

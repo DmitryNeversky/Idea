@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.Set;
 
-@RequestMapping("tags")
+@RequestMapping("api")
 @RestController
 public class TagController {
 
@@ -24,7 +24,7 @@ public class TagController {
         this.redisTemplate = redisTemplate;
     }
 
-    @GetMapping
+    @GetMapping("/tags")
     public ResponseEntity<Set<String>> getAll() {
         setOperations.add("tags", "Banana");
         return new ResponseEntity<>(setOperations.members("tags"), HttpStatus.OK);

@@ -38,34 +38,35 @@ export class CreateIdeaComponent implements OnInit{
     if(this.mainForm.invalid)
       return
 
-    let formData = new FormData();
+    let idea: Idea = new Idea();
 
-    formData.append('title', this.mainForm.get('title').value);
-    formData.append('text', this.mainForm.get('text').value);
-    this.tags.forEach(t => formData.append('tags', t));
+    idea.title = this.mainForm.get('title').value;
+    idea.text = this.mainForm.get('text').value;
+    idea.tags = this.tags;
+
+    const formData = new FormData();
+
     for(let i = 0; i < this.imagesLoader.dataTransfer.files.length; i++)
-      formData.append('images', this.imagesLoader.dataTransfer.files[i]);
+      formData.append('addImages', this.imagesLoader.dataTransfer.files[i]);
     for (let i = 0; i < this.filesLoader.dataTransfer.files.length; i++)
-      formData.append("files", this.filesLoader.dataTransfer.files[i])
+      formData.append('addFiles', this.filesLoader.dataTransfer.files[i])
 
-    this.ideaService.add(formData).subscribe((response: Idea) => {
-      this.router.navigateByUrl('ideas');
+    this.ideaService.add(idea, formData).subscribe((response: Idea) => {
+      console.log(response);
+      this.router.navigate(['ideas']);
       this._snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,
         horizontalPosition: "start",
         data: "Идея успешно создана!"
       });
     }, error => {
+      console.log(error);
       this._snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,
         horizontalPosition: "start",
         data: "Произошла ошибка, попробуйте позже."
       });
     });
-  }
-
-  save() {
-
   }
 
   setTags(tags: any) {

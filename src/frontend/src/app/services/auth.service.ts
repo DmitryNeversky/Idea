@@ -17,7 +17,7 @@ export class AuthService {
               private router: Router) {}
 
   login(formData: FormData): Observable<any> {
-    return this.httpClient.post<any>(`${this.apiBaseUrl}/api/login`, formData)
+    return this.httpClient.post<any>(`${this.apiBaseUrl}/login`, formData)
         .pipe(
           tap(response => {
             localStorage.setItem('access_token', response['access_token']);
@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   registration(user: User): Observable<User> {
-    return this.httpClient.post<User>(`${this.apiBaseUrl}/api/user/save`, user);
+    return this.httpClient.post<User>(`${this.apiBaseUrl}/user/save`, user);
   }
 
   logout(): void {

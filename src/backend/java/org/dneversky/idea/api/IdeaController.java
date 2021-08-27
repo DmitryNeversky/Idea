@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 @RequestMapping("api")
 @RestController
@@ -34,24 +34,20 @@ public class IdeaController {
     }
 
     @PostMapping("/idea/save")
-    public ResponseEntity<Idea> saveIdea(@RequestParam String title, @RequestParam String text,
-                                    @RequestParam(required = false) Set<String> tags,
-                                    @RequestParam(required = false) List<MultipartFile> images,
-                                    @RequestParam(required = false) List<MultipartFile> files,
-                                    Principal principal) {
+    public ResponseEntity<Idea> saveIdea(@RequestPart("idea") @Valid Idea idea,
+                                         @RequestPart("addImages") List<MultipartFile> addImages,
+                                         @RequestPart("addFiles") List<MultipartFile> addFiles,
+                                         Principal principal) {
 
-        return new ResponseEntity<>(ideaService.add(title, text, tags, images, files, principal.getName()), HttpStatus.CREATED);
+        return new ResponseEntity<>(ideaService.add(idea, addImages, addFiles, principal.getName()), HttpStatus.CREATED);
     }
 
-    @PutMapping("/idea/put/{idea}")
-    public ResponseEntity<Idea> putIdea(@PathVariable Idea idea, @RequestParam String title,
-                                         @RequestParam String text, @RequestParam(required = false) Set<String> tags,
-                                         @RequestParam(required = false) List<MultipartFile> addImages,
-                                         @RequestParam(required = false) List<String> removeImages,
-                                         @RequestParam(required = false) List<MultipartFile> addFiles,
-                                         @RequestParam(required = false) List<String> removeFiles) {
+    @PutMapping("/idea/put")
+    public ResponseEntity<Idea> putIdea(@RequestPart("idea") @Valid Idea idea,
+                                        @RequestPart("addImages") List<MultipartFile> addImages,
+                                        @RequestPart("addFiles") List<MultipartFile> addFiles) {
 
-        return new ResponseEntity<>(ideaService.put(idea, title, text, tags, addImages, removeImages, addFiles, removeFiles), HttpStatus.OK);
+        return new ResponseEntity<>(ideaService.put(idea, addImages, addFiles), HttpStatus.OK);
     }
 
     @DeleteMapping("/idea/delete/{idea}")

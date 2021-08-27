@@ -137,9 +137,9 @@ export class IdeasComponent implements OnInit {
         break;
       case 4:
         this.filteredIdeas = this.filteredIdeas.sort((a, b) => {
-          if (b.date > a.date)
+          if (b.createdDate > a.createdDate)
             return 1
-          else if (b.date < a.date)
+          else if (b.createdDate < a.createdDate)
             return -1
           else return 0
         });

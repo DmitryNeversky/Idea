@@ -1,50 +1,46 @@
 package org.dneversky.idea.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.dneversky.idea.model.Status;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Idea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
-    @Size(min = 8, max = 256)
+    @NotNull(message = "Title can not be null")
+    @Size(min = 8, max = 256, message = "Title's size is: min 8 max 256")
     private String title;
 
-    @NotNull
-    @Size(min = 256, max = 32768)
     @Lob
+    @NotNull(message = "Text can not be null")
+    @Size(min = 256, max = 32768, message = "Text's size is: min 256 max 32768")
     private String text;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @NotNull
     private int rating = 0;
-
-    @NotNull
     private int looks = 0;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -64,8 +60,13 @@ public class Idea {
     @MapKeyColumn(name = "file_path")
     private Map<String, String> files;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private User author;
+
+    @Transient
+    private List<String> removeImages;
+    @Transient
+    private List<String> removeFiles;
 
     public Idea(String title, String text, Status status, LocalDate createdDate, User author) {
         this.title = title;

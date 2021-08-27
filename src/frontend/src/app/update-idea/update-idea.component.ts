@@ -45,20 +45,21 @@ export class UpdateIdeaComponent implements OnInit {
     if(this.mainForm.invalid)
       return
 
-    let formData = new FormData();
+    const formData = new FormData();
 
-    formData.append('title', this.mainForm.get('title').value);
-    formData.append('text', this.mainForm.get('text').value);
-    this.tags.forEach(t => formData.append('tags', t));
-    this.imagesLoader.removeImagesList.forEach(x => formData.append('removeImages', x));
+    this.idea.title = this.mainForm.get('title').value;
+    this.idea.text = this.mainForm.get('text').value;
+    this.tags.forEach(t => this.idea.tags.push(t));
+    this.imagesLoader.removeImagesList.forEach(x => this.idea.removeImages.push(x));
     for (let i = 0; i < this.imagesLoader.dataTransfer.files.length; i++)
       formData.append('addImages', this.imagesLoader.dataTransfer.files[i]);
-    this.filesLoader.removeFilesList.forEach(x => formData.append('removeFiles', x));
+    this.filesLoader.removeFilesList.forEach(x => this.idea.removeFiles.push(x));
     for (let i = 0; i < this.filesLoader.dataTransfer.files.length; i++)
-      formData.append("addFiles", this.filesLoader.dataTransfer.files[i])
+      formData.append('addFiles', this.filesLoader.dataTransfer.files[i])
 
-    this.ideaService.put(formData, this.idea.id).subscribe((response: Idea) => {
-      this.router.navigateByUrl('ideas');
+    this.ideaService.put(this.idea, formData).subscribe((response: Idea) => {
+      console.log(response)
+      this.router.navigate(['ideas']);
       this._snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,
         horizontalPosition: "start",
