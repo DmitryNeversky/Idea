@@ -1,10 +1,8 @@
 package org.dneversky.idea.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,11 +12,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -62,23 +63,10 @@ public class User {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate registeredDate;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = {
-            CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST
-    })
-    private Set<Idea> ideas;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "author", cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    private List<Idea> ideas = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
-
-    public User(String username, String password, Set<Role> roles) {
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-    }
-
-    public void addIdea(Idea idea) {
-        if(this.ideas == null) {
-            this.ideas = new HashSet<>();
-        } this.ideas.add(idea);
-    }
 }

@@ -3,6 +3,7 @@ package org.dneversky.idea.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Idea;
+import org.dneversky.idea.entity.User;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,10 +47,10 @@ public class IdeaService {
 
         idea.setStatus(Status.LOOKING);
         idea.setCreatedDate(LocalDate.now());
-        idea.setAuthor(userService.getUserByUsername(username));
-
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
+
+        idea.setAuthor(userService.getUserByUsername(username));
 
         return ideaRepository.save(idea);
     }

@@ -1,14 +1,10 @@
 package org.dneversky.idea.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.dneversky.idea.model.Status;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,12 +12,12 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Idea {
 
     @Id
@@ -49,18 +45,20 @@ public class Idea {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_tag", joinColumns = @JoinColumn(name = "idea_id"))
-    private Set<String> tags;
+    private Set<String> tags = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_image", joinColumns = @JoinColumn(name = "idea_id"))
-    private Set<String> images;
+    private Set<String> images = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_file", joinColumns = {@JoinColumn(name = "idea_id")})
     @MapKeyColumn(name = "file_path")
-    private Map<String, String> files;
+    private Map<String, String> files = new HashMap<>();
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JsonBackReference
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_idea", joinColumns = @JoinColumn(name = "idea_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private User author;
 
     @Transient
