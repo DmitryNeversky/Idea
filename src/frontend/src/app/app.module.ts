@@ -51,11 +51,18 @@ import { UserComponent } from './user/user.component';
 import {AuthInterceptor} from "./auth.interceptor";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
-const INTERCEPTOR_PROVIDER: Provider = {
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptor,
-    multi: true
-}
+const INTERCEPTOR_PROVIDERS: Provider[] = [
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true
+    },
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true
+    },
+]
 
 @NgModule({
   declarations: [
@@ -111,7 +118,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
         MatNativeDateModule,
         MatProgressSpinnerModule,
     ],
-  providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDER,
+  providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDERS,
           {
             provide: STEPPER_GLOBAL_OPTIONS,
             useValue: { displayDefaultIndicatorType: false }

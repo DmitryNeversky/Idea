@@ -35,8 +35,8 @@ public class IdeaController {
 
     @PostMapping("/idea/save")
     public ResponseEntity<Idea> saveIdea(@RequestPart("idea") @Valid Idea idea,
-                                         @RequestPart("addImages") List<MultipartFile> addImages,
-                                         @RequestPart("addFiles") List<MultipartFile> addFiles,
+                                         @RequestPart(required = false) List<MultipartFile> addImages,
+                                         @RequestPart(required = false) List<MultipartFile> addFiles,
                                          Principal principal) {
 
         return new ResponseEntity<>(ideaService.add(idea, addImages, addFiles, principal.getName()), HttpStatus.CREATED);
