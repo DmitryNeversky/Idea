@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.dneversky.idea.PropertiesLoader;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,8 +28,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final Integer ACCESS_EXPIRE_MINUTES = 10;
-    private final Integer REFRESH_EXPIRE_MINUTES = 30;
+    private Integer ACCESS_EXPIRE_MINUTES;
+    private Integer REFRESH_EXPIRE_MINUTES;
 
     private final AuthenticationManager authenticationManager;
 
@@ -36,13 +37,30 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         this.authenticationManager = authenticationManager;
     }
 
+    {
+        try {
+            ACCESS_EXPIRE_MINUTES = Integer.parseInt(PropertiesLoader
+                    .loadProperties("application.properties")
+                    .getProperty("token.access.expiration.minutes"));
+        } catch (IOException e) {
+            log.warn("Unsuccessfully loaded property, error: {}", e.getMessage());
+            ACCESS_EXPIRE_MINUTES = 30;
+        }
+        try {
+            REFRESH_EXPIRE_MINUTES = Integer.parseInt(PropertiesLoader
+                    .loadProperties("application.properties")
+                    .getProperty("token.refresh.expiration.minutes"));
+        } catch (IOException e) {
+            log.warn("Unsuccessfully loaded property, error: {}", e.getMessage());
+            REFRESH_EXPIRE_MINUTES = 1440;
+        }
+    }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.info("Try attempt authentication...");
+        log.info("Attempting authentication...");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        log.info("Username is {}", username);
-        log.info("Password is {}", password);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         return authenticationManager.authenticate(authenticationToken);
     }

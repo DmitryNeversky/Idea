@@ -41,4 +41,5 @@ mat-card-title, mat-card-footer {
 
 mat-card-content {
     margin: 0;
+    word-break: break-word;
 }
