@@ -12,4 +12,5 @@ export class User {
     online: boolean;
     lastVisit: Date;
     registeredDate: Date;
+    // ratedIdeas: Idea[];
 }

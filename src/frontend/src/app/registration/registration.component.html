@@ -9,26 +9,44 @@
                     <div fxLayout="row wrap" class="form-content">
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>имя</mat-label>
-                            <input matInput formControlName="firstName">
+                            <input matInput pattern="[a-zA-Z]*" formControlName="firstName">
+                            <mat-error *ngIf="firstFormGroup.get('firstName').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('firstName').hasError('pattern')">некорректно введены данные</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('firstName').hasError('maxlength')">
+                                максимальная длина {{firstFormGroup.get('firstName').errors.maxlength.requiredLength}} символов
+                                (сейчас {{firstFormGroup.get('firstName').errors.maxlength.actualLength}})</mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>отчество</mat-label>
-                            <input matInput formControlName="secondName">
+                            <input matInput pattern="[a-zA-Z]*" formControlName="secondName">
+                            <mat-error *ngIf="firstFormGroup.get('secondName').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('secondName').hasError('pattern')">некорректно введены данные</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('secondName').hasError('maxlength')">
+                                максимальная длина {{firstFormGroup.get('secondName').errors.maxlength.requiredLength}} символов
+                                (сейчас {{firstFormGroup.get('secondName').errors.maxlength.actualLength}})</mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>фамилия</mat-label>
-                            <input matInput formControlName="lastName">
+                            <input matInput pattern="[a-zA-Z]*" formControlName="lastName">
+                            <mat-error *ngIf="firstFormGroup.get('lastName').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('lastName').hasError('pattern')">некорректно введены данные</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('lastName').hasError('maxlength')">
+                                максимальная длина {{firstFormGroup.get('lastName').errors.maxlength.requiredLength}} символов
+                                (сейчас {{firstFormGroup.get('lastName').errors.maxlength.actualLength}})</mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>телефон</mat-label>
-                            <input type="tel" matInput formControlName="phone">
+                            <input type="tel" prefix="+7" mask=" (000) 000-00-00" matInput formControlName="phone">
                             <mat-icon matSuffix>phone</mat-icon>
+                            <mat-error *ngIf="firstFormGroup.get('phone').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('phone').hasError('maxlength')">некорректно введены данные</mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>дата рождения</mat-label>
-                            <input matInput [matDatepicker]="picker" placeholder="01.01.2001" formControlName="birthday">
+                            <input matInput [matDatepicker]="picker" placeholder="01/01/2001" formControlName="birthday">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="firstFormGroup.get('birthday').hasError('required')">укажите дату рождения</mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>должность</mat-label>
@@ -36,6 +54,7 @@
                                 <mat-option value="one">First option</mat-option>
                                 <mat-option value="two">Second option</mat-option>
                             </mat-select>
+                            <mat-error *ngIf="firstFormGroup.get('post').hasError('required')">укажите должность</mat-error>
                         </mat-form-field>
                     </div>
                     <div class="form-actions">
@@ -61,7 +80,6 @@
                                 максимальная длина {{secondFormGroup.get('email').errors.maxlength.requiredLength}} символов
                                 (сейчас {{secondFormGroup.get('email').errors.maxlength.actualLength}})
                             </mat-error>
-                            <mat-hint *ngIf="secondFormGroup.get('email').valid">теперь всё правильно!</mat-hint>
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>пароль</mat-label>
@@ -78,7 +96,6 @@
                                 максимальная длина {{secondFormGroup.get('password').errors.maxlength.requiredLength}} символов
                                 (сейчас {{secondFormGroup.get('password').errors.maxlength.actualLength}})
                             </mat-error>
-                            <mat-hint *ngIf="secondFormGroup.get('password').valid">теперь всё правильно!</mat-hint>
                         </mat-form-field>
                     </div>
                     <div class="form-actions">

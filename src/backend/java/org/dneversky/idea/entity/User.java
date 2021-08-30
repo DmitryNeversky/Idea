@@ -7,10 +7,7 @@ import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,6 +38,8 @@ public class User {
     @Lob
     private String password;
 
+    // Need a composition _ Profile
+
     @NotNull(message = "Name can not be null")
     @Size(min = 6, max = 96, message = "Name's size is: min 6 max 96")
     private String name;
@@ -54,6 +53,14 @@ public class User {
     @Size(max = 96, message = "Post size is: min 0 max 96")
     private String post;
 
+    @Size(min = 14, max = 100)
+    private int age;
+
+    @Max(value = 255, message = "About size is: min 0 max 255")
+    private String about;
+
+    private String avatarPath;
+
     @NotNull(message = "Birthday can not be null")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "dd.MM.yyyy")
@@ -64,9 +71,22 @@ public class User {
     private LocalDate registeredDate;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "author", cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY)
     private List<Idea> ideas = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
+//
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    private Set<Idea> ratedIdeas = new HashSet<>();
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

@@ -45,11 +45,13 @@ import {LoginComponent} from './login/login.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import {UserComponent} from './user/user.component';
 import {AuthInterceptor} from "./auth.interceptor";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { UserIdeasComponent } from './user-ideas/user-ideas.component';
+import {NgxMaskModule} from "ngx-mask";
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -75,6 +77,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     RegistrationComponent,
     LoginComponent,
     UserComponent,
+    UserIdeasComponent,
   ],
     imports: [
         BrowserModule,
@@ -112,11 +115,16 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
         MatDatepickerModule,
         MatNativeDateModule,
         MatProgressSpinnerModule,
+        NgxMaskModule.forRoot(),
     ],
   providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDERS,
           {
             provide: STEPPER_GLOBAL_OPTIONS,
             useValue: { displayDefaultIndicatorType: false }
+          },
+          {
+              provide: MAT_DATE_LOCALE,
+              useValue: 'en-GB',
           }
       ],
   bootstrap: [AppComponent]

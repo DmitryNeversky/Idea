@@ -12,21 +12,15 @@
                     максимальная длина {{mainForm.get('email').errors.maxlength.requiredLength}} символов
                     (сейчас {{mainForm.get('email').errors.maxlength.actualLength}})
                 </mat-error>
-                <mat-hint *ngIf="mainForm.get('email').valid">теперь всё правильно!</mat-hint>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>пароль</mat-label>
                 <input type="password" matInput formControlName="password">
                 <mat-error *ngIf="mainForm.get('password').hasError('required')">заполните поле</mat-error>
-                <mat-error *ngIf="mainForm.get('password').hasError('minlength')">
-                    минимальная длина {{mainForm.get('password').errors.minlength.requiredLength}} символов
-                    (сейчас {{mainForm.get('password').errors.minlength.actualLength}})
-                </mat-error>
                 <mat-error *ngIf="mainForm.get('password').hasError('maxlength')">
                     максимальная длина {{mainForm.get('password').errors.maxlength.requiredLength}} символов
                     (сейчас {{mainForm.get('password').errors.maxlength.actualLength}})
                 </mat-error>
-                <mat-hint *ngIf="mainForm.get('password').valid">теперь всё правильно!</mat-hint>
             </mat-form-field>
             <div class="form-actions">
                 <div class="action"></div>

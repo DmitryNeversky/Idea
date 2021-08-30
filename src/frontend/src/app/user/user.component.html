@@ -5,9 +5,9 @@
                 <img src="assets/images/word.png" alt="">
             </div>
             <div fxFlex.xs="100%" fxFlex.gt-xs="60%">
-                <p>Сидоров Иван Борисович</p>
-                <p class="silver">sidorov@mail.ru</p>
-                <p><small>Главный управляющий IT отдела</small></p>
+                <p>{{user.name}}</p>
+                <p class="silver">{{user.username}}</p>
+                <p><small>{{user.post}}</small></p>
             </div>
         </mat-card-content>
     </mat-card>
@@ -22,19 +22,19 @@
             <mat-list class="ideas-list">
                 <mat-list-item>
                     <span>Всего</span>
-                    <span>14</span>
+                    <span>{{ideas.length}}</span>
                 </mat-list-item>
                 <mat-list-item>
                     <span>Принято</span>
-                    <span>1</span>
+                    <span>{{acceptedIdeas.length}}</span>
                 </mat-list-item>
                 <mat-list-item>
                     <span>Рассматривается</span>
-                    <span>14</span>
+                    <span>{{lookIdeas.length}}</span>
                 </mat-list-item>
                 <mat-list-item>
                     <span>Отказано</span>
-                    <span>4</span>
+                    <span>{{refusedIdeas.length}}</span>
                 </mat-list-item>
             </mat-list>
         </mat-card-content>

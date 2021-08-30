@@ -4,10 +4,6 @@ mat-card {
     transform: translate(0px, 20%);
 }
 
-mat-hint {
-    color: #39fb48e6;
-}
-
 .form-actions {
     display: flex;
     justify-content: space-between;

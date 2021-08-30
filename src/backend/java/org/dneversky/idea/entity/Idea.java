@@ -61,6 +61,9 @@ public class Idea {
     @JoinTable(name = "user_idea", joinColumns = @JoinColumn(name = "idea_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private User author;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> lookedUsers = new HashSet<>();
+
     @Transient
     private List<String> removeImages;
     @Transient
@@ -84,5 +87,13 @@ public class Idea {
         if(this.files == null) {
             this.files = new HashMap<>();
         } this.files.put(key, value);
+    }
+
+    @Override
+    public String toString() {
+        return "Idea{" +
+                "id=" + id +
+                ", author=" + author +
+                '}';
     }
 }

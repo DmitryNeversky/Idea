@@ -31,7 +31,7 @@ export class RegistrationComponent implements OnInit {
       firstName: ['', [Validators.maxLength(32), Validators.required]],
       secondName: ['', [Validators.maxLength(32), Validators.required]],
       lastName: ['', [Validators.maxLength(32), Validators.required]],
-      phone: ['', [Validators.minLength(11), Validators.maxLength(11), Validators.required]],
+      phone: ['', [Validators.minLength(10), Validators.maxLength(10), Validators.required]],
       birthday: ['', [Validators.required]],
       post: ['', [Validators.required, Validators.maxLength(96)]]
     });
@@ -45,18 +45,26 @@ export class RegistrationComponent implements OnInit {
   }
 
   registration() {
-    if(this.firstFormGroup.invalid || this.secondFormGroup.invalid)
-      return
+    // if(this.firstFormGroup.invalid || this.secondFormGroup.invalid)
+    //   return
+
+    let firstName = this.firstFormGroup.get('firstName').value;
+    firstName = firstName.charAt(0).toUpperCase() + firstName.substr(1).toLowerCase();
+    let secondName = this.firstFormGroup.get('secondName').value;
+    secondName = secondName.charAt(0).toUpperCase() + secondName.substr(1).toLowerCase();
+    let lastName = this.firstFormGroup.get('lastName').value;
+    lastName = lastName.charAt(0).toUpperCase() + lastName.substr(1).toLowerCase();
 
     let user = new User();
     user.username = this.secondFormGroup.get('email').value;
     user.password = this.secondFormGroup.get('password').value;
-    user.name = this.firstFormGroup.get('firstName').value
-        + " " + this.firstFormGroup.get('secondName').value
-        + " " + this.firstFormGroup.get('lastName').value;
+    user.name = firstName + " " + secondName + " " + lastName;
     user.phone = this.firstFormGroup.get('phone').value;
     user.birthday = new Date(this.firstFormGroup.get('birthday').value).toLocaleDateString(); // need format
     user.post = this.firstFormGroup.get('post').value;
+
+    console.log(user);
+    return;
 
     this.preloader = true;
 
