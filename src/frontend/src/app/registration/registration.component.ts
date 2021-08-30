@@ -14,6 +14,7 @@ export class RegistrationComponent implements OnInit {
 
   hide: boolean = true;
   preloader: boolean = false;
+  error: string = "";
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;

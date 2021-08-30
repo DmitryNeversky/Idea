@@ -46,6 +46,11 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUser(@PathVariable int id) {
+        return ResponseEntity.ok().body(userService.getUserById(id));
+    }
+
     @GetMapping("/user")
     public ResponseEntity<User> getUser(Principal principal) {
         return ResponseEntity.ok().body(userService.getUserByUsername(principal.getName()));
@@ -111,8 +116,6 @@ public class UserController {
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
-        } else {
-            throw new RuntimeException("Refresh token is missing");
         }
     }
 }

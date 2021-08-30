@@ -25,6 +25,6 @@
                 <mat-icon matTooltip="Дата создания" class="silver">date_range</mat-icon>
             </div>
         </div>
-        <button class="look" [routerLink]="['/ideas', 'id', idea.id]" mat-raised-button>Смотреть</button>
+        <button class="look" (click)="look()" [routerLink]="['/ideas', 'id', idea.id]" mat-raised-button>Смотреть</button>
     </mat-card-footer>
 </mat-card>

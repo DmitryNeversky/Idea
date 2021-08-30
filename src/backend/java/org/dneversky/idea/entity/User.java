@@ -1,13 +1,15 @@
 package org.dneversky.idea.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,7 +22,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,10 +56,7 @@ public class User {
     @Size(max = 96, message = "Post size is: min 0 max 96")
     private String post;
 
-    @Size(min = 14, max = 100)
-    private int age;
-
-    @Max(value = 255, message = "About size is: min 0 max 255")
+    @Size(max = 255, message = "About size is: min 0 max 255")
     private String about;
 
     private String avatarPath;
@@ -70,23 +70,10 @@ public class User {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate registeredDate;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "author", cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY)
     private List<Idea> ideas = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
-//
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private Set<Idea> ratedIdeas = new HashSet<>();
 
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
 }

@@ -1,7 +1,9 @@
 package org.dneversky.idea.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.dneversky.idea.model.Status;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -18,7 +21,8 @@ import java.util.*;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Idea {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Idea implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +40,8 @@ public class Idea {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private int rating = 0;
-    private int looks = 0;
+    private int rating;
+    private int looks;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -49,20 +53,19 @@ public class Idea {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_image", joinColumns = @JoinColumn(name = "idea_id"))
-    private Set<String> images = new HashSet<>();
+    private Set<String> images;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_file", joinColumns = {@JoinColumn(name = "idea_id")})
     @MapKeyColumn(name = "file_path")
-    private Map<String, String> files = new HashMap<>();
+    private Map<String, String> files;
 
-    @JsonBackReference
     @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_idea", joinColumns = @JoinColumn(name = "idea_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private User author;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> lookedUsers = new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<User> lookedUsers;
 
     @Transient
     private List<String> removeImages;
@@ -87,6 +90,13 @@ public class Idea {
         if(this.files == null) {
             this.files = new HashMap<>();
         } this.files.put(key, value);
+    }
+
+    public void addLook(User user) {
+        if(this.lookedUsers == null) {
+            this.lookedUsers = new HashSet<>();
+        } this.lookedUsers.add(user);
+        this.looks++;
     }
 
     @Override

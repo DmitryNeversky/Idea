@@ -1,7 +1,7 @@
 import {Idea} from "./Idea";
 
 export class User {
-    id: number | string;
+    id: string;
     username: string;
     password: string;
     name: string;
@@ -12,5 +12,4 @@ export class User {
     online: boolean;
     lastVisit: Date;
     registeredDate: Date;
-    // ratedIdeas: Idea[];
 }

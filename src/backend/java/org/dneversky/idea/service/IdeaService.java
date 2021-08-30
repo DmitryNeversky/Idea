@@ -75,6 +75,15 @@ public class IdeaService {
         removeFiles(idea);
     }
 
+    public void addLook(int ideaId, int userId) {
+        Idea idea = ideaRepository.getById(ideaId);
+        User user = userService.getUserById(userId);
+        if(!idea.getLookedUsers().contains(user)) {
+            idea.addLook(userService.getUserById(userId));
+            ideaRepository.save(idea);
+        }
+    }
+
     private void uploadImages(Idea idea, List<MultipartFile> addImages) {
         if (addImages != null) {
             for (MultipartFile pair : addImages) {

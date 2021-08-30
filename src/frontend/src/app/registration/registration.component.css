@@ -3,6 +3,10 @@ mat-card {
     margin: 0 auto;
 }
 
+mat-form-field {
+    padding-bottom: 2%;
+}
+
 .form-content {
     margin: 20px 0;
     justify-content: space-between;

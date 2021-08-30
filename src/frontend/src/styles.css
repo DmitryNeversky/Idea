@@ -37,6 +37,10 @@ small.status-circle {
     padding: 0;
 }
 
+mat-card {
+    word-break: break-word;
+}
+
 mat-button-toggle button {
     height: 100%;
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Idea} from "../models/Idea";
 import {environment} from "../../environments/environment";
@@ -35,5 +35,9 @@ export class IdeaService {
 
   public delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiBaseUrl}/idea/delete/${id}`);
+  }
+
+  public addLook(formData: FormData): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiBaseUrl}/idea/look`, formData);
   }
 }

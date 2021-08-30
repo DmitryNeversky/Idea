@@ -56,4 +56,10 @@ public class IdeaController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/idea/look")
+    public ResponseEntity<?> lookIdea(@RequestParam int ideaId, @RequestParam int userId) {
+        ideaService.addLook(ideaId, userId);
+        return ResponseEntity.ok().build();
+    }
 }

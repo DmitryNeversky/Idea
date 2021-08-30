@@ -117,6 +117,7 @@
                             <input matInput formControlName="code">
                         </mat-form-field>
                     </div>
+                    <mat-error *ngIf="error">{{error}}</mat-error>
                     <div class="form-actions">
                         <div class="action">
                             <button mat-flat-button color="primary" matStepperPrevious>назад</button>
