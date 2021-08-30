@@ -2,7 +2,7 @@
     <mat-card-title>Вход в систему</mat-card-title>
 
     <mat-card-content>
-        <form fxLayout="column" fxLayoutGap="5%" [formGroup]="mainForm" (ngSubmit)="login()">
+        <form fxLayout="column" fxLayoutGap="2%" [formGroup]="mainForm" (ngSubmit)="login()">
             <mat-form-field appearance="fill">
                 <mat-label>email</mat-label>
                 <input type="email" matInput placeholder="pat@example.com" formControlName="email">
@@ -22,6 +22,7 @@
                     (сейчас {{mainForm.get('password').errors.maxlength.actualLength}})
                 </mat-error>
             </mat-form-field>
+            <mat-error *ngIf="error">{{error}}</mat-error>
             <div class="form-actions">
                 <div class="action"></div>
                 <div class="action">

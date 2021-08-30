@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
-import {User} from "../models/User";
 import {Router} from "@angular/router";
+import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 
 @Component({
   selector: 'app-authorization',
@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
 
   preloader: boolean = false;
+  error: string = "";
 
   public mainForm: FormGroup;
 
@@ -38,8 +39,13 @@ export class LoginComponent implements OnInit {
     this.authService.login(formData).subscribe(() => {
       this.preloader = false;
       this.router.navigate(['/']);
-    }, error => {
+    }, (error: HttpErrorResponse) => {
       console.log(error);
+      if(error.status == HttpStatusCode.Forbidden)
+        this.error = "Пользователь с такими данными не найден.";
+      else if(error.status >= 500)
+        this.error = "Произошла внутренняя ошибка. Попробуйте повторить действие позже.";
+      else this.error = "Произошел сбой. Попробуйте повторить действие позже.";
       this.preloader = false;
     });
   }
