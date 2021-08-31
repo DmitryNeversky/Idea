@@ -64,14 +64,16 @@ const routes: Routes = [
         path: 'user',
         component: UserComponent,
         data: { animation: 'user' },
+        canActivate: [AuthGuard],
         resolve: {
-            user: UserResolver
+            currentUser: CurrentUserResolver,
         }
     },
     {
         path: 'user/:id',
         component: UserComponent,
         data: { animation: 'user' },
+        canActivate: [AuthGuard],
         resolve: {
             user: UserResolver
         }

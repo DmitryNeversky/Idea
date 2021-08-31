@@ -15,7 +15,7 @@ export class AppComponent {
   public loading: boolean = false;
   public expanded: boolean = false;
 
-  constructor(private router: Router, private sharedService: SharedService, private auth: AuthService) {
+  constructor(private router: Router, private sharedService: SharedService, public auth: AuthService) {
     this.router.events.subscribe((event: any) => {
       switch (true) {
         case event instanceof NavigationStart: {

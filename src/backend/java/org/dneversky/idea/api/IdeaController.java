@@ -30,7 +30,7 @@ public class IdeaController {
     @GetMapping("/idea/{id}")
     public ResponseEntity<Idea> getIdeaById(@PathVariable int id) {
 
-        return new ResponseEntity<>(ideaService.get(id), HttpStatus.OK);
+        return new ResponseEntity<>(ideaService.getIdeaById(id), HttpStatus.OK);
     }
 
     @PostMapping("/idea/save")
@@ -39,7 +39,7 @@ public class IdeaController {
                                          @RequestPart(required = false) List<MultipartFile> addFiles,
                                          Principal principal) {
 
-        return new ResponseEntity<>(ideaService.add(idea, addImages, addFiles, principal.getName()), HttpStatus.CREATED);
+        return new ResponseEntity<>(ideaService.saveIdea(idea, addImages, addFiles, principal.getName()), HttpStatus.CREATED);
     }
 
     @PutMapping("/idea/put")
@@ -47,7 +47,7 @@ public class IdeaController {
                                         @RequestPart("addImages") List<MultipartFile> addImages,
                                         @RequestPart("addFiles") List<MultipartFile> addFiles) {
 
-        return new ResponseEntity<>(ideaService.put(idea, addImages, addFiles), HttpStatus.OK);
+        return new ResponseEntity<>(ideaService.putIdea(idea, addImages, addFiles), HttpStatus.OK);
     }
 
     @DeleteMapping("/idea/delete/{idea}")

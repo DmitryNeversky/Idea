@@ -47,12 +47,12 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUser(@PathVariable int id) {
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
         return ResponseEntity.ok().body(userService.getUserById(id));
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> getUser(Principal principal) {
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
         return ResponseEntity.ok().body(userService.getUserByUsername(principal.getName()));
     }
 

@@ -7,6 +7,10 @@ import org.dneversky.idea.entity.User;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +28,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+//@CacheConfig(cacheNames = "idea")
 public class IdeaService {
 
     @Value("${uploadPath}")
@@ -32,18 +37,20 @@ public class IdeaService {
     private final IdeaRepository ideaRepository;
     private final UserService userService;
 
+//    @Cacheable
     public List<Idea> getAll() {
 
         return ideaRepository.findAll();
     }
 
-    public Idea get(int id) {
+//    @Cacheable(key = "#id")
+    public Idea getIdeaById(int id) {
         Optional<Idea> findIdea = ideaRepository.findById(id);
 
         return findIdea.orElse(null);
     }
 
-    public Idea add(Idea idea, List<MultipartFile> addImages, List<MultipartFile> addFiles, String username) {
+    public Idea saveIdea(Idea idea, List<MultipartFile> addImages, List<MultipartFile> addFiles, String username) {
 
         idea.setStatus(Status.LOOKING);
         idea.setCreatedDate(LocalDate.now());
@@ -55,7 +62,8 @@ public class IdeaService {
         return ideaRepository.save(idea);
     }
 
-    public Idea put(Idea idea, List<MultipartFile> addImages, List<MultipartFile> addFiles) {
+//    @CachePut(key = "#idea.id")
+    public Idea putIdea(Idea idea, List<MultipartFile> addImages, List<MultipartFile> addFiles) {
 
         removeImages(idea);
         removeFiles(idea);
@@ -66,6 +74,7 @@ public class IdeaService {
         return ideaRepository.save(idea);
     }
 
+//    @CacheEvict(key = "#id")
     public void delete(Idea idea) {
         Optional<Idea> findIdea = ideaRepository.findById(idea.getId());
         if(findIdea.isPresent())

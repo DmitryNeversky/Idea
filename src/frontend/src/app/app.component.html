@@ -27,7 +27,7 @@
         <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #profileMenu="matMenu">
-        <button mat-menu-item routerLink="/user"><mat-icon>account_box</mat-icon> Аккаунт</button>
+        <button mat-menu-item [routerLink]="['/', '1']"><mat-icon>account_box</mat-icon> Аккаунт</button>
         <button mat-menu-item><mat-icon>lightbulb</mat-icon> Мои идеи</button>
         <button mat-menu-item><mat-icon>settings</mat-icon> Настройки</button>
         <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon> Выйти</button>

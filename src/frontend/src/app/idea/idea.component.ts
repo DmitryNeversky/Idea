@@ -1,27 +1,21 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Idea} from "../models/Idea";
 import {IdeaService} from "../services/idea.service";
 import {User} from "../models/User";
-import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-idea',
   templateUrl: './idea.component.html',
   styleUrls: ['./idea.component.css']
 })
-export class IdeaComponent implements OnInit {
+export class IdeaComponent {
 
   @Input()
   public idea: Idea;
+  @Input()
   public currentUser: User;
 
-  constructor(private ideaService: IdeaService, private userService: UserService) { }
-
-  ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe((user: User) => {
-      this.currentUser = user;
-    }, error => console.log(error));
-  }
+  constructor(private ideaService: IdeaService) { }
 
   look() {
     const formData = new FormData();
