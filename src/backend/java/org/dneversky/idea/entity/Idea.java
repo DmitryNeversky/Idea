@@ -40,9 +40,6 @@ public class Idea implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private int rating;
-    private int looks;
-
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdDate;
@@ -63,9 +60,22 @@ public class Idea implements Serializable {
     @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
     private User author;
 
+    // Need Redis storage
+
+    private int looks;
+    private int rating;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> lookedUsers;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> ratedUsers;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> unratedUsers;
+
+    // ---
 
     @Transient
     private List<String> removeImages;
@@ -97,6 +107,10 @@ public class Idea implements Serializable {
             this.lookedUsers = new HashSet<>();
         } this.lookedUsers.add(user);
         this.looks++;
+    }
+
+    public int getRating() {
+        return getRatedUsers().size() - getUnratedUsers().size();
     }
 
     @Override

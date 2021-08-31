@@ -75,15 +75,6 @@ public class IdeaService {
         removeFiles(idea);
     }
 
-    public void addLook(int ideaId, int userId) {
-        Idea idea = ideaRepository.getById(ideaId);
-        User user = userService.getUserById(userId);
-        if(!idea.getLookedUsers().contains(user)) {
-            idea.addLook(userService.getUserById(userId));
-            ideaRepository.save(idea);
-        }
-    }
-
     private void uploadImages(Idea idea, List<MultipartFile> addImages) {
         if (addImages != null) {
             for (MultipartFile pair : addImages) {
@@ -146,5 +137,38 @@ public class IdeaService {
                 }
             }
         }
+    }
+
+    public void addLook(int ideaId, int userId) {
+        Idea idea = ideaRepository.getById(ideaId);
+        User user = userService.getUserById(userId);
+        if(!idea.getLookedUsers().contains(user)) {
+            idea.addLook(userService.getUserById(userId));
+            ideaRepository.save(idea);
+        }
+    }
+
+    public void addRating(int ideaId, int userId) {
+        Idea idea = ideaRepository.getById(ideaId);
+        User user = userService.getUserById(userId);
+        if(idea.getRatedUsers().contains(user)) {
+            idea.getRatedUsers().remove(user);
+        } else {
+            idea.getRatedUsers().add(user);
+        }
+        idea.getUnratedUsers().remove(user);
+        ideaRepository.save(idea);
+    }
+
+    public void reduceRating(int ideaId, int userId) {
+        Idea idea = ideaRepository.getById(ideaId);
+        User user = userService.getUserById(userId);
+        if(idea.getUnratedUsers().contains(user)) {
+            idea.getUnratedUsers().remove(user);
+        } else {
+            idea.getUnratedUsers().add(user);
+        }
+        idea.getRatedUsers().remove(user);
+        ideaRepository.save(idea);
     }
 }

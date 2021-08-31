@@ -13,8 +13,7 @@ export class AuthService {
 
   private apiBaseUrl: string = environment.apiBaseUrl;
 
-  constructor(private httpClient: HttpClient,
-              private router: Router) {}
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
   login(formData: FormData): Observable<any> {
     return this.httpClient.post<any>(`${this.apiBaseUrl}/login`, formData)

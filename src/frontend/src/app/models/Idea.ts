@@ -14,4 +14,6 @@ export class Idea {
     author: User;
     removeImages: string[];
     removeFiles: string[];
+    ratedUsers: number[];
+    unratedUsers: number[];
 }

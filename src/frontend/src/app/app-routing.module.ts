@@ -13,6 +13,7 @@ import {LoginComponent} from "./login/login.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {UserComponent} from "./user/user.component";
 import {UserResolver} from "./shared/resolvers/user.resolver";
+import {CurrentUserResolver} from "./shared/resolvers/current-user.resolver";
 
 const routes: Routes = [
     {
@@ -27,7 +28,8 @@ const routes: Routes = [
         data: { animation: 'ideas' },
         canActivate: [AuthGuard],
         resolve: {
-            ideas: IdeasResolver
+            ideas: IdeasResolver,
+            currentUser: CurrentUserResolver
         },
     },
     {
@@ -36,7 +38,8 @@ const routes: Routes = [
         data: { animation: 'idea' },
         canActivate: [AuthGuard],
         resolve: {
-            idea: IdeaResolver
+            idea: IdeaResolver,
+            currentUser: CurrentUserResolver
         }
     },
     {
@@ -59,6 +62,14 @@ const routes: Routes = [
     },
     {
         path: 'user',
+        component: UserComponent,
+        data: { animation: 'user' },
+        resolve: {
+            user: UserResolver
+        }
+    },
+    {
+        path: 'user/:id',
         component: UserComponent,
         data: { animation: 'user' },
         resolve: {

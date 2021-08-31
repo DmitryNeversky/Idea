@@ -62,4 +62,16 @@ public class IdeaController {
         ideaService.addLook(ideaId, userId);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/idea/rating/add")
+    public ResponseEntity<?> addRating(@RequestParam int ideaId, @RequestParam int userId) {
+        ideaService.addRating(ideaId, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/idea/rating/reduce")
+    public ResponseEntity<?> reduceRating(@RequestParam int ideaId, @RequestParam int userId) {
+        ideaService.reduceRating(ideaId, userId);
+        return ResponseEntity.ok().build();
+    }
 }

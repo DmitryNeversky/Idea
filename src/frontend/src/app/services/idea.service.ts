@@ -40,4 +40,12 @@ export class IdeaService {
   public addLook(formData: FormData): Observable<void> {
     return this.httpClient.post<void>(`${this.apiBaseUrl}/idea/look`, formData);
   }
+
+  public addRating(formData: FormData) {
+    this.httpClient.post(`${this.apiBaseUrl}/idea/rating/add`, formData).subscribe();
+  }
+
+  public reduceRating(formData: FormData) {
+    this.httpClient.post(`${this.apiBaseUrl}/idea/rating/reduce`, formData).subscribe();
+  }
 }
