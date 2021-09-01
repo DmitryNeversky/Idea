@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.dneversky.idea.entity.Post;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.service.UserService;
@@ -68,6 +69,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("/roles")
+    public ResponseEntity<List<Role>> getRoles() {
+        return ResponseEntity.ok().body(userService.getRoles());
+    }
+
     @GetMapping("/role")
     public ResponseEntity<Role> getRoleByName(@RequestParam String roleName) {
         return ResponseEntity.ok().body(userService.getRoleByName(roleName));
@@ -82,6 +88,23 @@ public class UserController {
     @PostMapping("/role/{id}/delete")
     public ResponseEntity<?> deleteRole(@PathVariable Role id) {
         userService.deleteRole(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<List<Post>> getPosts() {
+        return ResponseEntity.ok().body(userService.getPosts());
+    }
+
+    @PostMapping("/post/save")
+    public ResponseEntity<Post> savePost(@RequestBody @Valid Post post) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/post/save").toUriString());
+        return ResponseEntity.created(uri).body(userService.savePost(post));
+    }
+
+    @PostMapping("/post/{id}/delete")
+    public ResponseEntity<?> deletePost(@PathVariable Post id) {
+        userService.deletePost(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

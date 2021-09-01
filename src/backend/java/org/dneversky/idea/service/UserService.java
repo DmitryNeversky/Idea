@@ -2,8 +2,10 @@ package org.dneversky.idea.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dneversky.idea.entity.Post;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.repository.PostRepository;
 import org.dneversky.idea.repository.RoleRepository;
 import org.dneversky.idea.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,6 +29,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PostRepository postRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -115,5 +118,30 @@ public class UserService implements UserDetailsService {
             return;
         }
         user.getRoles().add(role);
+    }
+
+    public List<Post> getPosts() {
+        log.info("Getting all posts");
+        return postRepository.findAll();
+    }
+
+//    public Role getRoleByName(String roleName) {
+//        log.info("Getting role by name {}", roleName);
+//        return roleRepository.findByName(roleName);
+//    }
+
+    public Post savePost(Post post) {
+        log.info("Saving post {} to database", post.getName());
+        if(roleRepository.findByName(post.getName()) != null) {
+            log.warn("Role {} already contains in the database", post.getName());
+            return null;
+        }
+        return postRepository.save(post);
+    }
+
+    public void deletePost(Post post) {
+        log.info("Deleting post {}", post.getName());
+        userRepository.findAll().forEach(u -> u.setPost(null));
+        postRepository.delete(post);
     }
 }

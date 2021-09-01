@@ -8,7 +8,10 @@ import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -52,10 +55,6 @@ public class User implements Serializable {
     @NotBlank(message = "Phone contains whitespaces or null value")
     private String phone;
 
-    @NotNull(message = "Post can not be null")
-    @Size(max = 96, message = "Post size is: min 0 max 96")
-    private String post;
-
     @Lob
     @Size(max = 1024, message = "About size is: min 0 max 1024")
     private String about;
@@ -82,6 +81,9 @@ public class User implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Notification> notifications;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Post post;
 
     public void addNotification(Notification notification) {
         if(notifications == null) {

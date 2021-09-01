@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-content>
         <h2 class="silver">Личные данные</h2>
-        <form [formGroup]="nameForm" fxLayout="column wrap">
+        <form [formGroup]="personalForm" fxLayout="column wrap">
             <div fxLayout.gt-xs="row">
 
                 <div class="avatar" fxFlex.gt-xs="20%">
@@ -12,29 +12,29 @@
                     <mat-form-field appearance="outline">
                         <mat-label>имя</mat-label>
                         <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="firstName">
-                        <mat-error *ngIf="nameForm.get('firstName').hasError('required')">заполните поле</mat-error>
-                        <mat-error *ngIf="nameForm.get('firstName').hasError('pattern')">некорректно введены данные</mat-error>
-                        <mat-error *ngIf="nameForm.get('firstName').hasError('maxlength')">
-                            максимальная длина {{nameForm.get('firstName').errors.nameForm.requiredLength}} символов
-                            (сейчас {{nameForm.get('firstName').errors.maxlength.actualLength}})</mat-error>
+                        <mat-error *ngIf="personalForm.get('firstName').hasError('required')">заполните поле</mat-error>
+                        <mat-error *ngIf="personalForm.get('firstName').hasError('pattern')">некорректно введены данные</mat-error>
+                        <mat-error *ngIf="personalForm.get('firstName').hasError('maxlength')">
+                            максимальная длина {{personalForm.get('firstName').errors.nameForm.requiredLength}} символов
+                            (сейчас {{personalForm.get('firstName').errors.maxlength.actualLength}})</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>отчество</mat-label>
                         <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="secondName">
-                        <mat-error *ngIf="nameForm.get('secondName').hasError('required')">заполните поле</mat-error>
-                        <mat-error *ngIf="nameForm.get('secondName').hasError('pattern')">некорректно введены данные</mat-error>
-                        <mat-error *ngIf="nameForm.get('secondName').hasError('maxlength')">
-                            максимальная длина {{nameForm.get('secondName').errors.maxlength.requiredLength}} символов
-                            (сейчас {{nameForm.get('secondName').errors.maxlength.actualLength}})</mat-error>
+                        <mat-error *ngIf="personalForm.get('secondName').hasError('required')">заполните поле</mat-error>
+                        <mat-error *ngIf="personalForm.get('secondName').hasError('pattern')">некорректно введены данные</mat-error>
+                        <mat-error *ngIf="personalForm.get('secondName').hasError('maxlength')">
+                            максимальная длина {{personalForm.get('secondName').errors.maxlength.requiredLength}} символов
+                            (сейчас {{personalForm.get('secondName').errors.maxlength.actualLength}})</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>фамилия</mat-label>
                         <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="lastName">
-                        <mat-error *ngIf="nameForm.get('lastName').hasError('required')">заполните поле</mat-error>
-                        <mat-error *ngIf="nameForm.get('lastName').hasError('pattern')">некорректно введены данные</mat-error>
-                        <mat-error *ngIf="nameForm.get('lastName').hasError('maxlength')">
-                            максимальная длина {{nameForm.get('lastName').errors.maxlength.requiredLength}} символов
-                            (сейчас {{nameForm.get('lastName').errors.maxlength.actualLength}})</mat-error>
+                        <mat-error *ngIf="personalForm.get('lastName').hasError('required')">заполните поле</mat-error>
+                        <mat-error *ngIf="personalForm.get('lastName').hasError('pattern')">некорректно введены данные</mat-error>
+                        <mat-error *ngIf="personalForm.get('lastName').hasError('maxlength')">
+                            максимальная длина {{personalForm.get('lastName').errors.maxlength.requiredLength}} символов
+                            (сейчас {{personalForm.get('lastName').errors.maxlength.actualLength}})</mat-error>
                     </mat-form-field>
                 </div>
 
@@ -43,23 +43,24 @@
                         <mat-label>телефон</mat-label>
                         <input type="tel" prefix="+7" mask=" (000) 000-00-00" matInput formControlName="phone">
                         <mat-icon matSuffix>phone</mat-icon>
-                        <mat-error *ngIf="nameForm.get('phone').hasError('required')">заполните поле</mat-error>
-                        <mat-error *ngIf="nameForm.get('phone').hasError('maxlength')">некорректно введены данные</mat-error>
+                        <mat-error *ngIf="personalForm.get('phone').hasError('required')">заполните поле</mat-error>
+                        <mat-error *ngIf="personalForm.get('phone').hasError('minlength')">некорректно введены данные</mat-error>
+                        <mat-error *ngIf="personalForm.get('phone').hasError('maxlength')">некорректно введены данные</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>дата рождения</mat-label>
                         <input matInput [matDatepicker]="picker" placeholder="01/01/2001" formControlName="birthday">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                        <mat-error *ngIf="nameForm.get('birthday').hasError('required')">укажите дату рождения</mat-error>
+                        <mat-error *ngIf="personalForm.get('birthday').hasError('required')">укажите дату рождения</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>город проживания</mat-label>
                         <input type="text" matInput formControlName="city">
                         <mat-icon matSuffix>location_on</mat-icon>
-                        <mat-error *ngIf="nameForm.get('city').hasError('maxlength')">
-                            максимальная длина {{nameForm.get('city').errors.maxlength.requiredLength}} символов
-                            (сейчас {{nameForm.get('city').errors.maxlength.actualLength}})</mat-error>
+                        <mat-error *ngIf="personalForm.get('city').hasError('maxlength')">
+                            максимальная длина {{personalForm.get('city').errors.maxlength.requiredLength}} символов
+                            (сейчас {{personalForm.get('city').errors.maxlength.actualLength}})</mat-error>
                     </mat-form-field>
                 </div>
 
@@ -95,9 +96,9 @@
             <mat-form-field class="col" fxFlex="100%" appearance="outline">
                 <mat-label>О себе</mat-label>
                 <textarea type="text" matInput formControlName="about" style="height: 120px"></textarea>
-                <mat-error *ngIf="nameForm.get('about').hasError('maxlength')">
-                    максимальная длина {{nameForm.get('about').errors.maxlength.requiredLength}} символов
-                    (сейчас {{nameForm.get('about').errors.maxlength.actualLength}})</mat-error>
+                <mat-error *ngIf="personalForm.get('about').hasError('maxlength')">
+                    максимальная длина {{personalForm.get('about').errors.maxlength.requiredLength}} символов
+                    (сейчас {{personalForm.get('about').errors.maxlength.actualLength}})</mat-error>
             </mat-form-field>
         </form>
 
