@@ -12,4 +12,6 @@ export class User {
     online: boolean;
     lastVisit: Date;
     registeredDate: Date;
+    about: string;
+    city: string;
 }

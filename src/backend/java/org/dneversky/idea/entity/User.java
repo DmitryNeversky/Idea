@@ -56,8 +56,12 @@ public class User implements Serializable {
     @Size(max = 96, message = "Post size is: min 0 max 96")
     private String post;
 
-    @Size(max = 255, message = "About size is: min 0 max 255")
+    @Lob
+    @Size(max = 1024, message = "About size is: min 0 max 1024")
     private String about;
+
+    @Size(max = 255, message = "About size is: min 0 max 255")
+    private String city;
 
     private String avatarPath;
 

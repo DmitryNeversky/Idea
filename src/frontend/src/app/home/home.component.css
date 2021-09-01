@@ -4,6 +4,16 @@
     flex: 1 1 auto;
 }
 
+mat-toolbar {
+    height: 64px;
+    position: fixed;
+    top: 0;
+}
+
+mat-progress-bar {
+    position: absolute;
+}
+
 /*left panel*/
 
 .row {
@@ -11,6 +21,7 @@
 }
 
 .left-panel {
+    margin-top: 64px;
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -36,6 +47,7 @@
     padding: 20px;
     overflow-y: auto;
     background: #f8f8f8;
+    margin-top: 64px;
 }
 
 .content::-webkit-scrollbar {

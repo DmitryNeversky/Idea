@@ -41,10 +41,12 @@
     <div *ngIf="!expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content" fxHide.xs>
         <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon></button>
         <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon></button>
+        <button mat-button color="warn" routerLink="/settings"><mat-icon>settings</mat-icon></button>
     </div>
     <div *ngIf="expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content">
         <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon><span class="name">Главная</span></button>
         <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon><span class="name">Идеи</span></button>
+        <button mat-button color="warn" routerLink="/settings"><mat-icon>settings</mat-icon><span class="name">Настройки</span></button>
     </div>
     <div class="content" id="content" [@homeRoutesAnimation]="prepareRoute(outlet)" fxFlex>
         <router-outlet #outlet="outlet"></router-outlet>

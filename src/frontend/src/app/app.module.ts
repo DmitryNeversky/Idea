@@ -52,6 +52,9 @@ import {AuthInterceptor} from "./auth.interceptor";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {UserIdeasComponent} from './user-ideas/user-ideas.component';
 import {NgxMaskModule} from "ngx-mask";
+import { SettingsComponent } from './settings/settings.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import { ProfileComponent } from './settings/profile/profile.component';
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -78,6 +81,8 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     LoginComponent,
     UserComponent,
     UserIdeasComponent,
+    SettingsComponent,
+    ProfileComponent,
   ],
     imports: [
         BrowserModule,
@@ -116,6 +121,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
         MatNativeDateModule,
         MatProgressSpinnerModule,
         NgxMaskModule.forRoot(),
+        MatTabsModule,
     ],
   providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDERS,
           {
