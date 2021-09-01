@@ -1,6 +1,11 @@
 mat-card {
-    width: 50%;
-    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 mat-form-field {
@@ -46,7 +51,7 @@ mat-spinner::ng-deep svg {
 
 @media screen and (max-width: 600px){
     mat-card {
-        width: 100%;
-        padding: 2.5%;
+        padding: 5% 2%;
+        margin: 0;
     }
 }

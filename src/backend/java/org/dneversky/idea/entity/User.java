@@ -76,4 +76,13 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Notification> notifications;
+
+    public void addNotification(Notification notification) {
+        if(notifications == null) {
+            notifications = new ArrayList<>();
+        }
+        notifications.add(notification);
+    }
 }

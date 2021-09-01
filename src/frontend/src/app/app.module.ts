@@ -50,7 +50,7 @@ import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import {UserComponent} from './user/user.component';
 import {AuthInterceptor} from "./auth.interceptor";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import { UserIdeasComponent } from './user-ideas/user-ideas.component';
+import {UserIdeasComponent} from './user-ideas/user-ideas.component';
 import {NgxMaskModule} from "ngx-mask";
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [

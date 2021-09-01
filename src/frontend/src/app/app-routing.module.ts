@@ -21,62 +21,61 @@ const routes: Routes = [
         component: HomeComponent,
         data: { animation: 'home' },
         canActivate: [AuthGuard],
-    },
-    {
-        path: 'ideas',
-        component: IdeasComponent,
-        data: { animation: 'ideas' },
-        canActivate: [AuthGuard],
         resolve: {
-            ideas: IdeasResolver,
             currentUser: CurrentUserResolver
         },
-    },
-    {
-        path: 'ideas/id/:id',
-        component: IdeaFillComponent,
-        data: { animation: 'idea' },
-        canActivate: [AuthGuard],
-        resolve: {
-            idea: IdeaResolver,
-            currentUser: CurrentUserResolver
-        }
-    },
-    {
-        path: 'ideas/create',
-        component: CreateIdeaComponent,
-        data: { animation: 'idea-create' },
-        canActivate: [AuthGuard],
-        resolve: {
-            tags: TagResolver
-        }
-    },
-    {
-        path: 'ideas/update/:id',
-        component: UpdateIdeaComponent,
-        data: { animation: 'update-idea' },
-        canActivate: [AuthGuard],
-        resolve: {
-            idea: IdeaResolver
-        }
-    },
-    {
-        path: 'user',
-        component: UserComponent,
-        data: { animation: 'user' },
-        canActivate: [AuthGuard],
-        resolve: {
-            currentUser: CurrentUserResolver,
-        }
-    },
-    {
-        path: 'user/:id',
-        component: UserComponent,
-        data: { animation: 'user' },
-        canActivate: [AuthGuard],
-        resolve: {
-            user: UserResolver
-        }
+        children: [
+            {
+                path: 'ideas',
+                component: IdeasComponent,
+                data: { animation: 'ideas' },
+                resolve: {
+                    ideas: IdeasResolver,
+                    currentUser: CurrentUserResolver
+                },
+            },
+            {
+                path: 'ideas/id/:id',
+                component: IdeaFillComponent,
+                data: { animation: 'idea' },
+                resolve: {
+                    idea: IdeaResolver,
+                    currentUser: CurrentUserResolver
+                }
+            },
+            {
+                path: 'ideas/create',
+                component: CreateIdeaComponent,
+                data: { animation: 'idea-create' },
+                resolve: {
+                    tags: TagResolver
+                }
+            },
+            {
+                path: 'ideas/update/:id',
+                component: UpdateIdeaComponent,
+                data: { animation: 'update-idea' },
+                resolve: {
+                    idea: IdeaResolver
+                }
+            },
+            {
+                path: 'user',
+                component: UserComponent,
+                data: { animation: 'user' },
+                resolve: {
+                    currentUser: CurrentUserResolver,
+                }
+            },
+            {
+                path: 'user/:id',
+                component: UserComponent,
+                data: { animation: 'user' },
+                resolve: {
+                    user: UserResolver
+                }
+            },
+        ]
     },
     {
         path: 'auth',

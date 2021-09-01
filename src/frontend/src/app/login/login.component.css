@@ -1,7 +1,11 @@
 mat-card {
-    width: 50%;
-    margin: 0 auto;
-    transform: translate(0px, 20%);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 .form-actions {
