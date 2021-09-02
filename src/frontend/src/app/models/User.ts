@@ -10,6 +10,7 @@ export class User {
     birthday: string;
     post: string;
     ideas: Idea[];
+    avatar: string;
     online: boolean;
     lastVisit: Date;
     registeredDate: Date;

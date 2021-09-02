@@ -16,6 +16,7 @@ import {UserResolver} from "./shared/resolvers/user.resolver";
 import {CurrentUserResolver} from "./shared/resolvers/current-user.resolver";
 import {SettingsComponent} from "./settings/settings.component";
 import {ProfileComponent} from "./settings/profile/profile.component";
+import {PostsResolver} from "./shared/resolvers/posts.resolver";
 
 const routes: Routes = [
     {
@@ -81,7 +82,8 @@ const routes: Routes = [
                         path: 'profile',
                         component: ProfileComponent,
                         resolve: {
-                            currentUser: CurrentUserResolver
+                            currentUser: CurrentUserResolver,
+                            posts: PostsResolver,
                         }
                     }
                 ]
@@ -104,7 +106,10 @@ const routes: Routes = [
     {
         path: 'registration',
         component: RegistrationComponent,
-        data: { animation: 'registration' }
+        data: { animation: 'registration' },
+        resolve: {
+            posts: PostsResolver
+        }
     },
 ]
 

@@ -51,8 +51,7 @@
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>должность</mat-label>
                             <mat-select formControlName="post">
-                                <mat-option value="one">First option</mat-option>
-                                <mat-option value="two">Second option</mat-option>
+                                <mat-option *ngFor="let post of posts" [value]="post.name">{{post.name}}</mat-option>
                             </mat-select>
                             <mat-error *ngIf="firstFormGroup.get('post').hasError('required')">укажите должность</mat-error>
                         </mat-form-field>

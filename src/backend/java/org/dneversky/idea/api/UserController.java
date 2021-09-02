@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +62,14 @@ public class UserController {
     public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
+    }
+
+    @PutMapping("/user/put")
+    public ResponseEntity<User> putUser(@RequestPart("user") @Valid User user,
+                                        @RequestPart(name = "avatar", required = false) MultipartFile avatar,
+                                        @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
+
+        return new ResponseEntity<>(userService.putUser(user, avatar, Boolean.parseBoolean(removeAvatar)), HttpStatus.OK);
     }
 
     @PostMapping("/user/{id}/delete")

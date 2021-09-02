@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/User";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ImageLoader} from "../../custom/ImageLoader";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarComponent} from "../../shared/snackbar/snackbar.component";
+import {Post} from "../../models/Post";
 
 @Component({
   selector: 'app-profile',
@@ -12,14 +16,19 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 export class ProfileComponent implements OnInit {
 
   public user: User;
+  public posts: Post[];
   public personalForm: FormGroup;
   public jobForm: FormGroup;
+  public imageLoader: ImageLoader;
+  public removeAvatar: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService,
-              private _formBuilder: FormBuilder) { }
+              private _formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.user = this.activatedRoute.snapshot.data.currentUser;
+    this.posts = this.activatedRoute.snapshot.data.posts;
+    this.imageLoader = new ImageLoader();
 
     let firstName = this.user.name.split(' ')[0];
     let secondName = this.user.name.split(' ')[1];
@@ -32,7 +41,7 @@ export class ProfileComponent implements OnInit {
       firstName: [firstName, [Validators.maxLength(32), Validators.required]],
       secondName: [secondName, [Validators.maxLength(32), Validators.required]],
       lastName: [lastName, [Validators.maxLength(32), Validators.required]],
-      phone: [this.user.phone, [Validators.minLength(10), Validators.maxLength(11), Validators.required]],
+      phone: [this.user.phone, [Validators.minLength(11), Validators.maxLength(11), Validators.required]],
       birthday: [new Date(birthday), [Validators.required]],
       city: [this.user.city, [Validators.maxLength(255)]],
       about: [this.user.about, [Validators.maxLength(1024)]],
@@ -44,7 +53,7 @@ export class ProfileComponent implements OnInit {
   }
 
   save() {
-    if(this.personalForm.invalid || this.jobForm.invalid)
+    if (this.personalForm.invalid || this.jobForm.invalid)
       return
 
     let firstName = this.personalForm.get('firstName').value;
@@ -54,13 +63,34 @@ export class ProfileComponent implements OnInit {
     let lastName = this.personalForm.get('lastName').value;
     lastName = lastName.charAt(0).toUpperCase() + lastName.substr(1).toLowerCase();
 
-    let user = new User();
-    user.name = firstName + " " + secondName + " " + lastName;
-    user.phone = this.personalForm.get('phone').value;
-    user.birthday = new Date(this.personalForm.get('birthday').value).toLocaleDateString();
-    user.city = this.personalForm.get('city').value;
-    user.about = this.personalForm.get('about').value;
-    user.post = this.jobForm.get('post').value;
-    console.log(user);
+    this.user.name = firstName + " " + secondName + " " + lastName;
+    this.user.phone = this.personalForm.get('phone').value;
+    this.user.birthday = new Date(this.personalForm.get('birthday').value).toLocaleDateString();
+    this.user.city = this.personalForm.get('city').value;
+    this.user.about = this.personalForm.get('about').value;
+    this.user.post = this.jobForm.get('post').value;
+
+    const formData = new FormData();
+    formData.append('user', JSON.stringify(this.user));
+    if (this.imageLoader.loadImage)
+      formData.append('avatar', this.imageLoader.dataTransfer.files.item(0));
+    if (this.removeAvatar)
+      formData.append('removeAvatar', 'true')
+
+    this.userService.putUser(formData).subscribe((user: User) => {
+      this.user = user;
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        duration: 2000,
+        horizontalPosition: "start",
+        data: "Данные изменены!"
+      });
+    }, error => {
+      console.log(error);
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        duration: 3000,
+        horizontalPosition: "start",
+        data: "Произошла ошибка, попробуйте позже."
+      });
+    });
   }
 }

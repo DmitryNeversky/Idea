@@ -3,7 +3,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {StepperOrientation} from "@angular/cdk/stepper";
 import {User} from "../models/User";
 import {AuthService} from "../services/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Post} from "../models/Post";
 
 @Component({
   selector: 'app-registration',
@@ -21,18 +22,23 @@ export class RegistrationComponent implements OnInit {
   finalFormGroup: FormGroup;
   orientation: StepperOrientation = "horizontal";
 
+  posts: Post[];
+
   constructor(private _formBuilder: FormBuilder,
               private authService: AuthService,
-              private router: Router) {}
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     if(window.screen.width <= 600) this.orientation = "vertical";
+
+    this.posts = this.activatedRoute.snapshot.data.posts;
 
     this.firstFormGroup = this._formBuilder.group({
       firstName: ['', [Validators.maxLength(32), Validators.required]],
       secondName: ['', [Validators.maxLength(32), Validators.required]],
       lastName: ['', [Validators.maxLength(32), Validators.required]],
-      phone: ['', [Validators.minLength(10), Validators.maxLength(10), Validators.required]],
+      phone: ['', [Validators.minLength(11), Validators.maxLength(11), Validators.required]],
       birthday: ['', [Validators.required]],
       post: ['', [Validators.required, Validators.maxLength(96)]]
     });
@@ -60,12 +66,9 @@ export class RegistrationComponent implements OnInit {
     user.username = this.secondFormGroup.get('email').value;
     user.password = this.secondFormGroup.get('password').value;
     user.name = firstName + " " + secondName + " " + lastName;
-    user.phone = this.firstFormGroup.get('phone').value;
+    user.phone = '7' + this.firstFormGroup.get('phone').value;
     user.birthday = new Date(this.firstFormGroup.get('birthday').value).toLocaleDateString(); // need format
     user.post = this.firstFormGroup.get('post').value;
-
-    console.log(user);
-    return;
 
     this.preloader = true;
 

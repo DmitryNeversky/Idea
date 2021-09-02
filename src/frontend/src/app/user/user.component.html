@@ -2,7 +2,8 @@
     <mat-card fxLayout.xs="column" fxFlex.xs="100%" fxFlex.gt-xs="30%" fxFlexFill>
         <mat-card-content class="info-content" fxLayout.lt-lg="column" fxLayout.gt-lg="row">
             <div fxFlex.xs="100%" fxFlex.gt-xs="40%">
-                <img src="assets/images/word.png" alt="">
+                <img *ngIf="user.avatar" [src]="'assets/uploaded/images/avatar/' + user.avatar" alt="">
+                <img *ngIf="!user.avatar" src="assets/images/user.png" alt="">
             </div>
             <div fxFlex.xs="100%" fxFlex.gt-xs="60%">
                 <p>{{user.name}}</p>

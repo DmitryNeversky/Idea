@@ -52,10 +52,9 @@ export class CreateIdeaComponent implements OnInit{
       formData.append('addFiles', this.filesLoader.dataTransfer.files[i])
 
     this.ideaService.add(idea, formData).subscribe((response: Idea) => {
-      console.log(response);
       this.router.navigate(['ideas']);
       this._snackBar.openFromComponent(SnackbarComponent, {
-        duration: 3000,
+        duration: 2000,
         horizontalPosition: "start",
         data: "Идея успешно создана!"
       });

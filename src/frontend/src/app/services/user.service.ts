@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../models/User";
 import {environment} from "../../environments/environment";
@@ -19,5 +19,9 @@ export class UserService {
 
   public getById(id: number|string): Observable<User> {
     return this.httpClient.get<User>(`${this.apiBaseUrl}/user/${id}`);
+  }
+
+  public putUser(formData: FormData): Observable<User> {
+    return this.httpClient.put<User>(`${this.apiBaseUrl}/user/put`, formData);
   }
 }

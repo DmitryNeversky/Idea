@@ -62,7 +62,7 @@ public class User implements Serializable {
     @Size(max = 255, message = "About size is: min 0 max 255")
     private String city;
 
-    private String avatarPath;
+    private String avatar;
 
     @NotNull(message = "Birthday can not be null")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -82,8 +82,7 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Notification> notifications;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Post post;
+    private String post;
 
     public void addNotification(Notification notification) {
         if(notifications == null) {
