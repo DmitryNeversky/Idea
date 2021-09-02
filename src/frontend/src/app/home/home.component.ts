@@ -11,13 +11,13 @@ import {
 import {SharedService} from "../shared/shared.service";
 import {AuthService} from "../services/auth.service";
 import {User} from "../models/User";
-import {homeRoutesAnimation} from "../animation/home-routes-animation";
+import {routesAnimation} from "../animation/routes-animation";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  animations: [homeRoutesAnimation]
+  animations: [routesAnimation]
 })
 export class HomeComponent implements OnInit {
 

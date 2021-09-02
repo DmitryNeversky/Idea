@@ -78,32 +78,9 @@
 
             </div>
 
-            <div fxLayout.gt-xs="row">
+<!--            <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">-->
 
-<!--                <mat-form-field fxFlex.gt-xs appearance="outline">-->
-<!--                    <mat-label>телефон</mat-label>-->
-<!--                    <input type="tel" prefix="+7" mask=" (000) 000-00-00" matInput formControlName="phone">-->
-<!--                    <mat-icon matSuffix>phone</mat-icon>-->
-<!--                    <mat-error *ngIf="nameForm.get('phone').hasError('required')">заполните поле</mat-error>-->
-<!--                    <mat-error *ngIf="nameForm.get('phone').hasError('maxlength')">некорректно введены данные</mat-error>-->
-<!--                </mat-form-field>-->
-<!--                <mat-form-field fxFlex.gt-xs appearance="outline">-->
-<!--                    <mat-label>дата рождения</mat-label>-->
-<!--                    <input matInput [matDatepicker]="picker" placeholder="01/01/2001" formControlName="birthday">-->
-<!--                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
-<!--                    <mat-datepicker #picker></mat-datepicker>-->
-<!--                    <mat-error *ngIf="nameForm.get('birthday').hasError('required')">укажите дату рождения</mat-error>-->
-<!--                </mat-form-field>-->
-<!--                <mat-form-field fxFlex.gt-xs appearance="outline">-->
-<!--                    <mat-label>город проживания</mat-label>-->
-<!--                    <input type="text" matInput formControlName="city">-->
-<!--                    <mat-icon matSuffix>location_on</mat-icon>-->
-<!--                    <mat-error *ngIf="nameForm.get('city').hasError('maxlength')">-->
-<!--                        максимальная длина {{nameForm.get('city').errors.maxlength.requiredLength}} символов-->
-<!--                        (сейчас {{nameForm.get('city').errors.maxlength.actualLength}})</mat-error>-->
-<!--                </mat-form-field>-->
-
-            </div>
+<!--            </div>-->
 
             <mat-form-field class="col" fxFlex="100%" appearance="outline">
                 <mat-label>О себе</mat-label>

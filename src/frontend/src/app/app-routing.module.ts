@@ -17,6 +17,9 @@ import {CurrentUserResolver} from "./shared/resolvers/current-user.resolver";
 import {SettingsComponent} from "./settings/settings.component";
 import {ProfileComponent} from "./settings/profile/profile.component";
 import {PostsResolver} from "./shared/resolvers/posts.resolver";
+import {NotifiesComponent} from "./settings/notifies/notifies.component";
+import {InterfaceComponent} from "./settings/interface/interface.component";
+import {SecureComponent} from "./settings/secure/secure.component";
 
 const routes: Routes = [
     {
@@ -81,9 +84,34 @@ const routes: Routes = [
                     {
                         path: 'profile',
                         component: ProfileComponent,
+                        data: { animation: 'profile' },
                         resolve: {
                             currentUser: CurrentUserResolver,
                             posts: PostsResolver,
+                        }
+                    },
+                    {
+                        path: 'notifies',
+                        component: NotifiesComponent,
+                        data: { animation: 'notifies' },
+                        resolve: {
+                            currentUser: CurrentUserResolver,
+                        }
+                    },
+                    {
+                        path: 'interface',
+                        component: InterfaceComponent,
+                        data: { animation: 'interface' },
+                        resolve: {
+                            currentUser: CurrentUserResolver,
+                        }
+                    },
+                    {
+                        path: 'secure',
+                        component: SecureComponent,
+                        data: { animation: 'secure' },
+                        resolve: {
+                            currentUser: CurrentUserResolver,
                         }
                     }
                 ]

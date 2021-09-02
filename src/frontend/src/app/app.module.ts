@@ -55,6 +55,9 @@ import {NgxMaskModule} from "ngx-mask";
 import { SettingsComponent } from './settings/settings.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { ProfileComponent } from './settings/profile/profile.component';
+import { NotifiesComponent } from './settings/notifies/notifies.component';
+import { InterfaceComponent } from './settings/interface/interface.component';
+import { SecureComponent } from './settings/secure/secure.component';
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -83,6 +86,9 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     UserIdeasComponent,
     SettingsComponent,
     ProfileComponent,
+    NotifiesComponent,
+    InterfaceComponent,
+    SecureComponent,
   ],
     imports: [
         BrowserModule,
