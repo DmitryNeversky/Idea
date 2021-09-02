@@ -33,6 +33,9 @@ mat-progress-bar {
 }
 
 @media screen and (max-width: 600px) {
+    .content {
+        width: 300px;
+    }
     .left-panel {
         position: fixed;
         z-index: 9;

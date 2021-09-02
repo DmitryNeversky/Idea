@@ -14,10 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -51,7 +48,7 @@ public class User implements Serializable {
     private String name;
 
     @NotNull(message = "Phone can not be null")
-    @Size(min = 11, max = 11, message = "Phone's size is: min 11 max 11")
+    @Size(min = 10, max = 10, message = "Phone's size is: min 11 max 11")
     @NotBlank(message = "Phone contains whitespaces or null value")
     private String phone;
 
@@ -65,9 +62,9 @@ public class User implements Serializable {
     private String avatar;
 
     @NotNull(message = "Birthday can not be null")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @JsonFormat(pattern = "dd.MM.yyyy")
-    private LocalDate birthday;
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+//    @JsonFormat(pattern = "dd.MM.yyyy")
+    private Date birthday;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "dd-MM-yyyy")

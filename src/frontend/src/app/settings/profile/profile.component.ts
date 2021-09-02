@@ -33,16 +33,13 @@ export class ProfileComponent implements OnInit {
     let firstName = this.user.name.split(' ')[0];
     let secondName = this.user.name.split(' ')[1];
     let lastName = this.user.name.split(' ')[2];
-    let birthday = Date.UTC(+this.user.birthday.split('.')[2],
-        +this.user.birthday.split('.')[1],
-        +this.user.birthday.split('.')[0]);
 
     this.personalForm = this._formBuilder.group({
       firstName: [firstName, [Validators.maxLength(32), Validators.required]],
       secondName: [secondName, [Validators.maxLength(32), Validators.required]],
       lastName: [lastName, [Validators.maxLength(32), Validators.required]],
-      phone: [this.user.phone, [Validators.minLength(11), Validators.maxLength(11), Validators.required]],
-      birthday: [new Date(birthday), [Validators.required]],
+      phone: [this.user.phone, [Validators.minLength(10), Validators.maxLength(10), Validators.required]],
+      birthday: [this.user.birthday, [Validators.required]],
       city: [this.user.city, [Validators.maxLength(255)]],
       about: [this.user.about, [Validators.maxLength(1024)]],
     });
@@ -65,7 +62,7 @@ export class ProfileComponent implements OnInit {
 
     this.user.name = firstName + " " + secondName + " " + lastName;
     this.user.phone = this.personalForm.get('phone').value;
-    this.user.birthday = new Date(this.personalForm.get('birthday').value).toLocaleDateString();
+    this.user.birthday = this.personalForm.get('birthday').value;
     this.user.city = this.personalForm.get('city').value;
     this.user.about = this.personalForm.get('about').value;
     this.user.post = this.jobForm.get('post').value;

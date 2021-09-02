@@ -38,7 +38,7 @@ export class RegistrationComponent implements OnInit {
       firstName: ['', [Validators.maxLength(32), Validators.required]],
       secondName: ['', [Validators.maxLength(32), Validators.required]],
       lastName: ['', [Validators.maxLength(32), Validators.required]],
-      phone: ['', [Validators.minLength(11), Validators.maxLength(11), Validators.required]],
+      phone: ['', [Validators.minLength(10), Validators.maxLength(10), Validators.required]],
       birthday: ['', [Validators.required]],
       post: ['', [Validators.required, Validators.maxLength(96)]]
     });
@@ -67,7 +67,7 @@ export class RegistrationComponent implements OnInit {
     user.password = this.secondFormGroup.get('password').value;
     user.name = firstName + " " + secondName + " " + lastName;
     user.phone = '7' + this.firstFormGroup.get('phone').value;
-    user.birthday = new Date(this.firstFormGroup.get('birthday').value).toLocaleDateString(); // need format
+    // user.birthday = new Date(this.firstFormGroup.get('birthday').value).toLocaleDateString(); // need format
     user.post = this.firstFormGroup.get('post').value;
 
     this.preloader = true;

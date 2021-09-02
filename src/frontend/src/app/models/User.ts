@@ -7,7 +7,7 @@ export class User {
     role: string;
     name: string;
     phone: string;
-    birthday: string;
+    birthday: Date;
     post: string;
     ideas: Idea[];
     avatar: string;

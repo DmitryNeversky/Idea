@@ -2,25 +2,25 @@
     <mat-card-content>
         <h2 class="silver">Личные данные</h2>
         <form [formGroup]="personalForm" fxLayout="column wrap">
-            <div fxLayout.gt-xs="row">
+            <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
 
-                <div class="avatar" fxFlex.gt-xs="20%">
-                    <button mat-mini-fab (click)="imageLoader.reset(); removeAvatar = false" *ngIf="imageLoader.loadImage || removeAvatar" color="accent">
-                        <mat-icon>cancel</mat-icon>
+                <div class="avatar" fxFlex.xs="100%" fxFlex.gt-xs="20%">
+                    <button type="button" mat-mini-fab (click)="imageLoader.reset(); removeAvatar = false" *ngIf="imageLoader.loadImage || removeAvatar" color="accent">
+                        <mat-icon>close</mat-icon>
                     </button>
-                    <button mat-mini-fab (click)="removeAvatar = true" *ngIf="(user.avatar && !imageLoader.loadImage) && !removeAvatar" color="warn">
-                        <mat-icon>cancel</mat-icon>
+                    <button type="button" mat-mini-fab (click)="removeAvatar = true" *ngIf="(user.avatar && !imageLoader.loadImage) && !removeAvatar" color="warn">
+                        <mat-icon>close</mat-icon>
                     </button>
                     <input type="file" accept="image/*" fxHide (change)="imageLoader.load($event); removeAvatar = true" #loadInput>
                     <img [src]="'/assets/uploaded/images/avatar/' + user.avatar" alt="avatar" *ngIf="!imageLoader.loadImage && !removeAvatar && user.avatar">
                     <img src="assets/images/user.png" alt="avatar" *ngIf="(!user.avatar && !imageLoader.loadImage) || removeAvatar && !imageLoader.loadImage">
                     <img [src]="imageLoader.loadImage" alt="avatar" *ngIf="imageLoader.loadImage">
-                    <button mat-mini-fab (click)="loadInput.click()" color="primary">
+                    <button type="button" mat-mini-fab (click)="loadInput.click()" color="primary">
                         <mat-icon>edit</mat-icon>
                     </button>
                 </div>
 
-                <div class="col" fxLayout.gt-xs="column" fxFlex.gt-xs>
+                <div class="col" fxLayout="column" fxFlex>
                     <mat-form-field appearance="outline">
                         <mat-label>имя</mat-label>
                         <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="firstName">
@@ -50,10 +50,10 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col" fxLayout.gt-xs="column" fxFlex.gt-xs>
+                <div class="col" fxLayout="column" fxFlex>
                     <mat-form-field appearance="outline">
                         <mat-label>телефон</mat-label>
-                        <input type="tel" mask="0 (000) 000-00-00" matInput formControlName="phone">
+                        <input type="tel" prefix="+7" mask=" (000) 000-00-00" matInput formControlName="phone">
                         <mat-icon matSuffix>phone</mat-icon>
                         <mat-error *ngIf="personalForm.get('phone').hasError('required')">заполните поле</mat-error>
                         <mat-error *ngIf="personalForm.get('phone').hasError('minlength')">некорректно введены данные</mat-error>
@@ -61,7 +61,7 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>дата рождения</mat-label>
-                        <input matInput [matDatepicker]="picker" placeholder="01/01/2001" formControlName="birthday">
+                        <input [matDatepicker]="picker" matInput placeholder="01/01/2001" formControlName="birthday">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                         <mat-error *ngIf="personalForm.get('birthday').hasError('required')">укажите дату рождения</mat-error>
@@ -115,14 +115,18 @@
         </form>
 
         <h2 class="silver">Сведения о работе</h2>
-        <form [formGroup]="jobForm" fxLayout.gt-xs="row wrap">
-            <mat-form-field class="col" fxFlex.gt-xs="30%" appearance="outline">
-                <mat-label>должность</mat-label>
-                <mat-select formControlName="post">
-                    <mat-option *ngFor="let post of posts" [value]="post.name">{{post.name}}</mat-option>
-                </mat-select>
-                <mat-error *ngIf="jobForm.get('post').hasError('required')">укажите должность</mat-error>
-            </mat-form-field>
+        <form [formGroup]="jobForm" fxLayout="column wrap">
+            <div class="col" fxLayout="column" fxFlex>
+                <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>должность</mat-label>
+                        <mat-select formControlName="post">
+                            <mat-option *ngFor="let post of posts" [value]="post.name">{{post.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="jobForm.get('post').hasError('required')">укажите должность</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
         </form>
 
         <mat-card-actions align="end">
