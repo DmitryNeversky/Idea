@@ -2,9 +2,11 @@ package org.dneversky.idea.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dneversky.idea.entity.Notification;
 import org.dneversky.idea.entity.Post;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.PostRepository;
 import org.dneversky.idea.repository.RoleRepository;
 import org.dneversky.idea.repository.UserRepository;
@@ -42,6 +44,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PostRepository postRepository;
+    private final NotificationRepository notificationRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -190,5 +193,10 @@ public class UserService implements UserDetailsService {
             }
             user.setAvatar(null);
         }
+    }
+
+    public void deleteNotificationById(int id, User user) {
+        user.getNotifications().remove(notificationRepository.findById(id));
+        userRepository.save(user);
     }
 }

@@ -1,4 +1,5 @@
 import {Idea} from "./Idea";
+import {Notification} from "./Notification";
 
 export class User {
     id: string;
@@ -16,4 +17,5 @@ export class User {
     registeredDate: Date;
     about: string;
     city: string;
+    notifications: Notification[];
 }

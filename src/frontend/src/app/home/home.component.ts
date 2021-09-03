@@ -12,6 +12,8 @@ import {SharedService} from "../shared/shared.service";
 import {AuthService} from "../services/auth.service";
 import {User} from "../models/User";
 import {routesAnimation} from "../animation/routes-animation";
+import {Notification} from "../models/Notification";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-home',
@@ -25,7 +27,9 @@ export class HomeComponent implements OnInit {
   public expanded: boolean = false;
   public currentUser: User;
 
-  constructor(private router: Router, private sharedService: SharedService, public authService: AuthService, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private sharedService: SharedService,
+              private authService: AuthService, private activatedRoute: ActivatedRoute,
+              private userService: UserService) {
     this.router.events.subscribe((event: any) => {
       switch (true) {
         case event instanceof NavigationStart: {
@@ -73,8 +77,13 @@ export class HomeComponent implements OnInit {
     }, 16);
   }
 
+  deleteNotification(notification: Notification) {
+    this.userService.deleteNotification(notification.id).subscribe(() => {
+      this.currentUser.notifications = this.currentUser.notifications.filter(n => n != notification);
+    }, error => console.log(error));
+  }
+
   logout() {
     this.authService.logout();
   }
-
 }

@@ -117,6 +117,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @DeleteMapping("/notification/{id}/delete")
+    public ResponseEntity<?> deleteNotification(@PathVariable Integer id, Principal principal) {
+        userService.deleteNotificationById(id, userService.getUserByUsername(principal.getName()));
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);

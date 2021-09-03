@@ -1,17 +1,20 @@
 package org.dneversky.idea.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -23,4 +26,12 @@ public class Notification {
 
     private String title;
     private String message;
+    @JsonFormat(pattern = "dd-MM-yy HH:mm:SS")
+    private LocalDateTime createdDate;
+
+    public Notification(String title, String message, LocalDateTime createdDate) {
+        this.title = title;
+        this.message = message;
+        this.createdDate = createdDate;
+    }
 }
