@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -63,6 +64,8 @@ public class Idea implements Serializable {
     // Need a Redis storage
 
     private int looks;
+
+    @Getter(AccessLevel.NONE)
     private int rating;
 
     @JsonIgnore
@@ -70,10 +73,10 @@ public class Idea implements Serializable {
     private Set<User> lookedUsers;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> ratedUsers;
+    private Set<User> ratedUsers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> unratedUsers;
+    private Set<User> unratedUsers = new HashSet<>();
 
     // ---
 
@@ -81,14 +84,6 @@ public class Idea implements Serializable {
     private List<String> removeImages;
     @Transient
     private List<String> removeFiles;
-
-    public Idea(String title, String text, Status status, LocalDate createdDate, User author) {
-        this.title = title;
-        this.text = text;
-        this.status = status;
-        this.createdDate = createdDate;
-        this.author = author;
-    }
 
     public void addImage(String image) {
         if(this.images == null) {
