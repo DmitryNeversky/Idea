@@ -66,8 +66,8 @@ export class RegistrationComponent implements OnInit {
     user.username = this.secondFormGroup.get('email').value;
     user.password = this.secondFormGroup.get('password').value;
     user.name = firstName + " " + secondName + " " + lastName;
-    user.phone = '7' + this.firstFormGroup.get('phone').value;
-    // user.birthday = new Date(this.firstFormGroup.get('birthday').value).toLocaleDateString(); // need format
+    user.phone = this.firstFormGroup.get('phone').value;
+    user.birthday = this.firstFormGroup.get('birthday').value;
     user.post = this.firstFormGroup.get('post').value;
 
     this.preloader = true;

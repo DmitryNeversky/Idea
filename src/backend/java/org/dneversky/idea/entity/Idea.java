@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.dneversky.idea.model.Status;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,8 +20,6 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Idea implements Serializable {
@@ -46,7 +46,7 @@ public class Idea implements Serializable {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_tag", joinColumns = @JoinColumn(name = "idea_id"))
-    private Set<String> tags = new HashSet<>();
+    private Set<String> tags;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_image", joinColumns = @JoinColumn(name = "idea_id"))
@@ -60,7 +60,7 @@ public class Idea implements Serializable {
     @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
     private User author;
 
-    // Need Redis storage
+    // Need a Redis storage
 
     private int looks;
     private int rating;
@@ -111,13 +111,5 @@ public class Idea implements Serializable {
 
     public int getRating() {
         return getRatedUsers().size() - getUnratedUsers().size();
-    }
-
-    @Override
-    public String toString() {
-        return "Idea{" +
-                "id=" + id +
-                ", author=" + author +
-                '}';
     }
 }

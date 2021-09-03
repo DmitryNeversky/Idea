@@ -3,7 +3,9 @@ package org.dneversky.idea.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,9 +21,7 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable {
 
@@ -37,18 +37,17 @@ public class User implements Serializable {
 
     @NotNull(message = "Password can not be null")
     @Size(min = 6, message = "Password's size is: min 6")
-    @NotBlank(message = "Password contains whitespaces or null value")
     @Lob
     private String password;
 
     // Need a composition _ Profile
 
     @NotNull(message = "Name can not be null")
-    @Size(min = 6, max = 96, message = "Name's size is: min 6 max 96")
+    @Size(min = 3, max = 96, message = "Name's size is: min 3 max 96")
     private String name;
 
     @NotNull(message = "Phone can not be null")
-    @Size(min = 10, max = 10, message = "Phone's size is: min 11 max 11")
+    @Size(min = 10, max = 10, message = "Phone's size is: min 10 max 10")
     @NotBlank(message = "Phone contains whitespaces or null value")
     private String phone;
 
@@ -62,8 +61,6 @@ public class User implements Serializable {
     private String avatar;
 
     @NotNull(message = "Birthday can not be null")
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-//    @JsonFormat(pattern = "dd.MM.yyyy")
     private Date birthday;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -71,15 +68,29 @@ public class User implements Serializable {
     private LocalDate registeredDate;
 
     @OneToMany(mappedBy = "author", cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY)
-    private List<Idea> ideas = new ArrayList<>();
+    private List<Idea> ideas;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Notification> notifications;
 
     private String post;
+
+    public void addIdea(Idea idea) {
+        if(ideas == null) {
+            ideas = new ArrayList<>();
+        }
+        ideas.add(idea);
+    }
+
+    public void addRole(Role role) {
+        if(roles == null) {
+            roles = new HashSet<>();
+        }
+        roles.add(role);
+    }
 
     public void addNotification(Notification notification) {
         if(notifications == null) {

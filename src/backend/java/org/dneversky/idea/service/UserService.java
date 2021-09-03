@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -198,5 +199,10 @@ public class UserService implements UserDetailsService {
     public void deleteNotificationById(int id, User user) {
         user.getNotifications().remove(notificationRepository.findById(id));
         userRepository.save(user);
+    }
+
+    @PostConstruct
+    private void init() {
+        postRepository.save(new Post("Worker"));
     }
 }
