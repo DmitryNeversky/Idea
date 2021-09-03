@@ -44,14 +44,14 @@ public class IdeaController {
 
     @PutMapping("/idea/put")
     public ResponseEntity<Idea> putIdea(@RequestPart("idea") @Valid Idea idea,
-                                        @RequestPart("addImages") List<MultipartFile> addImages,
-                                        @RequestPart("addFiles") List<MultipartFile> addFiles) {
+                                        @RequestPart(value = "addImages", required = false) List<MultipartFile> addImages,
+                                        @RequestPart(value = "addFiles", required = false) List<MultipartFile> addFiles) {
 
         return new ResponseEntity<>(ideaService.putIdea(idea, addImages, addFiles), HttpStatus.OK);
     }
 
     @DeleteMapping("/idea/delete/{idea}")
-    public ResponseEntity<Idea> deleteIdea(@PathVariable Idea idea) {
+    public ResponseEntity<?> deleteIdea(@PathVariable Idea idea) {
         ideaService.delete(idea);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -60,18 +60,21 @@ public class IdeaController {
     @PostMapping("/idea/look")
     public ResponseEntity<?> lookIdea(@RequestParam int ideaId, @RequestParam int userId) {
         ideaService.addLook(ideaId, userId);
-        return ResponseEntity.ok().build();
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/idea/rating/add")
     public ResponseEntity<?> addRating(@RequestParam int ideaId, @RequestParam int userId) {
         ideaService.addRating(ideaId, userId);
-        return ResponseEntity.ok().build();
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/idea/rating/reduce")
     public ResponseEntity<?> reduceRating(@RequestParam int ideaId, @RequestParam int userId) {
         ideaService.reduceRating(ideaId, userId);
-        return ResponseEntity.ok().build();
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

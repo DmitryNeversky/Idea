@@ -17,20 +17,19 @@ export class IdeaService {
     return this.httpClient.get<Idea[]>(`${this.apiBaseUrl}/ideas`);
   }
 
-  public get(id: string): Observable<Idea> {
+  public getById(id: number|string): Observable<Idea> {
     return this.httpClient.get<Idea>(`${this.apiBaseUrl}/idea/${id}`);
   }
 
-  public add(formData: FormData): Observable<Idea> {
+  public save(formData: FormData): Observable<Idea> {
     return this.httpClient.post<Idea>(`${this.apiBaseUrl}/idea/save`, formData);
   }
 
-  public put(idea: Idea, formData: FormData): Observable<Idea> {
-    formData.append('idea', JSON.stringify(idea));
+  public put(formData: FormData): Observable<Idea> {
     return this.httpClient.put<Idea>(`${this.apiBaseUrl}/idea/put`, formData);
   }
 
-  public delete(id: number): Observable<void> {
+  public delete(id: number|string): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiBaseUrl}/idea/delete/${id}`);
   }
 
@@ -38,11 +37,13 @@ export class IdeaService {
     return this.httpClient.post<void>(`${this.apiBaseUrl}/idea/look`, formData);
   }
 
-  public addRating(formData: FormData) {
-    this.httpClient.post(`${this.apiBaseUrl}/idea/rating/add`, formData).subscribe();
+  public addRating(formData: FormData): void {
+    this.httpClient.post<void>(`${this.apiBaseUrl}/idea/rating/add`, formData)
+        .subscribe(() => {}, error => console.log(error));
   }
 
-  public reduceRating(formData: FormData) {
-    this.httpClient.post(`${this.apiBaseUrl}/idea/rating/reduce`, formData).subscribe();
+  public reduceRating(formData: FormData): void {
+    this.httpClient.post<void>(`${this.apiBaseUrl}/idea/rating/reduce`, formData)
+        .subscribe(() => {}, error => console.log(error));
   }
 }

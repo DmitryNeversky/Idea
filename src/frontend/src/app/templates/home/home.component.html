@@ -1,0 +1,56 @@
+<mat-toolbar color="primary">
+    <button (click)="togglePanel()" mat-icon-button aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>My App</span>
+    <span class="header-spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="NotifyMenu" class="notification-icon">
+        <mat-icon [matBadge]="currentUser.notifications.length > 0 ? currentUser.notifications.length : ''"
+                  matBadgePosition="after" matBadgeColor="warn">notifications</mat-icon>
+    </button>
+    <mat-menu #NotifyMenu="matMenu">
+        <p class="no-notifies" *ngIf="currentUser.notifications.length == 0">Уведомлений пока нет</p>
+        <div class="mat-menu-card" *ngFor="let notification of currentUser.notifications">
+            <div class="mat-menu-header">
+                <span>{{notification.title}}</span>
+                <button mat-icon-button (click)="deleteNotification(notification)">
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </div>
+            <div class="mat-menu-content">
+                <p>{{notification.message}}</p>
+            </div>
+            <div class="mat-menu-footer">
+                <span>{{notification.createdDate}}</span>
+            </div>
+        </div>
+    </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="account-icon">
+        <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item [routerLink]="['user', currentUser.id]"><mat-icon>account_box</mat-icon> Аккаунт</button>
+        <button mat-menu-item><mat-icon>lightbulb</mat-icon> Мои идеи</button>
+        <button mat-menu-item routerLink="/settings"><mat-icon>settings</mat-icon> Настройки</button>
+        <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon> Выйти</button>
+    </mat-menu>
+</mat-toolbar>
+<mat-progress-bar *ngIf="loading" color="warn" mode="indeterminate"></mat-progress-bar>
+
+<!--navbar-->
+
+<div class="row" fxLayout="row">
+    <div *ngIf="!expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content" fxHide.xs>
+        <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon></button>
+        <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon></button>
+        <button mat-button color="warn" routerLink="/settings"><mat-icon>settings</mat-icon></button>
+    </div>
+    <div *ngIf="expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content">
+        <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon><span class="name">Главная</span></button>
+        <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon><span class="name">Идеи</span></button>
+        <button mat-button color="warn" routerLink="/settings"><mat-icon>settings</mat-icon><span class="name">Настройки</span></button>
+    </div>
+    <div class="content" id="content" [@routesAnimation]="prepareRoute(outlet)" fxFlex>
+        <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+</div>

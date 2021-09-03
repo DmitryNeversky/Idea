@@ -14,7 +14,7 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
 
   public getCurrentUser(): Observable<User> {
-    return this.httpClient.get<User>(`${this.apiBaseUrl}/user`);
+    return this.httpClient.get<User>(`${this.apiBaseUrl}/user/current`);
   }
 
   public getById(id: number|string): Observable<User> {
@@ -25,7 +25,11 @@ export class UserService {
     return this.httpClient.put<User>(`${this.apiBaseUrl}/user/put`, formData);
   }
 
+  public deleteUser(id: number|string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiBaseUrl}/user/delete/${id}`);
+  }
+
   public deleteNotification(id: number|string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiBaseUrl}/notification/${id}/delete`);
+    return this.httpClient.delete<void>(`${this.apiBaseUrl}/notification/delete/${id}`);
   }
 }
