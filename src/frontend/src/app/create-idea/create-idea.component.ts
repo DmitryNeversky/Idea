@@ -45,13 +45,14 @@ export class CreateIdeaComponent implements OnInit{
     idea.tags = this.tags;
 
     const formData = new FormData();
+    formData.append('idea', JSON.stringify(idea));
 
     for(let i = 0; i < this.imagesLoader.dataTransfer.files.length; i++)
       formData.append('addImages', this.imagesLoader.dataTransfer.files[i]);
     for (let i = 0; i < this.filesLoader.dataTransfer.files.length; i++)
       formData.append('addFiles', this.filesLoader.dataTransfer.files[i])
 
-    this.ideaService.add(idea, formData).subscribe((response: Idea) => {
+    this.ideaService.add(formData).subscribe(() => {
       this.router.navigate(['ideas']);
       this._snackBar.openFromComponent(SnackbarComponent, {
         duration: 2000,

@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Idea} from "../models/Idea";
 import {environment} from "../../environments/environment";
-import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +11,7 @@ export class IdeaService {
 
   private apiBaseUrl: string = environment.apiBaseUrl;
 
-  constructor(private httpClient: HttpClient,
-              private authService: AuthService) { }
+  constructor(private httpClient: HttpClient) { }
 
   public getAll(): Observable<Idea[]> {
     return this.httpClient.get<Idea[]>(`${this.apiBaseUrl}/ideas`);
@@ -23,8 +21,7 @@ export class IdeaService {
     return this.httpClient.get<Idea>(`${this.apiBaseUrl}/idea/${id}`);
   }
 
-  public add(idea: Idea, formData: FormData): Observable<Idea> {
-    formData.append('idea', JSON.stringify(idea));
+  public add(formData: FormData): Observable<Idea> {
     return this.httpClient.post<Idea>(`${this.apiBaseUrl}/idea/save`, formData);
   }
 

@@ -203,6 +203,7 @@ public class UserService implements UserDetailsService {
 
     @PostConstruct
     private void init() {
-        postRepository.save(new Post("Worker"));
+        if(postRepository.findByName("Default") == null)
+            postRepository.save(new Post("Default"));
     }
 }
