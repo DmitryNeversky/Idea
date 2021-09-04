@@ -1,9 +1,7 @@
 package org.dneversky.idea.api;
 
-
 import org.dneversky.idea.entity.Role;
-import org.dneversky.idea.service.UserService;
-import org.springframework.http.HttpStatus;
+import org.dneversky.idea.service.RoleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,33 +14,35 @@ import java.util.List;
 @RequestMapping("api")
 public class RoleController {
 
-    private final UserService userService;
+    private final RoleService roleService;
 
-    public RoleController(UserService userService) {
-        this.userService = userService;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @GetMapping("/roles")
     public ResponseEntity<List<Role>> getRoles() {
 
-        return ResponseEntity.ok().body(userService.getRoles());
+        return ResponseEntity.ok().body(roleService.getRoles());
     }
 
     @GetMapping("/role/{name}")
     public ResponseEntity<Role> getRoleByName(@PathVariable String name) {
 
-        return ResponseEntity.ok().body(userService.getRoleByName(name));
+        return ResponseEntity.ok().body(roleService.getRoleByName(name));
     }
 
     @PostMapping("/role/save")
     public ResponseEntity<Role> saveRole(@RequestBody @Valid Role role) {
+
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveRole(role));
+        return ResponseEntity.created(uri).body(roleService.saveRole(role));
     }
 
-    @PostMapping("/role/{id}/delete")
+    @DeleteMapping("/role/{id}/delete")
     public ResponseEntity<?> deleteRole(@PathVariable Role id) {
-        userService.deleteRole(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        roleService.deleteRole(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

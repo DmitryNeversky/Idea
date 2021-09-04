@@ -1,7 +1,6 @@
 package org.dneversky.idea.api;
 
 import lombok.RequiredArgsConstructor;
-import org.dneversky.idea.entity.Post;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -25,26 +24,27 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
 
-        return ResponseEntity.ok().body(userService.getUsers());
+        return ResponseEntity.ok(userService.getUsers());
     }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id) {
 
-        return ResponseEntity.ok().body(userService.getUserById(id));
+        return ResponseEntity.ok((userService.getUserById(id)));
     }
 
     @GetMapping("/user/current")
     public ResponseEntity<User> getCurrentUser(Principal principal) {
 
-        return ResponseEntity.ok().body(userService.getUserByUsername(principal.getName()));
+        return ResponseEntity.ok(userService.getUserByUsername(principal.getName()));
     }
 
     @PostMapping("/user/save")
     public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
 
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+        return ResponseEntity
+                .created(URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString()))
+                .body(userService.saveUser(user));
     }
 
     @PutMapping("/user/put")
@@ -52,7 +52,7 @@ public class UserController {
                                         @RequestPart(name = "avatar", required = false) MultipartFile avatar,
                                         @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
 
-        return ResponseEntity.ok().body(userService.putUser(user, avatar, Boolean.parseBoolean(removeAvatar)));
+        return ResponseEntity.ok(userService.putUser(user, avatar, Boolean.parseBoolean(removeAvatar)));
     }
 
     @DeleteMapping("/user/delete/{id}")
@@ -65,6 +65,7 @@ public class UserController {
     @DeleteMapping("/notification/{id}/delete")
     public ResponseEntity<?> deleteNotification(@PathVariable Integer id, Principal principal) {
         userService.deleteNotificationById(id, userService.getUserByUsername(principal.getName()));
+
         return ResponseEntity.ok().build();
     }
 }

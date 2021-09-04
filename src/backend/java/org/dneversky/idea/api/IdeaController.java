@@ -2,12 +2,13 @@ package org.dneversky.idea.api;
 
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.service.IdeaService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
@@ -24,13 +25,13 @@ public class IdeaController {
     @GetMapping("/ideas")
     public ResponseEntity<List<Idea>> getIdeas() {
 
-        return new ResponseEntity<>(ideaService.getAll(), HttpStatus.OK);
+        return ResponseEntity.ok(ideaService.getIdeas());
     }
 
     @GetMapping("/idea/{id}")
     public ResponseEntity<Idea> getIdeaById(@PathVariable int id) {
 
-        return new ResponseEntity<>(ideaService.getIdeaById(id), HttpStatus.OK);
+        return ResponseEntity.ok(ideaService.getIdeaById(id));
     }
 
     @PostMapping("/idea/save")
@@ -39,7 +40,9 @@ public class IdeaController {
                                          @RequestPart(required = false) List<MultipartFile> addFiles,
                                          Principal principal) {
 
-        return new ResponseEntity<>(ideaService.saveIdea(idea, addImages, addFiles, principal.getName()), HttpStatus.CREATED);
+        return ResponseEntity
+                .created(URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/idea/save").toUriString()))
+                .body(ideaService.saveIdea(idea, addImages, addFiles, principal.getName()));
     }
 
     @PutMapping("/idea/put")
@@ -47,34 +50,34 @@ public class IdeaController {
                                         @RequestPart(value = "addImages", required = false) List<MultipartFile> addImages,
                                         @RequestPart(value = "addFiles", required = false) List<MultipartFile> addFiles) {
 
-        return new ResponseEntity<>(ideaService.putIdea(idea, addImages, addFiles), HttpStatus.OK);
+        return ResponseEntity.ok(ideaService.putIdea(idea, addImages, addFiles));
     }
 
     @DeleteMapping("/idea/delete/{idea}")
     public ResponseEntity<?> deleteIdea(@PathVariable Idea idea) {
-        ideaService.delete(idea);
+        ideaService.deleteIdea(idea);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/idea/look/{idea}")
     public ResponseEntity<?> addLook(@PathVariable Idea idea, Principal principal) {
         ideaService.addLook(idea, principal.getName());
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/idea/rating/add/{idea}")
     public ResponseEntity<?> addRating(@PathVariable Idea idea, Principal principal) {
         ideaService.addRating(idea, principal.getName());
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/idea/rating/reduce/{idea}")
     public ResponseEntity<?> reduceRating(@PathVariable Idea idea, Principal principal) {
         ideaService.reduceRating(idea, principal.getName());
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok().build();
     }
 }

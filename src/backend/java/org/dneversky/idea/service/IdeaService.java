@@ -34,7 +34,7 @@ public class IdeaService {
     private final UserService userService;
 
 //    @Cacheable
-    public List<Idea> getAll() {
+    public List<Idea> getIdeas() {
 
         return ideaRepository.findAll();
     }
@@ -63,7 +63,6 @@ public class IdeaService {
 
         removeImages(idea);
         removeFiles(idea);
-
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
 
@@ -71,13 +70,43 @@ public class IdeaService {
     }
 
 //    @CacheEvict(key = "#id")
-    public void delete(Idea idea) {
-        Optional<Idea> findIdea = ideaRepository.findById(idea.getId());
-        if(findIdea.isPresent())
-            ideaRepository.delete(idea);
-
+    public void deleteIdea(Idea idea) {
         removeImages(idea);
         removeFiles(idea);
+
+        ideaRepository.delete(idea);
+    }
+
+    public void addLook(Idea idea, String username) {
+        User user = userService.getUserByUsername(username);
+        if(!idea.getLookedUsers().contains(user)) {
+            idea.addLook(user);
+
+            ideaRepository.save(idea);
+        }
+    }
+
+    public void addRating(Idea idea, String username) {
+        User user = userService.getUserByUsername(username);
+        if(idea.getRatedUsers().contains(user)) {
+            idea.getRatedUsers().remove(user);
+        } else {
+            idea.getRatedUsers().add(user);
+        } idea.getUnratedUsers().remove(user);
+
+        ideaRepository.save(idea);
+    }
+
+    public void reduceRating(Idea idea, String username) {
+        User user = userService.getUserByUsername(username);
+        if(idea.getUnratedUsers().contains(user)) {
+            idea.getUnratedUsers().remove(user);
+        } else {
+            idea.getUnratedUsers().add(user);
+        }
+        idea.getRatedUsers().remove(user);
+
+        ideaRepository.save(idea);
     }
 
     private void uploadImages(Idea idea, List<MultipartFile> addImages) {
@@ -149,35 +178,5 @@ public class IdeaService {
                 }
             }
         }
-    }
-
-    public void addLook(Idea idea, String username) {
-        User user = userService.getUserByUsername(username);
-        if(!idea.getLookedUsers().contains(user)) {
-            idea.addLook(user);
-            ideaRepository.save(idea);
-        }
-    }
-
-    public void addRating(Idea idea, String username) {
-        User user = userService.getUserByUsername(username);
-        if(idea.getRatedUsers().contains(user)) {
-            idea.getRatedUsers().remove(user);
-        } else {
-            idea.getRatedUsers().add(user);
-        }
-        idea.getUnratedUsers().remove(user);
-        ideaRepository.save(idea);
-    }
-
-    public void reduceRating(Idea idea, String username) {
-        User user = userService.getUserByUsername(username);
-        if(idea.getUnratedUsers().contains(user)) {
-            idea.getUnratedUsers().remove(user);
-        } else {
-            idea.getUnratedUsers().add(user);
-        }
-        idea.getRatedUsers().remove(user);
-        ideaRepository.save(idea);
     }
 }

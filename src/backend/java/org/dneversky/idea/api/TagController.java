@@ -1,32 +1,32 @@
 package org.dneversky.idea.api;
 
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
-import org.springframework.http.HttpStatus;
+import org.dneversky.idea.entity.Tag;
+import org.dneversky.idea.service.TagService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.util.Set;
+import java.util.List;
 
-@RequestMapping("api")
 @RestController
+@RequestMapping("api")
 public class TagController {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final TagService tagService;
 
-    @Resource(name = "redisTemplate")
-    private SetOperations<String, String> setOperations;
-
-    public TagController(RedisTemplate<String, String> redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public TagController(TagService tagService) {
+        this.tagService = tagService;
     }
 
     @GetMapping("/tags")
-    public ResponseEntity<Set<String>> getAll() {
-        setOperations.add("tags", "Banana");
-        return new ResponseEntity<>(setOperations.members("tags"), HttpStatus.OK);
+    public ResponseEntity<List<Tag>> getTags() {
+
+        return ResponseEntity.ok(tagService.getTags());
+    }
+
+    @DeleteMapping("/tag/delete/{id}")
+    public ResponseEntity<?> deleteTag(@PathVariable Tag id) {
+        tagService.deleteTag(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
