@@ -39,7 +39,7 @@ public class RoleController {
         return ResponseEntity.created(uri).body(roleService.saveRole(role));
     }
 
-    @DeleteMapping("/role/{id}/delete")
+    @DeleteMapping("/role/delete/{id}")
     public ResponseEntity<?> deleteRole(@PathVariable Role id) {
         roleService.deleteRole(id);
 

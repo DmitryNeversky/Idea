@@ -62,7 +62,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @DeleteMapping("/notification/{id}/delete")
+    @DeleteMapping("/notification/delete/{id}")
     public ResponseEntity<?> deleteNotification(@PathVariable Integer id, Principal principal) {
         userService.deleteNotificationById(id, userService.getUserByUsername(principal.getName()));
 
