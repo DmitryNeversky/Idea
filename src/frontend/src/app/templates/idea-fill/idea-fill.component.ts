@@ -63,10 +63,8 @@ export class IdeaFillComponent implements OnInit {
       this.voted = 1;
       this.idea.rating += 2;
     }
-    const formData = new FormData();
-    formData.append('ideaId', this.idea.id);
-    formData.append('userId', this.currentUser.id);
-    this.ideaService.addRating(formData);
+
+    this.ideaService.addRating(this.idea.id);
   }
 
   reduceRating() {
@@ -80,9 +78,7 @@ export class IdeaFillComponent implements OnInit {
       this.voted = -1;
       this.idea.rating -= 2;
     }
-    const formData = new FormData();
-    formData.append('ideaId', this.idea.id);
-    formData.append('userId', this.currentUser.id);
-    this.ideaService.reduceRating(formData);
+
+    this.ideaService.reduceRating(this.idea.id);
   }
 }

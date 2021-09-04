@@ -57,23 +57,23 @@ public class IdeaController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/idea/look")
-    public ResponseEntity<?> lookIdea(@RequestParam int ideaId, @RequestParam int userId) {
-        ideaService.addLook(ideaId, userId);
+    @GetMapping("/idea/look/{idea}")
+    public ResponseEntity<?> addLook(@PathVariable Idea idea, Principal principal) {
+        ideaService.addLook(idea, principal.getName());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/idea/rating/add")
-    public ResponseEntity<?> addRating(@RequestParam int ideaId, @RequestParam int userId) {
-        ideaService.addRating(ideaId, userId);
+    @GetMapping("/idea/rating/add/{idea}")
+    public ResponseEntity<?> addRating(@PathVariable Idea idea, Principal principal) {
+        ideaService.addRating(idea, principal.getName());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/idea/rating/reduce")
-    public ResponseEntity<?> reduceRating(@RequestParam int ideaId, @RequestParam int userId) {
-        ideaService.reduceRating(ideaId, userId);
+    @GetMapping("/idea/rating/reduce/{idea}")
+    public ResponseEntity<?> reduceRating(@PathVariable Idea idea, Principal principal) {
+        ideaService.reduceRating(idea, principal.getName());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

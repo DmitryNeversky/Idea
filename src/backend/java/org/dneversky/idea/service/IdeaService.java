@@ -7,10 +7,6 @@ import org.dneversky.idea.entity.User;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -121,11 +117,12 @@ public class IdeaService {
     }
 
     private void removeImages(Idea idea) {
-        if (idea.getImages() != null) {
-            for (String pair : idea.getImages()) {
+        if (idea.getRemoveImages() != null) {
+            for (String pair : idea.getRemoveImages()) {
                 if (Files.exists(Paths.get(UPLOAD_PATH + "images/" + pair))) {
                     try {
                         Files.delete(Paths.get(UPLOAD_PATH + "images/" + pair));
+                        idea.removeImage(pair);
                     } catch (IOException e) {
                         log.error("Removing idea's images error: {}", e.getMessage());
                     }
@@ -135,11 +132,17 @@ public class IdeaService {
     }
 
     private void removeFiles(Idea idea) {
-        if (idea.getFiles() != null) {
-            for (String pair : idea.getFiles().keySet()) {
+        if (idea.getRemoveFiles() != null) {
+            System.out.println("!= null");
+            for (String pair : idea.getRemoveFiles()) {
+                System.out.println(pair);
                 if (Files.exists(Paths.get(UPLOAD_PATH + "files/" + pair))) {
+                    System.out.println("Exist");
                     try {
                         Files.delete(Paths.get(UPLOAD_PATH + "files/" + pair));
+                        System.out.println(idea.getFiles());
+                        System.out.println("removing " + pair);
+                        idea.removeFile(pair);
                     } catch (IOException e) {
                         log.error("Removing idea's files error: {}", e.getMessage());
                     }
@@ -148,18 +151,16 @@ public class IdeaService {
         }
     }
 
-    public void addLook(int ideaId, int userId) {
-        Idea idea = ideaRepository.getById(ideaId);
-        User user = userService.getUserById(userId);
+    public void addLook(Idea idea, String username) {
+        User user = userService.getUserByUsername(username);
         if(!idea.getLookedUsers().contains(user)) {
-            idea.addLook(userService.getUserById(userId));
+            idea.addLook(user);
             ideaRepository.save(idea);
         }
     }
 
-    public void addRating(int ideaId, int userId) {
-        Idea idea = ideaRepository.getById(ideaId);
-        User user = userService.getUserById(userId);
+    public void addRating(Idea idea, String username) {
+        User user = userService.getUserByUsername(username);
         if(idea.getRatedUsers().contains(user)) {
             idea.getRatedUsers().remove(user);
         } else {
@@ -169,9 +170,8 @@ public class IdeaService {
         ideaRepository.save(idea);
     }
 
-    public void reduceRating(int ideaId, int userId) {
-        Idea idea = ideaRepository.getById(ideaId);
-        User user = userService.getUserById(userId);
+    public void reduceRating(Idea idea, String username) {
+        User user = userService.getUserByUsername(username);
         if(idea.getUnratedUsers().contains(user)) {
             idea.getUnratedUsers().remove(user);
         } else {

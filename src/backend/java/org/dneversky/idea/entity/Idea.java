@@ -22,7 +22,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(scope = Idea.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Idea implements Serializable {
 
     @Id
@@ -102,6 +102,14 @@ public class Idea implements Serializable {
             this.lookedUsers = new HashSet<>();
         } this.lookedUsers.add(user);
         this.looks++;
+    }
+
+    public void removeImage(String image) {
+        images.remove(image);
+    }
+
+    public void removeFile(String filename) {
+        files.remove(filename);
     }
 
     public int getRating() {

@@ -33,17 +33,17 @@ export class IdeaService {
     return this.httpClient.delete<void>(`${this.apiBaseUrl}/idea/delete/${id}`);
   }
 
-  public addLook(formData: FormData): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiBaseUrl}/idea/look`, formData);
+  public addLook(id: number|string): Observable<void> {
+    return this.httpClient.get<void>(`${this.apiBaseUrl}/idea/look/${id}`);
   }
 
-  public addRating(formData: FormData): void {
-    this.httpClient.post<void>(`${this.apiBaseUrl}/idea/rating/add`, formData)
+  public addRating(id: number|string): void {
+    this.httpClient.get<void>(`${this.apiBaseUrl}/idea/rating/add/${id}`)
         .subscribe(() => {}, error => console.log(error));
   }
 
-  public reduceRating(formData: FormData): void {
-    this.httpClient.post<void>(`${this.apiBaseUrl}/idea/rating/reduce`, formData)
+  public reduceRating(id: number|string): void {
+    this.httpClient.get<void>(`${this.apiBaseUrl}/idea/rating/reduce/${id}`)
         .subscribe(() => {}, error => console.log(error));
   }
 }

@@ -38,7 +38,7 @@
 </mat-card>
 
 <div *ngIf="paginatedIdeas.length > 0; else noIdeas">
-    <app-idea *ngFor="let idea of paginatedIdeas" [currentUser]="currentUser" [idea]="idea"></app-idea>
+    <app-idea *ngFor="let idea of paginatedIdeas" [idea]="idea"></app-idea>
 </div>
 
 <ng-template #noIdeas><p class="no-ideas">Идей не найдено</p></ng-template>
