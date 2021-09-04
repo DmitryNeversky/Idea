@@ -22,7 +22,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable {
 
     @Id
@@ -67,7 +67,7 @@ public class User implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate registeredDate;
 
-    @OneToMany(mappedBy = "author", cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Idea> ideas;
 
     @ManyToMany(fetch = FetchType.EAGER)

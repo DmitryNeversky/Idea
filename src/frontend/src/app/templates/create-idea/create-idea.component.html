@@ -1,9 +1,10 @@
 <div class="row" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <mat-card fxFlex="80%">
+    <mat-card fxFlex.xs="100%" fxFlex.gt-xs="80%">
         <mat-card-content>
 
             <h1>Создание идеи</h1>
             <form [formGroup]="mainForm" (ngSubmit)="create()">
+
                 <mat-form-field appearance="fill">
                     <mat-label>Заголовок</mat-label>
                     <input matInput formControlName="title">
@@ -40,39 +41,41 @@
                          (click)="imagesLoader.removeImage(image, index)" alt="load.image">
                 </div>
 
-                <div class="load-files" fxLayout="row wrap" fxLayoutGap="5%" *ngIf="filesLoader.files.length > 0">
+                <div fxLayout="row wrap" fxLayoutGap="5%" *ngIf="filesLoader.files.length > 0">
                     <p fxFlex="100%"><strong>Прикрепленные документы</strong></p>
                     <br>
-                    <div fxFlex="15%" *ngFor="let file of filesLoader.files; let index = index" class="files" (click)="filesLoader.removeFile(file, index)">
+                    <div fxFlex="15%" class="files" *ngFor="let file of filesLoader.files; let index = index">
                         <img [src]="'assets/' + file.icon" alt="images.image">
                         <p>{{file.name}}</p>
+                        <button type="button" mat-icon-button (click)="filesLoader.removeFile(file, index)" class="cancel">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
                     </div>
                 </div>
 
                 <div class="form-actions">
-
                     <div class="action">
                         <input type="file" style="display: none" (change)="imagesLoader.load($event)" accept="image/*" multiple #addImage>
+                        <input type="file" style="display: none" (change)="filesLoader.loadFiles($event)"
+                               accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.xml" multiple #addFile>
                         <button type="button" mat-icon-button (click)="addImage.click()">
                             <mat-icon color="warn">add_photo_alternate</mat-icon>
                         </button>
-                        <input type="file" style="display: none" (change)="filesLoader.loadFiles($event)"
-                               accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.xml" multiple #addFile>
                         <button type="button" mat-icon-button (click)="addFile.click()">
                             <mat-icon color="warn">description</mat-icon>
                         </button>
                     </div>
-
                     <div class="action">
                         <button type="button" mat-button color="primary">сохранить</button>
                         <button type="submit" (click)="chips.emitChips()" mat-flat-button color="primary">создать</button>
                     </div>
-
                 </div>
+
             </form>
         </mat-card-content>
     </mat-card>
-    <mat-card class="advices" fxFlex="20%">
+
+    <mat-card class="advices" fxFlex.xs="100%" fxFlex.gt-xs="20%">
         <mat-card-content>
             <h3>Советы по созданию</h3>
             <ul>

@@ -37,7 +37,7 @@ export class UpdateIdeaComponent implements OnInit {
 
     this.mainForm = new FormGroup({
       title: new FormControl(this.idea.title, [Validators.minLength(8), Validators.maxLength(256), Validators.required]),
-      text: new FormControl(this.idea.text, [Validators.minLength(64), Validators.maxLength(32768), Validators.required]),
+      text: new FormControl(this.idea.text, [Validators.minLength(256), Validators.maxLength(32768), Validators.required]),
     });
   }
 

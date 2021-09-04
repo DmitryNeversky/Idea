@@ -53,7 +53,10 @@ public class IdeaService {
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
 
-        idea.setAuthor(userService.getUserByUsername(username));
+        User user = userService.getUserByUsername(username);
+        user.addIdea(idea);
+
+        idea.setAuthor(user);
 
         return ideaRepository.save(idea);
     }

@@ -1,9 +1,7 @@
 package org.dneversky.idea.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +20,6 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@JsonIdentityInfo(scope = Idea.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Idea implements Serializable {
 
     @Id
@@ -58,7 +55,8 @@ public class Idea implements Serializable {
     @MapKeyColumn(name = "file_path")
     private Map<String, String> files;
 
-    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST })
+    @JoinTable(name = "idea_user", joinColumns = @JoinColumn(name = "idea_id"))
     private User author;
 
     // Need a Redis storage
@@ -86,22 +84,22 @@ public class Idea implements Serializable {
     private List<String> removeFiles;
 
     public void addImage(String image) {
-        if(this.images == null) {
-            this.images = new HashSet<>();
-        } this.images.add(image);
+        if(images == null) {
+            images = new HashSet<>();
+        } images.add(image);
     }
 
     public void addFile(String key, String value) {
-        if(this.files == null) {
-            this.files = new HashMap<>();
-        } this.files.put(key, value);
+        if(files == null) {
+            files = new HashMap<>();
+        } files.put(key, value);
     }
 
     public void addLook(User user) {
-        if(this.lookedUsers == null) {
-            this.lookedUsers = new HashSet<>();
-        } this.lookedUsers.add(user);
-        this.looks++;
+        if(lookedUsers == null) {
+            lookedUsers = new HashSet<>();
+        } lookedUsers.add(user);
+        looks++;
     }
 
     public void removeImage(String image) {
@@ -113,6 +111,6 @@ public class Idea implements Serializable {
     }
 
     public int getRating() {
-        return getRatedUsers().size() - getUnratedUsers().size();
+        return ratedUsers.size() - unratedUsers.size();
     }
 }

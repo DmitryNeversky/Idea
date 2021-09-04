@@ -5,7 +5,7 @@
             <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
 
                 <div class="avatar" fxFlex.xs="100%" fxFlex.gt-xs="20%">
-                    <button type="button" mat-mini-fab (click)="imageLoader.reset(); removeAvatar = false" *ngIf="imageLoader.loadImage || removeAvatar" color="accent">
+                    <button type="button" mat-mini-fab (click)="imageLoader.reset(loadInput); removeAvatar = false" *ngIf="imageLoader.loadImage || removeAvatar" color="accent">
                         <mat-icon>close</mat-icon>
                     </button>
                     <button type="button" mat-mini-fab (click)="removeAvatar = true" *ngIf="(user.avatar && !imageLoader.loadImage) && !removeAvatar" color="warn">

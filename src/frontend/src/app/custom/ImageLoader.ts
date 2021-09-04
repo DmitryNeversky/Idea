@@ -39,14 +39,9 @@ export class ImageLoader {
         }
     }
 
-    removeImage(event: any) {
-        this.dataTransfer.items.remove(event.target);
-        this.loadImage = null;
-        event.target.remove();
-    }
-
-    reset() {
+    reset(input: HTMLInputElement) {
         this.loadImage = null;
         this.dataTransfer.items.clear();
+        input.value = '';
     }
 }
