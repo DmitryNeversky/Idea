@@ -24,7 +24,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-//@CacheConfig(cacheNames = "idea")
 public class IdeaService {
 
     @Value("${uploadPath}")
@@ -33,13 +32,11 @@ public class IdeaService {
     private final IdeaRepository ideaRepository;
     private final UserService userService;
 
-//    @Cacheable
     public List<Idea> getIdeas() {
 
         return ideaRepository.findAll();
     }
 
-//    @Cacheable(key = "#id")
     public Idea getIdeaById(int id) {
         Optional<Idea> findIdea = ideaRepository.findById(id);
 
@@ -61,18 +58,22 @@ public class IdeaService {
         return ideaRepository.save(idea);
     }
 
-//    @CachePut(key = "#idea.id")
     public Idea putIdea(Idea idea, List<MultipartFile> addImages, List<MultipartFile> addFiles) {
+        Optional<Idea> findIdea = ideaRepository.findById(idea.getId());
+        if(!findIdea.isPresent()) {
+            return null;
+        }
 
         removeImages(idea);
         removeFiles(idea);
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
 
+        idea.setLookedUsers(findIdea.get().getLookedUsers());
+
         return ideaRepository.save(idea);
     }
 
-//    @CacheEvict(key = "#id")
     public void deleteIdea(Idea idea) {
         removeImages(idea);
         removeFiles(idea);
@@ -82,8 +83,8 @@ public class IdeaService {
 
     public void addLook(Idea idea, String username) {
         User user = userService.getUserByUsername(username);
-        if(!idea.getLookedUsers().contains(user)) {
-            idea.addLook(user);
+        if(!idea.getLookedUsers().contains(user.getId())) {
+            idea.addLook(user.getId());
 
             ideaRepository.save(idea);
         }
@@ -165,15 +166,10 @@ public class IdeaService {
 
     private void removeFiles(Idea idea) {
         if (idea.getRemoveFiles() != null) {
-            System.out.println("!= null");
             for (String pair : idea.getRemoveFiles()) {
-                System.out.println(pair);
                 if (Files.exists(Paths.get(UPLOAD_PATH + "files/" + pair))) {
-                    System.out.println("Exist");
                     try {
                         Files.delete(Paths.get(UPLOAD_PATH + "files/" + pair));
-                        System.out.println(idea.getFiles());
-                        System.out.println("removing " + pair);
                         idea.removeFile(pair);
                     } catch (IOException e) {
                         log.error("Removing idea's files error: {}", e.getMessage());

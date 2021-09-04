@@ -1,12 +1,12 @@
 <mat-card fxLayout="column" fxLayoutGap="2%">
 
-    <mat-card-title fxFlex="100%">
+    <mat-card-title>
+        <span class="title">{{idea.title}}</span>
         <ng-container [ngSwitch]="idea.status">
             <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>
             <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>
             <small class="status" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'">Отказано</small>
         </ng-container>
-        <span class="title">{{idea.title}}</span>
     </mat-card-title>
 
     <mat-card-content fxFlex="100%" class="card-content">
@@ -15,9 +15,11 @@
 
     <mat-card-content fxFlex="100%" *ngIf="idea.images.length > 0">
         <p><strong>Прикрепленные изображения</strong></p>
-        <div fxLayout="row wrap" class="load-images">
-            <img [src]="uploadImagePath + image" (click)="resize(image)" *ngFor="let image of idea.images"
-                 class="image mat-elevation-z2" alt="loaded.image" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
+        <div fxLayout="row wrap">
+            <div class="image-wrap" fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" *ngFor="let image of idea.images">
+                <img [src]="uploadPath + '/images/' + image" (click)="resize(image)" class="mat-elevation-z2" alt="loaded.image">
+                <a [href]="uploadPath + '/images/' + image" download mat-mini-fab class="download" color="primary"><mat-icon>download</mat-icon></a>
+            </div>
         </div>
     </mat-card-content>
 
@@ -25,8 +27,8 @@
         <p><strong>Прикрепленные документы</strong></p>
         <br>
         <div fxLayout="row wrap" fxLayoutGap="5%">
-            <a href="assets/uploaded/files/{{file.key}}" target="_blank" class="files" *ngFor="let file of idea.files | keyvalue" fxFlex.xs="45%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
-                <img [src]="'assets/images/' + (file.value | imagevar)" alt="image">
+            <a [href]="uploadPath + '/files/' + file.key" target="_blank" class="files" *ngFor="let file of idea.files | keyvalue" fxFlex.xs="45%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%">
+                <img [src]="'assets/images/'+ (file.value | imagevar)" alt="image">
                 <p>{{file.value | filename}}</p>
             </a>
         </div>
@@ -58,5 +60,5 @@
 </mat-card>
 
 <div class="canvas" (click)="resize(null)" [@fade] *ngIf="resizableImage">
-    <img [src]="uploadImagePath + resizableImage" alt="resize.image">
+    <img [src]="uploadPath + '/images/' + resizableImage" alt="resize.image">
 </div>

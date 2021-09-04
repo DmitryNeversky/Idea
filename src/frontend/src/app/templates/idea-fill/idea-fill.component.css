@@ -1,6 +1,7 @@
 mat-card-title {
     display: flex;
     align-items: center;
+    margin-top: 10px !important;
 }
 
 mat-card {
@@ -11,17 +12,37 @@ mat-card-footer {
     margin-bottom: -10px;
 }
 
+.status {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 0 4px 0 14px;
+}
+
 .title {
     margin-left: 10px;
     line-height: 1.5;
 }
 
-.load-images img{
-    max-height: 110px;
+.image-wrap {
+    position: relative;
     margin-right: 1%;
     margin-bottom: 1%;
     border-radius: 5%;
+}
+
+.image-wrap img {
+    width: 100%;
+    max-height: 110px;
     cursor: pointer;
+    z-index: 9;
+}
+
+.image-wrap a.download {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    transform: scale(0.8);
 }
 
 .right {

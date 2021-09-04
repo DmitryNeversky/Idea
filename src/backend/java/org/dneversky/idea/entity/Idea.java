@@ -61,14 +61,16 @@ public class Idea implements Serializable {
 
     // Need a Redis storage
 
+    @Getter(AccessLevel.NONE)
     private int looks;
 
     @Getter(AccessLevel.NONE)
     private int rating;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<User> lookedUsers;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "idea_looked_users", joinColumns = @JoinColumn(name = "idea_id"))
+    private Set<Integer> lookedUsers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> ratedUsers = new HashSet<>();
@@ -95,11 +97,8 @@ public class Idea implements Serializable {
         } files.put(key, value);
     }
 
-    public void addLook(User user) {
-        if(lookedUsers == null) {
-            lookedUsers = new HashSet<>();
-        } lookedUsers.add(user);
-        looks++;
+    public void addLook(int userId) {
+        lookedUsers.add(userId);
     }
 
     public void removeImage(String image) {
@@ -112,5 +111,9 @@ public class Idea implements Serializable {
 
     public int getRating() {
         return ratedUsers.size() - unratedUsers.size();
+    }
+
+    public int getLooks() {
+        return lookedUsers.size();
     }
 }

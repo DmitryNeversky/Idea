@@ -5,6 +5,7 @@ import {User} from "../../models/User";
 import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Post} from "../../models/Post";
+import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 
 @Component({
   selector: 'app-registration',
@@ -52,8 +53,10 @@ export class RegistrationComponent implements OnInit {
   }
 
   registration() {
-    // if(this.firstFormGroup.invalid || this.secondFormGroup.invalid)
-    //   return
+    if(this.firstFormGroup.invalid || this.secondFormGroup.invalid) {
+      this.error = "проверьте правильность введенных данных";
+      return;
+    }
 
     let firstName = this.firstFormGroup.get('firstName').value;
     firstName = firstName.charAt(0).toUpperCase() + firstName.substr(1).toLowerCase();
@@ -75,9 +78,13 @@ export class RegistrationComponent implements OnInit {
     this.authService.registration(user).subscribe(() => {
       this.preloader = false;
       this.router.navigate(['/auth']);
-    }, error => {
-      console.log(error);
+    }, (error: HttpErrorResponse) => {
       this.preloader = false;
+      if(error.status == HttpStatusCode.Found) {
+        this.error = "пользователь с таким email уже существует";
+      } else {
+        console.log(error);
+      }
     });
   }
 

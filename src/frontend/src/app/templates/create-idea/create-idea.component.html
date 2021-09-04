@@ -38,7 +38,7 @@
                 <div class="load-images" fxLayout="row wrap" *ngIf="imagesLoader.dataTransfer.items.length > 0">
                     <p fxFlex="100%"><strong>Прикрепленные изображения</strong></p>
                     <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages; let index = index" class="image mat-elevation-z2"
-                         (click)="imagesLoader.removeImage(image, index)" alt="load.image">
+                         (click)="imagesLoader.removeImage(image, index, imageInput)" alt="load.image">
                 </div>
 
                 <div fxLayout="row wrap" fxLayoutGap="5%" *ngIf="filesLoader.files.length > 0">
@@ -47,7 +47,7 @@
                     <div fxFlex="15%" class="files" *ngFor="let file of filesLoader.files; let index = index">
                         <img [src]="'assets/' + file.icon" alt="images.image">
                         <p>{{file.name}}</p>
-                        <button type="button" mat-icon-button (click)="filesLoader.removeFile(file, index)" class="cancel">
+                        <button type="button" mat-icon-button (click)="filesLoader.removeFile(file, index, fileInput)" class="cancel">
                             <mat-icon>cancel</mat-icon>
                         </button>
                     </div>
@@ -55,13 +55,13 @@
 
                 <div class="form-actions">
                     <div class="action">
-                        <input type="file" style="display: none" (change)="imagesLoader.load($event)" accept="image/*" multiple #addImage>
+                        <input type="file" style="display: none" (change)="imagesLoader.load($event)" accept="image/*" multiple #imageInput>
                         <input type="file" style="display: none" (change)="filesLoader.loadFiles($event)"
-                               accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.xml" multiple #addFile>
-                        <button type="button" mat-icon-button (click)="addImage.click()">
+                               accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.xml" multiple #fileInput>
+                        <button type="button" mat-icon-button (click)="imageInput.click()">
                             <mat-icon color="warn">add_photo_alternate</mat-icon>
                         </button>
-                        <button type="button" mat-icon-button (click)="addFile.click()">
+                        <button type="button" mat-icon-button (click)="fileInput.click()">
                             <mat-icon color="warn">description</mat-icon>
                         </button>
                     </div>

@@ -42,9 +42,10 @@ export class FilesLoader {
         }
     }
 
-    public removeFile(file, index) {
+    public removeFile(file: any, index: number, input: HTMLInputElement) {
         this.dataTransfer.items.remove(index);
         this.files = this.files.filter(x => x != file);
+        input.value = '';
     }
 
     public removeFilesList: string[] = [];

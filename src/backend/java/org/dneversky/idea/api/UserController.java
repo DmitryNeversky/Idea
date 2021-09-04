@@ -41,6 +41,9 @@ public class UserController {
 
     @PostMapping("/user/save")
     public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
+        if(userService.getUserByUsername(user.getUsername()) != null) {
+            return ResponseEntity.status(HttpStatus.FOUND).build();
+        }
 
         return ResponseEntity
                 .created(URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString()))

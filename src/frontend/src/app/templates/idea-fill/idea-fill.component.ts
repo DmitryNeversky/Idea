@@ -27,7 +27,7 @@ export class IdeaFillComponent implements OnInit {
 
   public voted: number;
 
-  public uploadImagePath: string = environment.uploadPath + "images/";
+  public uploadPath: string = environment.uploadPath;
 
   public idea: Idea;
   public currentUser: User;

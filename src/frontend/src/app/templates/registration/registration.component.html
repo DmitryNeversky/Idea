@@ -9,7 +9,7 @@
                     <div fxLayout="row wrap" class="form-content">
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>имя</mat-label>
-                            <input matInput pattern="[a-zA-Z]*" formControlName="firstName">
+                            <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="firstName">
                             <mat-error *ngIf="firstFormGroup.get('firstName').hasError('required')">заполните поле</mat-error>
                             <mat-error *ngIf="firstFormGroup.get('firstName').hasError('pattern')">некорректно введены данные</mat-error>
                             <mat-error *ngIf="firstFormGroup.get('firstName').hasError('maxlength')">
@@ -18,7 +18,7 @@
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>отчество</mat-label>
-                            <input matInput pattern="[a-zA-Z]*" formControlName="secondName">
+                            <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="secondName">
                             <mat-error *ngIf="firstFormGroup.get('secondName').hasError('required')">заполните поле</mat-error>
                             <mat-error *ngIf="firstFormGroup.get('secondName').hasError('pattern')">некорректно введены данные</mat-error>
                             <mat-error *ngIf="firstFormGroup.get('secondName').hasError('maxlength')">
@@ -27,7 +27,7 @@
                         </mat-form-field>
                         <mat-form-field fxFlex="45%" appearance="fill">
                             <mat-label>фамилия</mat-label>
-                            <input matInput pattern="[a-zA-Z]*" formControlName="lastName">
+                            <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="lastName">
                             <mat-error *ngIf="firstFormGroup.get('lastName').hasError('required')">заполните поле</mat-error>
                             <mat-error *ngIf="firstFormGroup.get('lastName').hasError('pattern')">некорректно введены данные</mat-error>
                             <mat-error *ngIf="firstFormGroup.get('lastName').hasError('maxlength')">
@@ -115,8 +115,8 @@
                             <mat-label>Код подтверждения</mat-label>
                             <input matInput formControlName="code">
                         </mat-form-field>
+                        <mat-error fxFlex="100%" *ngIf="error">{{error}}</mat-error>
                     </div>
-                    <mat-error *ngIf="error">{{error}}</mat-error>
                     <div class="form-actions">
                         <div class="action">
                             <button mat-flat-button color="primary" matStepperPrevious>назад</button>
