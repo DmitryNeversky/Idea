@@ -13,6 +13,6 @@ export class IdeasResolver implements Resolve<Idea[]> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Idea[]> | Promise<Idea[]>{
 
-    return this.ideaService.getAll();
+    return this.ideaService.getIdeas();
   }
 }

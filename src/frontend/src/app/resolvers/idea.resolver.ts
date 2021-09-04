@@ -13,6 +13,6 @@ export class IdeaResolver implements Resolve<Idea> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Idea> | Promise<Idea>{
 
-    return this.ideaService.getById(route.paramMap.get('id'));
+    return this.ideaService.getIdeaById(route.paramMap.get('id'));
   }
 }

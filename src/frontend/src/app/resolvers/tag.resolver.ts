@@ -12,6 +12,6 @@ export class TagResolver implements Resolve<string[]> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string[]> | Promise<string[]>{
 
-        return this.tagService.getAll();
+        return this.tagService.getTags();
     }
 }

@@ -52,7 +52,7 @@ export class CreateIdeaComponent implements OnInit{
     for (let i = 0; i < this.filesLoader.dataTransfer.files.length; i++)
       formData.append('addFiles', this.filesLoader.dataTransfer.files[i])
 
-    this.ideaService.save(formData).subscribe(() => {
+    this.ideaService.saveIdea(formData).subscribe(() => {
       this.router.navigate(['ideas']);
       this._snackBar.openFromComponent(SnackbarComponent, {
         duration: 2000,

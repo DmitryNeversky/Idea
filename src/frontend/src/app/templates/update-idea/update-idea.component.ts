@@ -66,7 +66,7 @@ export class UpdateIdeaComponent implements OnInit {
 
     formData.append('idea', JSON.stringify(this.idea));
 
-    this.ideaService.put(formData).subscribe(() => {
+    this.ideaService.putIdea(formData).subscribe(() => {
       this.router.navigate(['ideas']);
       this._snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,

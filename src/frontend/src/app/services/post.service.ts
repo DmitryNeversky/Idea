@@ -13,23 +13,23 @@ export class PostService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getAll(): Observable<Post[]> {
+  public getPosts(): Observable<Post[]> {
     return this.httpClient.get<Post[]>(`${this.apiBaseUrl}/posts`);
   }
 
-  public getById(id: number|string): Observable<Post> {
+  public getPostById(id: number|string): Observable<Post> {
     return this.httpClient.get<Post>(`${this.apiBaseUrl}/post/${id}`);
   }
 
-  public save(formData: FormData): Observable<Post> {
+  public savePost(formData: FormData): Observable<Post> {
     return this.httpClient.post<Post>(`${this.apiBaseUrl}/post/save`, formData);
   }
 
-  public put(formData: FormData): Observable<Post> {
+  public putPost(formData: FormData): Observable<Post> {
     return this.httpClient.put<Post>(`${this.apiBaseUrl}/post/put`, formData);
   }
 
-  public delete(id: number|string): Observable<void> {
+  public deletePost(id: number|string): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiBaseUrl}/post/delete/${id}`);
   }
 }

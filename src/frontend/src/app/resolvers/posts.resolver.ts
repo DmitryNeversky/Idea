@@ -13,6 +13,6 @@ export class PostsResolver implements Resolve<Post[]> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Post[]> | Promise<Post[]>{
 
-        return this.postService.getAll();
+        return this.postService.getPosts();
     }
 }

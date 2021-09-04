@@ -12,19 +12,19 @@ export class TagService {
 
     constructor(private httpClient: HttpClient) { }
 
-    public getAll(): Observable<string[]> {
+    public getTags(): Observable<string[]> {
         return this.httpClient.get<string[]>(`${this.apiBaseUrl}/tags`);
     }
 
-    public add(tags: string[]): Observable<string> {
-        return this.httpClient.post<string>(`${this.apiBaseUrl}/tags/add`, tags);
+    public addTag(tags: string[]): Observable<string> {
+        return this.httpClient.post<string>(`${this.apiBaseUrl}/tags/save`, tags);
     }
 
-    public put(tag: string): Observable<string> {
+    public putTag(tag: string): Observable<string> {
         return this.httpClient.put<string>(`${this.apiBaseUrl}/tags/put/${tag}`, tag);
     }
 
-    public delete(tag: string): Observable<void> {
+    public deleteTag(tag: string): Observable<void> {
         return this.httpClient.delete<void>(`${this.apiBaseUrl}/tags/delete/${tag}`);
     }
 }
