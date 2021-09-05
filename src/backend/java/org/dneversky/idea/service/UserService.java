@@ -22,10 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -86,11 +83,15 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(User user) {
-        log.info("Deleting user {}", user.getUsername());
-        removeAvatar(user);
+    public void deleteUser(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent())
+            return;
 
-        userRepository.delete(user);
+        log.info("Deleting user {}", user.get().getUsername());
+        removeAvatar(user.get());
+
+        userRepository.delete(user.get());
     }
 
     public void deleteNotificationById(int id, User user) {

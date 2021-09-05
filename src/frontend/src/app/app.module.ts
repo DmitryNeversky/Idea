@@ -50,14 +50,15 @@ import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import {UserComponent} from './templates/user/user.component';
 import {AuthInterceptor} from "./security/auth.interceptor";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {UserIdeasComponent} from './templates/user-ideas/user-ideas.component';
+import {UserIdeasComponent} from './templates/user/ideas/user-ideas.component';
 import {NgxMaskModule} from "ngx-mask";
-import { SettingsComponent } from './templates/settings/settings.component';
+import {SettingsComponent} from './templates/settings/settings.component';
 import {MatTabsModule} from "@angular/material/tabs";
-import { ProfileComponent } from './templates/settings/profile/profile.component';
-import { NotifiesComponent } from './templates/settings/notifies/notifies.component';
-import { InterfaceComponent } from './templates/settings/interface/interface.component';
-import { SecureComponent } from './templates/settings/secure/secure.component';
+import {ProfileComponent} from './templates/settings/profile/profile.component';
+import {NotifiesComponent} from './templates/settings/notifies/notifies.component';
+import {InterfaceComponent} from './templates/settings/interface/interface.component';
+import {SecureComponent} from './templates/settings/secure/secure.component';
+import {UserProfileComponent} from "./templates/user/profile/user-profile.component";
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -89,6 +90,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     NotifiesComponent,
     InterfaceComponent,
     SecureComponent,
+    UserProfileComponent,
   ],
     imports: [
         BrowserModule,

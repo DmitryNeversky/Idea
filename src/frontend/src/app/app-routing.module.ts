@@ -36,6 +36,7 @@ const routes: Routes = [
                 path: 'ideas',
                 component: IdeasComponent,
                 data: { animation: 'ideas' },
+                canActivate: [AuthGuard],
                 resolve: {
                     ideas: IdeasResolver,
                     currentUser: CurrentUserResolver
@@ -45,6 +46,7 @@ const routes: Routes = [
                 path: 'ideas/id/:id',
                 component: IdeaFillComponent,
                 data: { animation: 'idea' },
+                canActivate: [AuthGuard],
                 resolve: {
                     idea: IdeaResolver,
                     currentUser: CurrentUserResolver
@@ -54,6 +56,7 @@ const routes: Routes = [
                 path: 'ideas/create',
                 component: CreateIdeaComponent,
                 data: { animation: 'idea-create' },
+                canActivate: [AuthGuard],
                 resolve: {
                     tags: TagResolver
                 }
@@ -62,6 +65,7 @@ const routes: Routes = [
                 path: 'ideas/update/:id',
                 component: UpdateIdeaComponent,
                 data: { animation: 'update-idea' },
+                canActivate: [AuthGuard],
                 resolve: {
                     idea: IdeaResolver
                 }
@@ -70,6 +74,7 @@ const routes: Routes = [
                 path: 'profile',
                 component: UserComponent,
                 data: { animation: 'profile' },
+                canActivate: [AuthGuard],
                 resolve: {
                     currentUser: CurrentUserResolver,
                 },
@@ -78,6 +83,7 @@ const routes: Routes = [
                 path: 'settings',
                 component: SettingsComponent,
                 data: { animation: 'settings' },
+                canActivate: [AuthGuard],
                 resolve: {
                     currentUser: CurrentUserResolver
                 },
@@ -91,6 +97,7 @@ const routes: Routes = [
                         path: 'profile',
                         component: ProfileComponent,
                         data: { animation: 'profile' },
+                        canActivate: [AuthGuard],
                         resolve: {
                             currentUser: CurrentUserResolver,
                             posts: PostsResolver,
@@ -100,6 +107,7 @@ const routes: Routes = [
                         path: 'notifies',
                         component: NotifiesComponent,
                         data: { animation: 'notifies' },
+                        canActivate: [AuthGuard],
                         resolve: {
                             currentUser: CurrentUserResolver,
                         }
@@ -108,6 +116,7 @@ const routes: Routes = [
                         path: 'interface',
                         component: InterfaceComponent,
                         data: { animation: 'interface' },
+                        canActivate: [AuthGuard],
                         resolve: {
                             currentUser: CurrentUserResolver,
                         }
@@ -116,6 +125,7 @@ const routes: Routes = [
                         path: 'secure',
                         component: SecureComponent,
                         data: { animation: 'secure' },
+                        canActivate: [AuthGuard],
                         resolve: {
                             currentUser: CurrentUserResolver,
                         }
@@ -126,6 +136,7 @@ const routes: Routes = [
                 path: 'user/:id',
                 component: UserComponent,
                 data: { animation: 'user' },
+                canActivate: [AuthGuard],
                 resolve: {
                     user: UserResolver
                 }

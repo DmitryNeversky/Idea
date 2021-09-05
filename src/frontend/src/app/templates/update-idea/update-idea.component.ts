@@ -8,6 +8,8 @@ import {Idea} from "../../models/Idea";
 import {SnackbarComponent} from "../../shared/snackbar/snackbar.component";
 import {environment} from "../../../environments/environment";
 import {FilesLoader} from "../../custom/FilesLoader";
+import {DialogComponent} from "../../shared/dialog/dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-update-idea',
@@ -30,7 +32,8 @@ export class UpdateIdeaComponent implements OnInit {
   constructor(private ideaService: IdeaService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              private _snackBar: MatSnackBar) { }
+              private _snackBar: MatSnackBar,
+              private _dialog: MatDialog) { }
 
   ngOnInit() {
     this.idea = this.activatedRoute.snapshot.data.idea;
@@ -80,6 +83,33 @@ export class UpdateIdeaComponent implements OnInit {
         horizontalPosition: "start",
         data: "Произошла ошибка, попробуйте позже."
       });
+    });
+  }
+
+  delete() {
+    this._dialog.open(DialogComponent, {
+      data: {
+        title: "Предупреждение",
+        message: "Восстановить идею будет невозможно. Вы уверены что хотите её удалить?"
+      }
+    }).afterClosed().subscribe(result => {
+      if(result) {
+        this.ideaService.deleteIdea(this.idea.id).subscribe(() => {
+          this.router.navigate(['ideas']);
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: 2000,
+            horizontalPosition: "start",
+            data: "Идея успешно удалена!"
+          });
+        }, error => {
+          console.log(error);
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration: 3000,
+            horizontalPosition: "start",
+            data: "Произошла ошибка, попробуйте позже."
+          });
+        });
+      }
     });
   }
 

@@ -53,9 +53,9 @@ public class IdeaController {
         return ResponseEntity.ok(ideaService.putIdea(idea, addImages, addFiles));
     }
 
-    @DeleteMapping("/idea/delete/{idea}")
-    public ResponseEntity<?> deleteIdea(@PathVariable Idea idea) {
-        ideaService.deleteIdea(idea);
+    @DeleteMapping("/idea/delete/{id}")
+    public ResponseEntity<?> deleteIdea(@PathVariable int id) {
+        ideaService.deleteIdea(id);
 
         return ResponseEntity.noContent().build();
     }

@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -64,8 +65,8 @@ public class IdeaService {
             return null;
         }
 
-        removeImages(idea);
-        removeFiles(idea);
+        removeImages(idea, idea.getRemoveImages());
+        removeFiles(idea, idea.getRemoveFiles());
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
 
@@ -74,11 +75,15 @@ public class IdeaService {
         return ideaRepository.save(idea);
     }
 
-    public void deleteIdea(Idea idea) {
-        removeImages(idea);
-        removeFiles(idea);
+    public void deleteIdea(int id) {
+        Optional<Idea> idea = ideaRepository.findById(id);
+        if(!idea.isPresent())
+            return;
 
-        ideaRepository.delete(idea);
+        removeImages(idea.get(), idea.get().getImages());
+        removeFiles(idea.get(), idea.get().getFiles().keySet());
+
+        ideaRepository.delete(idea.get());
     }
 
     public void addLook(Idea idea, String username) {
@@ -113,9 +118,9 @@ public class IdeaService {
         ideaRepository.save(idea);
     }
 
-    private void uploadImages(Idea idea, List<MultipartFile> addImages) {
-        if (addImages != null) {
-            for (MultipartFile pair : addImages) {
+    private void uploadImages(Idea idea, Collection<MultipartFile> images) {
+        if (images != null) {
+            for (MultipartFile pair : images) {
                 if (Objects.requireNonNull(pair.getOriginalFilename()).isEmpty())
                     continue;
                 String fileName = java.util.UUID.randomUUID() + "_"
@@ -131,9 +136,9 @@ public class IdeaService {
         }
     }
 
-    private void uploadFiles(Idea idea, List<MultipartFile> addFiles){
-        if(addFiles != null) {
-            for (MultipartFile pair : addFiles) {
+    private void uploadFiles(Idea idea, Collection<MultipartFile> files){
+        if(files != null) {
+            for (MultipartFile pair : files) {
                 if (Objects.requireNonNull(pair.getOriginalFilename()).isEmpty())
                     continue;
                 String fileName = java.util.UUID.randomUUID() + "_"
@@ -149,9 +154,9 @@ public class IdeaService {
         }
     }
 
-    private void removeImages(Idea idea) {
-        if (idea.getRemoveImages() != null) {
-            for (String pair : idea.getRemoveImages()) {
+    private void removeImages(Idea idea, Collection<String> images) {
+        if (images != null) {
+            for (String pair : images) {
                 if (Files.exists(Paths.get(UPLOAD_PATH + "images/" + pair))) {
                     try {
                         Files.delete(Paths.get(UPLOAD_PATH + "images/" + pair));
@@ -164,9 +169,9 @@ public class IdeaService {
         }
     }
 
-    private void removeFiles(Idea idea) {
-        if (idea.getRemoveFiles() != null) {
-            for (String pair : idea.getRemoveFiles()) {
+    private void removeFiles(Idea idea, Collection<String> files) {
+        if (files != null) {
+            for (String pair : files) {
                 if (Files.exists(Paths.get(UPLOAD_PATH + "files/" + pair))) {
                     try {
                         Files.delete(Paths.get(UPLOAD_PATH + "files/" + pair));
