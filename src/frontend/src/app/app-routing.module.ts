@@ -21,6 +21,9 @@ import {NotifiesComponent} from "./templates/settings/notifies/notifies.componen
 import {InterfaceComponent} from "./templates/settings/interface/interface.component";
 import {SecureComponent} from "./templates/settings/secure/secure.component";
 import {PathGuard} from "./security/path.guard";
+import {UserProfileComponent} from "./templates/user/profile/user-profile.component";
+import {UserIdeasComponent} from "./templates/user/ideas/user-ideas.component";
+import {UserContactsComponent} from "./templates/user/contacts/user-contacts.component";
 
 const routes: Routes = [
     {
@@ -97,7 +100,6 @@ const routes: Routes = [
                         path: 'profile',
                         component: ProfileComponent,
                         data: { animation: 'profile' },
-                        canActivate: [AuthGuard],
                         resolve: {
                             currentUser: CurrentUserResolver,
                             posts: PostsResolver,
@@ -107,7 +109,6 @@ const routes: Routes = [
                         path: 'notifies',
                         component: NotifiesComponent,
                         data: { animation: 'notifies' },
-                        canActivate: [AuthGuard],
                         resolve: {
                             currentUser: CurrentUserResolver,
                         }
@@ -116,7 +117,6 @@ const routes: Routes = [
                         path: 'interface',
                         component: InterfaceComponent,
                         data: { animation: 'interface' },
-                        canActivate: [AuthGuard],
                         resolve: {
                             currentUser: CurrentUserResolver,
                         }
@@ -125,7 +125,6 @@ const routes: Routes = [
                         path: 'secure',
                         component: SecureComponent,
                         data: { animation: 'secure' },
-                        canActivate: [AuthGuard],
                         resolve: {
                             currentUser: CurrentUserResolver,
                         }
@@ -137,9 +136,37 @@ const routes: Routes = [
                 component: UserComponent,
                 data: { animation: 'user' },
                 canActivate: [AuthGuard],
-                resolve: {
-                    user: UserResolver
-                }
+                children: [
+                    {
+                        path: '',
+                        pathMatch: 'full',
+                        redirectTo: 'profile'
+                    },
+                    {
+                        path: 'profile',
+                        component: UserProfileComponent,
+                        data: { animation: 'profile' },
+                        resolve: {
+                            user: UserResolver
+                        }
+                    },
+                    {
+                        path: 'ideas',
+                        component: UserIdeasComponent,
+                        data: { animation: 'ideas' },
+                        resolve: {
+                            user: UserResolver
+                        }
+                    },
+                    {
+                        path: 'contacts',
+                        component: UserContactsComponent,
+                        data: { animation: 'contacts' },
+                        resolve: {
+                            user: UserResolver
+                        }
+                    }
+                ]
             },
         ]
     },

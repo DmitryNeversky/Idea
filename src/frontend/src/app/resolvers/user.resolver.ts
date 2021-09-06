@@ -14,7 +14,7 @@ export class UserResolver implements Resolve<User> {
               private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> | Promise<User> {
-    return this.userService.getUserById(route.paramMap.get('id')).pipe(
+    return this.userService.getUserById(route.parent.paramMap.get('id')).pipe(
         tap((user: User) => {
           if(!user)
             this.router.navigate(['/']);

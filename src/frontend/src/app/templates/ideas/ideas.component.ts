@@ -31,7 +31,6 @@ export class IdeasComponent implements OnInit {
 
   ngOnInit(): void {
     this.ideas = this.activatedRoute.snapshot.data.ideas.filter((idea: Idea) => idea && idea.title);
-    console.log(this.activatedRoute.snapshot.data.ideas)
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
 
     this.filteredIdeas = this.ideas;

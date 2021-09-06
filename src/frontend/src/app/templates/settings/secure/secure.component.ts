@@ -7,6 +7,7 @@ import {UserService} from "../../../services/user.service";
 import {DialogComponent} from "../../../shared/dialog/dialog.component";
 import {SnackbarComponent} from "../../../shared/snackbar/snackbar.component";
 import {AuthService} from "../../../services/auth.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-secure',
@@ -15,10 +16,17 @@ import {AuthService} from "../../../services/auth.service";
 })
 export class SecureComponent implements OnInit {
 
+  hide1: boolean = true;
+  hide2: boolean = true;
+
   public user: User;
+
+  public emailForm: FormGroup;
+  public passwordForm: FormGroup;
 
   constructor(private userService: UserService,
               private authService: AuthService,
+              private _formBuilder: FormBuilder,
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private _snackBar: MatSnackBar,
@@ -26,6 +34,19 @@ export class SecureComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.activatedRoute.snapshot.data.currentUser;
+    console.log(this.user.password);
+    this.emailForm = this._formBuilder.group({
+      email: ['', [Validators.email, Validators.maxLength(64)]],
+      code: ['', [Validators.maxLength(64)]],
+    });
+    this.passwordForm = this._formBuilder.group({
+      oldPassword: ['', [Validators.minLength(6), Validators.maxLength(32)]],
+      newPassword: ['', [Validators.minLength(6), Validators.maxLength(32)]],
+    });
+  }
+
+  update() {
+
   }
 
   delete() {

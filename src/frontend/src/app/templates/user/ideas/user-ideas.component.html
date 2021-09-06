@@ -1,0 +1,13 @@
+<div class="content" fxLayout.xs="column" fxLayout.gt-xs="row wrap" fxLayoutGap="1%">
+    <mat-card fxLayout.xs="column" fxFlex.xs="100%" fxFlex.gt-xs="30%" fxFlexFill>
+        <mat-card-content class="info-content" fxLayout.lt-lg="column" fxLayout.gt-lg="row">
+            <h3 class="silver">Условия</h3>
+
+        </mat-card-content>
+    </mat-card>
+    <div fxLayout="column" fxFlex.xs="100%" fxFlex.gt-xs fxFlexFill
+         *ngIf="ideas.length > 0; else noIdeas">
+        <app-idea *ngFor="let idea of ideas" [idea]="idea"></app-idea>
+    </div>
+    <ng-template #noIdeas><p class="no-ideas">Идей не найдено</p></ng-template>
+</div>

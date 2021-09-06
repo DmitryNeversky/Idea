@@ -1,11 +1,9 @@
-<mat-tab-group>
-    <mat-tab label="First">
-        <app-user-profile [user]="user" [ideas]="ideas"></app-user-profile>
-    </mat-tab>
-    <mat-tab label="Second">
-        <app-user-ideas></app-user-ideas>
-    </mat-tab>
-    <mat-tab label="Third">
+<nav mat-tab-nav-bar disableRipple>
+    <a routerLinkActive="primary" mat-tab-link routerLink="profile">Профиль</a>
+    <a routerLinkActive="primary" mat-tab-link routerLink="ideas">Идеи</a>
+    <a routerLinkActive="primary" mat-tab-link routerLink="contacts">Контакты</a>
+</nav>
 
-    </mat-tab>
-</mat-tab-group>
+<div [@routesAnimation]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+</div>

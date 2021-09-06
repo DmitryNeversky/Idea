@@ -1,23 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {User} from "../../models/User";
-import {Idea} from "../../models/Idea";
+import {Component} from '@angular/core';
+import {RouterOutlet} from "@angular/router";
+import {routesAnimation} from "../../animation/routes-animation";
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
+  animations: [routesAnimation]
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
 
-  public user: User;
-  public ideas: Idea[];
+  constructor() { }
 
-  constructor(private activatedRoute: ActivatedRoute) { }
-
-  ngOnInit(): void {
-    this.user = this.activatedRoute.snapshot.data.user;
-    this.ideas = this.user.ideas;
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 
 }

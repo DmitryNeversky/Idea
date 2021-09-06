@@ -8,7 +8,9 @@
 
 /*Filter*/
 
-.filter-container {}
+.filter-container {
+    margin-bottom: 40px;
+}
 
 .filter-content {
     display: flex;
