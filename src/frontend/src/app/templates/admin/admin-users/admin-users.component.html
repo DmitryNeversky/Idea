@@ -1,0 +1,60 @@
+<ng-container *ngIf="loaded; else preloader">
+    <mat-card class="filter-container">
+
+        <mat-card-content class="filter-content row" fxLayout.lt-lg="column" fxLayout.gt-lg="row" fxLayoutGap.lt-lg="10px">
+
+            <mat-form-field appearance="outline" fxFlex="20%">
+                <mat-label>Найти пользователя</mat-label>
+                <input matInput placeholder="Email или Имя" [(ngModel)]="search" (input)="filter()">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex="20%">
+                <mat-label>Статус</mat-label>
+                <mat-select [(ngModel)]="filteredPost" (selectionChange)="filter()">
+                    <mat-option *ngFor="let post of posts" [value]="">{{post}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-button-toggle-group value="1" fxFlex="fit-content">
+                <mat-button-toggle (click)="sort(1)" value="1">Алфавиту</mat-button-toggle>
+                <mat-button-toggle (click)="sort(2)" value="2">Просмотрам</mat-button-toggle>
+                <mat-button-toggle (click)="sort(3)" value="3">Голосам</mat-button-toggle>
+                <mat-button-toggle (click)="sort(4)" value="4">Новизне</mat-button-toggle>
+                <button mat-button class="reverse-sort-button"
+                        (click)="reverseSort()" [ngClass]="reverse ? 'mat-button-toggle-checked' : 'mat-button-toggle'">
+                    <mat-icon>sort</mat-icon>
+                </button>
+            </mat-button-toggle-group>
+
+            <mat-button-toggle-group value="{{pageSize}}" fxFlex="fit-content">
+                <mat-button-toggle (click)="setPageSize(5)" value="5">5</mat-button-toggle>
+                <mat-button-toggle (click)="setPageSize(10)" value="10">10</mat-button-toggle>
+                <mat-button-toggle (click)="setPageSize(15)" value="15">15</mat-button-toggle>
+                <mat-button-toggle (click)="setPageSize(20)" value="20">20</mat-button-toggle>
+            </mat-button-toggle-group>
+
+        </mat-card-content>
+    </mat-card>
+
+    <div *ngIf="paginatedUsers.length > 0; else noContent">
+        <app-user-item *ngFor="let user of paginatedUsers" [user]="user"></app-user-item>
+    </div>
+
+    <ng-template #noContent><p class="no-content">Пользователей не найдено</p></ng-template>
+
+    <div class="pagination">
+        <button class="pagination-left" mat-mini-fab color="warn" [disabled]="pageIndex == 0" (click)="goIndex(pageIndex - 1)">
+            <mat-icon>navigate_before</mat-icon>
+        </button>
+        <div class="pagination-pagers" *ngFor="let pager of pagers">
+            <button mat-mini-fab [ngClass]="pageIndex == pager ? 'accent' : 'primary'" (click)="goIndex(pager)">{{pager + 1}}</button>
+        </div>
+        <button class="pagination-right" mat-mini-fab color="warn"
+                [disabled]="pageIndex == pagerSize || filteredUsers.length == 0"
+                (click)="goIndex(pageIndex + 1)">
+            <mat-icon>navigate_next</mat-icon>
+        </button>
+    </div>
+</ng-container>
+
+<ng-template #preloader>Загрузка...</ng-template>

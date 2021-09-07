@@ -24,6 +24,9 @@ import {PathGuard} from "./security/path.guard";
 import {UserProfileComponent} from "./templates/user/profile/user-profile.component";
 import {UserIdeasComponent} from "./templates/user/ideas/user-ideas.component";
 import {UserContactsComponent} from "./templates/user/contacts/user-contacts.component";
+import {AdminComponent} from "./templates/admin/admin.component";
+import {AdminUsersComponent} from "./templates/admin/admin-users/admin-users.component";
+import {UsersResolver} from "./resolvers/UsersResolver";
 
 const routes: Routes = [
     {
@@ -168,6 +171,27 @@ const routes: Routes = [
                     }
                 ]
             },
+            {
+                path: 'admin',
+                component: AdminComponent,
+                data: { animation: 'admin' },
+                children: [
+                    {
+                        path: '',
+                        pathMatch: 'full',
+                        redirectTo: 'users'
+                    },
+                    {
+                        path: 'users',
+                        component: AdminUsersComponent,
+                        data: { animation: 'users' },
+                        resolve: {
+                            users: UsersResolver,
+                            posts: PostsResolver
+                        }
+                    }
+                ]
+            }
         ]
     },
     {

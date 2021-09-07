@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
@@ -19,7 +19,6 @@ export class SecureComponent implements OnInit {
 
   hide1: boolean = true;
   hide2: boolean = true;
-  showCodeField: boolean = false;
   passwordError: string;
 
   public user: User;
@@ -44,19 +43,6 @@ export class SecureComponent implements OnInit {
       oldPassword: ['', [Validators.maxLength(32), Validators.required]],
       newPassword: ['', [Validators.minLength(6), Validators.maxLength(32), Validators.required]],
     });
-  }
-
-  verifyEmail() {
-    if(!this.emailForm.valid)
-      return;
-
-    this.userService.getEmailCode().subscribe(() => {
-      this.showCodeField = true;
-    }, error => console.log(error));
-  }
-
-  update() {
-
   }
 
   delete() {
@@ -106,9 +92,5 @@ export class SecureComponent implements OnInit {
       console.log(error);
       this.passwordError = error.error;
     });
-  }
-
-  getCode() {
-    // validation -> showInput
   }
 }

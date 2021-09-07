@@ -1,20 +1,6 @@
 <mat-card>
     <mat-card-content>
         <h2 class="silver">Аккаунт</h2>
-        <form [formGroup]="emailForm">
-            <h3 class="col">Смена email</h3>
-            <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row wrap">
-                <mat-form-field class="col" fxFlex.xs="100%" fxFlex.gt-xs="20%" appearance="outline">
-                    <mat-label>новый email</mat-label>
-                    <input type="email" matInput formControlName="email">
-                    <mat-error *ngIf="emailForm.get('email').hasError('email')">некорректный email</mat-error>
-                    <mat-error *ngIf="emailForm.get('email').hasError('maxlength')">
-                        максимальная длина {{emailForm.get('email').errors.maxlength.requiredLength}} символов
-                        (сейчас {{emailForm.get('email').errors.maxlength.actualLength}})
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </form>
         <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
             <h3 class="col">Смена пароля</h3>
             <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row wrap">
