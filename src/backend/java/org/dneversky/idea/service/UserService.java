@@ -100,6 +100,25 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public boolean verifyOldPassword(String username, String oldPassword) {
+        User user = userRepository.findByUsername(username);
+
+        return passwordEncoder.matches(oldPassword, user.getPassword());
+    }
+
+    public boolean verifyNewPassword(String username, String newPassword) {
+        User user = userRepository.findByUsername(username);
+
+        return passwordEncoder.matches(newPassword, user.getPassword());
+    }
+
+    public void changePassword(String username, String newPassword) {
+        User user = userRepository.findByUsername(username);
+        user.setPassword(passwordEncoder.encode(newPassword));
+
+        userRepository.save(user);
+    }
+
     private void uploadAvatar(User user, MultipartFile avatar) {
         if (avatar != null) {
             removeAvatar(user);

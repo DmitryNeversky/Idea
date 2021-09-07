@@ -84,4 +84,16 @@ public class UserController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/user/password/change")
+    public ResponseEntity<?> changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, Principal principal) {
+        if(!userService.verifyOldPassword(principal.getName(), oldPassword)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("старый пароль не совпадает с текущим");
+        } else if(userService.verifyNewPassword(principal.getName(), newPassword)) {
+            return ResponseEntity.status(HttpStatus.FOUND).body("новый пароль эквивалентен текущему");
+        }
+        userService.changePassword(principal.getName(), newPassword);
+
+        return ResponseEntity.ok().build();
+    }
 }

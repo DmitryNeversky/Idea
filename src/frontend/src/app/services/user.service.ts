@@ -44,4 +44,8 @@ export class UserService {
   public verifyEmailCode(formData: FormData): Observable<void> {
     return this.httpClient.post<void>(`${this.apiBaseUrl}/code`, formData);
   }
+
+  public changePassword(formData: FormData): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiBaseUrl}/user/password/change`, formData);
+  }
 }

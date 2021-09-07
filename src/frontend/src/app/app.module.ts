@@ -60,6 +60,7 @@ import {InterfaceComponent} from './templates/settings/interface/interface.compo
 import {SecureComponent} from './templates/settings/secure/secure.component';
 import {UserProfileComponent} from "./templates/user/profile/user-profile.component";
 import { UserContactsComponent } from './templates/user/contacts/user-contacts.component';
+import { AdminComponent } from './templates/admin/admin.component';
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -93,6 +94,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     SecureComponent,
     UserProfileComponent,
     UserContactsComponent,
+    AdminComponent,
   ],
     imports: [
         BrowserModule,

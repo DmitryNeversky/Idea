@@ -13,13 +13,9 @@
                         (сейчас {{emailForm.get('email').errors.maxlength.actualLength}})
                     </mat-error>
                 </mat-form-field>
-                <mat-form-field class="col" fxFlex.xs="100%" fxFlex.gt-xs="20%" appearance="outline">
-                    <mat-label>код подтверждения</mat-label>
-                    <input type="text" matInput formControlName="code">
-                </mat-form-field>
             </div>
         </form>
-        <form [formGroup]="passwordForm">
+        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
             <h3 class="col">Смена пароля</h3>
             <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row wrap">
                 <mat-form-field class="col" fxFlex.xs="100%" fxFlex.gt-xs="20%" appearance="outline">
@@ -28,10 +24,7 @@
                     <button type="button" mat-icon-button matSuffix (click)="hide1 = !hide1">
                         <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <mat-error *ngIf="passwordForm.get('oldPassword').hasError('minlength')">
-                        минимальная длина {{passwordForm.get('oldPassword').errors.minlength.requiredLength}} символов
-                        (сейчас {{passwordForm.get('oldPassword').errors.minlength.actualLength}})
-                    </mat-error>
+                    <mat-error *ngIf="passwordForm.get('oldPassword').hasError('required')">заполните поле</mat-error>
                     <mat-error *ngIf="passwordForm.get('oldPassword').hasError('maxlength')">
                         максимальная длина {{passwordForm.get('oldPassword').errors.maxlength.requiredLength}} символов
                         (сейчас {{passwordForm.get('oldPassword').errors.maxlength.actualLength}})
@@ -43,6 +36,7 @@
                     <button type="button" mat-icon-button matSuffix (click)="hide2 = !hide2">
                         <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
+                    <mat-error *ngIf="passwordForm.get('newPassword').hasError('required')">заполните поле</mat-error>
                     <mat-error *ngIf="passwordForm.get('newPassword').hasError('minlength')">
                         минимальная длина {{passwordForm.get('newPassword').errors.minlength.requiredLength}} символов
                         (сейчас {{passwordForm.get('newPassword').errors.minlength.actualLength}})
@@ -53,10 +47,13 @@
                     </mat-error>
                 </mat-form-field>
             </div>
+            <mat-error class="col">{{passwordError}}</mat-error>
+            <div class="col" style="margin-top: 15px">
+                <button type="submit" mat-flat-button color="primary">изменить</button>
+            </div>
         </form>
         <mat-card-actions align="end">
             <button type="button" (click)="delete()" mat-button color="warn">удалить аккаунт</button>
-            <button type="button" class="col" (click)="update()" mat-flat-button color="accent">Сохранить</button>
         </mat-card-actions>
     </mat-card-content>
 </mat-card>

@@ -8,6 +8,7 @@ import {DialogComponent} from "../../../shared/dialog/dialog.component";
 import {SnackbarComponent} from "../../../shared/snackbar/snackbar.component";
 import {AuthService} from "../../../services/auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-secure',
@@ -19,6 +20,7 @@ export class SecureComponent implements OnInit {
   hide1: boolean = true;
   hide2: boolean = true;
   showCodeField: boolean = false;
+  passwordError: string;
 
   public user: User;
 
@@ -39,8 +41,8 @@ export class SecureComponent implements OnInit {
       email: ['', [Validators.email, Validators.maxLength(64)]],
     });
     this.passwordForm = this._formBuilder.group({
-      oldPassword: ['', [Validators.minLength(6), Validators.maxLength(32)]],
-      newPassword: ['', [Validators.minLength(6), Validators.maxLength(32)]],
+      oldPassword: ['', [Validators.maxLength(32), Validators.required]],
+      newPassword: ['', [Validators.minLength(6), Validators.maxLength(32), Validators.required]],
     });
   }
 
@@ -81,6 +83,28 @@ export class SecureComponent implements OnInit {
           });
         });
       }
+    });
+  }
+
+  changePassword() {
+    if(!this.passwordForm.valid)
+      return;
+
+    const formData = new FormData();
+    formData.append('oldPassword', this.passwordForm.get('oldPassword').value);
+    formData.append('newPassword', this.passwordForm.get('newPassword').value);
+
+    this.userService.changePassword(formData).subscribe(() => {
+      this.authService.logout();
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        duration: 2000,
+        horizontalPosition: "start",
+        data: "Пароль успешно изменен!"
+      });
+      this.passwordError = null;
+    },(error: HttpErrorResponse) => {
+      console.log(error);
+      this.passwordError = error.error;
     });
   }
 
