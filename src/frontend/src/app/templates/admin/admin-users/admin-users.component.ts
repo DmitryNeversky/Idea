@@ -13,7 +13,7 @@ import {UserService} from "../../../services/user.service";
 export class AdminUsersComponent implements OnInit {
 
   public search: string;
-  public filteredPost: string;
+  public filteredPost: string = 'all';
 
   public reverse: boolean = false;
   public loaded: boolean = false;
@@ -36,7 +36,7 @@ export class AdminUsersComponent implements OnInit {
               private userService: UserService) { }
 
   ngOnInit(): void {
-    this.posts = this.activatedRoute.snapshot.data.posts;
+    this.posts = this.activatedRoute.snapshot.data.posts.map((p: Post) => p.name);
 
     this.userService.getUsers().subscribe((users: User[]) => {
       this.users = users;
@@ -112,8 +112,9 @@ export class AdminUsersComponent implements OnInit {
           .includes(this.search.toLowerCase()) || user.name.toLowerCase().includes(this.search.toLowerCase()));
     }
 
-    if (this.filteredPost)
+    if (this.filteredPost && this.filteredPost != 'all') {
       this.filteredUsers = this.filteredUsers.filter((user: User) => user.post == this.filteredPost);
+    }
 
     this.goIndex(0);
   }

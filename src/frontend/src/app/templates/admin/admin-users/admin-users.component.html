@@ -9,9 +9,10 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" fxFlex="20%">
-                <mat-label>Статус</mat-label>
+                <mat-label>Должность</mat-label>
                 <mat-select [(ngModel)]="filteredPost" (selectionChange)="filter()">
-                    <mat-option *ngFor="let post of posts" [value]="">{{post}}</mat-option>
+                    <mat-option value="all">Все должности</mat-option>
+                    <mat-option *ngFor="let post of posts" [value]="post">{{post}}</mat-option>
                 </mat-select>
             </mat-form-field>
 

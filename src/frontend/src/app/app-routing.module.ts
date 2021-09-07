@@ -27,6 +27,7 @@ import {UserContactsComponent} from "./templates/user/contacts/user-contacts.com
 import {AdminComponent} from "./templates/admin/admin.component";
 import {AdminUsersComponent} from "./templates/admin/admin-users/admin-users.component";
 import {UsersResolver} from "./resolvers/UsersResolver";
+import {AdminGuard} from "./security/admin.guard";
 
 const routes: Routes = [
     {
@@ -175,6 +176,7 @@ const routes: Routes = [
                 path: 'admin',
                 component: AdminComponent,
                 data: { animation: 'admin' },
+                canActivate: [AdminGuard],
                 children: [
                     {
                         path: '',
