@@ -36,4 +36,12 @@ export class UserService {
   public deleteNotification(id: number|string): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiBaseUrl}/notification/delete/${id}`);
   }
+
+  public getEmailCode(): Observable<void> {
+    return this.httpClient.get<void>(`${this.apiBaseUrl}/code`);
+  }
+
+  public verifyEmailCode(formData: FormData): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiBaseUrl}/code`, formData);
+  }
 }
