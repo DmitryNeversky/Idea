@@ -27,7 +27,7 @@
         <mat-chip-list>
             <mat-chip *ngFor="let tag of tags" color="primary">
                 {{tag.name}}
-                <button type="button" mat-icon-button (click)="delete(tag)"><mat-icon>clear</mat-icon></button>
+                <button type="button" class="delete-button" mat-icon-button (click)="delete(tag)"><mat-icon>clear</mat-icon></button>
             </mat-chip>
         </mat-chip-list>
     </mat-card-content>
