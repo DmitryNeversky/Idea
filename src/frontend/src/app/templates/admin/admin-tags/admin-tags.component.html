@@ -1,34 +1,24 @@
-<mat-card class="filter-container">
-    <mat-card-content class="filter-content row" fxLayout.lt-lg="column" fxLayout.gt-lg="row" fxLayoutGap.lt-lg="10px">
-        <form [formGroup]="tagForm" (ngSubmit)="create()" fxFlex.gt-xs="30%">
-            <mat-form-field>
-                <mat-label>Добавить тэг</mat-label>
-                <input type="text" matInput formControlName="name">
-                <mat-error *ngIf="tagForm.get('name').hasError('required')">заполните поле</mat-error>
-                <mat-error *ngIf="tagForm.get('name').hasError('maxlength')">
-                    максимальная длина {{tagForm.get('name').errors.maxlength.requiredLength}} символов
-                    (сейчас {{tagForm.get('name').errors.maxlength.actualLength}})</mat-error>
-            </mat-form-field>
-            <button type="submit" mat-flat-button color="primary">добавить</button>
-        </form>
-        <mat-button-toggle-group value="1" fxFlex="fit-content">
-            <mat-button-toggle value="1">Алфавиту</mat-button-toggle>
-            <mat-button-toggle value="2">Просмотрам</mat-button-toggle>
-            <mat-button-toggle value="3">Голосам</mat-button-toggle>
-            <mat-button-toggle value="4">Новизне</mat-button-toggle>
-            <button mat-button class="reverse-sort-button">
-                <mat-icon>sort</mat-icon>
-            </button>
-        </mat-button-toggle-group>
-    </mat-card-content>
-</mat-card>
 <mat-card>
     <mat-card-content>
+        <h2 class="silver">Список тэгов</h2>
         <mat-chip-list>
             <mat-chip *ngFor="let tag of tags" color="primary">
                 {{tag.name}}
                 <button type="button" class="delete-button" mat-icon-button (click)="delete(tag)"><mat-icon>clear</mat-icon></button>
             </mat-chip>
         </mat-chip-list>
+    </mat-card-content>
+    <mat-card-content>
+        <form [formGroup]="tagForm" (ngSubmit)="create()">
+            <mat-form-field appearance="outline">
+                <mat-label>добавить тэг</mat-label>
+                <input matInput formControlName="name">
+                <mat-error *ngIf="tagForm.get('name').hasError('required')">заполните поле</mat-error>
+                <mat-error *ngIf="tagForm.get('name').hasError('maxlength')">
+                    максимальная длина {{tagForm.get('name').errors.maxlength.requiredLength}} символов
+                    (сейчас {{tagForm.get('name').errors.maxlength.actualLength}})</mat-error>
+            </mat-form-field>
+            <button class="add-button" type="submit" mat-flat-button color="primary">добавить</button>
+        </form>
     </mat-card-content>
 </mat-card>

@@ -29,6 +29,7 @@ import {AdminUsersComponent} from "./templates/admin/admin-users/admin-users.com
 import {UsersResolver} from "./resolvers/UsersResolver";
 import {AdminGuard} from "./security/admin.guard";
 import {AdminTagsComponent} from "./templates/admin/admin-tags/admin-tags.component";
+import {AdminPostsComponent} from "./templates/admin/admin-posts/admin-posts.component";
 
 const routes: Routes = [
     {
@@ -199,6 +200,14 @@ const routes: Routes = [
                         data: { animation: 'tags' },
                         resolve: {
                             tags: TagResolver
+                        }
+                    },
+                    {
+                        path: 'posts',
+                        component: AdminPostsComponent,
+                        data: { animation: 'posts' },
+                        resolve: {
+                            posts: PostsResolver
                         }
                     }
                 ]

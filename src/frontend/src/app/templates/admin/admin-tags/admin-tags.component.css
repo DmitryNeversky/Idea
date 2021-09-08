@@ -1,5 +1,6 @@
-.filter-container {
-    margin: 20px 0;
+.add-button {
+    position: relative;
+    margin-left: 10px;
 }
 
 .delete-button {

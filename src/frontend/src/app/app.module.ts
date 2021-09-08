@@ -65,6 +65,8 @@ import { AdminUsersComponent } from './templates/admin/admin-users/admin-users.c
 import { UserItemComponent } from './templates/admin/admin-users/user-item/user-item.component';
 import { AdminTagsComponent } from './templates/admin/admin-tags/admin-tags.component';
 import {MatChipsModule} from "@angular/material/chips";
+import { AdminPostsComponent } from './templates/admin/admin-posts/admin-posts.component';
+import {MatSortModule} from "@angular/material/sort";
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -102,6 +104,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     AdminUsersComponent,
     UserItemComponent,
     AdminTagsComponent,
+    AdminPostsComponent,
   ],
     imports: [
         BrowserModule,
@@ -142,6 +145,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
         NgxMaskModule.forRoot(),
         MatTabsModule,
         MatChipsModule,
+        MatSortModule,
     ],
   providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDERS,
           {
