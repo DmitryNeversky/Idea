@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<nav mat-tab-nav-bar disableRipple>
+    <a routerLinkActive="primary" mat-tab-link routerLink="users">Пользователи</a>
+    <a routerLinkActive="primary" mat-tab-link routerLink="tags">Тэги</a>
+<!--    <a routerLinkActive="primary" mat-tab-link routerLink="roles">Роли</a>-->
+    <a routerLinkActive="primary" mat-tab-link routerLink="posts">Должности</a>
+</nav>
+
+<div [@routesAnimation]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+</div>
