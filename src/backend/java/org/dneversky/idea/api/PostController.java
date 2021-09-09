@@ -33,6 +33,12 @@ public class PostController {
         return ResponseEntity.created(uri).body(postService.savePost(post));
     }
 
+    @PutMapping("/post/put")
+    public ResponseEntity<Post> putPost(@RequestBody @Valid Post post) {
+
+        return ResponseEntity.ok(postService.putPost(post));
+    }
+
     @DeleteMapping("/post/delete/{id}")
     public ResponseEntity<?> deletePost(@PathVariable Post id) {
         postService.deletePost(id);

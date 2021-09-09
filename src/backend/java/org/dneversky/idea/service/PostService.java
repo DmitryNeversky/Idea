@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,16 @@ public class PostService {
         }
 
         return postRepository.save(post);
+    }
+
+    public Post putPost(Post post) {
+        Optional<Post> findPost = postRepository.findById(post.getId());
+        if(!findPost.isPresent())
+            return null;
+
+        findPost.get().setName(post.getName());
+
+        return  postRepository.save(findPost.get());
     }
 
     public void deletePost(Post post) {

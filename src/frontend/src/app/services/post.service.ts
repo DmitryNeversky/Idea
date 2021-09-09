@@ -21,12 +21,12 @@ export class PostService {
     return this.httpClient.get<Post>(`${this.apiBaseUrl}/post/${id}`);
   }
 
-  public savePost(formData: FormData): Observable<Post> {
-    return this.httpClient.post<Post>(`${this.apiBaseUrl}/post/save`, formData);
+  public savePost(post: Post): Observable<Post> {
+    return this.httpClient.post<Post>(`${this.apiBaseUrl}/post/save`, post);
   }
 
-  public putPost(formData: FormData): Observable<Post> {
-    return this.httpClient.put<Post>(`${this.apiBaseUrl}/post/put`, formData);
+  public putPost(post: Post): Observable<Post> {
+    return this.httpClient.put<Post>(`${this.apiBaseUrl}/post/put`, post);
   }
 
   public deletePost(id: number|string): Observable<void> {
