@@ -42,9 +42,8 @@ public class Idea implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdDate;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "idea_tag", joinColumns = @JoinColumn(name = "idea_id"))
-    private Set<String> tags;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private List<Tag> tags;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_image", joinColumns = @JoinColumn(name = "idea_id"))
