@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -26,10 +27,16 @@ public class TagController {
     }
 
     @PostMapping("/tag/save")
-    public ResponseEntity<Tag> saveTag(@RequestBody Tag tag) {
+    public ResponseEntity<Tag> saveTag(@RequestBody @Valid Tag tag) {
 
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
         return ResponseEntity.created(uri).body(tagService.saveTag(tag));
+    }
+
+    @PutMapping("/tag/put")
+    public ResponseEntity<Tag> putTag(@RequestBody @Valid Tag tag) {
+
+        return ResponseEntity.ok(tagService.putTag(tag));
     }
 
     @DeleteMapping("/tag/delete/{id}")

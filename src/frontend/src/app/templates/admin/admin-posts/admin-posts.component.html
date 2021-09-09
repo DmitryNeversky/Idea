@@ -22,7 +22,7 @@
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr class="post-item" mat-row *matRowDef="let post; columns: displayedColumns;" (click)="openPost(post)"></tr>
+            <tr class="post-item" mat-row *matRowDef="let post; columns: displayedColumns;" (click)="openModal(post)"></tr>
         </table>
     </mat-card-content>
 
@@ -31,35 +31,33 @@
             <mat-form-field class="col" appearance="outline">
                 <mat-label>Добавить должность</mat-label>
                 <input type="text" matInput formControlName="name">
-                <mat-error *ngIf="createForm.get('name').hasError('required')">заполните поле</mat-error>
                 <mat-error *ngIf="createForm.get('name').hasError('maxlength')">
                     максимальная длина {{createForm.get('name').errors.maxlength.requiredLength}} символов
                     (сейчас {{createForm.get('name').errors.maxlength.actualLength}})</mat-error>
             </mat-form-field>
-            <button type="submit" mat-flat-button color="primary">добавить</button>
+            <button type="submit" [disabled]="!createForm.get('name').value || createForm.invalid" mat-flat-button color="primary">добавить</button>
         </form>
         <mat-paginator fxFlex.xs="100%" fxFlex.gt-xs="40%" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </mat-card-actions>
 </mat-card>
 
-<div class="modal-overlay" [@fade] (click)="hideModal($event)" *ngIf="modalPost">
-    <mat-card class="modal-card mat-elevation-z8">
-        <mat-card-content class="modal-card-content" fxLayout="column">
-            <h2>Управление должностью "{{modalPost.name}}"</h2>
-            <form [formGroup]="updateForm" (ngSubmit)="update()" fxFlex.xs="100%" fxFlex.gt-xs="60%">
-                <mat-form-field class="col" appearance="outline">
-                    <mat-label>название</mat-label>
-                    <input type="text" matInput formControlName="name">
-                    <mat-error *ngIf="createForm.get('name').hasError('required')">заполните поле</mat-error>
-                    <mat-error *ngIf="createForm.get('name').hasError('maxlength')">
-                        максимальная длина {{createForm.get('name').errors.maxlength.requiredLength}} символов
-                        (сейчас {{createForm.get('name').errors.maxlength.actualLength}})</mat-error>
-                </mat-form-field>
-                <button type="submit" mat-flat-button color="primary">сохранить</button>
-            </form>
-        </mat-card-content>
-        <mat-card-actions align="end">
-            <button (click)="delete(modalPost)" mat-button color="warn">удалить</button>
-        </mat-card-actions>
-    </mat-card>
-</div>
+<app-modal [obj]="modalPost" (click)="hideModal($event)">
+    <mat-card-content *ngIf="modalPost" class="modal-card-content" fxLayout="column">
+        <h2>Должность "{{modalPost.name}}"</h2>
+        <form [formGroup]="updateForm" (ngSubmit)="update()" fxFlex.xs="100%" fxFlex.gt-xs="60%">
+            <mat-form-field class="col" appearance="outline">
+                <mat-label>название</mat-label>
+                <input type="text" matInput formControlName="name">
+                <mat-error *ngIf="createForm.get('name').hasError('required')">заполните поле</mat-error>
+                <mat-error *ngIf="createForm.get('name').hasError('maxlength')">
+                    максимальная длина {{createForm.get('name').errors.maxlength.requiredLength}} символов
+                    (сейчас {{createForm.get('name').errors.maxlength.actualLength}})</mat-error>
+            </mat-form-field>
+            <button type="submit" class="col" mat-flat-button color="primary"
+                    [disabled]="this.modalPost.name == updateForm.get('name').value || createForm.invalid">сохранить</button>
+        </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button (click)="delete(modalPost)" mat-button color="warn">удалить</button>
+    </mat-card-actions>
+</app-modal>

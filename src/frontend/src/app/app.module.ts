@@ -67,6 +67,7 @@ import { AdminTagsComponent } from './templates/admin/admin-tags/admin-tags.comp
 import {MatChipsModule} from "@angular/material/chips";
 import { AdminPostsComponent } from './templates/admin/admin-posts/admin-posts.component';
 import {MatSortModule} from "@angular/material/sort";
+import { ModalComponent } from './templates/admin/modal/modal.component';
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -105,6 +106,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     UserItemComponent,
     AdminTagsComponent,
     AdminPostsComponent,
+    ModalComponent,
   ],
     imports: [
         BrowserModule,

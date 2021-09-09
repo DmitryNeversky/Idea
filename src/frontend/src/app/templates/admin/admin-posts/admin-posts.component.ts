@@ -6,7 +6,6 @@ import {MatSort} from "@angular/material/sort";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {PostService} from "../../../services/post.service";
-import {animate, style, transition, trigger} from "@angular/animations";
 import {DialogComponent} from "../../../shared/dialog/dialog.component";
 import {SnackbarComponent} from "../../../shared/snackbar/snackbar.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -15,19 +14,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'app-admin-posts',
   templateUrl: './admin-posts.component.html',
-  styleUrls: ['./admin-posts.component.css'],
-  animations: [
-    trigger('fade', [
-      transition('void => *', [
-        style({ visibility: 'hidden', opacity: 0 }),
-        animate('.2s', style({ visibility: 'visible', opacity: 1 })),
-      ]),
-      transition('* => void', [
-        style({ visibility: 'visible', opacity: 1 }),
-        animate('.2s', style({ visibility: 'hidden', opacity: 0 })),
-      ]),
-    ]),
-  ],
+  styleUrls: ['./admin-posts.component.css']
 })
 export class AdminPostsComponent implements OnInit, AfterViewInit {
 
@@ -50,7 +37,7 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource(posts);
 
     this.createForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.max(128)])
+      name: new FormControl('', [Validators.maxLength(128)])
     });
   }
 
@@ -64,7 +51,7 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
   }
 
   create() {
-    if(!this.createForm.valid)
+    if(!this.createForm.valid || !this.createForm.get('name').value)
       return;
 
     let post: Post = new Post();
@@ -90,19 +77,21 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
   }
 
   update() {
-    if(!this.updateForm.valid)
+    if(!this.updateForm.valid || this.modalPost.name == this.updateForm.get('name').value)
       return;
 
-    this.modalPost.name = this.updateForm.get('name').value;
+    let sendPost: Post = this.modalPost;
+    sendPost.name = this.updateForm.get('name').value;
 
-    this.postService.putPost(this.modalPost).subscribe(() => {
-      this.modalPost = null;
+    this.postService.putPost(sendPost).subscribe(() => {
+      this.hideModal();
       this._notification.openFromComponent(SnackbarComponent, {
         duration: 2000,
         horizontalPosition: 'left',
         data: 'Должность успешно изменена!'
       });
     }, error => {
+      this.hideModal();
       console.log(error);
       this._notification.openFromComponent(SnackbarComponent, {
         duration: 3000,
@@ -123,12 +112,14 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
         this.postService.deletePost(post.id).subscribe(() => {
           this.dataSource.data = this.dataSource.data.filter(p => p != post);
           this.initPagination();
+          this.hideModal();
           this._notification.openFromComponent(SnackbarComponent, {
             duration: 2000,
             horizontalPosition: 'left',
             data: 'Должность успешно удалена!'
           });
         }, error => {
+          this.hideModal();
           console.log(error);
           this._notification.openFromComponent(SnackbarComponent, {
             duration: 3000,
@@ -137,11 +128,10 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
           });
         });
       }
-      this.hideModal();
     })
   }
 
-  openPost(post: Post) {
+  openModal(post: Post) {
     this.updateForm = new FormGroup({
       name: new FormControl(post.name, [Validators.required, Validators.max(128)])
     });

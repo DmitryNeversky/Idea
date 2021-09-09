@@ -6,6 +6,7 @@ import org.dneversky.idea.repository.TagRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TagService {
@@ -26,6 +27,16 @@ public class TagService {
     public Tag saveTag(Tag tag) {
 
         return tagRepository.save(tag);
+    }
+
+    public Tag putTag(Tag tag) {
+        Optional<Tag> findTag = tagRepository.findById(tag.getId());
+        if(!findTag.isPresent())
+            return null;
+
+        findTag.get().setName(tag.getName());
+
+        return  tagRepository.save(findTag.get());
     }
 
     public void deleteTag(Tag tag) {

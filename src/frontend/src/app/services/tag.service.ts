@@ -21,8 +21,8 @@ export class TagService {
         return this.httpClient.post<Tag>(`${this.apiBaseUrl}/tag/save`, tag);
     }
 
-    public putTag(formData: FormData): Observable<Tag> {
-        return this.httpClient.put<Tag>(`${this.apiBaseUrl}/tag/put`, formData);
+    public putTag(tag: Tag): Observable<Tag> {
+        return this.httpClient.put<Tag>(`${this.apiBaseUrl}/tag/put`, tag);
     }
 
     public deleteTag(id: number|string): Observable<void> {

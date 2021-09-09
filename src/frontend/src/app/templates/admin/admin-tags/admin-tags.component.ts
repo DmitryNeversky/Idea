@@ -17,29 +17,69 @@ export class AdminTagsComponent implements OnInit {
 
   public tags: Tag[];
 
-  public tagForm: FormGroup;
+  public createForm: FormGroup;
+  public updateForm: FormGroup;
+
+  public modalTag: Tag;
 
   constructor(private activatedRoute: ActivatedRoute, private tagService: TagService,
               private _dialog: MatDialog, private _notification: MatSnackBar) { }
 
   ngOnInit(): void {
     this.tags = this.activatedRoute.snapshot.data.tags;
-    this.tagForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.max(64)])
+    this.createForm = new FormGroup({
+      name: new FormControl('', [Validators.maxLength(64)])
     });
   }
 
   create() {
-    if(!this.tagForm.valid)
+    if(!this.createForm.valid)
       return;
 
     let tag: Tag = new Tag();
-    tag.name = this.tagForm.get('name').value;
+    tag.name = this.createForm.get('name').value;
 
     this.tagService.saveTag(tag).subscribe((tag: Tag) => {
       this.tags.push(tag);
-      this.tagForm.reset();
-    }, error => console.log());
+      this.createForm.reset();
+      this._notification.openFromComponent(SnackbarComponent, {
+        duration: 2000,
+        horizontalPosition: 'left',
+        data: 'Тэг успешно создан!'
+      });
+    }, error => {
+      console.log(error);
+      this._notification.openFromComponent(SnackbarComponent, {
+        duration: 3000,
+        horizontalPosition: 'left',
+        data: 'Произошел сбой, попробуйте позже.'
+      });
+    });
+  }
+
+  update() {
+    if(!this.updateForm.valid || this.modalTag.name == this.updateForm.get('name').value)
+      return;
+
+    let sendTag: Tag = this.modalTag;
+    sendTag.name = this.updateForm.get('name').value;
+
+    this.tagService.putTag(sendTag).subscribe(() => {
+      this.hideModal();
+      this._notification.openFromComponent(SnackbarComponent, {
+        duration: 2000,
+        horizontalPosition: 'left',
+        data: 'Тэг успешно изменен!'
+      });
+    }, error => {
+      this.hideModal();
+      console.log(error);
+      this._notification.openFromComponent(SnackbarComponent, {
+        duration: 3000,
+        horizontalPosition: 'left',
+        data: 'Произошел сбой, попробуйте позже.'
+      });
+    });
   }
 
   delete(tag: Tag) {
@@ -51,6 +91,7 @@ export class AdminTagsComponent implements OnInit {
     }).afterClosed().subscribe((result: boolean) => {
       if(result) {
         this.tagService.deleteTag(tag.id).subscribe(() => {
+          this.hideModal();
           this.tags = this.tags.filter(t => t != tag);
           this._notification.openFromComponent(SnackbarComponent, {
             duration: 2000,
@@ -58,8 +99,8 @@ export class AdminTagsComponent implements OnInit {
             data: 'Тэг успешно удален!'
           });
         }, error => {
+          this.hideModal();
           console.log(error);
-          this.tags = this.tags.filter(t => t != tag);
           this._notification.openFromComponent(SnackbarComponent, {
             duration: 3000,
             horizontalPosition: 'left',
@@ -68,5 +109,20 @@ export class AdminTagsComponent implements OnInit {
         });
       }
     })
+  }
+
+  openModal(tag: Tag) {
+    this.updateForm = new FormGroup({
+      name: new FormControl(tag.name, [Validators.required, Validators.max(128)])
+    });
+    this.modalTag = tag;
+  }
+
+  hideModal(event: any = null) {
+    if(event && event.target.classList.contains('modal-overlay')) {
+      this.modalTag = null;
+    } else if(!event) {
+      this.modalTag = null;
+    }
   }
 }
