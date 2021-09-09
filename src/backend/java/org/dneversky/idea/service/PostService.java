@@ -22,6 +22,11 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public Post getPostByName(String name) {
+
+        return postRepository.findByName(name);
+    }
+
     public Post savePost(Post post) {
         if(postRepository.findByName(post.getName()) != null) {
             return null;

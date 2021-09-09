@@ -1,5 +1,6 @@
 import {Idea} from "./Idea";
 import {Notification} from "./Notification";
+import {Post} from "./Post";
 
 export class User {
     id: string;
@@ -9,7 +10,7 @@ export class User {
     name: string;
     phone: string;
     birthday: Date;
-    post: string;
+    post: Post;
     ideas: Idea[];
     avatar: string;
     online: boolean;

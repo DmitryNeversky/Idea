@@ -76,7 +76,13 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Notification> notifications;
 
-    private String post;
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinTable(
+            name = "post_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id")
+    )
+    private Post post;
 
     public void addIdea(Idea idea) {
         if(ideas == null) {
@@ -97,5 +103,18 @@ public class User implements Serializable {
             notifications = new ArrayList<>();
         }
         notifications.add(notification);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username);
     }
 }

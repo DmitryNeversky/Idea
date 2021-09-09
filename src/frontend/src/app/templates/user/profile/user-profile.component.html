@@ -8,7 +8,7 @@
             <div fxFlex.xs="100%" fxFlex.gt-xs="60%">
                 <p>{{user.name}}</p>
                 <p class="silver">{{user.username}}</p>
-                <p><small>{{user.post}}</small></p>
+                <p *ngIf="user.post"><small>{{user.post.name}}</small></p>
             </div>
         </mat-card-content>
     </mat-card>

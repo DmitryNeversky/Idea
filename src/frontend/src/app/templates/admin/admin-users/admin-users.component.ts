@@ -113,7 +113,7 @@ export class AdminUsersComponent implements OnInit {
     }
 
     if (this.filteredPost && this.filteredPost != 'all') {
-      this.filteredUsers = this.filteredUsers.filter((user: User) => user.post == this.filteredPost);
+      this.filteredUsers = this.filteredUsers.filter((user: User) => user.post.name == this.filteredPost);
     }
 
     this.goIndex(0);

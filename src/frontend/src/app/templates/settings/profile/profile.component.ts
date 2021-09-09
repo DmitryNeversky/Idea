@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
     });
 
     this.jobForm = this._formBuilder.group({
-      post: [this.user.post, [Validators.required, Validators.maxLength(96)]]
+      post: [this.user.post ? this.user.post.name : '', [Validators.required, Validators.maxLength(96)]]
     });
   }
 

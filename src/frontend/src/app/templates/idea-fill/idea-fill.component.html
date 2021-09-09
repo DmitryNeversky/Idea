@@ -37,7 +37,7 @@
     <mat-card-footer fxFlex="100%" fxLayout.xs="column wrap" fxLayout.gt-xs="row">
 
         <div fxFlex="fit-content" class="left">
-            <button mat-button [routerLink]="['/', 'user', idea.author.id]">{{idea.author.name}} ({{idea.author.post}})</button>
+            <button mat-button [routerLink]="['/', 'user', idea.author.id]">{{idea.author.name}} ({{idea.author.post ? idea.author.post.name : 'null'}})</button>
         </div>
 
         <div fxFlex class="right">

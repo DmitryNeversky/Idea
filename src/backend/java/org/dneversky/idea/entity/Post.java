@@ -4,12 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,6 +22,9 @@ public class Post {
     @NotNull
     @Size(max = 128, message = "Name size is: min 0 max 128")
     private String name;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+    private Set<User> users;
 
     public Post(String name) {
         this.name = name;

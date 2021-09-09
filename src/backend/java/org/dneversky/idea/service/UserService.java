@@ -2,6 +2,7 @@ package org.dneversky.idea.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dneversky.idea.entity.Post;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.UserRepository;
@@ -36,6 +37,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PostService postService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -72,6 +74,11 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(LocalDate.now());
 
+        Post post = postService.getPostByName(user.getPost().getName());
+        post.getUsers().add(user);
+
+        user.setPost(post);
+
         return userRepository.save(user);
     }
 
@@ -79,6 +86,11 @@ public class UserService implements UserDetailsService {
         if(removeAvatar) {
             removeAvatar(user);
         } uploadAvatar(user, avatar);
+
+        Post post = postService.getPostByName(user.getPost().getName());
+        post.getUsers().add(user);
+
+        user.setPost(post);
 
         return userRepository.save(user);
     }
