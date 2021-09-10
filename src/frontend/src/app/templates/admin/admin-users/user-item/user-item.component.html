@@ -1,9 +1,10 @@
 <mat-card *ngIf="user">
-    <mat-card-content>
-        <p>{{user.username}}</p>
-        <p>{{user.name}}</p>
-        <p>{{user.birthday}}</p>
-        <p>{{user.lastVisit}}</p>
-        <p>{{user.post.name}}</p>
+    <mat-card-content fxLayout="row wrap">
+        <img fxFlex.xs="30%" fxFlex.gt-xs="5%" [src]="user.avatar ? 'assets/uploaded/images/avatar/' + user.avatar : '../../../../assets/images/user.png'" alt="">
+        <span class="col" fxFlex.xs="65%" fxFlex.gt-xs="10%">{{user.name}}</span>
+        <span class="col" fxHide.xs fxFlex="15%">{{user.username}}</span>
+        <span class="col" fxHide.xs fxFlex="15%">8{{user.phone}}</span>
+        <span class="col" fxHide.xs fxFlex>{{user.post.name}}</span>
+        <span class="col" fxHide.xs fxFlex="15%">{{user.birthday | date: 'dd.MM.yyyy'}}</span>
     </mat-card-content>
 </mat-card>

@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Idea} from "../models/Idea";
 import {environment} from "../../environments/environment";
+import {Status} from "../models/Status";
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,10 @@ export class IdeaService {
   public reduceRating(id: number|string): void {
     this.httpClient.get<void>(`${this.apiBaseUrl}/idea/rating/reduce/${id}`)
         .subscribe(() => {}, error => console.log(error));
+  }
+
+  public changeStatus(id: string|number, status: Status): Observable<void> {
+    console.log(status)
+    return this.httpClient.put<void>(`${this.apiBaseUrl}/idea/${id}/status`, status);
   }
 }

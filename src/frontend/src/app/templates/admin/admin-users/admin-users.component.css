@@ -40,3 +40,8 @@
     font-size: large;
     color: #a8a8a8;
 }
+/*User item*/
+
+app-user-item:hover {
+    cursor: pointer;
+}

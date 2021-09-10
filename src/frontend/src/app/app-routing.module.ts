@@ -29,6 +29,7 @@ import {UsersResolver} from "./resolvers/UsersResolver";
 import {AdminGuard} from "./security/admin.guard";
 import {AdminTagsComponent} from "./templates/admin/admin-tags/admin-tags.component";
 import {AdminPostsComponent} from "./templates/admin/admin-posts/admin-posts.component";
+import {UpdateIdeaGuard} from "./security/update-idea.guard";
 
 const routes: Routes = [
     {
@@ -73,7 +74,7 @@ const routes: Routes = [
                 path: 'ideas/update/:id',
                 component: UpdateIdeaComponent,
                 data: { animation: 'update-idea' },
-                canActivate: [AuthGuard],
+                canActivate: [AuthGuard, UpdateIdeaGuard],
                 resolve: {
                     idea: IdeaResolver,
                     tags: TagResolver

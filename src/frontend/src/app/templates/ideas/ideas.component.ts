@@ -12,7 +12,7 @@ import {User} from "../../models/User";
 export class IdeasComponent implements OnInit {
 
   public search: string;
-  public status: string;
+  public status: string = 'all';
 
   public reverse: boolean = false;
 
@@ -103,7 +103,7 @@ export class IdeasComponent implements OnInit {
         this.filteredIdeas = this.filteredIdeas.filter((idea: Idea) => idea.title.toLowerCase().includes(this.search.toLowerCase()));
     }
 
-    if (this.status)
+    if (this.status && this.status != 'all')
       this.filteredIdeas = this.filteredIdeas.filter((idea: Idea) => idea.status == this.status);
 
     this.goIndex(0);

@@ -118,6 +118,12 @@ public class IdeaService {
         ideaRepository.save(idea);
     }
 
+    public Idea changeStatus(Idea idea, Status status) {
+        idea.setStatus(status);
+
+        return ideaRepository.save(idea);
+    }
+
     private void uploadImages(Idea idea, Collection<MultipartFile> images) {
         if (images != null) {
             for (MultipartFile pair : images) {

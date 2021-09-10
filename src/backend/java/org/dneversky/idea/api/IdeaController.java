@@ -1,6 +1,7 @@
 package org.dneversky.idea.api;
 
 import org.dneversky.idea.entity.Idea;
+import org.dneversky.idea.model.Status;
 import org.dneversky.idea.service.IdeaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,12 @@ public class IdeaController {
                                         @RequestPart(value = "addFiles", required = false) List<MultipartFile> addFiles) {
 
         return ResponseEntity.ok(ideaService.putIdea(idea, addImages, addFiles));
+    }
+
+    @PutMapping("/idea/{idea}/status")
+    public ResponseEntity<Idea> changeStatus(@PathVariable Idea idea, @RequestBody String status) {
+
+        return ResponseEntity.ok(ideaService.changeStatus(idea, Status.valueOf(status)));
     }
 
     @DeleteMapping("/idea/delete/{id}")

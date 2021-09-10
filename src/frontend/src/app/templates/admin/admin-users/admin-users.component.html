@@ -38,7 +38,7 @@
     </mat-card>
 
     <div *ngIf="paginatedUsers.length > 0; else noContent">
-        <app-user-item *ngFor="let user of paginatedUsers" [user]="user"></app-user-item>
+        <app-user-item *ngFor="let user of paginatedUsers" (click)="openModal(user)" [user]="user"></app-user-item>
     </div>
 
     <ng-template #noContent><p class="no-content">Пользователей не найдено</p></ng-template>
@@ -59,3 +59,9 @@
 </ng-container>
 
 <ng-template #preloader>Загрузка...</ng-template>
+
+<app-modal [obj]="modalUser" (click)="hideModal($event)" #modal>
+    <mat-card-content *ngIf="modalUser" class="modal-card-content" fxLayout="column">
+        <h2>"{{modalUser.name}}"</h2>
+    </mat-card-content>
+</app-modal>

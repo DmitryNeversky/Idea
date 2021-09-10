@@ -5,6 +5,11 @@ import {environment} from "../../../environments/environment";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {User} from "../../models/User";
 import {IdeaService} from "../../services/idea.service";
+import {Role} from "../../models/Role";
+import {Status} from "../../models/Status";
+import {FormControl, FormGroup} from "@angular/forms";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarComponent} from "../../shared/snackbar/snackbar.component";
 
 @Component({
   selector: 'app-idea-fill',
@@ -31,14 +36,20 @@ export class IdeaFillComponent implements OnInit {
 
   public idea: Idea;
   public currentUser: User;
+  public role = Role;
+  public status = Status;
+
+  public statusForm: FormGroup;
 
   public resizableImage: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private ideaService: IdeaService) { }
+  constructor(private activatedRoute: ActivatedRoute, private ideaService: IdeaService,
+              private _notification: MatSnackBar) { }
 
   ngOnInit(): void {
     this.idea = this.activatedRoute.snapshot.data.idea;
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
+
     if(this.idea.ratedUsers.includes(+this.currentUser.id)) {
       this.voted = 1;
     } else if(this.idea.unratedUsers.includes(+this.currentUser.id)) {
@@ -46,6 +57,10 @@ export class IdeaFillComponent implements OnInit {
     } else {
       this.voted = 0;
     }
+
+    this.statusForm = new FormGroup({
+      status: new FormControl(this.idea.status)
+    });
   }
 
   resize(image: string) {
@@ -80,5 +95,28 @@ export class IdeaFillComponent implements OnInit {
     }
 
     this.ideaService.reduceRating(this.idea.id);
+  }
+
+  changeStatus() {
+    if(this.statusForm.get('status').value == this.idea.status)
+      return;
+
+    let status = this.statusForm.get('status').value;
+
+    this.ideaService.changeStatus(this.idea.id, status).subscribe(() => {
+      this.idea.status = status;
+      this._notification.openFromComponent(SnackbarComponent, {
+        duration: 2000,
+        horizontalPosition: 'left',
+        data: 'Статус идеи изменен.'
+      });
+    },error => {
+      console.log(error);
+      this._notification.openFromComponent(SnackbarComponent, {
+        duration: 3000,
+        horizontalPosition: 'left',
+        data: 'Произошел сбой, попробуйте позже.'
+      });
+    });
   }
 }

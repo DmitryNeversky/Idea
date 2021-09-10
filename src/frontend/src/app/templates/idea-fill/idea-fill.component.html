@@ -3,7 +3,7 @@
     <mat-card-title>
         <span class="title">{{idea.title}}</span>
         <ng-container [ngSwitch]="idea.status">
-            <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Принято</small>
+            <small class="status" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'">Одобрено</small>
             <small class="status" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'">Рассматривается</small>
             <small class="status" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'">Отказано</small>
         </ng-container>
@@ -58,6 +58,27 @@
 
     </mat-card-footer>
 </mat-card>
+
+<mat-action-list>
+
+    <div *ngIf="idea.author.id == currentUser.id" fxLayout="column">
+        <button type="button" [routerLink]="['/ideas', 'update', idea.id]" mat-button fxFlex="fit-content" fxFlexAlign="end" color="primary">изменить</button>
+    </div>
+
+    <!--*ngIf="currentUser.roles.includes(role.ADMIN)"-->
+    <form [formGroup]="statusForm" (ngSubmit)="changeStatus()" fxLayout="column">
+        <mat-form-field appearance="outline" fxFlex="fit-content" fxFlexAlign="end">
+            <mat-label>изменить статус</mat-label>
+            <mat-select formControlName="status">
+                <mat-option [value]="status.ACCEPTED">Одобрено</mat-option>
+                <mat-option [value]="status.LOOKING">Рассматривается</mat-option>
+                <mat-option [value]="status.REFUSED">Отказано</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button [disabled]="idea.status == statusForm.get('status').value" type="submit" mat-flat-button color="primary" fxFlex="fit-content" fxFlexAlign="end">применить</button>
+    </form>
+
+</mat-action-list>
 
 <div class="canvas" (click)="resize(null)" [@fade] *ngIf="resizableImage">
     <img [src]="uploadPath + '/images/' + resizableImage" alt="resize.image">

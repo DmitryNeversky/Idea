@@ -1,12 +1,13 @@
 import {Idea} from "./Idea";
 import {Notification} from "./Notification";
 import {Post} from "./Post";
+import {Role} from "./Role";
 
 export class User {
     id: string;
     username: string;
     password: string;
-    role: string;
+    roles: Role[];
     name: string;
     phone: string;
     birthday: Date;

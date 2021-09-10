@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {User} from "../../../models/User";
 import {Post} from "../../../models/Post";
 import {ActivatedRoute} from "@angular/router";
@@ -30,6 +30,7 @@ export class AdminUsersComponent implements OnInit {
   public posts: Post[];
 
   public currentUser: User;
+  public modalUser: User;
 
   constructor(private activatedRoute: ActivatedRoute,
               private sharedService: SharedService,
@@ -174,5 +175,20 @@ export class AdminUsersComponent implements OnInit {
   setPageSize(value: number) {
     this.pageSize = value;
     this.goIndex(0);
+  }
+
+  @ViewChild('modal')
+  private modal: ElementRef;
+
+  openModal(user: User) {
+    this.modalUser = user;
+  }
+
+  hideModal(event: any = null) {
+    if(event && event.target.classList.contains('modal-overlay')) {
+      this.modalUser = null;
+    } else if(!event) {
+      this.modalUser = null;
+    }
   }
 }

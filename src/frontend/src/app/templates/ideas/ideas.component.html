@@ -10,6 +10,7 @@
         <mat-form-field appearance="outline" fxFlex="20%">
             <mat-label>Статус</mat-label>
             <mat-select [(ngModel)]="status" (selectionChange)="filter()">
+                <mat-option value="all">Все</mat-option>
                 <mat-option value="ACCEPTED">Принято</mat-option>
                 <mat-option value="LOOKING">Рассматривается</mat-option>
                 <mat-option value="REFUSED">Отказано</mat-option>
