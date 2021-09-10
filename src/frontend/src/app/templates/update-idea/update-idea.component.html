@@ -32,7 +32,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <app-chips [tags]="idea.tags" (tagsEmitter)="setTags($event)" #chips></app-chips>
+            <app-chips [allTags]="tags" [tags]="idea.tags" (tagsEmitter)="setTags($event)" #chips></app-chips>
 
             <div class="load-images" fxLayout="row wrap" *ngIf="idea.images.length > 0 || imagesLoader.dataTransfer.items.length > 0">
                 <p fxFlex="100%"><strong>Прикрепленные изображения</strong></p>

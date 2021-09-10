@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {TagService} from "../../services/tag.service";
+import {Tag} from "../../models/Tag";
 
 @Component({
   selector: 'app-chips',
@@ -15,31 +15,33 @@ import {TagService} from "../../services/tag.service";
 export class ChipsComponent {
 
   @Output()
-  tagsEmitter: EventEmitter<string[]> = new EventEmitter<string[]>();
+  tagsEmitter: EventEmitter<Tag[]> = new EventEmitter<Tag[]>();
 
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl();
-  filteredTags: Observable<string[]>;
+  filteredTags: Observable<Tag[]>;
+
   @Input()
-  tags: string[] = [];
-  allTags: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  allTags: Tag[];
+
+  @Input()
+  tags: Tag[] = [];
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
-  constructor(private tagService: TagService) {
-    // tagService.getAll().subscribe((response: string[]) => this.allTags = response);
+  constructor() {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
         startWith(null),
-        map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
+        map((tag: Tag | null) => tag ? this._filter(tag) : this.allTags.slice()));
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    if (value && !this.tags.includes(value)) {
-      this.tags.push(value);
+    if (value && !this.tags.find(t => t.name == value)) {
+      this.tags.push(this.tags.find(t => t.name == value));
     }
 
     event.chipInput!.clear();
@@ -47,8 +49,11 @@ export class ChipsComponent {
     this.tagCtrl.setValue(null);
   }
 
-  remove(tag: string): void {
+  remove(tag: Tag): void {
     const index = this.tags.indexOf(tag);
+    console.log(index)
+    console.log(this.tags)
+    console.log(this.tags.indexOf(tag))
 
     if (index >= 0) {
       this.tags.splice(index, 1);
@@ -56,19 +61,18 @@ export class ChipsComponent {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    if(!this.tags.includes(event.option.viewValue))
-      this.tags.push(event.option.viewValue);
+    if(!this.tags.includes(event.option.value))
+      this.tags.push(event.option.value);
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  private _filter(value: Tag): Tag[] {
 
-    return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
+    return this.allTags.filter(tag => tag == value);
   }
 
   emitChips() {
-    this.tagsEmitter.emit(this.tags);
+    this.tagsEmitter.emit(this.allTags);
   }
 }

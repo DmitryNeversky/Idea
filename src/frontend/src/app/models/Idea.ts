@@ -1,4 +1,5 @@
 import {User} from "./User";
+import {Tag} from "./Tag";
 
 export class Idea {
     id: string;
@@ -8,7 +9,7 @@ export class Idea {
     rating: number;
     looks: number;
     createdDate: Date;
-    tags: string[];
+    tags: Tag[];
     images: string[];
     files: Map<string, string>;
     author: User;

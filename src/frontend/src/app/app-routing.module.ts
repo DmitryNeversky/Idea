@@ -20,7 +20,6 @@ import {PostsResolver} from "./resolvers/posts.resolver";
 import {NotifiesComponent} from "./templates/settings/notifies/notifies.component";
 import {InterfaceComponent} from "./templates/settings/interface/interface.component";
 import {SecureComponent} from "./templates/settings/secure/secure.component";
-import {PathGuard} from "./security/path.guard";
 import {UserProfileComponent} from "./templates/user/profile/user-profile.component";
 import {UserIdeasComponent} from "./templates/user/ideas/user-ideas.component";
 import {UserContactsComponent} from "./templates/user/contacts/user-contacts.component";
@@ -76,7 +75,8 @@ const routes: Routes = [
                 data: { animation: 'update-idea' },
                 canActivate: [AuthGuard],
                 resolve: {
-                    idea: IdeaResolver
+                    idea: IdeaResolver,
+                    tags: TagResolver
                 }
             },
             {

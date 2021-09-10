@@ -7,6 +7,7 @@ import {SnackbarComponent} from "../../shared/snackbar/snackbar.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ImagesLoader} from "../../custom/ImagesLoader";
 import {FilesLoader} from "../../custom/FilesLoader";
+import {Tag} from "../../models/Tag";
 
 @Component({
   selector: 'app-create-idea',
@@ -18,7 +19,7 @@ export class CreateIdeaComponent implements OnInit{
   public imagesLoader = new ImagesLoader();
   public filesLoader = new FilesLoader();
 
-  public tags: string[];
+  public tags: Tag[];
 
   public mainForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.minLength(8), Validators.maxLength(256), Validators.required]),
@@ -69,7 +70,7 @@ export class CreateIdeaComponent implements OnInit{
     });
   }
 
-  setTags(tags: any) {
+  setTags(tags: Tag[]) {
     this.tags = tags;
   }
 }
