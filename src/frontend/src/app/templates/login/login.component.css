@@ -19,26 +19,6 @@ mat-card {
     margin-left: 10px;
 }
 
-mat-spinner {
-    width: 100% !important;
-    height: 100% !important;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    opacity: .6;
-}
-
-mat-spinner::ng-deep svg {
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
 @media screen and (max-width: 600px){
     mat-card {
         width: 90%;

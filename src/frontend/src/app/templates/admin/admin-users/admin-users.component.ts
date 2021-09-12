@@ -30,6 +30,8 @@ export class AdminUsersComponent implements OnInit {
   public currentUser: User;
   public modalUser: User;
 
+  public preloader: boolean = false;
+
   constructor(private activatedRoute: ActivatedRoute,
               private sharedService: SharedService) { }
 

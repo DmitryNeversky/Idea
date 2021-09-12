@@ -62,4 +62,5 @@
     <mat-card-content *ngIf="modalUser" class="modal-card-content" fxLayout="column">
         <h2>"{{modalUser.name}}"</h2>
     </mat-card-content>
+    <mat-spinner class="form-spinner" mode="indeterminate" *ngIf="preloader"></mat-spinner>
 </app-modal>

@@ -29,6 +29,8 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  public preloader: boolean = false;
+
   constructor(private activatedRoute: ActivatedRoute, private postService: PostService,
               private _dialog: MatDialog, private _notification: MatSnackBar) { }
 
@@ -51,8 +53,13 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
   }
 
   create() {
-    if(!this.createForm.valid || !this.createForm.get('name').value)
-      return;
+
+    switch (true) {
+      case this.createForm.valid:
+      case !this.createForm.get('name').value:
+      case this.dataSource.data.includes(this.createForm.get('name').value):
+        return;
+    }
 
     let post: Post = new Post();
     post.name = this.createForm.get('name').value;
@@ -80,10 +87,15 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
     if(!this.updateForm.valid || this.modalPost.name == this.updateForm.get('name').value)
       return;
 
-    let sendPost: Post = this.modalPost;
+    let sendPost: Post = new Post();
+    sendPost.id = this.modalPost.id;
     sendPost.name = this.updateForm.get('name').value;
 
+    this.preloader = true;
+
     this.postService.putPost(sendPost).subscribe(() => {
+      this.dataSource.data.find(p => p.id == sendPost.id).name = sendPost.name;
+      this.preloader = false;
       this.hideModal();
       this._notification.openFromComponent(SnackbarComponent, {
         duration: 2000,
@@ -91,6 +103,7 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
         data: 'Должность успешно изменена!'
       });
     }, error => {
+      this.preloader = false;
       this.hideModal();
       console.log(error);
       this._notification.openFromComponent(SnackbarComponent, {
@@ -108,8 +121,10 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
         message: `Вы уверены что хотите удалить должность "${post.name}"? Возможно, есть пользователи которые её используют.`
       }
     }).afterClosed().subscribe((result: boolean) => {
+      this.preloader = true;
       if(result) {
         this.postService.deletePost(post.id).subscribe(() => {
+          this.preloader = false;
           this.dataSource.data = this.dataSource.data.filter(p => p != post);
           this.initPagination();
           this.hideModal();
@@ -119,6 +134,7 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
             data: 'Должность успешно удалена!'
           });
         }, error => {
+          this.preloader = false;
           this.hideModal();
           console.log(error);
           this._notification.openFromComponent(SnackbarComponent, {

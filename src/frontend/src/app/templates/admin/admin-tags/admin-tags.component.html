@@ -40,4 +40,5 @@
     <mat-card-actions align="end">
         <button (click)="delete(modalTag)" mat-button color="warn">удалить</button>
     </mat-card-actions>
+    <mat-spinner class="form-spinner" mode="indeterminate" *ngIf="preloader"></mat-spinner>
 </app-modal>

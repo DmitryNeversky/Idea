@@ -21,6 +21,7 @@ export class AdminTagsComponent implements OnInit {
   public updateForm: FormGroup;
 
   public modalTag: Tag;
+  public preloader: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private tagService: TagService,
               private _dialog: MatDialog, private _notification: MatSnackBar) { }
@@ -64,7 +65,10 @@ export class AdminTagsComponent implements OnInit {
     let sendTag: Tag = this.modalTag;
     sendTag.name = this.updateForm.get('name').value;
 
+    this.preloader = true;
+
     this.tagService.putTag(sendTag).subscribe(() => {
+      this.preloader = false;
       this.hideModal();
       this._notification.openFromComponent(SnackbarComponent, {
         duration: 2000,
@@ -72,6 +76,7 @@ export class AdminTagsComponent implements OnInit {
         data: 'Тэг успешно изменен!'
       });
     }, error => {
+      this.preloader = false;
       this.hideModal();
       console.log(error);
       this._notification.openFromComponent(SnackbarComponent, {
@@ -89,8 +94,10 @@ export class AdminTagsComponent implements OnInit {
         message: `Вы уверены что хотите удалить тэг "${tag.name}"? Возможно, есть идеи которые его используют.`
       }
     }).afterClosed().subscribe((result: boolean) => {
+      this.preloader = true;
       if(result) {
         this.tagService.deleteTag(tag.id).subscribe(() => {
+          this.preloader = false;
           this.hideModal();
           this.tags = this.tags.filter(t => t != tag);
           this._notification.openFromComponent(SnackbarComponent, {
@@ -99,6 +106,7 @@ export class AdminTagsComponent implements OnInit {
             data: 'Тэг успешно удален!'
           });
         }, error => {
+          this.preloader = false;
           this.hideModal();
           console.log(error);
           this._notification.openFromComponent(SnackbarComponent, {
