@@ -49,7 +49,6 @@ export class IdeaService {
   }
 
   public changeStatus(id: string|number, status: Status): Observable<void> {
-    console.log(status)
     return this.httpClient.put<void>(`${this.apiBaseUrl}/idea/${id}/status`, status);
   }
 }

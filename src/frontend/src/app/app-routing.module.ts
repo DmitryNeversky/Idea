@@ -25,7 +25,7 @@ import {UserIdeasComponent} from "./templates/user/ideas/user-ideas.component";
 import {UserContactsComponent} from "./templates/user/contacts/user-contacts.component";
 import {AdminComponent} from "./templates/admin/admin.component";
 import {AdminUsersComponent} from "./templates/admin/admin-users/admin-users.component";
-import {UsersResolver} from "./resolvers/UsersResolver";
+import {UsersResolver} from "./resolvers/users.resolver";
 import {AdminGuard} from "./security/admin.guard";
 import {AdminTagsComponent} from "./templates/admin/admin-tags/admin-tags.component";
 import {AdminPostsComponent} from "./templates/admin/admin-posts/admin-posts.component";

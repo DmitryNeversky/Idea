@@ -1,8 +1,7 @@
 package org.dneversky.idea.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +21,6 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable {
 
     @Id
@@ -67,14 +65,15 @@ public class User implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate registeredDate;
 
+    @JsonIgnoreProperties("author")
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
-    private List<Idea> ideas;
+    private List<Idea> ideas = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Notification> notifications;
+    private List<Notification> notifications = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinTable(
@@ -83,27 +82,6 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
     private Post post;
-
-    public void addIdea(Idea idea) {
-        if(ideas == null) {
-            ideas = new ArrayList<>();
-        }
-        ideas.add(idea);
-    }
-
-    public void addRole(Role role) {
-        if(roles == null) {
-            roles = new HashSet<>();
-        }
-        roles.add(role);
-    }
-
-    public void addNotification(Notification notification) {
-        if(notifications == null) {
-            notifications = new ArrayList<>();
-        }
-        notifications.add(notification);
-    }
 
     @Override
     public boolean equals(Object o) {

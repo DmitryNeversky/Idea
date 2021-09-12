@@ -1,11 +1,12 @@
 import {User} from "./User";
 import {Tag} from "./Tag";
+import {Status} from "./Status";
 
 export class Idea {
     id: string;
     title: string;
     text: string;
-    status: string;
+    status: Status;
     rating: number;
     looks: number;
     createdDate: Date;

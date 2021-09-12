@@ -41,10 +41,8 @@ public class TagService {
 
     public void deleteTag(Tag tag) {
         ideaRepository.findAll().forEach(i -> {
-            if(i.getTags().contains(tag.getName())) {
-                i.getTags().remove(tag.getName());
-                ideaRepository.save(i);
-            }
+            i.getTags().remove(tag);
+            ideaRepository.save(i);
         });
 
         tagRepository.delete(tag);

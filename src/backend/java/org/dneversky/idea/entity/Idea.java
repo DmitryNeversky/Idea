@@ -43,16 +43,16 @@ public class Idea implements Serializable {
     private LocalDate createdDate;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_image", joinColumns = @JoinColumn(name = "idea_id"))
-    private Set<String> images;
+    private Set<String> images = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_file", joinColumns = {@JoinColumn(name = "idea_id")})
     @MapKeyColumn(name = "file_path")
-    private Map<String, String> files;
+    private Map<String, String> files = new HashMap<>();
 
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST })
     @JoinTable(name = "idea_user", joinColumns = @JoinColumn(name = "idea_id"))
@@ -83,30 +83,6 @@ public class Idea implements Serializable {
     private List<String> removeImages;
     @Transient
     private List<String> removeFiles;
-
-    public void addImage(String image) {
-        if(images == null) {
-            images = new HashSet<>();
-        } images.add(image);
-    }
-
-    public void addFile(String key, String value) {
-        if(files == null) {
-            files = new HashMap<>();
-        } files.put(key, value);
-    }
-
-    public void addLook(int userId) {
-        lookedUsers.add(userId);
-    }
-
-    public void removeImage(String image) {
-        images.remove(image);
-    }
-
-    public void removeFile(String filename) {
-        files.remove(filename);
-    }
 
     public int getRating() {
         return ratedUsers.size() - unratedUsers.size();

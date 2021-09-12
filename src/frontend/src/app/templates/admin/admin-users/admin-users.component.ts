@@ -1,9 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {User} from "../../../models/User";
 import {Post} from "../../../models/Post";
 import {ActivatedRoute} from "@angular/router";
 import {SharedService} from "../../../shared/shared.service";
-import {UserService} from "../../../services/user.service";
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +15,6 @@ export class AdminUsersComponent implements OnInit {
   public filteredPost: string = 'all';
 
   public reverse: boolean = false;
-  public loaded: boolean = false;
 
   public pageIndex: number = 0;
   public pageSize: number = 5;
@@ -33,20 +31,14 @@ export class AdminUsersComponent implements OnInit {
   public modalUser: User;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private sharedService: SharedService,
-              private userService: UserService) { }
+              private sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.posts = this.activatedRoute.snapshot.data.posts.map((p: Post) => p.name);
+    this.users = this.activatedRoute.snapshot.data.users;
 
-    this.userService.getUsers().subscribe((users: User[]) => {
-      this.users = users;
-      this.filteredUsers = this.users;
-
-      this.sort(1);
-
-      this.loaded = true;
-    });
+    this.filteredUsers = this.users;
+    this.sort(1);
   }
 
   initPagination(size: number) {
@@ -176,9 +168,6 @@ export class AdminUsersComponent implements OnInit {
     this.pageSize = value;
     this.goIndex(0);
   }
-
-  @ViewChild('modal')
-  private modal: ElementRef;
 
   openModal(user: User) {
     this.modalUser = user;

@@ -52,7 +52,7 @@ public class IdeaService {
         uploadFiles(idea, addFiles);
 
         User user = userService.getUserByUsername(username);
-        user.addIdea(idea);
+        user.getIdeas().add(idea);
 
         idea.setAuthor(user);
 
@@ -89,7 +89,7 @@ public class IdeaService {
     public void addLook(Idea idea, String username) {
         User user = userService.getUserByUsername(username);
         if(!idea.getLookedUsers().contains(user.getId())) {
-            idea.addLook(user.getId());
+            idea.getLookedUsers().add(user.getId());
 
             ideaRepository.save(idea);
         }
@@ -134,7 +134,7 @@ public class IdeaService {
                 try {
                     Path path = Paths.get(UPLOAD_PATH + "/images/" + fileName);
                     Files.copy(pair.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-                    idea.addImage(fileName);
+                    idea.getImages().add(fileName);
                 } catch (IOException e) {
                     log.error("Uploading idea's images error: {}", e.getMessage());
                 }
@@ -152,7 +152,7 @@ public class IdeaService {
                 try {
                     Path path = Paths.get(UPLOAD_PATH + "files/" + fileName);
                     Files.copy(pair.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-                    idea.addFile(fileName, pair.getOriginalFilename());
+                    idea.getFiles().put(fileName, pair.getOriginalFilename());
                 } catch (IOException e) {
                     log.error("Uploading idea's files error: {}", e.getMessage());
                 }
@@ -166,7 +166,7 @@ public class IdeaService {
                 if (Files.exists(Paths.get(UPLOAD_PATH + "images/" + pair))) {
                     try {
                         Files.delete(Paths.get(UPLOAD_PATH + "images/" + pair));
-                        idea.removeImage(pair);
+                        idea.getImages().remove(pair);
                     } catch (IOException e) {
                         log.error("Removing idea's images error: {}", e.getMessage());
                     }
@@ -181,7 +181,7 @@ public class IdeaService {
                 if (Files.exists(Paths.get(UPLOAD_PATH + "files/" + pair))) {
                     try {
                         Files.delete(Paths.get(UPLOAD_PATH + "files/" + pair));
-                        idea.removeFile(pair);
+                        idea.getFiles().remove(pair);
                     } catch (IOException e) {
                         log.error("Removing idea's files error: {}", e.getMessage());
                     }

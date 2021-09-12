@@ -4,7 +4,7 @@
         <span class="col" fxFlex.xs="65%" fxFlex.gt-xs="10%">{{user.name}}</span>
         <span class="col" fxHide.xs fxFlex="15%">{{user.username}}</span>
         <span class="col" fxHide.xs fxFlex="15%">8{{user.phone}}</span>
-        <span class="col" fxHide.xs fxFlex>{{user.post.name}}</span>
+        <span class="col" fxHide.xs fxFlex>{{user.post ? user.post.name : 'null'}}</span>
         <span class="col" fxHide.xs fxFlex="15%">{{user.birthday | date: 'dd.MM.yyyy'}}</span>
     </mat-card-content>
 </mat-card>

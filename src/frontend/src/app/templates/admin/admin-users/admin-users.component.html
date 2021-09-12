@@ -1,4 +1,4 @@
-<ng-container *ngIf="loaded; else preloader">
+<ng-container>
     <mat-card class="filter-container">
 
         <mat-card-content class="filter-content row" fxLayout.lt-lg="column" fxLayout.gt-lg="row" fxLayoutGap.lt-lg="10px">
@@ -58,9 +58,7 @@
     </div>
 </ng-container>
 
-<ng-template #preloader>Загрузка...</ng-template>
-
-<app-modal [obj]="modalUser" (click)="hideModal($event)" #modal>
+<app-modal [obj]="modalUser" (click)="hideModal($event)">
     <mat-card-content *ngIf="modalUser" class="modal-card-content" fxLayout="column">
         <h2>"{{modalUser.name}}"</h2>
     </mat-card-content>
