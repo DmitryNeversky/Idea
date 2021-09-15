@@ -38,8 +38,15 @@
     </mat-card-content>
 </mat-card>
 
+<mat-chip-list class="filter-tags">
+    <mat-chip *ngFor="let tag of tags" (click)="changeTag($event, tag)" color="primary">
+        {{tag.name}}
+    </mat-chip>
+</mat-chip-list>
+
 <div *ngIf="paginatedIdeas.length > 0; else noIdeas">
     <app-idea *ngFor="let idea of paginatedIdeas" [idea]="idea"></app-idea>
+    <mat-spinner class="form-spinner" mode="indeterminate" *ngIf="ideasLoader"></mat-spinner>
 </div>
 
 <ng-template #noIdeas><p class="no-ideas">Идей не найдено</p></ng-template>

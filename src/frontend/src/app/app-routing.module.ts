@@ -48,6 +48,7 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
                 resolve: {
                     ideas: IdeasResolver,
+                    tags: TagResolver,
                     currentUser: CurrentUserResolver
                 },
             },

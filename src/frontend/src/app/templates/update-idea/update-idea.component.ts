@@ -63,7 +63,6 @@ export class UpdateIdeaComponent implements OnInit {
 
     this.idea.title = this.mainForm.get('title').value;
     this.idea.text = this.mainForm.get('text').value;
-    // this.tags.forEach(t => this.idea.tags.push(t));
     this.imagesLoader.removeImagesList.forEach(x => this.idea.removeImages.push(x));
     for (let i = 0; i < this.imagesLoader.dataTransfer.files.length; i++)
       formData.append('addImages', this.imagesLoader.dataTransfer.files[i]);

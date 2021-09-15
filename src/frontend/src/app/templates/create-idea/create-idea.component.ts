@@ -20,6 +20,7 @@ export class CreateIdeaComponent implements OnInit{
   public filesLoader = new FilesLoader();
 
   public tags: Tag[];
+  public addedTags: Tag[] = [];
 
   public mainForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.minLength(8), Validators.maxLength(256), Validators.required]),
@@ -43,7 +44,7 @@ export class CreateIdeaComponent implements OnInit{
 
     idea.title = this.mainForm.get('title').value;
     idea.text = this.mainForm.get('text').value;
-    idea.tags = this.tags;
+    idea.tags = this.addedTags;
 
     const formData = new FormData();
     formData.append('idea', JSON.stringify(idea));

@@ -3,6 +3,7 @@ import {Idea} from "../../models/Idea";
 import {ActivatedRoute} from "@angular/router";
 import {SharedService} from "../../shared/shared.service";
 import {User} from "../../models/User";
+import {Tag} from "../../models/Tag";
 
 @Component({
   selector: 'app-ideas',
@@ -22,16 +23,22 @@ export class IdeasComponent implements OnInit {
   public pagerSize: number = 0;
 
   public ideas: Idea[];
+  public tags: Tag[];
+  public changedTags: Tag[] = [];
+
   public paginatedIdeas: Idea[];
   public filteredIdeas: Idea[];
 
   public currentUser: User;
+
+  public ideasLoader: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.ideas = this.activatedRoute.snapshot.data.ideas.filter((idea: Idea) => idea && idea.title);
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
+    this.tags = this.activatedRoute.snapshot.data.tags;
 
     this.filteredIdeas = this.ideas;
     this.sort(1);
@@ -75,12 +82,15 @@ export class IdeasComponent implements OnInit {
         this.pagers.push(i);
     }
 
+    this.ideasLoader = false;
     this.sharedService.emitChange();
   }
 
   goIndex(index: number) {
     this.pageIndex = index;
     this.paginatedIdeas = [];
+
+    this.ideasLoader = true;
 
     if(this.filteredIdeas.length == 0) {
       this.filteredIdeas = [];
@@ -96,6 +106,8 @@ export class IdeasComponent implements OnInit {
   filter() {
     this.filteredIdeas = this.ideas;
 
+    this.ideasLoader = true;
+
     if (this.search) {
       if (this.search.includes('#'))
         this.filteredIdeas = this.filteredIdeas.filter((idea: Idea) => idea.id.includes(this.search.slice(1)));
@@ -106,10 +118,17 @@ export class IdeasComponent implements OnInit {
     if (this.status && this.status != 'all')
       this.filteredIdeas = this.filteredIdeas.filter((idea: Idea) => idea.status == this.status);
 
+    if(this.changedTags && this.changedTags.length > 0) {
+      this.filteredIdeas = this.filteredIdeas.filter((idea: Idea) =>
+          idea.tags.find(t => this.changedTags.find(tt => tt.id == t.id)));
+    }
+
     this.goIndex(0);
   }
 
   sort(value: number) {
+    this.ideasLoader = true;
+
     switch (value) {
       case 1:
         this.filteredIdeas.sort((a: Idea, b: Idea) => {
@@ -164,5 +183,16 @@ export class IdeasComponent implements OnInit {
   setPageSize(value: number) {
     this.pageSize = value;
     this.goIndex(0);
+  }
+
+  changeTag(event: any, tag: Tag) {
+    if(this.changedTags.includes(tag)) {
+      this.changedTags = this.changedTags.filter(t => t != tag);
+      event.target.classList.remove('accent');
+    } else {
+      this.changedTags.push(tag);
+      event.target.classList.add('accent');
+    }
+    this.filter();
   }
 }

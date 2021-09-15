@@ -9,6 +9,11 @@
     </mat-card-title>
     <mat-card-content>
         <p class="text">{{idea.text | truncate: 600}}</p>
+        <mat-chip-list>
+            <mat-chip *ngFor="let tag of idea.tags" color="primary">
+                {{tag.name}}
+            </mat-chip>
+        </mat-chip-list>
     </mat-card-content>
     <mat-card-footer fxLayout.xs="column wrap" fxLayout.gt-xs="row">
         <div class="meta" fxLayout="row" fxFlex.gt-xs>

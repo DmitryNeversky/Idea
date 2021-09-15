@@ -51,9 +51,6 @@ export class ChipsComponent {
 
   remove(tag: Tag): void {
     const index = this.tags.indexOf(tag);
-    console.log(index)
-    console.log(this.tags)
-    console.log(this.tags.indexOf(tag))
 
     if (index >= 0) {
       this.tags.splice(index, 1);
