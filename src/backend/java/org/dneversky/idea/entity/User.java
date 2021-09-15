@@ -83,6 +83,10 @@ public class User implements Serializable {
     )
     private Post post;
 
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "settings_id")
+    private Settings settings;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

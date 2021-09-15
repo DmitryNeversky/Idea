@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../models/User";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
+import {NoticeSetting} from "../models/settings/NoticeSetting";
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,9 @@ export class UserService {
 
   public changePassword(formData: FormData): Observable<void> {
     return this.httpClient.post<void>(`${this.apiBaseUrl}/user/password/change`, formData);
+  }
+
+  public setNoticeSetting(noticeSetting: NoticeSetting): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiBaseUrl}/user/settings/notifies/save`, noticeSetting);
   }
 }

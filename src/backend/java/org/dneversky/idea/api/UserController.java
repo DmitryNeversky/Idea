@@ -2,6 +2,7 @@ package org.dneversky.idea.api;
 
 import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.entity.settings.NoticeSetting;
 import org.dneversky.idea.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,6 +94,13 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FOUND).body("новый пароль эквивалентен текущему");
         }
         userService.changePassword(principal.getName(), newPassword);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/user/settings/notifies/save")
+    public ResponseEntity<?> setNoticeSetting(@RequestBody NoticeSetting noticeSetting, Principal principal) {
+        userService.setNoticeSetting(principal.getName(), noticeSetting);
 
         return ResponseEntity.ok().build();
     }

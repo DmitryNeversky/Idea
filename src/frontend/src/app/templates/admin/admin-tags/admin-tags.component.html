@@ -11,12 +11,13 @@
         <form [formGroup]="createForm" (ngSubmit)="create()">
             <mat-form-field appearance="outline">
                 <mat-label>добавить тэг</mat-label>
-                <input matInput formControlName="name">
+                <input matInput (input)="createListener($event)" formControlName="name">
                 <mat-error *ngIf="createForm.get('name').hasError('maxlength')">
                     максимальная длина {{createForm.get('name').errors.maxlength.requiredLength}} символов
                     (сейчас {{createForm.get('name').errors.maxlength.actualLength}})</mat-error>
+                <mat-hint *ngIf="tagExists">должность уже существует</mat-hint>
             </mat-form-field>
-            <button type="submit" [disabled]="!createForm.get('name').value || createForm.invalid" class="add-button col" mat-flat-button color="primary">добавить</button>
+            <button type="submit" [disabled]="!createForm.get('name').value || createForm.invalid || tagExists" mat-flat-button color="primary">добавить</button>
         </form>
     </mat-card-content>
 </mat-card>
@@ -27,14 +28,15 @@
         <form [formGroup]="updateForm" (ngSubmit)="update()" fxFlex.xs="100%" fxFlex.gt-xs="60%">
             <mat-form-field class="col" appearance="outline">
                 <mat-label>название</mat-label>
-                <input type="text" matInput formControlName="name">
+                <input type="text" (input)="changeListener($event)" matInput formControlName="name">
                 <mat-error *ngIf="createForm.get('name').hasError('required')">заполните поле</mat-error>
+                <mat-hint *ngIf="changeExists">должность уже существует</mat-hint>
                 <mat-error *ngIf="createForm.get('name').hasError('maxlength')">
                     максимальная длина {{createForm.get('name').errors.maxlength.requiredLength}} символов
                     (сейчас {{createForm.get('name').errors.maxlength.actualLength}})</mat-error>
             </mat-form-field>
             <button type="submit" class="col" mat-flat-button color="primary"
-                    [disabled]="this.modalTag.name == updateForm.get('name').value || createForm.invalid">сохранить</button>
+                    [disabled]="this.modalTag.name == updateForm.get('name').value || createForm.invalid || changeExists">сохранить</button>
         </form>
     </mat-card-content>
     <mat-card-actions align="end">

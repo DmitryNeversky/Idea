@@ -21,6 +21,9 @@ export class AdminTagsComponent implements OnInit {
   public updateForm: FormGroup;
 
   public modalTag: Tag;
+
+  public tagExists: boolean = false;
+  public changeExists: boolean = false;
   public preloader: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private tagService: TagService,
@@ -117,6 +120,15 @@ export class AdminTagsComponent implements OnInit {
         });
       }
     })
+  }
+
+  createListener(event: any) {
+    this.tagExists = !!this.tags.find(t => t.name == event.target.value);
+  }
+
+  changeListener(event: any) {
+    this.changeExists = !!this.tags.find(t => t.name == event.target.value)
+        && this.modalTag.name != event.target.value;
   }
 
   openModal(tag: Tag) {

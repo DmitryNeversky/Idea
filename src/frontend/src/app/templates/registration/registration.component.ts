@@ -6,6 +6,8 @@ import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Post} from "../../models/Post";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
+import {Settings} from "../../models/Settings";
+import {NoticeSetting} from "../../models/settings/NoticeSetting";
 
 @Component({
   selector: 'app-registration',
@@ -72,6 +74,10 @@ export class RegistrationComponent implements OnInit {
     user.phone = this.firstFormGroup.get('phone').value;
     user.birthday = this.firstFormGroup.get('birthday').value;
     user.post = this.firstFormGroup.get('post').value;
+
+    let settings: Settings = new Settings();
+    settings.noticeSetting = new NoticeSetting();
+    user.settings = settings;
 
     this.preloader = true;
 

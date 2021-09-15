@@ -3,7 +3,9 @@ package org.dneversky.idea.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Post;
+import org.dneversky.idea.entity.Settings;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.entity.settings.NoticeSetting;
 import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,6 +81,18 @@ public class UserService implements UserDetailsService {
 
         user.setPost(post);
 
+        NoticeSetting noticeSetting = new NoticeSetting();
+        noticeSetting.setDisabledNotice(false);
+        noticeSetting.setSuccessDuration(2000);
+        noticeSetting.setErrorDuration(3000);
+        noticeSetting.setHorizontalPosition("start");
+        noticeSetting.setVerticalPosition("bottom");
+
+        Settings settings = new Settings();
+        settings.setNoticeSetting(noticeSetting);
+
+        user.setSettings(settings);
+
         return userRepository.save(user);
     }
 
@@ -127,6 +141,13 @@ public class UserService implements UserDetailsService {
     public void changePassword(String username, String newPassword) {
         User user = userRepository.findByUsername(username);
         user.setPassword(passwordEncoder.encode(newPassword));
+
+        userRepository.save(user);
+    }
+
+    public void setNoticeSetting(String username, NoticeSetting noticeSetting) {
+        User user = userRepository.findByUsername(username);
+        user.getSettings().setNoticeSetting(noticeSetting);
 
         userRepository.save(user);
     }

@@ -67,7 +67,8 @@ const routes: Routes = [
                 data: { animation: 'idea-create' },
                 canActivate: [AuthGuard],
                 resolve: {
-                    tags: TagResolver
+                    tags: TagResolver,
+                    currentUser: CurrentUserResolver
                 }
             },
             {
@@ -77,7 +78,8 @@ const routes: Routes = [
                 canActivate: [AuthGuard, UpdateIdeaGuard],
                 resolve: {
                     idea: IdeaResolver,
-                    tags: TagResolver
+                    tags: TagResolver,
+                    currentUser: CurrentUserResolver
                 }
             },
             {

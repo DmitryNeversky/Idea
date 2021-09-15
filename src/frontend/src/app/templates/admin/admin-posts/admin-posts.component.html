@@ -30,12 +30,13 @@
         <form [formGroup]="createForm" (ngSubmit)="create()" class="create-form" fxFlex.xs="100%" fxFlex.gt-xs="60%">
             <mat-form-field class="col" appearance="outline">
                 <mat-label>Добавить должность</mat-label>
-                <input type="text" matInput formControlName="name">
+                <input type="text" (input)="createListener($event)" matInput formControlName="name">
                 <mat-error *ngIf="createForm.get('name').hasError('maxlength')">
                     максимальная длина {{createForm.get('name').errors.maxlength.requiredLength}} символов
                     (сейчас {{createForm.get('name').errors.maxlength.actualLength}})</mat-error>
+                <mat-hint *ngIf="postExist">должность уже существует</mat-hint>
             </mat-form-field>
-            <button type="submit" [disabled]="!createForm.get('name').value || createForm.invalid" mat-flat-button color="primary">добавить</button>
+            <button type="submit" [disabled]="!createForm.get('name').value || createForm.invalid || postExist" mat-flat-button color="primary">добавить</button>
         </form>
         <mat-paginator fxFlex.xs="100%" fxFlex.gt-xs="40%" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </mat-card-actions>
@@ -47,14 +48,15 @@
         <form [formGroup]="updateForm" (ngSubmit)="update()" fxFlex.xs="100%" fxFlex.gt-xs="60%">
             <mat-form-field class="col" appearance="outline">
                 <mat-label>название</mat-label>
-                <input type="text" matInput formControlName="name">
+                <input type="text" (input)="changeListener($event)" matInput formControlName="name">
                 <mat-error *ngIf="createForm.get('name').hasError('required')">заполните поле</mat-error>
+                <mat-hint *ngIf="changeExist">должность уже существует</mat-hint>
                 <mat-error *ngIf="createForm.get('name').hasError('maxlength')">
                     максимальная длина {{createForm.get('name').errors.maxlength.requiredLength}} символов
                     (сейчас {{createForm.get('name').errors.maxlength.actualLength}})</mat-error>
             </mat-form-field>
             <button type="submit" class="col" mat-flat-button color="primary"
-                    [disabled]="this.modalPost.name == updateForm.get('name').value || createForm.invalid">сохранить</button>
+                    [disabled]="this.modalPost.name == updateForm.get('name').value || createForm.invalid || changeExist">сохранить</button>
         </form>
     </mat-card-content>
     <mat-card-actions align="end">

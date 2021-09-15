@@ -2,6 +2,7 @@ import {Idea} from "./Idea";
 import {Notification} from "./Notification";
 import {Post} from "./Post";
 import {Role} from "./Role";
+import {Settings} from "./Settings";
 
 export class User {
     id: string;
@@ -20,4 +21,5 @@ export class User {
     about: string;
     city: string;
     notifications: Notification[];
+    settings: Settings;
 }

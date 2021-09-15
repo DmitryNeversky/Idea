@@ -3,14 +3,14 @@ import {ImagesLoader} from "../../custom/ImagesLoader";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {IdeaService} from "../../services/idea.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {Idea} from "../../models/Idea";
-import {SnackbarComponent} from "../../shared/snackbar/snackbar.component";
 import {environment} from "../../../environments/environment";
 import {FilesLoader} from "../../custom/FilesLoader";
 import {DialogComponent} from "../../shared/dialog/dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Tag} from "../../models/Tag";
+import {User} from "../../models/User";
+import {SnackbarService} from "../../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-update-idea',
@@ -22,6 +22,7 @@ export class UpdateIdeaComponent implements OnInit {
   public uploadPath = environment.uploadPath + "images/";
 
   public idea: Idea;
+  public currentUser: User;
 
   public imagesLoader = new ImagesLoader();
   public filesLoader = new FilesLoader();
@@ -33,12 +34,13 @@ export class UpdateIdeaComponent implements OnInit {
   constructor(private ideaService: IdeaService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              private _snackBar: MatSnackBar,
-              private _dialog: MatDialog) { }
+              private _dialog: MatDialog,
+              private snackbarService: SnackbarService) { }
 
   ngOnInit() {
     this.idea = this.activatedRoute.snapshot.data.idea;
     this.tags = this.activatedRoute.snapshot.data.tags;
+    this.currentUser = this.activatedRoute.snapshot.data.currentUser;
 
     this.mainForm = new FormGroup({
       title: new FormControl(this.idea.title, [Validators.minLength(8), Validators.maxLength(256), Validators.required]),
@@ -73,18 +75,10 @@ export class UpdateIdeaComponent implements OnInit {
 
     this.ideaService.putIdea(formData).subscribe(() => {
       this.router.navigate(['ideas']);
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: "start",
-        data: "Идея успешно отредактирована!"
-      });
+      this.snackbarService.success("Идея успешно отредактирована!");
     }, error => {
       console.log(error);
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: "start",
-        data: "Произошла ошибка, попробуйте позже."
-      });
+      this.snackbarService.error(error);
     });
   }
 
@@ -98,18 +92,10 @@ export class UpdateIdeaComponent implements OnInit {
       if(result) {
         this.ideaService.deleteIdea(this.idea.id).subscribe(() => {
           this.router.navigate(['ideas']);
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            duration: 2000,
-            horizontalPosition: "start",
-            data: "Идея успешно удалена!"
-          });
+          this.snackbarService.success("Идея успешно удалена!");
         }, error => {
           console.log(error);
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            duration: 3000,
-            horizontalPosition: "start",
-            data: "Произошла ошибка, попробуйте позже."
-          });
+          this.snackbarService.success("Произошел сбой, попробуйте позже.");
         });
       }
     });

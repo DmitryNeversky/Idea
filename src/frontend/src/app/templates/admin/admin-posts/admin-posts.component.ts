@@ -29,6 +29,8 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  public postExist: boolean = false;
+  public changeExist: boolean = false;
   public preloader: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private postService: PostService,
@@ -145,6 +147,15 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
         });
       }
     })
+  }
+
+  createListener(event: any) {
+    this.postExist = !!this.dataSource.data.find(p => p.name == event.target.value);
+  }
+
+  changeListener(event: any) {
+    this.changeExist = !!this.dataSource.data.find(p => p.name == event.target.value)
+        && this.modalPost.name != event.target.value;
   }
 
   openModal(post: Post) {

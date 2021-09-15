@@ -1,12 +1,38 @@
 <mat-card>
     <mat-card-content>
         <h2 class="silver">Уведомления</h2>
-        <form fxLayout="column wrap">
-            <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
-                <div class="col" fxLayout="column" fxFlex>
-
+        <form [formGroup]="mainForm" fxLayout="column wrap">
+            <div fxLayout="column" fxLayoutGap.xs="5%" fxLayoutGap.gt-xs="2.5%">
+                <div class="col" fxLayout="row" fxFlex>
+                    <mat-slide-toggle fxFlex="fit-content" formControlName="disabledNotifies">Не показывать уведомления</mat-slide-toggle>
+                </div>
+                <div class="col" fxLayout="row wrap" fxFlex>
+                    <label id="success-duration-label" fxFlex="100%">Время показа уведомлений об успехе</label>
+                    <mat-slider fxFlex.xs="100%" fxFlex.gt-xs="30%" formControlName="successDuration" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="100" min="500" max="5000" aria-labelledby="success-duration-label"></mat-slider>
+                </div>
+                <div class="col" fxLayout="row wrap" fxFlex>
+                    <label id="error-duration-label" fxFlex="100%">Время показа уведомлений об ошибке</label>
+                    <mat-slider fxFlex.xs="100%" fxFlex.gt-xs="30%" formControlName="errorDuration" thumbLabel [displayWith]="formatLabel" tickInterval="100" step="100" min="500" max="5000" aria-labelledby="error-duration-label"></mat-slider>
+                </div>
+                <div class="col" fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row wrap" fxFlex>
+                    <label id="horizontal-position-label">Расположение по горизонтали</label>
+                    <mat-radio-group fxFlex formControlName="horizontalPosition" aria-labelledby="horizontal-position-label">
+                        <mat-radio-button class="col" value="start">Слева</mat-radio-button>
+                        <mat-radio-button class="col" value="center">В центре</mat-radio-button>
+                        <mat-radio-button class="col" value="end">Справа</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col" fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row wrap" fxFlex>
+                    <label id="vertical-position-label">Расположение по вертикали</label>
+                    <mat-radio-group fxFlex formControlName="verticalPosition" aria-labelledby="vertical-position-label">
+                        <mat-radio-button class="col" value="top">Сверху</mat-radio-button>
+                        <mat-radio-button class="col" value="bottom">Снизу</mat-radio-button>
+                    </mat-radio-group>
                 </div>
             </div>
         </form>
+        <mat-card-actions align="end">
+            <button type="button" (click)="update()" class="col" mat-flat-button color="primary">сохранить</button>
+        </mat-card-actions>
     </mat-card-content>
 </mat-card>
