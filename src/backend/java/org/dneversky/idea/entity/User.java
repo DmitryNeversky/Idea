@@ -75,6 +75,7 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Notification> notifications = new ArrayList<>();
 
+    @JsonIgnoreProperties("users")
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinTable(
             name = "post_user",

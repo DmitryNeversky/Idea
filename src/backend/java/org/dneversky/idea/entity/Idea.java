@@ -2,6 +2,7 @@ package org.dneversky.idea.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,6 +55,7 @@ public class Idea implements Serializable {
     @MapKeyColumn(name = "file_path")
     private Map<String, String> files = new HashMap<>();
 
+    @JsonIgnoreProperties("ideas")
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST })
     @JoinTable(name = "idea_user", joinColumns = @JoinColumn(name = "idea_id"))
     private User author;
