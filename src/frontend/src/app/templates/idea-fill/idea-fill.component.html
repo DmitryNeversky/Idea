@@ -71,8 +71,7 @@
         <button type="button" [routerLink]="['/ideas', 'update', idea.id]" mat-button fxFlex="fit-content" fxFlexAlign="end" color="primary">изменить</button>
     </div>
 
-    <!--*ngIf="currentUser.roles.includes(role.ADMIN)"-->
-    <form [formGroup]="statusForm" (ngSubmit)="changeStatus()" fxLayout="column">
+    <form *ngIf="isAdmin" [formGroup]="statusForm" (ngSubmit)="changeStatus()" fxLayout="column">
         <mat-form-field appearance="outline" fxFlex="fit-content" fxFlexAlign="end">
             <mat-label>изменить статус</mat-label>
             <mat-select formControlName="status">

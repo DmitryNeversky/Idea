@@ -6,6 +6,7 @@ import org.dneversky.idea.repository.RoleRepository;
 import org.dneversky.idea.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
@@ -42,5 +43,15 @@ public class RoleService {
         });
 
         roleRepository.delete(role);
+    }
+
+    @PostConstruct
+    private void init() {
+        if(roleRepository.findByName("USER") == null) {
+            roleRepository.save(new Role("USER"));
+        }
+        if(roleRepository.findByName("ADMIN") == null) {
+            roleRepository.save(new Role("ADMIN"));
+        }
     }
 }

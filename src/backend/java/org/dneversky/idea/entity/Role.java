@@ -24,4 +24,8 @@ public class Role {
     @NotNull
     @Size(max = 128, message = "Name size is: min 0 max 128")
     private String name;
+
+    public Role(String name) {
+        this.name = name;
+    }
 }

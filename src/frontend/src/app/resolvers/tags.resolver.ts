@@ -7,7 +7,7 @@ import {Tag} from "../models/Tag";
 @Injectable({
     providedIn: 'root'
 })
-export class TagResolver implements Resolve<Tag[]> {
+export class TagsResolver implements Resolve<Tag[]> {
 
     constructor(private tagService: TagService) {}
 

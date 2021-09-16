@@ -35,12 +35,14 @@ export class IdeaFillComponent implements OnInit {
 
   public idea: Idea;
   public currentUser: User;
-  public role = Role;
   public status = Status;
+
+  public roles: Role[] = [];
 
   public statusForm: FormGroup;
 
   public resizableImage: string;
+  public isAdmin: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private ideaService: IdeaService,
               private snackBar: SnackbarService) { }
@@ -48,6 +50,9 @@ export class IdeaFillComponent implements OnInit {
   ngOnInit(): void {
     this.idea = this.activatedRoute.snapshot.data.idea;
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
+    this.roles = this.activatedRoute.snapshot.data.roles
+
+    this.isAdmin = !!this.currentUser.roles.find(r => r.name == 'ADMIN');
 
     if(this.idea.ratedUsers.includes(+this.currentUser.id)) {
       this.voted = 1;

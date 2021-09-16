@@ -40,6 +40,7 @@ public class UserService implements UserDetailsService {
     private final NotificationRepository notificationRepository;
     private final PasswordEncoder passwordEncoder;
     private final PostService postService;
+    private final RoleService roleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -75,6 +76,7 @@ public class UserService implements UserDetailsService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(LocalDate.now());
+        user.getRoles().add(roleService.getRoleByName("USER"));
 
         Post post = postService.getPostByName(user.getPost().getName());
         post.getUsers().add(user);
