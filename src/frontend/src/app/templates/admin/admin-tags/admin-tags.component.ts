@@ -5,8 +5,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Tag} from "../../../models/Tag";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogComponent} from "../../../shared/dialog/dialog.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {SnackbarComponent} from "../../../shared/snackbar/snackbar.component";
+import {SnackbarService} from "../../../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-admin-tags',
@@ -27,7 +26,7 @@ export class AdminTagsComponent implements OnInit {
   public preloader: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private tagService: TagService,
-              private _dialog: MatDialog, private _notification: MatSnackBar) { }
+              private _dialog: MatDialog, private snackBar: SnackbarService) { }
 
   ngOnInit(): void {
     this.tags = this.activatedRoute.snapshot.data.tags;
@@ -46,18 +45,10 @@ export class AdminTagsComponent implements OnInit {
     this.tagService.saveTag(tag).subscribe((tag: Tag) => {
       this.tags.push(tag);
       this.createForm.reset();
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 2000,
-        horizontalPosition: 'left',
-        data: 'Тэг успешно создан!'
-      });
+      this.snackBar.success('Тэг успешно создан!');
     }, error => {
       console.log(error);
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: 'left',
-        data: 'Произошел сбой, попробуйте позже.'
-      });
+      this.snackBar.error();
     });
   }
 
@@ -73,20 +64,12 @@ export class AdminTagsComponent implements OnInit {
     this.tagService.putTag(sendTag).subscribe(() => {
       this.preloader = false;
       this.hideModal();
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 2000,
-        horizontalPosition: 'left',
-        data: 'Тэг успешно изменен!'
-      });
+      this.snackBar.success('Тэг успешно изменен!');
     }, error => {
       this.preloader = false;
       this.hideModal();
       console.log(error);
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: 'left',
-        data: 'Произошел сбой, попробуйте позже.'
-      });
+      this.snackBar.error();
     });
   }
 
@@ -103,20 +86,12 @@ export class AdminTagsComponent implements OnInit {
           this.preloader = false;
           this.hideModal();
           this.tags = this.tags.filter(t => t != tag);
-          this._notification.openFromComponent(SnackbarComponent, {
-            duration: 2000,
-            horizontalPosition: 'left',
-            data: 'Тэг успешно удален!'
-          });
+          this.snackBar.success('Тэг успешно удален!');
         }, error => {
           this.preloader = false;
           this.hideModal();
           console.log(error);
-          this._notification.openFromComponent(SnackbarComponent, {
-            duration: 3000,
-            horizontalPosition: 'left',
-            data: 'Произошел сбой, попробуйте позже.'
-          });
+          this.snackBar.error();
         });
       }
     })

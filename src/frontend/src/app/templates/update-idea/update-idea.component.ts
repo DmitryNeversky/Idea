@@ -35,7 +35,7 @@ export class UpdateIdeaComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private _dialog: MatDialog,
-              private snackbarService: SnackbarService) { }
+              private snackBar: SnackbarService) { }
 
   ngOnInit() {
     this.idea = this.activatedRoute.snapshot.data.idea;
@@ -74,10 +74,10 @@ export class UpdateIdeaComponent implements OnInit {
 
     this.ideaService.putIdea(formData).subscribe(() => {
       this.router.navigate(['ideas']);
-      this.snackbarService.success("Идея успешно отредактирована!");
+      this.snackBar.success("Идея успешно отредактирована!");
     }, error => {
       console.log(error);
-      this.snackbarService.error(error);
+      this.snackBar.error();
     });
   }
 
@@ -91,10 +91,10 @@ export class UpdateIdeaComponent implements OnInit {
       if(result) {
         this.ideaService.deleteIdea(this.idea.id).subscribe(() => {
           this.router.navigate(['ideas']);
-          this.snackbarService.success("Идея успешно удалена!");
+          this.snackBar.success("Идея успешно удалена!");
         }, error => {
           console.log(error);
-          this.snackbarService.success("Произошел сбой, попробуйте позже.");
+          this.snackBar.error();
         });
       }
     });

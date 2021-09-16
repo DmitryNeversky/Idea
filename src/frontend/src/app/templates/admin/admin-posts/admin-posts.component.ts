@@ -7,9 +7,8 @@ import {ActivatedRoute} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {PostService} from "../../../services/post.service";
 import {DialogComponent} from "../../../shared/dialog/dialog.component";
-import {SnackbarComponent} from "../../../shared/snackbar/snackbar.component";
 import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarService} from "../../../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-admin-posts',
@@ -34,7 +33,7 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
   public preloader: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private postService: PostService,
-              private _dialog: MatDialog, private _notification: MatSnackBar) { }
+              private _dialog: MatDialog, private snackBar: SnackbarService) { }
 
   ngOnInit(): void {
     const posts = this.activatedRoute.snapshot.data.posts;
@@ -70,18 +69,10 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
       this.dataSource.data.push(post);
       this.initPagination();
       this.createForm.reset();
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 2000,
-        horizontalPosition: 'left',
-        data: 'Должность успешно создана!'
-      });
+      this.snackBar.success('Должность успешно создана!');
     }, error => {
       console.log(error);
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: 'left',
-        data: 'Произошел сбой, попробуйте позже.'
-      });
+      this.snackBar.error();
     });
   }
 
@@ -99,20 +90,12 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
       this.dataSource.data.find(p => p.id == sendPost.id).name = sendPost.name;
       this.preloader = false;
       this.hideModal();
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 2000,
-        horizontalPosition: 'left',
-        data: 'Должность успешно изменена!'
-      });
+      this.snackBar.success('Должность успешно изменена!');
     }, error => {
       this.preloader = false;
       this.hideModal();
       console.log(error);
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: 'left',
-        data: 'Произошел сбой, попробуйте позже.'
-      });
+      this.snackBar.error();
     });
   }
 
@@ -130,20 +113,12 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
           this.dataSource.data = this.dataSource.data.filter(p => p != post);
           this.initPagination();
           this.hideModal();
-          this._notification.openFromComponent(SnackbarComponent, {
-            duration: 2000,
-            horizontalPosition: 'left',
-            data: 'Должность успешно удалена!'
-          });
+          this.snackBar.success('Должность успешно удалена!');
         }, error => {
           this.preloader = false;
           this.hideModal();
           console.log(error);
-          this._notification.openFromComponent(SnackbarComponent, {
-            duration: 3000,
-            horizontalPosition: 'left',
-            data: 'Произошел сбой, попробуйте позже.'
-          });
+          this.snackBar.error();
         });
       }
     })

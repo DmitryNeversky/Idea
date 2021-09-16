@@ -8,8 +8,7 @@ import {IdeaService} from "../../services/idea.service";
 import {Role} from "../../models/Role";
 import {Status} from "../../models/Status";
 import {FormControl, FormGroup} from "@angular/forms";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {SnackbarComponent} from "../../shared/snackbar/snackbar.component";
+import {SnackbarService} from "../../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-idea-fill',
@@ -44,7 +43,7 @@ export class IdeaFillComponent implements OnInit {
   public resizableImage: string;
 
   constructor(private activatedRoute: ActivatedRoute, private ideaService: IdeaService,
-              private _notification: MatSnackBar) { }
+              private snackBar: SnackbarService) { }
 
   ngOnInit(): void {
     this.idea = this.activatedRoute.snapshot.data.idea;
@@ -105,18 +104,10 @@ export class IdeaFillComponent implements OnInit {
 
     this.ideaService.changeStatus(this.idea.id, status).subscribe(() => {
       this.idea.status = status;
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 2000,
-        horizontalPosition: 'left',
-        data: 'Статус идеи изменен.'
-      });
+      this.snackBar.success('Статус идеи изменен.');
     },error => {
       console.log(error);
-      this._notification.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: 'left',
-        data: 'Произошел сбой, попробуйте позже.'
-      });
+      this.snackBar.error();
     });
   }
 }

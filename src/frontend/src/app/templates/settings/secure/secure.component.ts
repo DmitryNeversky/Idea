@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {User} from "../../../models/User";
 import {UserService} from "../../../services/user.service";
 import {DialogComponent} from "../../../shared/dialog/dialog.component";
-import {SnackbarComponent} from "../../../shared/snackbar/snackbar.component";
 import {AuthService} from "../../../services/auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
+import {SnackbarService} from "../../../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-secure',
@@ -31,7 +30,7 @@ export class SecureComponent implements OnInit {
               private _formBuilder: FormBuilder,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              private _snackBar: MatSnackBar,
+              private snackBar: SnackbarService,
               private _dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -55,18 +54,10 @@ export class SecureComponent implements OnInit {
       if(result) {
         this.userService.deleteUser(this.user.id).subscribe(() => {
           this.authService.logout();
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            duration: 2000,
-            horizontalPosition: "start",
-            data: "Пользователь удален."
-          });
+          this.snackBar.success('Пользователь удален.');
         }, error => {
           console.log(error);
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            duration: 3000,
-            horizontalPosition: "start",
-            data: "Произошла ошибка, попробуйте позже."
-          });
+          this.snackBar.error();
         });
       }
     });
@@ -82,11 +73,7 @@ export class SecureComponent implements OnInit {
 
     this.userService.changePassword(formData).subscribe(() => {
       this.authService.logout();
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        duration: 2000,
-        horizontalPosition: "start",
-        data: "Пароль успешно изменен!"
-      });
+      this.snackBar.success('Пароль успешно изменен!');
       this.passwordError = null;
     },(error: HttpErrorResponse) => {
       console.log(error);

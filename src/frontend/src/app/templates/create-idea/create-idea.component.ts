@@ -3,11 +3,10 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {IdeaService} from "../../services/idea.service";
 import {Idea} from "../../models/Idea";
 import {ActivatedRoute, Router} from "@angular/router";
-import {SnackbarComponent} from "../../shared/snackbar/snackbar.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {ImagesLoader} from "../../custom/ImagesLoader";
 import {FilesLoader} from "../../custom/FilesLoader";
 import {Tag} from "../../models/Tag";
+import {SnackbarService} from "../../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-create-idea',
@@ -30,7 +29,7 @@ export class CreateIdeaComponent implements OnInit{
   constructor(private ideaService: IdeaService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              private _snackBar: MatSnackBar) { }
+              private snackBar: SnackbarService) { }
 
   ngOnInit() {
     this.tags = this.activatedRoute.snapshot.data.tags;
@@ -56,18 +55,10 @@ export class CreateIdeaComponent implements OnInit{
 
     this.ideaService.saveIdea(formData).subscribe(() => {
       this.router.navigate(['ideas']);
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        duration: 2000,
-        horizontalPosition: "start",
-        data: "Идея успешно создана!"
-      });
+      this.snackBar.success('Идея успешно создана!');
     }, error => {
       console.log(error);
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: "start",
-        data: "Произошла ошибка, попробуйте позже."
-      });
+      this.snackBar.error();
     });
   }
 

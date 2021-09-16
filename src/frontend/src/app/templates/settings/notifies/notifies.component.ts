@@ -3,9 +3,8 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {User} from "../../../models/User";
 import {ActivatedRoute} from "@angular/router";
 import {Settings} from "../../../models/Settings";
-import {UserService} from "../../../services/user.service";
 import {SnackbarService} from "../../../shared/snackbar/snackbar.service";
-import {NoticeSetting} from "../../../models/settings/NoticeSetting";
+import {UserService} from "../../../services/user.service";
 
 @Component({
   selector: 'app-notifies',
@@ -19,7 +18,7 @@ export class NotifiesComponent implements OnInit {
   settings: Settings;
 
   constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute,
-              private userService: UserService, private snackBarService: SnackbarService) { }
+              private userService: UserService, private snackBar: SnackbarService) { }
 
   ngOnInit(): void {
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
@@ -45,14 +44,16 @@ export class NotifiesComponent implements OnInit {
     this.settings.noticeSetting.verticalPosition = this.mainForm.get('verticalPosition').value;
 
     this.userService.setNoticeSetting(this.settings.noticeSetting).subscribe(() => {
-      this.snackBarService.success('Настройки уведомлений изменены!', {
+      // need refactor
+      this.snackBar.settings.noticeSetting = this.settings.noticeSetting;
+      this.snackBar.success('Настройки уведомлений изменены!', {
         duration: this.settings.noticeSetting.successDuration,
         horizontalPosition: this.settings.noticeSetting.horizontalPosition,
         verticalPosition: this.settings.noticeSetting.verticalPosition,
       });
     }, error => {
       console.log(error);
-      this.snackBarService.error('Произошел сбой, попробуйте позже.', {
+      this.snackBar.error('Произошел сбой, попробуйте позже.', {
         duration: this.settings.noticeSetting.errorDuration,
         horizontalPosition: this.settings.noticeSetting.horizontalPosition,
         verticalPosition: this.settings.noticeSetting.verticalPosition,

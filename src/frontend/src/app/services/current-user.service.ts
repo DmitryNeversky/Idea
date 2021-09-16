@@ -4,7 +4,7 @@ import {User} from "../models/User";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {Observable, of} from "rxjs";
-import {tap} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -13,8 +13,7 @@ export class CurrentUserService {
 
     private apiBaseUrl: string = environment.apiBaseUrl;
 
-    private _currentUser: User;
-    private _settings: Settings;
+    public currentUser: User;
 
     constructor(private httpClient: HttpClient) {}
 
@@ -31,19 +30,9 @@ export class CurrentUserService {
         );
     }
 
-    get currentUser(): User {
-        return this._currentUser;
-    }
-
-    set currentUser(value: User) {
-        this._currentUser = value;
-    }
-
-    get settings(): Settings {
-        return this._settings;
-    }
-
-    set settings(value: Settings) {
-        this._settings = value;
+    public getSettings(): Observable<Settings> {
+        return this.getCurrentUser().pipe(
+            map(user => user.settings)
+        );
     }
 }

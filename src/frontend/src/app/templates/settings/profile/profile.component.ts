@@ -4,9 +4,9 @@ import {UserService} from "../../../services/user.service";
 import {User} from "../../../models/User";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ImageLoader} from "../../../custom/ImageLoader";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {SnackbarComponent} from "../../../shared/snackbar/snackbar.component";
 import {Post} from "../../../models/Post";
+import {SnackbarService} from "../../../shared/snackbar/snackbar.service";
+import {CurrentUserService} from "../../../services/current-user.service";
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +23,8 @@ export class ProfileComponent implements OnInit {
   public removeAvatar: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService,
-              private _formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
+              private _formBuilder: FormBuilder, private snackBar: SnackbarService,
+              private currentUserService: CurrentUserService) { }
 
   ngOnInit(): void {
     this.user = this.activatedRoute.snapshot.data.currentUser;
@@ -75,19 +76,12 @@ export class ProfileComponent implements OnInit {
       formData.append('removeAvatar', 'true')
 
     this.userService.putUser(formData).subscribe((user: User) => {
+      this.currentUserService.currentUser = user;
       this.user = user;
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        duration: 2000,
-        horizontalPosition: "start",
-        data: "Данные изменены!"
-      });
+      this.snackBar.success('Данные изменены!');
     }, error => {
       console.log(error);
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: "start",
-        data: "Произошла ошибка, попробуйте позже."
-      });
+      this.snackBar.error();
     });
   }
 }
