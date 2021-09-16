@@ -38,6 +38,12 @@ small.status-circle {
     border-radius: 0 0 0 25px;
 }
 
+.prefix {
+    font-size: 10pt;
+    color: #757575;
+    font-weight: 500;
+}
+
 .filter-container .mat-form-field-wrapper {
     padding: 0;
 }

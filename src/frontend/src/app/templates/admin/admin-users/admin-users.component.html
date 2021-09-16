@@ -59,8 +59,19 @@
 </ng-container>
 
 <app-modal [obj]="modalUser" (click)="hideModal($event)">
-    <mat-card-content *ngIf="modalUser" class="modal-card-content" fxLayout="column">
-        <h2>"{{modalUser.name}}"</h2>
+    <mat-card-content *ngIf="modalUser" class="modal-card-content" fxLayout.xs="column" fxLayout.gt-xs="row wrap">
+        <h3 fxFlex="100%">{{modalUser.name}}</h3>
+        <p fxFlex.gt-xs="50%"><span class="prefix">Email: </span>{{modalUser.username}}</p>
+        <p fxFlex.gt-xs="50%"><span class="prefix">Телефон: </span>+7 {{modalUser.phone | mask: '(000) 000-00-00'}}</p>
+        <p fxFlex.gt-xs="50%"><span class="prefix">Дата рождения: </span>{{modalUser.birthday | date: 'dd.MM.yyyy'}}</p>
+        <p fxFlex.gt-xs="50%"><span class="prefix">Город проживания: </span>{{modalUser.city}}</p>
+        <p fxFlex.gt-xs="50%"><span class="prefix">Должность: </span>{{modalUser.post.name}}</p>
+        <p fxFlex.gt-xs="50%"><span class="prefix">Кол-во идей: </span>{{modalUser.ideas.length}}</p>
+        <p fxFlex.gt-xs="50%"><span class="prefix">Последний визит: </span>{{modalUser.lastVisit | date: 'dd.MM.yyyy'}}</p>
+        <p fxFlex.gt-xs="50%"><span class="prefix">Дата регистрации: </span>{{modalUser.registeredDate}}</p>
     </mat-card-content>
+    <mat-card-actions *ngIf="modalUser" align="end">
+        <button [routerLink]="['/', 'user', modalUser.id]" mat-button color="primary">перейти</button>
+    </mat-card-actions>
     <mat-spinner class="form-spinner" mode="indeterminate" *ngIf="preloader"></mat-spinner>
 </app-modal>

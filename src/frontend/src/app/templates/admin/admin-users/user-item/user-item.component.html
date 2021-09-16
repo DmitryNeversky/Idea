@@ -3,7 +3,7 @@
         <img fxFlex.xs="30%" fxFlex.gt-xs="5%" [src]="user.avatar ? 'assets/uploaded/images/avatar/' + user.avatar : '../../../../assets/images/user.png'" alt="">
         <span class="col" fxFlex.xs="65%" fxFlex.gt-xs="10%">{{user.name}}</span>
         <span class="col" fxHide.xs fxFlex="15%">{{user.username}}</span>
-        <span class="col" fxHide.xs fxFlex="15%">8{{user.phone}}</span>
+        <span class="col" fxHide.xs fxFlex="15%">+7 {{user.phone | mask: '(000) 000-00-00'}}</span>
         <span class="col" fxHide.xs fxFlex>{{user.post ? user.post.name : 'null'}}</span>
         <span class="col" fxHide.xs fxFlex="15%">{{user.birthday | date: 'dd.MM.yyyy'}}</span>
     </mat-card-content>

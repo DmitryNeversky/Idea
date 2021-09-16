@@ -45,7 +45,7 @@ export class NotifiesComponent implements OnInit {
 
     this.userService.setNoticeSetting(this.settings.noticeSetting).subscribe(() => {
       // need refactor
-      this.snackBar.settings.noticeSetting = this.settings.noticeSetting;
+      this.snackBar.settings = this.settings.noticeSetting;
       this.snackBar.success('Настройки уведомлений изменены!', {
         duration: this.settings.noticeSetting.successDuration,
         horizontalPosition: this.settings.noticeSetting.horizontalPosition,
