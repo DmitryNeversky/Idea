@@ -6,7 +6,7 @@ import {CreateIdeaComponent} from "./templates/create-idea/create-idea.component
 import {IdeaFillComponent} from "./templates/idea-fill/idea-fill.component";
 import {IdeaResolver} from "./resolvers/idea.resolver";
 import {HomeComponent} from "./templates/home/home.component";
-import {TagResolver} from "./resolvers/tag.resolver";
+import {TagsResolver} from "./resolvers/tags.resolver";
 import {UpdateIdeaComponent} from "./templates/update-idea/update-idea.component";
 import {AuthGuard} from "./security/auth.guard";
 import {LoginComponent} from "./templates/login/login.component";
@@ -30,6 +30,7 @@ import {AdminGuard} from "./security/admin.guard";
 import {AdminTagsComponent} from "./templates/admin/admin-tags/admin-tags.component";
 import {AdminPostsComponent} from "./templates/admin/admin-posts/admin-posts.component";
 import {UpdateIdeaGuard} from "./security/update-idea.guard";
+import {RolesResolver} from "./resolvers/roles.resolver";
 
 const routes: Routes = [
     {
@@ -48,7 +49,7 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
                 resolve: {
                     ideas: IdeasResolver,
-                    tags: TagResolver,
+                    tags: TagsResolver,
                     currentUser: CurrentUserResolver
                 },
             },
@@ -59,7 +60,8 @@ const routes: Routes = [
                 canActivate: [AuthGuard],
                 resolve: {
                     idea: IdeaResolver,
-                    currentUser: CurrentUserResolver
+                    currentUser: CurrentUserResolver,
+                    roles: RolesResolver
                 }
             },
             {
@@ -68,7 +70,7 @@ const routes: Routes = [
                 data: { animation: 'idea-create' },
                 canActivate: [AuthGuard],
                 resolve: {
-                    tags: TagResolver,
+                    tags: TagsResolver,
                     currentUser: CurrentUserResolver
                 }
             },
@@ -79,7 +81,7 @@ const routes: Routes = [
                 canActivate: [AuthGuard, UpdateIdeaGuard],
                 resolve: {
                     idea: IdeaResolver,
-                    tags: TagResolver,
+                    tags: TagsResolver,
                     currentUser: CurrentUserResolver
                 }
             },
@@ -195,7 +197,9 @@ const routes: Routes = [
                         data: { animation: 'users' },
                         resolve: {
                             users: UsersResolver,
-                            posts: PostsResolver
+                            posts: PostsResolver,
+                            roles: RolesResolver,
+                            currentUser: CurrentUserResolver
                         }
                     },
                     {
@@ -203,7 +207,7 @@ const routes: Routes = [
                         component: AdminTagsComponent,
                         data: { animation: 'tags' },
                         resolve: {
-                            tags: TagResolver
+                            tags: TagsResolver
                         }
                     },
                     {

@@ -16,8 +16,7 @@ export class LoginComponent implements OnInit {
 
   public mainForm: FormGroup;
 
-  constructor(private authService: AuthService,
-              private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.mainForm = new FormGroup({
@@ -40,12 +39,15 @@ export class LoginComponent implements OnInit {
       this.preloader = false;
       this.router.navigate(['/']);
     }, (error: HttpErrorResponse) => {
-      console.log(error);
-      if(error.status == HttpStatusCode.Forbidden)
-        this.error = "Пользователь с такими данными не найден.";
-      else if(error.status >= 500)
+      if(error.error == 'User is disabled') {
+        this.error = 'Аккаунт заблокирован.';
+      } else if(error.status == HttpStatusCode.Forbidden) {
+        this.error = 'Пользователь с такими данными не найден.';
+      } else if(error.status == HttpStatusCode.Unauthorized) {
+        this.error = 'Пользователь не авторизован.';
+      } else if(error.status >= 500) {
         this.error = "Произошла внутренняя ошибка. Попробуйте повторить действие позже.";
-      else this.error = "Произошел сбой. Попробуйте повторить действие позже.";
+      } else this.error = "Произошел сбой. Попробуйте повторить действие позже.";
       this.preloader = false;
     });
   }

@@ -53,4 +53,16 @@ export class UserService {
   public setNoticeSetting(noticeSetting: NoticeSetting): Observable<void> {
     return this.httpClient.post<void>(`${this.apiBaseUrl}/user/settings/notifies/save`, noticeSetting);
   }
+
+  public blockUser(formData: FormData): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiBaseUrl}/user/block`, formData);
+  }
+
+  public unblockUser(formData: FormData): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiBaseUrl}/user/unblock`, formData);
+  }
+
+  public changeRoles(formData: FormData): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiBaseUrl}/user/roles/change`, formData);
+  }
 }

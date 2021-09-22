@@ -71,7 +71,18 @@
         <p fxFlex.gt-xs="50%"><span class="prefix">Дата регистрации: </span>{{modalUser.registeredDate}}</p>
     </mat-card-content>
     <mat-card-actions *ngIf="modalUser" align="end">
+        <form *ngIf="isSuperAdmin" (ngSubmit)="changeRoles(modalUser)">
+            <mat-form-field appearance="outline">
+                <mat-label>изменить роли</mat-label>
+                <mat-select [formControl]="rolesControl" multiple>
+                    <mat-option *ngFor="let role of selectRoles" [value]="role">{{role.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button type="submit" mat-flat-button color="primary">применить</button>
+        </form>
         <button [routerLink]="['/', 'user', modalUser.id]" mat-button color="primary">перейти</button>
+        <button *ngIf="modalUser.enabled" (click)="block(modalUser)" mat-button color="warn">блокировать</button>
+        <button *ngIf="!modalUser.enabled" (click)="unblock(modalUser)" mat-button color="primary">разблокировать</button>
     </mat-card-actions>
     <mat-spinner class="form-spinner" mode="indeterminate" *ngIf="preloader"></mat-spinner>
 </app-modal>

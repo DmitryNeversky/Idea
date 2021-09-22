@@ -53,5 +53,8 @@ public class RoleService {
         if(roleRepository.findByName("ADMIN") == null) {
             roleRepository.save(new Role("ADMIN"));
         }
+        if(roleRepository.findByName("SUPER_ADMIN") == null) {
+            roleRepository.save(new Role("SUPER_ADMIN"));
+        }
     }
 }

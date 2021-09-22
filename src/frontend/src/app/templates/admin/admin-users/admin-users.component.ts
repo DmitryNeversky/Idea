@@ -3,6 +3,11 @@ import {User} from "../../../models/User";
 import {Post} from "../../../models/Post";
 import {ActivatedRoute} from "@angular/router";
 import {SharedService} from "../../../shared/shared.service";
+import {UserService} from "../../../services/user.service";
+import {Role} from "../../../models/Role";
+import {FormControl} from "@angular/forms";
+import {HttpErrorResponse} from "@angular/common/http";
+import {SnackbarService} from "../../../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-admin',
@@ -26,19 +31,27 @@ export class AdminUsersComponent implements OnInit {
   public filteredUsers: User[];
 
   public posts: Post[];
+  public roles: Role[];
 
   public currentUser: User;
   public modalUser: User;
 
+  public rolesControl: FormControl = new FormControl();
+  public selectRoles: Role[] = [];
+
+  public isSuperAdmin: boolean = false;
   public preloader: boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private sharedService: SharedService) { }
+  constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService,
+              private userService: UserService, private snackbar: SnackbarService) { }
 
   ngOnInit(): void {
     this.posts = this.activatedRoute.snapshot.data.posts.map((p: Post) => p.name);
     this.users = this.activatedRoute.snapshot.data.users;
+    this.currentUser = this.activatedRoute.snapshot.data.currentUser;
+    this.roles = this.activatedRoute.snapshot.data.roles;
 
+    this.isSuperAdmin = !!this.currentUser.roles.find(r => r.name == 'SUPER_ADMIN');
     this.filteredUsers = this.users;
     this.sort(1);
   }
@@ -173,6 +186,9 @@ export class AdminUsersComponent implements OnInit {
 
   openModal(user: User) {
     this.modalUser = user;
+    this.selectRoles = this.roles.filter(r => !!!user.roles.find(role => role.id == r.id));
+    user.roles.forEach(r => this.selectRoles.push(r));
+    this.rolesControl.setValue(user.roles);
   }
 
   hideModal(event: any = null) {
@@ -181,5 +197,44 @@ export class AdminUsersComponent implements OnInit {
     } else if(!event) {
       this.modalUser = null;
     }
+  }
+
+  block(user: User) {
+    const formData = new FormData();
+    formData.append('username', user.username);
+
+    this.preloader = true;
+
+    this.userService.blockUser(formData).subscribe(() => {
+      this.preloader = false;
+      user.enabled = false;
+    });
+  }
+
+  unblock(user: User) {
+    const formData = new FormData();
+    formData.append('username', user.username);
+
+    this.preloader = true;
+
+    this.userService.unblockUser(formData).subscribe(() => {
+      this.preloader = false;
+      user.enabled = true;
+    });
+  }
+
+  changeRoles(user: User) {
+    const formData = new FormData();
+    formData.append('username', user.username);
+    for(const role of this.rolesControl.value) {
+      formData.append('roles', role.name);
+    }
+
+    this.userService.changeRoles(formData).subscribe(() => {
+      this.snackbar.success("Роли применены.");
+    }, (error: HttpErrorResponse) => {
+      this.snackbar.error();
+      console.log(error);
+    });
   }
 }

@@ -22,4 +22,5 @@ export class User {
     city: string;
     notifications: Notification[];
     settings: Settings;
+    enabled: boolean;
 }

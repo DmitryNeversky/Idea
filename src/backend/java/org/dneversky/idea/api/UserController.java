@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api")
@@ -101,6 +102,27 @@ public class UserController {
     @PostMapping("/user/settings/notifies/save")
     public ResponseEntity<?> setNoticeSetting(@RequestBody NoticeSetting noticeSetting, Principal principal) {
         userService.setNoticeSetting(principal.getName(), noticeSetting);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/user/block")
+    public ResponseEntity<?> blockUser(@RequestParam String username) {
+        userService.blockUser(username);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/user/unblock")
+    public ResponseEntity<?> unblockUser(@RequestParam String username) {
+        userService.unblockUser(username);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/user/roles/change")
+    public ResponseEntity<?> changeRoles(@RequestParam String username, @RequestParam Set<String> roles) {
+        userService.changeRoles(username, roles);
 
         return ResponseEntity.ok().build();
     }

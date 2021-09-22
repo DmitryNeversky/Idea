@@ -27,6 +27,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -157,6 +159,30 @@ public class UserService implements UserDetailsService {
     public void setNoticeSetting(String username, NoticeSetting noticeSetting) {
         User user = userRepository.findByUsername(username);
         user.getSettings().setNoticeSetting(noticeSetting);
+
+        userRepository.save(user);
+    }
+
+    public void blockUser(String username) {
+        User user = userRepository.findByUsername(username);
+        user.setEnabled(false);
+
+        userRepository.save(user);
+    }
+
+    public void unblockUser(String username) {
+        User user = userRepository.findByUsername(username);
+        user.setEnabled(true);
+
+        userRepository.save(user);
+    }
+
+    public void changeRoles(String username, Set<String> roles) {
+        User user = userRepository.findByUsername(username);
+        user.setRoles(roles.stream()
+                .map(roleService::getRoleByName)
+                .collect(Collectors.toSet())
+        );
 
         userRepository.save(user);
     }

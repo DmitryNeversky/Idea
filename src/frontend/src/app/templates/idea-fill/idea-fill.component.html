@@ -67,7 +67,7 @@
 
 <mat-action-list>
 
-    <div *ngIf="idea.author.id == currentUser.id" fxLayout="column">
+    <div *ngIf="idea.author.id == currentUser.id || isAdmin" fxLayout="column">
         <button type="button" [routerLink]="['/ideas', 'update', idea.id]" mat-button fxFlex="fit-content" fxFlexAlign="end" color="primary">изменить</button>
     </div>
 

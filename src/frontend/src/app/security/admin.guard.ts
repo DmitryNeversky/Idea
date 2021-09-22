@@ -15,7 +15,7 @@ export class AdminGuard implements CanActivate {
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         let subject = new Subject<boolean>();
         this.userService.getCurrentUser().subscribe((user: User) => {
-            subject.next(user != null);
+            subject.next(user != null && (!!user.roles.find(r => r.name == 'ADMIN' || r.name == 'SUPER_ADMIN')));
         });
 
         return subject.asObservable().pipe(
