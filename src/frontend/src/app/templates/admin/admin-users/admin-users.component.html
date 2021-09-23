@@ -84,5 +84,5 @@
         <button *ngIf="modalUser.enabled" (click)="block(modalUser)" mat-button color="warn">блокировать</button>
         <button *ngIf="!modalUser.enabled" (click)="unblock(modalUser)" mat-button color="primary">разблокировать</button>
     </mat-card-actions>
-    <mat-spinner class="form-spinner" mode="indeterminate" *ngIf="preloader"></mat-spinner>
+    <mat-spinner class="load-spinner" mode="indeterminate" *ngIf="preloader"></mat-spinner>
 </app-modal>

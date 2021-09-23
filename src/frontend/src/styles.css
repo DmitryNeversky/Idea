@@ -99,7 +99,7 @@ button.cancel {
     overflow-wrap: anywhere;
 }
 
-mat-spinner.form-spinner {
+mat-spinner.load-spinner {
     width: 100% !important;
     height: 100% !important;
     position: absolute;
@@ -111,7 +111,7 @@ mat-spinner.form-spinner {
     opacity: .6;
 }
 
-mat-spinner.form-spinner > svg {
+mat-spinner.load-spinner > svg {
     margin: auto;
     top: 0;
     left: 0;

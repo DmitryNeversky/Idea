@@ -46,7 +46,7 @@
 
 <div *ngIf="paginatedIdeas.length > 0; else noIdeas">
     <app-idea *ngFor="let idea of paginatedIdeas" [idea]="idea"></app-idea>
-    <mat-spinner class="form-spinner" mode="indeterminate" *ngIf="ideasLoader"></mat-spinner>
+    <mat-spinner class="load-spinner" mode="indeterminate" *ngIf="ideasLoader"></mat-spinner>
 </div>
 
 <ng-template #noIdeas><p class="no-ideas">Идей не найдено</p></ng-template>

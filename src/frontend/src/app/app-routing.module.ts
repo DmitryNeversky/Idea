@@ -31,6 +31,7 @@ import {AdminTagsComponent} from "./templates/admin/admin-tags/admin-tags.compon
 import {AdminPostsComponent} from "./templates/admin/admin-posts/admin-posts.component";
 import {UpdateIdeaGuard} from "./security/update-idea.guard";
 import {RolesResolver} from "./resolvers/roles.resolver";
+import {LoginGuard} from "./security/login.guard";
 
 const routes: Routes = [
     {
@@ -226,13 +227,13 @@ const routes: Routes = [
         path: 'auth',
         component: LoginComponent,
         data: { animation: 'auth' },
-        // canActivate: [PathGuard],
+        canActivate: [LoginGuard],
     },
     {
         path: 'registration',
         component: RegistrationComponent,
         data: { animation: 'registration' },
-        // canActivate: [PathGuard],
+        canActivate: [LoginGuard],
         resolve: {
             posts: PostsResolver
         }

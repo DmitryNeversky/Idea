@@ -31,6 +31,8 @@ export class UpdateIdeaComponent implements OnInit {
 
   public mainForm: FormGroup;
 
+  public preloader: boolean = false;
+
   constructor(private ideaService: IdeaService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -65,12 +67,16 @@ export class UpdateIdeaComponent implements OnInit {
 
     formData.append('idea', JSON.stringify(this.idea));
 
+    this.preloader = true;
+
     this.ideaService.putIdea(formData).subscribe(() => {
+      this.preloader = false;
       this.router.navigate(['ideas']);
       this.snackBar.success("Идея успешно отредактирована!");
     }, error => {
       console.log(error);
       this.snackBar.error();
+      this.preloader = false;
     });
   }
 
