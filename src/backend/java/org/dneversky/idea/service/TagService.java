@@ -24,6 +24,19 @@ public class TagService {
         return tagRepository.findAll();
     }
 
+    public Tag getTagById(int id) {
+        if(!tagRepository.findById(id).isPresent())
+            return null;
+
+        return tagRepository.findById(id).get();
+    }
+
+    public Tag getTagByName(String name) {
+        tagRepository.findByName(name);
+
+        return tagRepository.findByName(name);
+    }
+
     public Tag saveTag(Tag tag) {
 
         return tagRepository.save(tag);

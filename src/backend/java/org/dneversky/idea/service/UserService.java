@@ -3,6 +3,7 @@ package org.dneversky.idea.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Post;
+import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.Settings;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.entity.settings.NoticeSetting;
@@ -87,7 +88,7 @@ public class UserService implements UserDetailsService {
         user.setAccountNonLocked(true);
         user.setEnabled(true);
 
-        Post post = postService.getPostByName(user.getPost().getName());
+        Post post = postService.getPostById(user.getPost().getId());
         post.getUsers().add(user);
 
         user.setPost(post);
@@ -112,7 +113,7 @@ public class UserService implements UserDetailsService {
             removeAvatar(user);
         } uploadAvatar(user, avatar);
 
-        Post post = postService.getPostByName(user.getPost().getName());
+        Post post = postService.getPostById(user.getPost().getId());
         post.getUsers().add(user);
 
         user.setPost(post);
@@ -177,12 +178,9 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void changeRoles(String username, Set<String> roles) {
+    public void changeRoles(String username, Set<Role> roles) {
         User user = userRepository.findByUsername(username);
-        user.setRoles(roles.stream()
-                .map(roleService::getRoleByName)
-                .collect(Collectors.toSet())
-        );
+        user.setRoles(roles);
 
         userRepository.save(user);
     }

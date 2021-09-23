@@ -21,6 +21,13 @@ public class RoleService {
         return roleRepository.findAll();
     }
 
+    public Role getRoleById(int id) {
+        if(!roleRepository.findById(id).isPresent())
+            return null;
+
+        return roleRepository.findById(id).get();
+    }
+
     public Role getRoleByName(String roleName) {
 
         return roleRepository.findByName(roleName);

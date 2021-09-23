@@ -200,41 +200,34 @@ export class AdminUsersComponent implements OnInit {
   }
 
   block(user: User) {
-    const formData = new FormData();
-    formData.append('username', user.username);
-
     this.preloader = true;
 
-    this.userService.blockUser(formData).subscribe(() => {
+    this.userService.blockUser(user.username).subscribe(() => {
       this.preloader = false;
       user.enabled = false;
     });
   }
 
   unblock(user: User) {
-    const formData = new FormData();
-    formData.append('username', user.username);
-
     this.preloader = true;
 
-    this.userService.unblockUser(formData).subscribe(() => {
+    this.userService.unblockUser(user.username).subscribe(() => {
       this.preloader = false;
       user.enabled = true;
     });
   }
 
   changeRoles(user: User) {
-    const formData = new FormData();
-    formData.append('username', user.username);
-    for(const role of this.rolesControl.value) {
-      formData.append('roles', role.name);
-    }
+    this.preloader = true;
 
-    this.userService.changeRoles(formData).subscribe(() => {
+    this.userService.changeRoles(user.username, this.rolesControl.value).subscribe(() => {
+      this.paginatedUsers.find(u => u.id == user.id).roles = this.rolesControl.value;
+      this.preloader = false;
       this.snackbar.success("Роли применены.");
     }, (error: HttpErrorResponse) => {
-      this.snackbar.error();
       console.log(error);
+      this.preloader = false;
+      this.snackbar.error();
     });
   }
 }

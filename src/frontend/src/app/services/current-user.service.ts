@@ -21,7 +21,7 @@ export class CurrentUserService {
         if(this.currentUser)
             return of(this.currentUser);
 
-        return this.httpClient.get<User>(`${this.apiBaseUrl}/user/current`).pipe(
+        return this.httpClient.get<User>(`${this.apiBaseUrl}/users/current`).pipe(
             tap((user: User) => {
                 this.currentUser = user;
             }, (error: HttpErrorResponse) => {

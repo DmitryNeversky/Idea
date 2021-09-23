@@ -18,18 +18,18 @@ export class PostService {
   }
 
   public getPostById(id: number|string): Observable<Post> {
-    return this.httpClient.get<Post>(`${this.apiBaseUrl}/post/${id}`);
+    return this.httpClient.get<Post>(`${this.apiBaseUrl}/posts/${id}`);
   }
 
   public savePost(post: Post): Observable<Post> {
-    return this.httpClient.post<Post>(`${this.apiBaseUrl}/post/save`, post);
+    return this.httpClient.post<Post>(`${this.apiBaseUrl}/posts`, post);
   }
 
   public putPost(post: Post): Observable<Post> {
-    return this.httpClient.put<Post>(`${this.apiBaseUrl}/post/put`, post);
+    return this.httpClient.put<Post>(`${this.apiBaseUrl}/posts`, post);
   }
 
   public deletePost(id: number|string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiBaseUrl}/post/delete/${id}`);
+    return this.httpClient.delete<void>(`${this.apiBaseUrl}/posts/${id}`);
   }
 }

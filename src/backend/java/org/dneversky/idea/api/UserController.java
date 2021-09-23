@@ -1,6 +1,7 @@
 package org.dneversky.idea.api;
 
 import lombok.RequiredArgsConstructor;
+import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.entity.settings.NoticeSetting;
 import org.dneversky.idea.service.UserService;
@@ -17,77 +18,55 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<User>> getUsers() {
 
         return ResponseEntity.ok(userService.getUsers());
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
-
-        return ResponseEntity.ok((userService.getUserById(id)));
-    }
-
-    @GetMapping("/user/current")
-    public ResponseEntity<User> getCurrentUser(Principal principal) {
-
-        return ResponseEntity.ok(userService.getUserByUsername(principal.getName()));
-    }
-
-    @PostMapping("/user/save")
-    public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
+    @PostMapping
+    public ResponseEntity<User> save(@RequestBody @Valid User user) {
         if(userService.getUserByUsername(user.getUsername()) != null) {
             return ResponseEntity.status(HttpStatus.FOUND).build();
         }
 
-        return ResponseEntity
-                .created(URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString()))
-                .body(userService.saveUser(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(user));
     }
 
-    @PutMapping("/user/put")
-    public ResponseEntity<User> putUser(@RequestPart("user") @Valid User user,
-                                        @RequestPart(name = "avatar", required = false) MultipartFile avatar,
-                                        @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
+    @PutMapping
+    public ResponseEntity<User> update(@RequestPart("user") @Valid User user,
+                                       @RequestPart(name = "avatar", required = false) MultipartFile avatar,
+                                       @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
 
         return ResponseEntity.ok(userService.putUser(user, avatar, Boolean.parseBoolean(removeAvatar)));
     }
 
-    @DeleteMapping("/user/delete/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable int id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable int id) {
         userService.deleteUser(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @DeleteMapping("/notification/delete/{id}")
-    public ResponseEntity<?> deleteNotification(@PathVariable Integer id, Principal principal) {
-        userService.deleteNotificationById(id, userService.getUserByUsername(principal.getName()));
+    @GetMapping("/id/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok((userService.getUserById(id)));
     }
 
-    @GetMapping("/code")
-    public ResponseEntity<?> getCode() {
-        // send a code on email
-        return ResponseEntity.ok().build();
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
+
+        return ResponseEntity.ok(userService.getUserByUsername(principal.getName()));
     }
 
-    @PostMapping("/code")
-    public ResponseEntity<?> postCode(@RequestParam String key) {
-        if(!key.equals("key"))
-            return ResponseEntity.notFound().build();
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/user/password/change")
+    @PatchMapping("/password")
     public ResponseEntity<?> changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, Principal principal) {
         if(!userService.verifyOldPassword(principal.getName(), oldPassword)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("старый пароль не совпадает с текущим");
@@ -99,31 +78,51 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/user/settings/notifies/save")
+    @PutMapping("/settings/notifies")
     public ResponseEntity<?> setNoticeSetting(@RequestBody NoticeSetting noticeSetting, Principal principal) {
         userService.setNoticeSetting(principal.getName(), noticeSetting);
 
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/user/block")
-    public ResponseEntity<?> blockUser(@RequestParam String username) {
+    @PatchMapping("/{username}/block")
+    public ResponseEntity<?> blockUser(@PathVariable String username) {
         userService.blockUser(username);
 
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/user/unblock")
-    public ResponseEntity<?> unblockUser(@RequestParam String username) {
+    @PatchMapping("/{username}/unblock")
+    public ResponseEntity<?> unblockUser(@PathVariable String username) {
         userService.unblockUser(username);
 
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/user/roles/change")
-    public ResponseEntity<?> changeRoles(@RequestParam String username, @RequestParam Set<String> roles) {
+    @PatchMapping("/{username}/roles")
+    public ResponseEntity<?> changeRoles(@PathVariable String username, @RequestBody Set<Role> roles) {
         userService.changeRoles(username, roles);
 
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/notification/{id}")
+    public ResponseEntity<?> deleteNotification(@PathVariable Integer id, Principal principal) {
+        userService.deleteNotificationById(id, userService.getUserByUsername(principal.getName()));
+
+        return ResponseEntity.ok().build();
+    }
 }
+
+//    @GetMapping("/code")
+//    public ResponseEntity<?> getCode() {
+//        // send a code on email
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @PostMapping("/code")
+//    public ResponseEntity<?> postCode(@RequestParam String key) {
+//        if(!key.equals("key"))
+//            return ResponseEntity.notFound().build();
+//        return ResponseEntity.ok().build();
+//    }

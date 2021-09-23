@@ -22,9 +22,9 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Post getPostByName(String name) {
+    public Post getPostById(int id) {
 
-        return postRepository.findByName(name);
+        return postRepository.getById(id);
     }
 
     public Post savePost(Post post) {

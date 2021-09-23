@@ -54,13 +54,6 @@ export class UpdateIdeaComponent implements OnInit {
 
     const formData = new FormData();
 
-    if(this.idea.removeImages == null)
-      this.idea.removeImages = [];
-    if(this.idea.removeFiles == null)
-      this.idea.removeFiles = [];
-    if(this.idea.tags == null)
-      this.idea.tags = [];
-
     this.idea.title = this.mainForm.get('title').value;
     this.idea.text = this.mainForm.get('text').value;
     this.imagesLoader.removeImagesList.forEach(x => this.idea.removeImages.push(x));

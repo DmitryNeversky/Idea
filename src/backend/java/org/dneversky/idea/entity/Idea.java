@@ -82,9 +82,9 @@ public class Idea implements Serializable {
     // ---
 
     @Transient
-    private List<String> removeImages;
+    private List<String> removeImages = new ArrayList<>();
     @Transient
-    private List<String> removeFiles;
+    private List<String> removeFiles = new ArrayList<>();
 
     public int getRating() {
         return ratedUsers.size() - unratedUsers.size();

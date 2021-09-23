@@ -19,36 +19,36 @@ export class IdeaService {
   }
 
   public getIdeaById(id: number|string): Observable<Idea> {
-    return this.httpClient.get<Idea>(`${this.apiBaseUrl}/idea/${id}`);
+    return this.httpClient.get<Idea>(`${this.apiBaseUrl}/ideas/${id}`);
   }
 
   public saveIdea(formData: FormData): Observable<Idea> {
-    return this.httpClient.post<Idea>(`${this.apiBaseUrl}/idea/save`, formData);
+    return this.httpClient.post<Idea>(`${this.apiBaseUrl}/ideas`, formData);
   }
 
   public putIdea(formData: FormData): Observable<Idea> {
-    return this.httpClient.put<Idea>(`${this.apiBaseUrl}/idea/put`, formData);
+    return this.httpClient.put<Idea>(`${this.apiBaseUrl}/ideas`, formData);
   }
 
   public deleteIdea(id: number|string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiBaseUrl}/idea/delete/${id}`);
+    return this.httpClient.delete<void>(`${this.apiBaseUrl}/ideas/${id}`);
   }
 
   public addLook(id: number|string): Observable<void> {
-    return this.httpClient.get<void>(`${this.apiBaseUrl}/idea/look/${id}`);
+    return this.httpClient.patch<void>(`${this.apiBaseUrl}/ideas/${id}/look`, {});
   }
 
   public addRating(id: number|string): void {
-    this.httpClient.get<void>(`${this.apiBaseUrl}/idea/rating/add/${id}`)
+    this.httpClient.patch<void>(`${this.apiBaseUrl}/ideas/${id}/rating/add`, {})
         .subscribe(() => {}, error => console.log(error));
   }
 
   public reduceRating(id: number|string): void {
-    this.httpClient.get<void>(`${this.apiBaseUrl}/idea/rating/reduce/${id}`)
+    this.httpClient.patch<void>(`${this.apiBaseUrl}/ideas/${id}/rating/reduce`, {})
         .subscribe(() => {}, error => console.log(error));
   }
 
   public changeStatus(id: string|number, status: Status): Observable<void> {
-    return this.httpClient.put<void>(`${this.apiBaseUrl}/idea/${id}/status`, status);
+    return this.httpClient.patch<void>(`${this.apiBaseUrl}/ideas/${id}/status`, status);
   }
 }
