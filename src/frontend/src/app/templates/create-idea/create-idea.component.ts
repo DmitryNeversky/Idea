@@ -7,6 +7,7 @@ import {ImagesLoader} from "../../custom/ImagesLoader";
 import {FilesLoader} from "../../custom/FilesLoader";
 import {Tag} from "../../models/Tag";
 import {SnackbarService} from "../../shared/snackbar/snackbar.service";
+import {CurrentUserService} from "../../services/current-user.service";
 
 @Component({
   selector: 'app-create-idea',
@@ -53,9 +54,10 @@ export class CreateIdeaComponent implements OnInit{
     for (let i = 0; i < this.filesLoader.dataTransfer.files.length; i++)
       formData.append('addFiles', this.filesLoader.dataTransfer.files[i])
 
-    this.ideaService.saveIdea(formData).subscribe(() => {
+    this.ideaService.saveIdea(formData).subscribe((idea: Idea) => {
       this.router.navigate(['ideas']);
       this.snackBar.success('Идея успешно создана!');
+      CurrentUserService.currentUser.ideas.push(idea);
     }, error => {
       console.log(error);
       this.snackBar.error();

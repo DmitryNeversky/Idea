@@ -23,8 +23,7 @@ export class ProfileComponent implements OnInit {
   public removeAvatar: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService,
-              private _formBuilder: FormBuilder, private snackBar: SnackbarService,
-              private currentUserService: CurrentUserService) { }
+              private _formBuilder: FormBuilder, private snackBar: SnackbarService) { }
 
   ngOnInit(): void {
     this.user = this.activatedRoute.snapshot.data.currentUser;
@@ -46,7 +45,7 @@ export class ProfileComponent implements OnInit {
     });
 
     this.jobForm = this._formBuilder.group({
-      post: [this.user.post ? this.user.post.name : '', [Validators.required, Validators.maxLength(96)]]
+      post: [this.user.post ? this.posts.find(p => p.id == this.user.post.id) : '', [Validators.required, Validators.maxLength(96)]]
     });
   }
 
@@ -76,7 +75,7 @@ export class ProfileComponent implements OnInit {
       formData.append('removeAvatar', 'true')
 
     this.userService.putUser(formData).subscribe((user: User) => {
-      this.currentUserService.currentUser = user;
+      CurrentUserService.currentUser = user;
       this.user = user;
       this.snackBar.success('Данные изменены!');
     }, error => {

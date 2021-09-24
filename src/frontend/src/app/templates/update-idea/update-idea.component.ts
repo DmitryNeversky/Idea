@@ -11,6 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Tag} from "../../models/Tag";
 import {User} from "../../models/User";
 import {SnackbarService} from "../../shared/snackbar/snackbar.service";
+import {CurrentUserService} from "../../services/current-user.service";
 
 @Component({
   selector: 'app-update-idea',
@@ -66,6 +67,7 @@ export class UpdateIdeaComponent implements OnInit {
       formData.append('addFiles', this.filesLoader.dataTransfer.files[i])
 
     formData.append('idea', JSON.stringify(this.idea));
+    console.log(this.idea)
 
     this.preloader = true;
 
@@ -91,6 +93,7 @@ export class UpdateIdeaComponent implements OnInit {
         this.ideaService.deleteIdea(this.idea.id).subscribe(() => {
           this.router.navigate(['ideas']);
           this.snackBar.success("Идея успешно удалена!");
+          CurrentUserService.currentUser.ideas = CurrentUserService.currentUser.ideas.filter(i => i.id != this.idea.id);
         }, error => {
           console.log(error);
           this.snackBar.error();

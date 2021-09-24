@@ -1,6 +1,5 @@
 package org.dneversky.idea.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +24,6 @@ public class Post {
     @Size(max = 128, message = "Name size is: min 0 max 128")
     private String name;
 
-    @JsonIgnoreProperties("post")
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 

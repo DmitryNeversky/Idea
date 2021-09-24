@@ -43,7 +43,13 @@ public class Idea implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdDate;
 
+    @JsonIgnoreProperties("ideas")
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinTable(
+            name = "idea_tags",
+            joinColumns = @JoinColumn(name = "idea_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
     private List<Tag> tags = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -55,9 +61,9 @@ public class Idea implements Serializable {
     @MapKeyColumn(name = "file_path")
     private Map<String, String> files = new HashMap<>();
 
-    @JsonIgnoreProperties("ideas")
-    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST })
-    @JoinTable(name = "idea_user", joinColumns = @JoinColumn(name = "idea_id"))
+    @JsonIgnoreProperties({"ideas", "roles"})
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User author;
 
     // Need a Redis storage
@@ -71,12 +77,17 @@ public class Idea implements Serializable {
     @JsonIgnore
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_looked_users", joinColumns = @JoinColumn(name = "idea_id"))
+    @JoinColumn(name = "user_id")
     private Set<Integer> lookedUsers = new HashSet<>();
 
+    @JsonIgnoreProperties("ideas")
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private Set<User> ratedUsers = new HashSet<>();
 
+    @JsonIgnoreProperties("ideas")
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private Set<User> unratedUsers = new HashSet<>();
 
     // ---

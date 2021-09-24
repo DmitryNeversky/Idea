@@ -65,7 +65,7 @@
         <p fxFlex.gt-xs="50%"><span class="prefix">Телефон: </span>+7 {{modalUser.phone | mask: '(000) 000-00-00'}}</p>
         <p fxFlex.gt-xs="50%"><span class="prefix">Дата рождения: </span>{{modalUser.birthday | date: 'dd.MM.yyyy'}}</p>
         <p fxFlex.gt-xs="50%"><span class="prefix">Город проживания: </span>{{modalUser.city}}</p>
-        <p fxFlex.gt-xs="50%"><span class="prefix">Должность: </span>{{modalUser.post.name}}</p>
+        <p fxFlex.gt-xs="50%"><span class="prefix">Должность: </span>{{modalUser.post ? modalUser.post.name : 'null'}}</p>
         <p fxFlex.gt-xs="50%"><span class="prefix">Кол-во идей: </span>{{modalUser.ideas.length}}</p>
         <p fxFlex.gt-xs="50%"><span class="prefix">Последний визит: </span>{{modalUser.lastVisit | date: 'dd.MM.yyyy'}}</p>
         <p fxFlex.gt-xs="50%"><span class="prefix">Дата регистрации: </span>{{modalUser.registeredDate}}</p>

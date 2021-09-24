@@ -19,12 +19,12 @@ export class UserService {
     return this.httpClient.get<User[]>(`${this.apiBaseUrl}/users`);
   }
 
-  public getCurrentUser(): Observable<User> {
-    return this.httpClient.get<User>(`${this.apiBaseUrl}/users/current`);
+  public getUserById(id: number|string): Observable<User> {
+    return this.httpClient.get<User>(`${this.apiBaseUrl}/users/id/${id}`);
   }
 
-  public getUserById(id: number|string): Observable<User> {
-    return this.httpClient.get<User>(`${this.apiBaseUrl}/users/${id}`);
+  public saveUser(user: User): Observable<User> {
+    return this.httpClient.post<User>(`${this.apiBaseUrl}/users`, user);
   }
 
   public putUser(formData: FormData): Observable<User> {
@@ -48,7 +48,7 @@ export class UserService {
   }
 
   public changePassword(formData: FormData): Observable<void> {
-    return this.httpClient.patch<void>(`${this.apiBaseUrl}/users/password/change`, formData);
+    return this.httpClient.patch<void>(`${this.apiBaseUrl}/users/password`, formData);
   }
 
   public setNoticeSetting(noticeSetting: NoticeSetting): Observable<void> {

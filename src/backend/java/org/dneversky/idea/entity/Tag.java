@@ -24,12 +24,7 @@ public class Tag {
     @Size(max = 128, message = "Name size is: min 0 max 128")
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    @JoinTable(
-            name = "tag_idea",
-            joinColumns = @JoinColumn(name = "tag_id"),
-            inverseJoinColumns = @JoinColumn(name = "idea_id")
-    )
+    @ManyToMany(mappedBy = "tags", cascade = CascadeType.DETACH)
     private List<Idea> ideas = new ArrayList<>();
 
     public Tag(String name) {

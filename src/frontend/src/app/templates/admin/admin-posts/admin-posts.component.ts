@@ -55,10 +55,10 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
 
   create() {
 
-    switch (true) {
+    switch (false) {
       case this.createForm.valid:
-      case !this.createForm.get('name').value:
-      case this.dataSource.data.includes(this.createForm.get('name').value):
+      case !!this.createForm.get('name').value:
+      case !!!this.dataSource.data.find(p => p.name == this.createForm.get('name').value):
         return;
     }
 
@@ -106,8 +106,8 @@ export class AdminPostsComponent implements OnInit, AfterViewInit {
         message: `Вы уверены что хотите удалить должность "${post.name}"? Возможно, есть пользователи которые её используют.`
       }
     }).afterClosed().subscribe((result: boolean) => {
-      this.preloader = true;
       if(result) {
+        this.preloader = true;
         this.postService.deletePost(post.id).subscribe(() => {
           this.preloader = false;
           this.dataSource.data = this.dataSource.data.filter(p => p != post);

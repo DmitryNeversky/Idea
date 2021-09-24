@@ -76,7 +76,6 @@ export class SecureComponent implements OnInit {
       this.snackBar.success('Пароль успешно изменен!');
       this.passwordError = null;
     },(error: HttpErrorResponse) => {
-      console.log(error);
       this.passwordError = error.error;
     });
   }

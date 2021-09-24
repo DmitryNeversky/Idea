@@ -25,10 +25,9 @@ public class TagService {
     }
 
     public Tag getTagById(int id) {
-        if(!tagRepository.findById(id).isPresent())
-            return null;
+        Optional<Tag> findTag = tagRepository.findById(id);
 
-        return tagRepository.findById(id).get();
+        return findTag.orElse(null);
     }
 
     public Tag getTagByName(String name) {

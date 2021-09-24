@@ -98,7 +98,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>должность</mat-label>
                         <mat-select formControlName="post">
-                            <mat-option *ngFor="let post of posts" [value]="post.name">{{post.name}}</mat-option>
+                            <mat-option *ngFor="let post of posts" [value]="post">{{post.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="jobForm.get('post').hasError('required')">укажите должность</mat-error>
                     </mat-form-field>

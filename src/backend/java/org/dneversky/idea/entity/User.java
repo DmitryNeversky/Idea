@@ -85,19 +85,29 @@ public class User implements Serializable, UserDetails {
     private LocalDate registeredDate;
 
     @JsonIgnoreProperties("author")
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinTable(
+            name = "user_ideas",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "idea_id")
+    )
     private List<Idea> ideas = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Notification> notifications = new ArrayList<>();
 
     @JsonIgnoreProperties("users")
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinTable(
-            name = "post_user",
+            name = "user_post",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
@@ -118,5 +128,14 @@ public class User implements Serializable, UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(id, username);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", ideas=" + ideas +
+                ", post=" + post +
+                '}';
     }
 }

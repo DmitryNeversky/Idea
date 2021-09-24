@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {StepperOrientation} from "@angular/cdk/stepper";
 import {User} from "../../models/User";
-import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Post} from "../../models/Post";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {Settings} from "../../models/Settings";
 import {NoticeSetting} from "../../models/settings/NoticeSetting";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-registration',
@@ -28,7 +28,7 @@ export class RegistrationComponent implements OnInit {
   posts: Post[];
 
   constructor(private _formBuilder: FormBuilder,
-              private authService: AuthService,
+              private userService: UserService,
               private router: Router,
               private activatedRoute: ActivatedRoute) {}
 
@@ -81,7 +81,7 @@ export class RegistrationComponent implements OnInit {
 
     this.preloader = true;
 
-    this.authService.registration(user).subscribe(() => {
+    this.userService.saveUser(user).subscribe(() => {
       this.preloader = false;
       this.router.navigate(['/auth']);
     }, (error: HttpErrorResponse) => {

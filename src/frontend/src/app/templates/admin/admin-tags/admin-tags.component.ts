@@ -80,8 +80,8 @@ export class AdminTagsComponent implements OnInit {
         message: `Вы уверены что хотите удалить тэг "${tag.name}"? Возможно, есть идеи которые его используют.`
       }
     }).afterClosed().subscribe((result: boolean) => {
-      this.preloader = true;
       if(result) {
+        this.preloader = true;
         this.tagService.deleteTag(tag.id).subscribe(() => {
           this.preloader = false;
           this.hideModal();

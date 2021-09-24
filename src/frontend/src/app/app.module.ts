@@ -48,7 +48,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import {UserComponent} from './templates/user/user.component';
-import {AuthInterceptor} from "./interceptors/auth.interceptor";
+import {TokenInterceptor} from "./interceptors/token.interceptor";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {UserIdeasComponent} from './templates/user/ideas/user-ideas.component';
 import {NgxMaskModule} from "ngx-mask";
@@ -74,7 +74,7 @@ import {MatSliderModule} from "@angular/material/slider";
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
         provide: HTTP_INTERCEPTORS,
-        useClass: AuthInterceptor,
+        useClass: TokenInterceptor,
         multi: true
     },
 ]

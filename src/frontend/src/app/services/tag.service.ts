@@ -34,6 +34,6 @@ export class TagService {
     }
 
     public deleteTag(id: number|string): Observable<void> {
-        return this.httpClient.delete<void>(`${this.apiBaseUrl}/${id}`);
+        return this.httpClient.delete<void>(`${this.apiBaseUrl}/tags/${id}`);
     }
 }

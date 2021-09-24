@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.filter.CustomAuthenticationFilter;
 import org.dneversky.idea.filter.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,7 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/api/posts", "/api/token/refresh", "/api/user/save").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users").anonymous();
+        http.authorizeRequests().antMatchers("/api/posts").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(authenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -71,6 +71,7 @@ public class IdeaService {
         uploadFiles(idea, addFiles);
 
         idea.setLookedUsers(findIdea.get().getLookedUsers());
+        idea.setAuthor(findIdea.get().getAuthor());
 
         return ideaRepository.save(idea);
     }
@@ -82,6 +83,8 @@ public class IdeaService {
 
         removeImages(idea.get(), idea.get().getImages());
         removeFiles(idea.get(), idea.get().getFiles().keySet());
+
+        idea.get().getAuthor().getIdeas().remove(idea.get()); // ?
 
         ideaRepository.delete(idea.get());
     }

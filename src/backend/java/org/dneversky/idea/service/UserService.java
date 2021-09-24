@@ -2,7 +2,6 @@ package org.dneversky.idea.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dneversky.idea.entity.Post;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.Settings;
 import org.dneversky.idea.entity.User;
@@ -29,7 +28,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +41,6 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PostService postService;
     private final RoleService roleService;
 
     @Override
@@ -88,11 +85,6 @@ public class UserService implements UserDetailsService {
         user.setAccountNonLocked(true);
         user.setEnabled(true);
 
-        Post post = postService.getPostById(user.getPost().getId());
-        post.getUsers().add(user);
-
-        user.setPost(post);
-
         NoticeSetting noticeSetting = new NoticeSetting();
         noticeSetting.setDisabledNotice(false);
         noticeSetting.setSuccessDuration(2000);
@@ -112,11 +104,6 @@ public class UserService implements UserDetailsService {
         if(removeAvatar) {
             removeAvatar(user);
         } uploadAvatar(user, avatar);
-
-        Post post = postService.getPostById(user.getPost().getId());
-        post.getUsers().add(user);
-
-        user.setPost(post);
 
         return userRepository.save(user);
     }

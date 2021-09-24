@@ -1,29 +1,26 @@
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Injectable} from "@angular/core";
-import {Observable, Subject} from "rxjs";
-import {UserService} from "../services/user.service";
+import {Observable} from "rxjs";
 import {User} from "../models/User";
-import {tap} from "rxjs/operators";
+import {CurrentUserService} from "../services/current-user.service";
 
 @Injectable({
     providedIn: "root"
 })
 export class AdminGuard implements CanActivate {
 
-    constructor(private router: Router, private userService: UserService) {}
+    constructor(private router: Router, private currentUserService: CurrentUserService) {}
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        let subject = new Subject<boolean>();
-        this.userService.getCurrentUser().subscribe((user: User) => {
-            subject.next(user != null && (!!user.roles.find(r => r.name == 'ADMIN' || r.name == 'SUPER_ADMIN')));
-        });
-
-        return subject.asObservable().pipe(
-            tap((next: boolean) => {
-                if(!next) {
+        return new Observable<boolean>(obs => {
+            this.currentUserService.getCurrentUser().subscribe((user: User) => {
+                if(!!user.roles.find(r => r.name == 'ADMIN' || r.name == 'SUPER_ADMIN')) {
+                    obs.next(true);
+                } else {
+                    obs.next(false);
                     this.router.navigate(['']);
                 }
-            })
-        );
+            });
+        });
     }
 }

@@ -13,17 +13,17 @@ export class CurrentUserService {
 
     private apiBaseUrl: string = environment.apiBaseUrl;
 
-    public currentUser: User;
+    public static currentUser: User;
 
     constructor(private httpClient: HttpClient) {}
 
     public getCurrentUser(): Observable<User> {
-        if(this.currentUser)
-            return of(this.currentUser);
+        if(CurrentUserService.currentUser)
+            return of(CurrentUserService.currentUser);
 
         return this.httpClient.get<User>(`${this.apiBaseUrl}/users/current`).pipe(
             tap((user: User) => {
-                this.currentUser = user;
+                CurrentUserService.currentUser = user;
             }, (error: HttpErrorResponse) => {
                 console.log(error.error);
             })
