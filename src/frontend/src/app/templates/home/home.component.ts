@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
 
   public loading: boolean = false;
   public expanded: boolean = false;
+  public darkMode: boolean = false;
   public currentUser: User;
 
   constructor(private router: Router, private sharedService: SharedService,
@@ -52,10 +53,15 @@ export class HomeComponent implements OnInit {
     sharedService.changeEmitted$.subscribe(() => {
       this.scrollToTop();
     });
+
+    sharedService.changeDarkMode$.subscribe(() => {
+      this.darkMode = !!localStorage.getItem('dark-mode');
+    });
   }
 
   ngOnInit() {
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
+    this.darkMode = !!localStorage.getItem('dark-mode');
   }
 
   prepareRoute(outlet: RouterOutlet) {

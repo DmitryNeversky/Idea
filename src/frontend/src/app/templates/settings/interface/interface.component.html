@@ -1,12 +1,18 @@
 <mat-card>
     <mat-card-content>
         <h2 class="silver">Внешний вид</h2>
-        <form fxLayout="column wrap">
-            <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
-                <div class="col" fxLayout="column" fxFlex>
-
-                </div>
+        <div fxLayout.xs="column" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
+            <div class="col" fxLayout.xs="column" fxLayout.gt-xs="row" fxLayoutGap="10%" fxFlex>
+<!--                <mat-slide-toggle [checked]="darkMode" (change)="toggle()" fxFlex="fit-content">-->
+<!--                    Темная тема-->
+<!--                </mat-slide-toggle>-->
+                <mat-card fxFlex="45%" [ngStyle]="darkMode ? {} : {border: '4px solid #5c6bc0'}" (click)="changeLightMode()">
+                    <img style="width: 100%; height: 240px" src="assets/images/light-mode.png" alt="img.light-mode">
+                </mat-card>
+                <mat-card fxFlex="45%" [ngStyle]="darkMode ? {border: '4px solid #5c6bc0'} : {}" (click)="changeDarkMode()">
+                    <img style="width: 100%; height: 240px" src="assets/images/dark-mode.png" alt="img.dark-mode">
+                </mat-card>
             </div>
-        </form>
+        </div>
     </mat-card-content>
 </mat-card>

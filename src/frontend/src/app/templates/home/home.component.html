@@ -40,13 +40,13 @@
 <!--navbar-->
 
 <div class="row" fxLayout="row">
-    <div *ngIf="!expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content" fxHide.xs>
+    <div [ngStyle]="darkMode ? {background: '#424242'} : {}" *ngIf="!expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content" fxHide.xs>
         <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon></button>
         <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon></button>
         <button mat-button color="warn" routerLink="/settings"><mat-icon>settings</mat-icon></button>
         <button mat-button color="warn" routerLink="/admin"><mat-icon>admin_panel_settings</mat-icon></button>
     </div>
-    <div *ngIf="expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content">
+    <div [ngStyle]="darkMode ? {background: '#424242'} : {}" *ngIf="expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content">
         <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon><span class="name">Главная</span></button>
         <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon><span class="name">Идеи</span></button>
         <button mat-button color="warn" routerLink="/settings"><mat-icon>settings</mat-icon><span class="name">Настройки</span></button>
@@ -54,7 +54,7 @@
             <mat-icon>admin_panel_settings</mat-icon><span class="name">Управление</span>
         </button>
     </div>
-    <div class="content" id="content" [@routesAnimation]="prepareRoute(outlet)" fxFlex>
+    <div [ngStyle]="darkMode ? {background: '#3a3a3a'} : {}" class="content" id="content" [@routesAnimation]="prepareRoute(outlet)" fxFlex>
         <router-outlet #outlet="outlet"></router-outlet>
     </div>
 </div>

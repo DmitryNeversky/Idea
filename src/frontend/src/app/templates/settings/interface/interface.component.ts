@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {SharedService} from "../../../shared/shared.service";
 
 @Component({
   selector: 'app-interface',
@@ -7,9 +8,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InterfaceComponent implements OnInit {
 
-  constructor() { }
+  darkMode: boolean;
+
+  constructor(private sharedService: SharedService) { }
 
   ngOnInit(): void {
+    this.darkMode = !!localStorage.getItem('dark-mode');
   }
 
+  toggle() {
+    this.darkMode = !this.darkMode;
+    if (this.darkMode) {
+      localStorage.setItem('dark-mode', 'true');
+    } else {
+      localStorage.removeItem('dark-mode');
+    }
+    this.sharedService.emitDarkMode();
+  }
+
+  changeLightMode() {
+    this.darkMode = false;
+    localStorage.removeItem('dark-mode')
+    this.sharedService.emitDarkMode();
+  }
+
+  changeDarkMode() {
+    this.darkMode = true;
+    localStorage.setItem('dark-mode', 'true')
+    this.sharedService.emitDarkMode();
+  }
 }
