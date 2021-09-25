@@ -46,5 +46,4 @@ public class RedisConfig {
                 .withCacheConfiguration("ideasCache",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(IDEAS_TTL)));
     }
-
 }

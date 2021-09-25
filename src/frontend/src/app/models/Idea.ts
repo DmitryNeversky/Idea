@@ -5,7 +5,7 @@ import {Status} from "./Status";
 export class Idea {
     id: string;
     title: string;
-    text: string;
+    body: string;
     status: Status;
     rating: number;
     looks: number;
@@ -16,6 +16,6 @@ export class Idea {
     author: User;
     removeImages: string[];
     removeFiles: string[];
-    ratedUsers: number[];
-    unratedUsers: number[];
+    ratedUsers: User[];
+    unratedUsers: User[];
 }

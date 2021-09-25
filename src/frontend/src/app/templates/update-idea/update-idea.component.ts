@@ -47,7 +47,7 @@ export class UpdateIdeaComponent implements OnInit {
 
     this.mainForm = new FormGroup({
       title: new FormControl(this.idea.title, [Validators.minLength(8), Validators.maxLength(256), Validators.required]),
-      text: new FormControl(this.idea.text, [Validators.minLength(256), Validators.maxLength(32768), Validators.required]),
+      text: new FormControl(this.idea.body, [Validators.minLength(256), Validators.maxLength(32768), Validators.required]),
     });
   }
 
@@ -57,8 +57,11 @@ export class UpdateIdeaComponent implements OnInit {
 
     const formData = new FormData();
 
+    this.idea.removeImages = [];
+    this.idea.removeFiles = [];
+
     this.idea.title = this.mainForm.get('title').value;
-    this.idea.text = this.mainForm.get('text').value;
+    this.idea.body = this.mainForm.get('text').value;
     this.imagesLoader.removeImagesList.forEach(x => this.idea.removeImages.push(x));
     for (let i = 0; i < this.imagesLoader.dataTransfer.files.length; i++)
       formData.append('addImages', this.imagesLoader.dataTransfer.files[i]);
@@ -71,7 +74,7 @@ export class UpdateIdeaComponent implements OnInit {
 
     this.preloader = true;
 
-    this.ideaService.putIdea(formData).subscribe(() => {
+    this.ideaService.putIdea(this.idea.id, formData).subscribe(() => {
       this.preloader = false;
       this.router.navigate(['ideas']);
       this.snackBar.success("Идея успешно отредактирована!");

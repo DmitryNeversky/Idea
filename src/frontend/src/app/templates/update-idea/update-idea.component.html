@@ -20,7 +20,7 @@
 
             <mat-form-field appearance="fill">
                 <mat-label>Основная идея</mat-label>
-                <textarea matInput [value]="idea.text" formControlName="text"></textarea>
+                <textarea matInput [value]="idea.body" formControlName="text"></textarea>
                 <mat-error *ngIf="mainForm.get('text').hasError('required')">заполните поле</mat-error>
                 <mat-error *ngIf="mainForm.get('text').hasError('minlength')">
                     минимальная длина {{mainForm.get('text').errors.minlength.requiredLength}} символов

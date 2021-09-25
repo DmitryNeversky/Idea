@@ -8,7 +8,7 @@
         </ng-container>
     </mat-card-title>
     <mat-card-content>
-        <p class="text">{{idea.text | truncate: 600}}</p>
+        <p class="text">{{idea.body | truncate: 600}}</p>
         <mat-chip-list>
             <mat-chip *ngFor="let tag of idea.tags" color="primary">
                 {{tag.name}}

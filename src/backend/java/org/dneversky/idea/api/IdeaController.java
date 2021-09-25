@@ -2,7 +2,8 @@ package org.dneversky.idea.api;
 
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.model.Status;
-import org.dneversky.idea.service.IdeaService;
+import org.dneversky.idea.payload.IdeaRequest;
+import org.dneversky.idea.service.impl.IdeaServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,72 +17,74 @@ import java.util.List;
 @RestController
 public class IdeaController {
 
-    private final IdeaService ideaService;
+    private final IdeaServiceImpl ideaServiceImpl;
 
-    public IdeaController(IdeaService ideaService) {
-        this.ideaService = ideaService;
+    public IdeaController(IdeaServiceImpl ideaServiceImpl) {
+        this.ideaServiceImpl = ideaServiceImpl;
     }
 
     @GetMapping
     public ResponseEntity<List<Idea>> getIdeas() {
 
-        return ResponseEntity.ok(ideaService.getIdeas());
+        return ResponseEntity.ok(ideaServiceImpl.getAllIdeas());
     }
 
     @PostMapping
-    public ResponseEntity<Idea> save(@RequestPart("idea") @Valid Idea idea,
+    public ResponseEntity<Idea> save(@RequestPart("idea") @Valid IdeaRequest idea,
                                          @RequestPart(required = false) List<MultipartFile> addImages,
                                          @RequestPart(required = false) List<MultipartFile> addFiles,
                                          Principal principal) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ideaService.saveIdea(idea, addImages, addFiles, principal.getName()));
+                .body(ideaServiceImpl.saveIdea(idea, addImages, addFiles, principal));
     }
 
-    @PutMapping
-    public ResponseEntity<Idea> update(@RequestPart("idea") @Valid Idea idea,
+    @PutMapping("/{id}")
+    public ResponseEntity<Idea> update(@PathVariable Long id,
+                                        @RequestPart("idea") @Valid IdeaRequest idea,
                                         @RequestPart(value = "addImages", required = false) List<MultipartFile> addImages,
                                         @RequestPart(value = "addFiles", required = false) List<MultipartFile> addFiles) {
 
-        return ResponseEntity.ok(ideaService.putIdea(idea, addImages, addFiles));
+        return ResponseEntity.ok(ideaServiceImpl.updateIdea(id, idea, addImages, addFiles));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id) {
-        ideaService.deleteIdea(id);
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        ideaServiceImpl.deleteIdea(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Idea> getById(@PathVariable int id) {
+    public ResponseEntity<Idea> getById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(ideaService.getIdeaById(id));
+        return ResponseEntity.ok(ideaServiceImpl.getIdea(id));
     }
 
-    @PatchMapping("/{idea}/status")
-    public ResponseEntity<Idea> changeStatus(@PathVariable Idea idea, @RequestBody String status) {
-
-        return ResponseEntity.ok(ideaService.changeStatus(idea, Status.valueOf(status)));
-    }
-
-    @PatchMapping("/{idea}/look")
-    public ResponseEntity<?> addLook(@PathVariable Idea idea, Principal principal) {
-        ideaService.addLook(idea, principal.getName());
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Idea> changeStatus(@PathVariable Long id, @RequestBody String status) {
+        ideaServiceImpl.changeStatus(id, Status.valueOf(status));
 
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/{idea}/rating/add")
-    public ResponseEntity<?> addRating(@PathVariable Idea idea, Principal principal) {
-        ideaService.addRating(idea, principal.getName());
+    @PatchMapping("/{id}/look")
+    public ResponseEntity<Idea> addLook(@PathVariable Long id, Principal principal) {
+        ideaServiceImpl.addLook(id, principal);
 
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/{idea}/rating/reduce")
-    public ResponseEntity<?> reduceRating(@PathVariable Idea idea, Principal principal) {
-        ideaService.reduceRating(idea, principal.getName());
+    @PatchMapping("/{id}/rating/add")
+    public ResponseEntity<Idea> addRating(@PathVariable Long id, Principal principal) {
+        ideaServiceImpl.addRating(id, principal);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{id}/rating/reduce")
+    public ResponseEntity<Idea> reduceRating(@PathVariable Long id, Principal principal) {
+        ideaServiceImpl.reduceRating(id, principal);
 
         return ResponseEntity.ok().build();
     }

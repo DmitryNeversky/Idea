@@ -54,9 +54,9 @@ export class IdeaFillComponent implements OnInit {
 
     this.isAdmin = !!this.currentUser.roles.find(r => r.name == 'ADMIN' || r.name == 'SUPER_ADMIN');
 
-    if(this.idea.ratedUsers.includes(+this.currentUser.id)) {
+    if(!!this.idea.ratedUsers.find(u => u.id == this.currentUser.id)) {
       this.voted = 1;
-    } else if(this.idea.unratedUsers.includes(+this.currentUser.id)) {
+    } else if(!!this.idea.unratedUsers.find(u => u.id == this.currentUser.id)) {
       this.voted = -1;
     } else {
       this.voted = 0;

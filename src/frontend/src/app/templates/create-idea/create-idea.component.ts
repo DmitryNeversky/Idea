@@ -43,7 +43,7 @@ export class CreateIdeaComponent implements OnInit{
     let idea: Idea = new Idea();
 
     idea.title = this.mainForm.get('title').value;
-    idea.text = this.mainForm.get('text').value;
+    idea.body = this.mainForm.get('text').value;
     idea.tags = this.addedTags;
 
     const formData = new FormData();

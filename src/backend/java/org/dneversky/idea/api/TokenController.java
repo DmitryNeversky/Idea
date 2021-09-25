@@ -7,7 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
-import org.dneversky.idea.service.UserService;
+import org.dneversky.idea.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +32,13 @@ public class TokenController {
     @Value("${token.refresh.expiration.minutes}")
     private Integer REFRESH_EXPIRE_MINUTES;
 
-    private final UserService userService;
+    @Value("${token.access.expiration.minutes}")
+    private Integer ACCESS_EXPIRE_MINUTES;
 
-    public TokenController(UserService userService) {
-        this.userService = userService;
+    private final UserServiceImpl userServiceImpl;
+
+    public TokenController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping("/token/refresh")
@@ -48,10 +51,10 @@ public class TokenController {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
-                User user = userService.getUserByUsername(username);
+                User user = userServiceImpl.getUserByUsername(username);
                 String accessToken = JWT.create()
                         .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + (REFRESH_EXPIRE_MINUTES * 60 * 1000)))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + (ACCESS_EXPIRE_MINUTES * 60 * 1000)))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", user.getRoles().stream()
                                 .map(Role::getName).collect(Collectors.toList()))
