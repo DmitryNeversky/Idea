@@ -64,7 +64,9 @@ public class IdeaServiceImpl implements IdeaService {
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
 
-        User user = userRepository.findByUsername(principal.getName());
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + principal.getName() + " not found."));
+
         user.getIdeas().add(idea);
 
         idea.setAuthor(user);
@@ -117,7 +119,8 @@ public class IdeaServiceImpl implements IdeaService {
     public Idea addLook(Long id, Principal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        User user = userRepository.findByUsername(principal.getName());
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + principal.getName() + " not found."));
 
         if(!idea.getLookedUsers().contains(user.getId())) {
             idea.getLookedUsers().add(user.getId());
@@ -132,7 +135,8 @@ public class IdeaServiceImpl implements IdeaService {
     public Idea addRating(Long id, Principal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        User user = userRepository.findByUsername(principal.getName());
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + principal.getName() + " not found."));
 
         if(idea.getRatedUsers().contains(user)) {
             idea.getRatedUsers().remove(user);
@@ -147,7 +151,8 @@ public class IdeaServiceImpl implements IdeaService {
     public Idea reduceRating(Long id, Principal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        User user = userRepository.findByUsername(principal.getName());
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + principal.getName() + " not found."));
 
         if(idea.getUnratedUsers().contains(user)) {
             idea.getUnratedUsers().remove(user);

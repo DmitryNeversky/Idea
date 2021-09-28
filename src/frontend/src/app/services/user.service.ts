@@ -27,8 +27,8 @@ export class UserService {
     return this.httpClient.post<User>(`${this.apiBaseUrl}/users`, user);
   }
 
-  public putUser(formData: FormData): Observable<User> {
-    return this.httpClient.put<User>(`${this.apiBaseUrl}/users`, formData);
+  public putUser(id: number|string, formData: FormData): Observable<User> {
+    return this.httpClient.put<User>(`${this.apiBaseUrl}/users/${id}`, formData);
   }
 
   public deleteUser(id: number|string): Observable<void> {

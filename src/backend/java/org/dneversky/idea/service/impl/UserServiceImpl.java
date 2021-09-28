@@ -3,11 +3,10 @@ package org.dneversky.idea.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Role;
-import org.dneversky.idea.entity.Settings;
 import org.dneversky.idea.entity.User;
-import org.dneversky.idea.entity.settings.NoticeSetting;
 import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.UserRepository;
+import org.dneversky.idea.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,14 +27,13 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Value("${uploadPath}")
     private String UPLOAD_PATH;
@@ -45,11 +45,8 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if(user == null) {
-            log.error("User with username {} not found in the database", username);
-            throw new UsernameNotFoundException("User with username {} not found in the database");
-        }
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(), user.getPassword(), user.isEnabled(),
@@ -57,26 +54,32 @@ public class UserServiceImpl implements UserDetailsService {
                 user.isAccountNonLocked(), user.getAuthorities());
     }
 
-    public List<User> getUsers() {
+    @Override
+    public List<User> getAllUsers() {
 
         return userRepository.findAll();
     }
 
-    public User getUserById(int id) {
+    @Override
+    public User getUser(Long id) {
 
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("User with id " + id + " not found in the database."));
     }
 
+    @Override
     public User getUserByUsername(String username) {
 
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
     }
 
+    @Override
     public User saveUser(User user) {
-        if(userRepository.findByUsername(user.getUsername()) != null) {
-            log.warn("User with username {} already contains in the database", user.getUsername());
-            return null;
+        if(userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new EntityExistsException("User with username " + user.getUsername() + " already exists.");
         }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(LocalDate.now());
         user.getRoles().add(roleServiceImpl.getRoleByName("USER"));
@@ -85,38 +88,35 @@ public class UserServiceImpl implements UserDetailsService {
         user.setAccountNonLocked(true);
         user.setEnabled(true);
 
-        NoticeSetting noticeSetting = new NoticeSetting();
-        noticeSetting.setDisabledNotice(false);
-        noticeSetting.setSuccessDuration(2000);
-        noticeSetting.setErrorDuration(3000);
-        noticeSetting.setHorizontalPosition("start");
-        noticeSetting.setVerticalPosition("bottom");
-
-        Settings settings = new Settings();
-        settings.setNoticeSetting(noticeSetting);
-
-        user.setSettings(settings);
-
         return userRepository.save(user);
     }
 
-    public User putUser(User user, MultipartFile avatar, boolean removeAvatar) {
+    @Override
+    public User updateUser(Long id, User userRequest, MultipartFile avatar, boolean removeAvatar) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("User with id " + id + " not found in the database."));
+
         if(removeAvatar) {
             removeAvatar(user);
         } uploadAvatar(user, avatar);
 
+        user.setName(userRequest.getName());
+        user.setPhone(userRequest.getPhone());
+        user.setAbout(userRequest.getAbout());
+        user.setCity(userRequest.getCity());
+
         return userRepository.save(user);
     }
 
-    public void deleteUser(int id) {
-        Optional<User> user = userRepository.findById(id);
-        if(!user.isPresent())
-            return;
+    @Override
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("User with id " + id + " not found in the database."));
 
-        log.info("Deleting user {}", user.get().getUsername());
-        removeAvatar(user.get());
+        removeAvatar(user);
 
-        userRepository.delete(user.get());
+        userRepository.delete(user);
+        log.info("User {} deleted.", user.getUsername());
     }
 
     public void deleteNotificationById(int id, User user) {
@@ -126,47 +126,50 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
     public boolean verifyOldPassword(String username, String oldPassword) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
         return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 
     public boolean verifyNewPassword(String username, String newPassword) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
         return passwordEncoder.matches(newPassword, user.getPassword());
     }
 
     public void changePassword(String username, String newPassword) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+
         user.setPassword(passwordEncoder.encode(newPassword));
 
         userRepository.save(user);
     }
 
-    public void setNoticeSetting(String username, NoticeSetting noticeSetting) {
-        User user = userRepository.findByUsername(username);
-        user.getSettings().setNoticeSetting(noticeSetting);
-
-        userRepository.save(user);
-    }
-
     public void blockUser(String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+
         user.setEnabled(false);
 
         userRepository.save(user);
     }
 
     public void unblockUser(String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+
         user.setEnabled(true);
 
         userRepository.save(user);
     }
 
     public void changeRoles(String username, Set<Role> roles) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+
         user.setRoles(roles);
 
         userRepository.save(user);

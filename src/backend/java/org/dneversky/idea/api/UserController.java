@@ -3,7 +3,6 @@ package org.dneversky.idea.api;
 import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
-import org.dneversky.idea.entity.settings.NoticeSetting;
 import org.dneversky.idea.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,37 +24,35 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
 
-        return ResponseEntity.ok(userServiceImpl.getUsers());
+        return ResponseEntity.ok(userServiceImpl.getAllUsers());
     }
 
     @PostMapping
     public ResponseEntity<User> save(@RequestBody @Valid User user) {
-        if(userServiceImpl.getUserByUsername(user.getUsername()) != null) {
-            return ResponseEntity.status(HttpStatus.FOUND).build();
-        }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.saveUser(user));
     }
 
-    @PutMapping
-    public ResponseEntity<User> update(@RequestPart("user") @Valid User user,
+    @PutMapping("/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id,
+                                       @RequestPart("user") @Valid User user,
                                        @RequestPart(name = "avatar", required = false) MultipartFile avatar,
                                        @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
 
-        return ResponseEntity.ok(userServiceImpl.putUser(user, avatar, Boolean.parseBoolean(removeAvatar)));
+        return ResponseEntity.ok(userServiceImpl.updateUser(id, user, avatar, Boolean.parseBoolean(removeAvatar)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         userServiceImpl.deleteUser(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
 
-        return ResponseEntity.ok((userServiceImpl.getUserById(id)));
+        return ResponseEntity.ok((userServiceImpl.getUser(id)));
     }
 
     @GetMapping("/current")
@@ -72,13 +69,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FOUND).body("новый пароль эквивалентен текущему");
         }
         userServiceImpl.changePassword(principal.getName(), newPassword);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/settings/notifies")
-    public ResponseEntity<?> setNoticeSetting(@RequestBody NoticeSetting noticeSetting, Principal principal) {
-        userServiceImpl.setNoticeSetting(principal.getName(), noticeSetting);
 
         return ResponseEntity.ok().build();
     }

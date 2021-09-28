@@ -21,7 +21,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,11 +29,11 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User implements Serializable, UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NaturalId
     @NotNull(message = "Username can not be null")
@@ -47,11 +46,13 @@ public class User implements Serializable, UserDetails {
     @Lob
     private String password;
 
-    // need for decomposition | redis?
-
+    @JsonIgnore
     private boolean accountNonExpired;
+    @JsonIgnore
     private boolean accountNonLocked;
+    @JsonIgnore
     private boolean credentialsNonExpired;
+    @JsonIgnore
     private boolean enabled;
 
     @Override
@@ -60,8 +61,6 @@ public class User implements Serializable, UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
-
-    // Need a composition _ Profile
 
     @NotNull(message = "Name can not be null")
     @Size(min = 3, max = 96, message = "Name's size is: min 3 max 96")
@@ -119,10 +118,6 @@ public class User implements Serializable, UserDetails {
     )
     private Post post;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "settings_id")
-    private Settings settings;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -134,14 +129,5 @@ public class User implements Serializable, UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(id, username);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", ideas=" + ideas +
-                ", post=" + post +
-                '}';
     }
 }

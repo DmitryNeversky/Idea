@@ -70,7 +70,7 @@ public class Idea implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_looked_users", joinColumns = @JoinColumn(name = "idea_id"))
     @JoinColumn(name = "user_id")
-    private Set<Integer> lookedUsers = new HashSet<>();
+    private Set<Long> lookedUsers = new HashSet<>();
 
     @JsonIgnoreProperties("ideas")
     @ManyToMany(fetch = FetchType.EAGER)
