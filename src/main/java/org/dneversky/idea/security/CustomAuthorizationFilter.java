@@ -1,4 +1,4 @@
-package org.dneversky.idea.filter;
+package org.dneversky.idea.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

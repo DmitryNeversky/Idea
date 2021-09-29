@@ -20,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -52,7 +51,7 @@ public class IdeaServiceImpl implements IdeaService {
 
     @Override
     public Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages,
-                         List<MultipartFile> addFiles, Principal principal) {
+                         List<MultipartFile> addFiles, String username) {
 
         Idea idea = new Idea();
         idea.setTitle(ideaRequest.getTitle());
@@ -64,8 +63,8 @@ public class IdeaServiceImpl implements IdeaService {
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
 
-        User user = userRepository.findByUsername(principal.getName()).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + principal.getName() + " not found."));
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found."));
 
         user.getIdeas().add(idea);
 
@@ -116,11 +115,11 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea addLook(Long id, Principal principal) {
+    public Idea addLook(Long id, String username) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        User user = userRepository.findByUsername(principal.getName()).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + principal.getName() + " not found."));
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found."));
 
         if(!idea.getLookedUsers().contains(user.getId())) {
             idea.getLookedUsers().add(user.getId());
@@ -132,11 +131,11 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea addRating(Long id, Principal principal) {
+    public Idea addRating(Long id, String username) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        User user = userRepository.findByUsername(principal.getName()).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + principal.getName() + " not found."));
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found."));
 
         if(idea.getRatedUsers().contains(user)) {
             idea.getRatedUsers().remove(user);
@@ -148,11 +147,11 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea reduceRating(Long id, Principal principal) {
+    public Idea reduceRating(Long id, String username) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        User user = userRepository.findByUsername(principal.getName()).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + principal.getName() + " not found."));
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found."));
 
         if(idea.getUnratedUsers().contains(user)) {
             idea.getUnratedUsers().remove(user);

@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.payload.UserRequest;
 import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.UserRepository;
+import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,10 +50,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), user.isEnabled(),
-                user.isAccountNonExpired(), user.isCredentialsNonExpired(),
-                user.isAccountNonLocked(), user.getAuthorities());
+        return new UserPrincipal(user.getUsername(), user.getPassword(), user.getRoles(), user.isEnabled());
     }
 
     @Override
@@ -83,16 +82,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(LocalDate.now());
         user.getRoles().add(roleServiceImpl.getRoleByName("USER"));
-        user.setAccountNonExpired(true);
-        user.setCredentialsNonExpired(true);
-        user.setAccountNonLocked(true);
         user.setEnabled(true);
 
         return userRepository.save(user);
     }
 
     @Override
-    public User updateUser(Long id, User userRequest, MultipartFile avatar, boolean removeAvatar) {
+    public User updateUser(Long id, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("User with id " + id + " not found in the database."));
 
@@ -102,8 +98,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         user.setName(userRequest.getName());
         user.setPhone(userRequest.getPhone());
-        user.setAbout(userRequest.getAbout());
+        user.setBirthday(userRequest.getBirthday());
         user.setCity(userRequest.getCity());
+        user.setAbout(userRequest.getAbout());
 
         return userRepository.save(user);
     }

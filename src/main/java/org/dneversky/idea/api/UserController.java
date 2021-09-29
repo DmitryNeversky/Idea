@@ -3,6 +3,7 @@ package org.dneversky.idea.api;
 import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.payload.UserRequest;
 import org.dneversky.idea.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +36,11 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable Long id,
-                                       @RequestPart("user") @Valid User user,
+                                       @RequestPart("user") @Valid UserRequest userRequest,
                                        @RequestPart(name = "avatar", required = false) MultipartFile avatar,
                                        @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
 
-        return ResponseEntity.ok(userServiceImpl.updateUser(id, user, avatar, Boolean.parseBoolean(removeAvatar)));
+        return ResponseEntity.ok(userServiceImpl.updateUser(id, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
     }
 
     @DeleteMapping("/{id}")

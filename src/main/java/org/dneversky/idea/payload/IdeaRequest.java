@@ -1,5 +1,7 @@
 package org.dneversky.idea.payload;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.dneversky.idea.entity.Tag;
 
@@ -8,6 +10,8 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class IdeaRequest {
 
     @NotNull(message = "Title can not be null")

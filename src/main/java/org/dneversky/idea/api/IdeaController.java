@@ -36,7 +36,7 @@ public class IdeaController {
                                          Principal principal) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ideaServiceImpl.saveIdea(idea, addImages, addFiles, principal));
+                .body(ideaServiceImpl.saveIdea(idea, addImages, addFiles, principal.getName()));
     }
 
     @PutMapping("/{id}")
@@ -63,29 +63,25 @@ public class IdeaController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<Idea> changeStatus(@PathVariable Long id, @RequestBody String status) {
-        ideaServiceImpl.changeStatus(id, Status.valueOf(status));
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(ideaServiceImpl.changeStatus(id, Status.valueOf(status)));
     }
 
     @PatchMapping("/{id}/look")
     public ResponseEntity<Idea> addLook(@PathVariable Long id, Principal principal) {
-        ideaServiceImpl.addLook(id, principal);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(ideaServiceImpl.addLook(id, principal.getName()));
     }
 
     @PatchMapping("/{id}/rating/add")
     public ResponseEntity<Idea> addRating(@PathVariable Long id, Principal principal) {
-        ideaServiceImpl.addRating(id, principal);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(ideaServiceImpl.addRating(id, principal.getName()));
     }
 
     @PatchMapping("/{id}/rating/reduce")
     public ResponseEntity<Idea> reduceRating(@PathVariable Long id, Principal principal) {
-        ideaServiceImpl.reduceRating(id, principal);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(ideaServiceImpl.reduceRating(id, principal.getName()));
     }
 }

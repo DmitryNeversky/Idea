@@ -1,7 +1,6 @@
 package org.dneversky.idea.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -12,9 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -23,13 +19,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,21 +41,7 @@ public class User implements UserDetails {
     @Lob
     private String password;
 
-    @JsonIgnore
-    private boolean accountNonExpired;
-    @JsonIgnore
-    private boolean accountNonLocked;
-    @JsonIgnore
-    private boolean credentialsNonExpired;
-    @JsonIgnore
     private boolean enabled;
-
-    @Override
-    @Transient
-    @JsonIgnore
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
-    }
 
     @NotNull(message = "Name can not be null")
     @Size(min = 3, max = 96, message = "Name's size is: min 3 max 96")
@@ -71,17 +52,17 @@ public class User implements UserDetails {
     @NotBlank(message = "Phone contains whitespaces or null value")
     private String phone;
 
-    @Lob
-    @Size(max = 1024, message = "About size is: min 0 max 1024")
-    private String about;
+    @NotNull(message = "Birthday can not be null")
+    private Date birthday;
+
+    private String avatar;
 
     @Size(max = 255, message = "About size is: min 0 max 255")
     private String city;
 
-    private String avatar;
-
-    @NotNull(message = "Birthday can not be null")
-    private Date birthday;
+    @Size(max = 1024, message = "About size is: min 0 max 1024")
+    @Lob
+    private String about;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -117,6 +98,11 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
     private Post post;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     @Override
     public boolean equals(Object o) {

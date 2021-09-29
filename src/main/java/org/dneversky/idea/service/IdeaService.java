@@ -5,7 +5,6 @@ import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal;
 import java.util.List;
 
 public interface IdeaService {
@@ -14,17 +13,17 @@ public interface IdeaService {
 
     Idea getIdea(Long id);
 
-    Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, Principal principal);
+    Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, String username);
 
     Idea updateIdea(Long id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles);
 
     void deleteIdea(Long id);
 
-    Idea addLook(Long id, Principal principal);
+    Idea addLook(Long id, String username);
 
-    Idea addRating(Long id, Principal principal);
+    Idea addRating(Long id, String username);
 
-    Idea reduceRating(Long id, Principal principal);
+    Idea reduceRating(Long id, String username);
 
     Idea changeStatus(Long id, Status status);
 }

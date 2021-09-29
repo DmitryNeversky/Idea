@@ -93,4 +93,12 @@ public class Idea implements Serializable {
     public int getLooks() {
         return lookedUsers.size();
     }
+
+    public Idea(String title, String body, Status status, LocalDate createdDate, User author) {
+        this.title = title;
+        this.body = body;
+        this.status = status;
+        this.createdDate = createdDate;
+        this.author = author;
+    }
 }

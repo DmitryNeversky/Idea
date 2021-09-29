@@ -1,8 +1,6 @@
-package org.dneversky.idea.config;
+package org.dneversky.idea.security;
 
 import lombok.RequiredArgsConstructor;
-import org.dneversky.idea.filter.CustomAuthenticationFilter;
-import org.dneversky.idea.filter.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
