@@ -79,6 +79,7 @@ public class User {
     )
     private List<Idea> ideas = new ArrayList<>();
 
+    @JsonIgnoreProperties("users")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",

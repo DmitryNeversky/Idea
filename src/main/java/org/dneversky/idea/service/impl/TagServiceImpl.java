@@ -1,15 +1,19 @@
 package org.dneversky.idea.service.impl;
 
 import org.dneversky.idea.entity.Tag;
+import org.dneversky.idea.payload.TagRequest;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.dneversky.idea.repository.TagRepository;
+import org.dneversky.idea.service.TagService;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TagServiceImpl {
+public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
     private final IdeaRepository ideaRepository;
@@ -19,44 +23,58 @@ public class TagServiceImpl {
         this.ideaRepository = ideaRepository;
     }
 
-    public List<Tag> getTags() {
+    @Override
+    public List<Tag> getAllTags() {
 
         return tagRepository.findAll();
     }
 
-    public Tag getTagById(int id) {
-        Optional<Tag> findTag = tagRepository.findById(id);
+    @Override
+    public Tag getTag(Integer id) {
 
-        return findTag.orElse(null);
+        return tagRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Tag with id " + id + " not found in the database."));
     }
 
-    public Tag getTagByName(String name) {
-        tagRepository.findByName(name);
+    @Override
+    public Tag getTag(String name) {
 
-        return tagRepository.findByName(name);
+        return tagRepository.findByName(name).orElseThrow(
+                () -> new EntityNotFoundException("Tag with name " + name + " not found in the database."));
     }
 
-    public Tag saveTag(Tag tag) {
+    @Override
+    public Tag saveTag(TagRequest tagRequest) {
+        if(tagRepository.existsByName(tagRequest.getName())) {
+            throw new EntityExistsException("Tag with name " + tagRequest.getName() + " already exists");
+        }
+
+        Tag tag = new Tag();
+        tag.setName(tagRequest.getName());
 
         return tagRepository.save(tag);
     }
 
-    public Tag putTag(Tag tag) {
-        Optional<Tag> findTag = tagRepository.findById(tag.getId());
-        if(!findTag.isPresent())
-            return null;
+    @Override
+    public Tag updateTag(Integer id, TagRequest tagRequest) {
+        Tag tag = tagRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Tag with id " + id + " not found in the database."));
 
-        findTag.get().setName(tag.getName());
+        tag.setName(tagRequest.getName());
 
-        return  tagRepository.save(findTag.get());
+        return tagRepository.save(tag);
     }
 
-    public void deleteTag(Tag tag) {
-        ideaRepository.findAll().forEach(i -> {
-            i.getTags().remove(tag);
-            ideaRepository.save(i);
-        });
+    @Override
+    public void deleteTag(Integer id) {
+        Tag tag = tagRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Tag with id " + id + " not found in the database."));
 
-        tagRepository.delete(tag);
+        if(tag.getIdeas() != null && tag.getIdeas().size() > 0) {
+            tag.getIdeas().forEach(idea -> {
+                idea.getTags().remove(tag);
+                ideaRepository.save(idea);
+            });
+        }
     }
 }

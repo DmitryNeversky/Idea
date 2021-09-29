@@ -1,6 +1,7 @@
 package org.dneversky.idea.api;
 
 import org.dneversky.idea.entity.Tag;
+import org.dneversky.idea.payload.TagRequest;
 import org.dneversky.idea.service.impl.TagServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,39 +21,39 @@ public class TagController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Tag>> getTags() {
+    public ResponseEntity<List<Tag>> getAllTags() {
 
-        return ResponseEntity.ok(tagServiceImpl.getTags());
-    }
-
-    @PostMapping
-    public ResponseEntity<Tag> save(@RequestBody @Valid Tag tag) {
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(tagServiceImpl.saveTag(tag));
-    }
-
-    @PutMapping
-    public ResponseEntity<Tag> update(@RequestBody @Valid Tag tag) {
-
-        return ResponseEntity.ok(tagServiceImpl.putTag(tag));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Tag id) {
-        tagServiceImpl.deleteTag(id);
-
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(tagServiceImpl.getAllTags());
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Tag> getTagById(@PathVariable int id) {
+    public ResponseEntity<Tag> getTag(@PathVariable Integer id) {
 
-        return ResponseEntity.ok(tagServiceImpl.getTagById(id));
+        return ResponseEntity.ok(tagServiceImpl.getTag(id));
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Tag> getTagByName(@PathVariable String name) {
+    public ResponseEntity<Tag> getTag(@PathVariable String name) {
 
-        return ResponseEntity.ok(tagServiceImpl.getTagByName(name));
+        return ResponseEntity.ok(tagServiceImpl.getTag(name));
+    }
+
+    @PostMapping
+    public ResponseEntity<Tag> saveTag(@RequestBody @Valid TagRequest tagRequest) {
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(tagServiceImpl.saveTag(tagRequest));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Tag> updateTag(@PathVariable Integer id, @RequestBody @Valid TagRequest tagRequest) {
+
+        return ResponseEntity.ok(tagServiceImpl.updateTag(id, tagRequest));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTag(@PathVariable Integer id) {
+        tagServiceImpl.deleteTag(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
