@@ -37,7 +37,7 @@ public class User {
     private String username;
 
     @NotNull(message = "Password can not be null")
-    @Size(min = 6, message = "Password's size is: min 6")
+    @Size(min = 6, message = "Password's size is: min 6 max 32")
     @Lob
     private String password;
 
@@ -103,6 +103,13 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User(String name, String phone, Date birthday, Post post) {
+        this.name = name;
+        this.phone = phone;
+        this.birthday = birthday;
+        this.post = post;
     }
 
     @Override

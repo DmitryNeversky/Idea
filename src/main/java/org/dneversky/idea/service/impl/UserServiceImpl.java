@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;
 import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.UserRepository;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+                () -> new UsernameNotFoundException("User with username " + username + " not found in the database."));
 
         return new UserPrincipal(user.getUsername(), user.getPassword(), user.getRoles(), user.isEnabled());
     }
@@ -136,11 +138,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return passwordEncoder.matches(newPassword, user.getPassword());
     }
 
-    public void changePassword(String username, String newPassword) {
+    @Override
+    public void patchPassword(String username, PasswordChangeRequest passwordChangeRequest) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-        user.setPassword(passwordEncoder.encode(newPassword));
+//        user.setPassword(passwordEncoder.encode(newPassword));
 
         userRepository.save(user);
     }

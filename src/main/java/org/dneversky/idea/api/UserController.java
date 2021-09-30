@@ -3,6 +3,7 @@ package org.dneversky.idea.api;
 import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;
 import org.dneversky.idea.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -62,14 +63,17 @@ public class UserController {
         return ResponseEntity.ok(userServiceImpl.getUserByUsername(principal.getName()));
     }
 
-    @PatchMapping("/password")
-    public ResponseEntity<?> changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, Principal principal) {
-        if(!userServiceImpl.verifyOldPassword(principal.getName(), oldPassword)) {
+    @PatchMapping("/{username}/password")
+    public ResponseEntity<?> changePassword(@PathVariable String username,
+                                            @Valid @RequestBody PasswordChangeRequest passwordChangeRequest) {
+
+        if(!userServiceImpl.verifyOldPassword(username, passwordChangeRequest.getCurrentPassword())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("старый пароль не совпадает с текущим");
-        } else if(userServiceImpl.verifyNewPassword(principal.getName(), newPassword)) {
+        } else if(userServiceImpl.verifyNewPassword(username, passwordChangeRequest.getNewPassword())) {
             return ResponseEntity.status(HttpStatus.FOUND).body("новый пароль эквивалентен текущему");
         }
-        userServiceImpl.changePassword(principal.getName(), newPassword);
+
+        userServiceImpl.patchPassword(username, passwordChangeRequest);
 
         return ResponseEntity.ok().build();
     }
