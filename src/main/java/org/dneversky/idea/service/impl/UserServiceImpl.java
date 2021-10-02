@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,9 +89,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User updateUser(Long id, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
-        User user = userRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("User with id " + id + " not found in the database."));
+    public User updateUser(String username, UserPrincipal userPrincipal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
         if(removeAvatar) {
             removeAvatar(user);
@@ -108,7 +107,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(Long id, UserPrincipal userPrincipal) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("User with id " + id + " not found in the database."));
 
@@ -118,6 +117,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("User {} deleted.", user.getUsername());
     }
 
+    @Override
     public void deleteNotificationById(int id, User user) {
         user.getNotifications().remove(notificationRepository.findById(id));
 
@@ -139,15 +139,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void patchPassword(String username, PasswordChangeRequest passwordChangeRequest) {
+    public void patchPassword(String username, UserPrincipal userPrincipal, PasswordChangeRequest passwordChangeRequest) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-//        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setPassword(passwordEncoder.encode(passwordChangeRequest.getNewPassword()));
 
         userRepository.save(user);
     }
 
+    @Override
     public void blockUser(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
@@ -157,6 +158,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.save(user);
     }
 
+    @Override
     public void unblockUser(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
@@ -166,6 +168,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.save(user);
     }
 
+    @Override
     public void changeRoles(String username, Set<Role> roles) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));

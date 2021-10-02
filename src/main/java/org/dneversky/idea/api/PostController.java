@@ -5,6 +5,7 @@ import org.dneversky.idea.payload.PostRequest;
 import org.dneversky.idea.service.impl.PostServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,18 +27,21 @@ public class PostController {
         return ResponseEntity.ok(postServiceImpl.getAllPosts());
     }
 
+    @Secured({"ADMIN", "SUPER_ADMIN"})
     @PostMapping
     public ResponseEntity<Post> savePost(@RequestBody @Valid PostRequest postRequest) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(postServiceImpl.savePost(postRequest));
     }
 
+    @Secured({"ADMIN", "SUPER_ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable Integer id, @RequestBody @Valid PostRequest postRequest) {
 
         return ResponseEntity.ok(postServiceImpl.updatePost(id, postRequest));
     }
 
+    @Secured({"ADMIN", "SUPER_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePost(@PathVariable Integer id) {
         postServiceImpl.deletePost(id);

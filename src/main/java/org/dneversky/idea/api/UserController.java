@@ -5,9 +5,12 @@ import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;
+import org.dneversky.idea.security.CurrentUser;
+import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,18 +38,19 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.saveUser(user));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id,
+    @PutMapping("/{username}")
+    public ResponseEntity<User> update(@PathVariable String username,
+                                       @CurrentUser UserPrincipal userPrincipal,
                                        @RequestPart("user") @Valid UserRequest userRequest,
                                        @RequestPart(name = "avatar", required = false) MultipartFile avatar,
                                        @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
 
-        return ResponseEntity.ok(userServiceImpl.updateUser(id, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
+        return ResponseEntity.ok(userServiceImpl.updateUser(username, userPrincipal, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        userServiceImpl.deleteUser(id);
+    public ResponseEntity<?> delete(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+        userServiceImpl.deleteUser(id, userPrincipal);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -58,13 +62,14 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public ResponseEntity<User> getCurrentUser(Principal principal) {
+    public ResponseEntity<User> getCurrentUser(@CurrentUser UserPrincipal principal) {
 
-        return ResponseEntity.ok(userServiceImpl.getUserByUsername(principal.getName()));
+        return ResponseEntity.ok(userServiceImpl.getUserByUsername(principal.getUsername()));
     }
 
     @PatchMapping("/{username}/password")
     public ResponseEntity<?> changePassword(@PathVariable String username,
+                                            @CurrentUser UserPrincipal userPrincipal,
                                             @Valid @RequestBody PasswordChangeRequest passwordChangeRequest) {
 
         if(!userServiceImpl.verifyOldPassword(username, passwordChangeRequest.getCurrentPassword())) {
@@ -73,11 +78,12 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FOUND).body("новый пароль эквивалентен текущему");
         }
 
-        userServiceImpl.patchPassword(username, passwordChangeRequest);
+        userServiceImpl.patchPassword(username, userPrincipal, passwordChangeRequest);
 
         return ResponseEntity.ok().build();
     }
 
+    @Secured({"ADMIN", "SUPER_ADMIN"})
     @PatchMapping("/{username}/block")
     public ResponseEntity<?> blockUser(@PathVariable String username) {
         userServiceImpl.blockUser(username);
@@ -85,6 +91,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @Secured({"ADMIN", "SUPER_ADMIN"})
     @PatchMapping("/{username}/unblock")
     public ResponseEntity<?> unblockUser(@PathVariable String username) {
         userServiceImpl.unblockUser(username);
@@ -92,6 +99,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @Secured("SUPER_ADMIN")
     @PatchMapping("/{username}/roles")
     public ResponseEntity<?> changeRoles(@PathVariable String username, @RequestBody Set<Role> roles) {
         userServiceImpl.changeRoles(username, roles);

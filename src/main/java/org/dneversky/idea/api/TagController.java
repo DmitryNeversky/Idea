@@ -5,6 +5,7 @@ import org.dneversky.idea.payload.TagRequest;
 import org.dneversky.idea.service.impl.TagServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,18 +39,21 @@ public class TagController {
         return ResponseEntity.ok(tagServiceImpl.getTag(name));
     }
 
+    @Secured({"ADMIN", "SUPER_ADMIN"})
     @PostMapping
     public ResponseEntity<Tag> saveTag(@RequestBody @Valid TagRequest tagRequest) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(tagServiceImpl.saveTag(tagRequest));
     }
 
+    @Secured({"ADMIN", "SUPER_ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<Tag> updateTag(@PathVariable Integer id, @RequestBody @Valid TagRequest tagRequest) {
 
         return ResponseEntity.ok(tagServiceImpl.updateTag(id, tagRequest));
     }
 
+    @Secured({"ADMIN", "SUPER_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTag(@PathVariable Integer id) {
         tagServiceImpl.deleteTag(id);
