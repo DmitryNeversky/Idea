@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;
 import org.dneversky.idea.repository.NotificationRepository;
@@ -89,32 +90,42 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User updateUser(String username, UserPrincipal userPrincipal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+    public User updateUser(String username, UserPrincipal principal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
+        if(principal.getUsername().equals(username) || principal.isAdmin()) {
 
-        if(removeAvatar) {
-            removeAvatar(user);
-        } uploadAvatar(user, avatar);
+            User user = userRepository.findByUsername(username).orElseThrow(
+                    () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-        user.setName(userRequest.getName());
-        user.setPhone(userRequest.getPhone());
-        user.setBirthday(userRequest.getBirthday());
-        user.setCity(userRequest.getCity());
-        user.setAbout(userRequest.getAbout());
+            if (removeAvatar) {
+                removeAvatar(user);
+            }
+            uploadAvatar(user, avatar);
 
-        return userRepository.save(user);
+            user.setName(userRequest.getName());
+            user.setPhone(userRequest.getPhone());
+            user.setBirthday(userRequest.getBirthday());
+            user.setCity(userRequest.getCity());
+            user.setAbout(userRequest.getAbout());
+
+            return userRepository.save(user);
+        }
+
+        throw new PermissionException("You don't have permission to update a profile of user with username " + username + ".");
     }
 
     @Override
-    public void deleteUser(Long id, UserPrincipal userPrincipal) {
-        User user = userRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("User with id " + id + " not found in the database."));
+    public void deleteUser(String username, UserPrincipal userPrincipal) {
+        if(userPrincipal.getUsername().equals(username) || userPrincipal.isAdmin()) {
+            User user = userRepository.findByUsername(username).orElseThrow(
+                    () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-        removeAvatar(user);
+            removeAvatar(user);
 
-        userRepository.delete(user);
-        log.info("User {} deleted.", user.getUsername());
+            userRepository.delete(user);
+            log.info("User {} deleted.", user.getUsername());
+        }
+
+        throw new PermissionException("You don't have permission to delete user with username " + username + ".");
     }
 
     @Override
@@ -140,12 +151,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void patchPassword(String username, UserPrincipal userPrincipal, PasswordChangeRequest passwordChangeRequest) {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+        if(userPrincipal.getUsername().equals(username) || userPrincipal.isAdmin()) {
+            User user = userRepository.findByUsername(username).orElseThrow(
+                    () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-        user.setPassword(passwordEncoder.encode(passwordChangeRequest.getNewPassword()));
+            user.setPassword(passwordEncoder.encode(passwordChangeRequest.getNewPassword()));
 
-        userRepository.save(user);
+            userRepository.save(user);
+        }
+
+        throw new PermissionException("You don't have permission to change the password of user with username " + username + ".");
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.dneversky.idea.payload.IdeaRequest;
 import org.dneversky.idea.service.impl.IdeaServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,6 +62,7 @@ public class IdeaController {
         return ResponseEntity.ok(ideaServiceImpl.getIdea(id));
     }
 
+    @Secured({"ADMIN", "SUPER_ADMIN"})
     @PatchMapping("/{id}/status")
     public ResponseEntity<Idea> changeStatus(@PathVariable Long id, @RequestBody String status) {
 

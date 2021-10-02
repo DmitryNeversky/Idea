@@ -20,9 +20,9 @@ public interface UserService {
 
     User saveUser(User user);
 
-    User updateUser(String username, UserPrincipal userPrincipal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
+    User updateUser(String username, UserPrincipal principal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
 
-    void deleteUser(Long id, UserPrincipal userPrincipal);
+    void deleteUser(String username, UserPrincipal userPrincipal);
 
     void patchPassword(String username, UserPrincipal userPrincipal, PasswordChangeRequest passwordChangeRequest);
 

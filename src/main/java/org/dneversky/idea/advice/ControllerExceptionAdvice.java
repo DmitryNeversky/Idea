@@ -1,5 +1,6 @@
 package org.dneversky.idea.advice;
 
+import org.dneversky.idea.exception.PermissionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -31,5 +32,10 @@ public class ControllerExceptionAdvice {
                 .map(FieldError::getDefaultMessage).collect(Collectors.toList());
 
         return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PermissionException.class)
+    public ResponseEntity<?> handlePermissionException(PermissionException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
     }
 }

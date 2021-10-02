@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -47,55 +48,83 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Disabled
-    void getUser() {
-    }
-
-    @Test
-    void getUserByUsername() {
-        // given
+    void getExistedUserByUsername() {
         given(userRepository.findByUsername(USER.getUsername())).willReturn(Optional.of(USER));
 
-        // when
         userService.getUserByUsername(USER.getUsername());
 
-        // then
         then(userRepository).should().findByUsername(USER.getUsername());
     }
 
     @Test
-    void saveUser() {
-        // given
+    void getNotExistedUserByUsername() {
+        willThrow(new EntityNotFoundException()).given(userRepository).findByUsername(anyString());
+
+        try {
+            userService.getUserByUsername(anyString());
+            fail("Should be throwing...");
+        } catch (EntityNotFoundException ignored) { }
+
+        then(userRepository).should().findByUsername(anyString());
+    }
+
+    @Test
+    void getExistedUserById() {
+        given(userRepository.findById(1L)).willReturn(Optional.of(USER));
+
+        userService.getUser(1L);
+
+        then(userRepository).should().findById(1L);
+    }
+
+    @Test
+    void getNotExistedUserById() {
+        willThrow(new EntityNotFoundException()).given(userRepository).findById(anyLong());
+
+        try {
+            userService.getUser(anyLong());
+            fail("Should be throwing...");
+        } catch (EntityNotFoundException ignored) { }
+
+        then(userRepository).should().findById(anyLong());
+    }
+
+    @Test
+    void saveNotExistedUser() {
         given(userRepository.save(USER)).willReturn(USER);
 
-        // when
         userService.saveUser(USER);
 
-        // then
+        then(userRepository).should().save(USER);
+    }
+
+    @Test
+    void saveExistedUser() {
+        willThrow(new EntityExistsException()).given(userRepository).save(USER);
+
+        try {
+            userService.saveUser(USER);
+            fail("Should be throwing...");
+        } catch (EntityExistsException ignored) { }
+
         then(userRepository).should().save(USER);
     }
 
     @Test
     @Disabled
-    void saveExistsUser() {
-        given(userRepository.findByUsername(USER.getUsername())).willReturn(Optional.of(USER));
-        willThrow(new EntityExistsException()).given(userRepository).save(USER);
+    void updateExistedUser() {
 
-        try {
-            userService.saveUser(USER);
-            fail("Should throw exception");
-        } catch (EntityExistsException ignored) {}
-
-        then(userRepository).should(never()).save(USER);
     }
 
     @Test
     @Disabled
-    void updateUser() {
+    void updateNotExistedUser() {
     }
 
     @Test
     @Disabled
-    void deleteUser() {
+    void deleteExistedUser() {
+
+        then(userRepository).should().delete(USER);
     }
 }

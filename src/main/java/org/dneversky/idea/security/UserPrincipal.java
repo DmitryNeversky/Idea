@@ -68,4 +68,12 @@ public class UserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+    public boolean isAdmin() {
+        return this.authorities.stream().anyMatch(a -> a.getAuthority().equals("ADMIN"));
+    }
+
+    public boolean isSuperAdmin() {
+        return this.authorities.stream().anyMatch(a -> a.getAuthority().equals("SUPER_ADMIN"));
+    }
 }
