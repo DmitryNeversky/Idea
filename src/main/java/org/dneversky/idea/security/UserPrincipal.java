@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
+    private final Long id;
+
     private final String username;
     private final String password;
     private final Set<GrantedAuthority> authorities;
@@ -20,7 +22,8 @@ public class UserPrincipal implements UserDetails {
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
 
-    public UserPrincipal(String username, String password, Set<Role> roles, boolean enabled) {
+    public UserPrincipal(Long id, String username, String password, Set<Role> roles, boolean enabled) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
@@ -69,8 +72,15 @@ public class UserPrincipal implements UserDetails {
         return enabled;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public boolean isAdmin() {
-        return this.authorities.stream().anyMatch(a -> a.getAuthority().equals("ADMIN"));
+        return this.authorities.stream().anyMatch(a ->
+                a.getAuthority().equals("ADMIN") ||
+                a.getAuthority().equals("SUPER_ADMIN")
+        );
     }
 
     public boolean isSuperAdmin() {

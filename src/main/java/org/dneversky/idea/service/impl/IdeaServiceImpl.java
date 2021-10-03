@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.dneversky.idea.repository.UserRepository;
+import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.IdeaService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,7 +53,7 @@ public class IdeaServiceImpl implements IdeaService {
 
     @Override
     public Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages,
-                         List<MultipartFile> addFiles, String username) {
+                         List<MultipartFile> addFiles, UserPrincipal principal) {
 
         Idea idea = new Idea();
         idea.setTitle(ideaRequest.getTitle());
@@ -63,8 +65,8 @@ public class IdeaServiceImpl implements IdeaService {
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
 
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found."));
+        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found."));
 
         user.getIdeas().add(idea);
 
@@ -74,55 +76,65 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea updateIdea(Long id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles) {
+    public Idea updateIdea(Long id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
 
-        idea.setTitle(ideaRequest.getTitle());
-        idea.setBody(ideaRequest.getBody());
-        idea.setTags(ideaRequest.getTags());
+        if(principal.getUsername().equals(idea.getAuthor().getUsername()) || principal.isAdmin()) {
 
-        removeImages(idea, ideaRequest.getRemoveImages());
-        removeFiles(idea, ideaRequest.getRemoveFiles());
+            idea.setTitle(ideaRequest.getTitle());
+            idea.setBody(ideaRequest.getBody());
+            idea.setTags(ideaRequest.getTags());
 
-        uploadImages(idea, addImages);
-        uploadFiles(idea, addFiles);
+            removeImages(idea, ideaRequest.getRemoveImages());
+            removeFiles(idea, ideaRequest.getRemoveFiles());
 
-        return ideaRepository.save(idea);
+            uploadImages(idea, addImages);
+            uploadFiles(idea, addFiles);
+
+            return ideaRepository.save(idea);
+        }
+
+        throw new PermissionException("You don't have permissions to update this Idea.");
     }
 
     @Override
-    public void deleteIdea(Long id) {
+    public void deleteIdea(Long id, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
 
-        removeImages(idea, idea.getImages());
-        removeFiles(idea, idea.getFiles().keySet());
+        if(principal.getUsername().equals(idea.getAuthor().getUsername()) || principal.isAdmin()) {
+            removeImages(idea, idea.getImages());
+            removeFiles(idea, idea.getFiles().keySet());
 
-        idea.getAuthor().getIdeas().remove(idea); // ?
+            idea.getAuthor().getIdeas().remove(idea); // ?
 
-        ideaRepository.delete(idea);
+            ideaRepository.delete(idea);
+        }
+
+        throw new PermissionException("You don't have permissions to delete this Idea.");
     }
 
     @Override
-    public Idea changeStatus(Long id, Status status) {
+    public Idea changeStatus(Long id, Status status, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
 
-        idea.setStatus(status);
+        if(principal.isAdmin()) {
+            idea.setStatus(status);
+            return ideaRepository.save(idea);
+        }
 
-        return ideaRepository.save(idea);
+        throw new PermissionException("You don't have permissions to change status for this Idea.");
     }
 
     @Override
-    public Idea addLook(Long id, String username) {
+    public Idea addLook(Long id, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found."));
 
-        if(!idea.getLookedUsers().contains(user.getId())) {
-            idea.getLookedUsers().add(user.getId());
+        if(!idea.getLookedUsers().contains(principal.getId())) {
+            idea.getLookedUsers().add(principal.getId());
 
             ideaRepository.save(idea);
         }
@@ -131,11 +143,11 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea addRating(Long id, String username) {
+    public Idea addRating(Long id, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found."));
+        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found."));
 
         if(idea.getRatedUsers().contains(user)) {
             idea.getRatedUsers().remove(user);
@@ -147,11 +159,11 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea reduceRating(Long id, String username) {
+    public Idea reduceRating(Long id, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found."));
+        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found."));
 
         if(idea.getUnratedUsers().contains(user)) {
             idea.getUnratedUsers().remove(user);

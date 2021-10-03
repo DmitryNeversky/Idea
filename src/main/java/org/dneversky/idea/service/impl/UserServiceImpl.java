@@ -2,6 +2,7 @@ package org.dneversky.idea.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dneversky.idea.entity.Notification;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.exception.PermissionException;
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User with username " + username + " not found in the database."));
 
-        return new UserPrincipal(user.getUsername(), user.getPassword(), user.getRoles(), user.isEnabled());
+        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getRoles(), user.isEnabled());
     }
 
     @Override
@@ -129,8 +130,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteNotificationById(int id, User user) {
-        user.getNotifications().remove(notificationRepository.findById(id));
+    public void deleteNotificationById(Integer id, UserPrincipal principal) {
+        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found in the database."));
+        Notification notification = notificationRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Notification with id " + id + " not found."));
+
+        user.getNotifications().remove(notification);
 
         userRepository.save(user);
     }
@@ -164,33 +170,45 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void blockUser(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+    public void blockUser(String username, UserPrincipal principal) {
+        if(principal.isAdmin()) {
+            User user = userRepository.findByUsername(username).orElseThrow(
+                    () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-        user.setEnabled(false);
+            user.setEnabled(false);
 
-        userRepository.save(user);
+            userRepository.save(user);
+        }
+
+        throw new PermissionException("You don't have permission to block user with username " + username + ".");
     }
 
     @Override
-    public void unblockUser(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+    public void unblockUser(String username, UserPrincipal principal) {
+        if(principal.isAdmin()) {
+            User user = userRepository.findByUsername(username).orElseThrow(
+                    () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-        user.setEnabled(true);
+            user.setEnabled(true);
 
-        userRepository.save(user);
+            userRepository.save(user);
+        }
+
+        throw new PermissionException("You don't have permission to unblock user with username " + username + ".");
     }
 
     @Override
-    public void changeRoles(String username, Set<Role> roles) {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+    public void changeRoles(String username, Set<Role> roles, UserPrincipal principal) {
+        if(principal.isSuperAdmin()) {
+            User user = userRepository.findByUsername(username).orElseThrow(
+                    () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-        user.setRoles(roles);
+            user.setRoles(roles);
 
-        userRepository.save(user);
+            userRepository.save(user);
+        }
+
+        throw new PermissionException("You don't have permission to change roles for user with username " + username + ".");
     }
 
     private void uploadAvatar(User user, MultipartFile avatar) {

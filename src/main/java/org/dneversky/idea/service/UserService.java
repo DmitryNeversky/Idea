@@ -26,11 +26,11 @@ public interface UserService {
 
     void patchPassword(String username, UserPrincipal userPrincipal, PasswordChangeRequest passwordChangeRequest);
 
-    void deleteNotificationById(int id, User user);
+    void deleteNotificationById(Integer id, UserPrincipal userPrincipal);
 
-    void blockUser(String username);
+    void blockUser(String username, UserPrincipal userPrincipal);
 
-    void unblockUser(String username);
+    void unblockUser(String username, UserPrincipal userPrincipal);
 
-    void changeRoles(String username, Set<Role> roles);
+    void changeRoles(String username, Set<Role> roles, UserPrincipal userPrincipal);
 }

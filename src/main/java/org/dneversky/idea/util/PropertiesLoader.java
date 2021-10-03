@@ -1,4 +1,4 @@
-package org.dneversky.idea;
+package org.dneversky.idea.util;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -85,31 +84,33 @@ public class UserController {
 
     @Secured({"ADMIN", "SUPER_ADMIN"})
     @PatchMapping("/{username}/block")
-    public ResponseEntity<?> blockUser(@PathVariable String username) {
-        userServiceImpl.blockUser(username);
+    public ResponseEntity<?> blockUser(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal) {
+        userServiceImpl.blockUser(username, userPrincipal);
 
         return ResponseEntity.ok().build();
     }
 
     @Secured({"ADMIN", "SUPER_ADMIN"})
     @PatchMapping("/{username}/unblock")
-    public ResponseEntity<?> unblockUser(@PathVariable String username) {
-        userServiceImpl.unblockUser(username);
+    public ResponseEntity<?> unblockUser(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal) {
+        userServiceImpl.unblockUser(username, userPrincipal);
 
         return ResponseEntity.ok().build();
     }
 
     @Secured("SUPER_ADMIN")
     @PatchMapping("/{username}/roles")
-    public ResponseEntity<?> changeRoles(@PathVariable String username, @RequestBody Set<Role> roles) {
-        userServiceImpl.changeRoles(username, roles);
+    public ResponseEntity<?> changeRoles(@PathVariable String username,
+                                         @RequestBody Set<Role> roles,
+                                         @CurrentUser UserPrincipal userPrincipal) {
+        userServiceImpl.changeRoles(username, roles, userPrincipal);
 
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/notification/{id}")
-    public ResponseEntity<?> deleteNotification(@PathVariable Integer id, Principal principal) {
-        userServiceImpl.deleteNotificationById(id, userServiceImpl.getUserByUsername(principal.getName()));
+    public ResponseEntity<?> deleteNotification(@PathVariable Integer id, @CurrentUser UserPrincipal userPrincipal) {
+        userServiceImpl.deleteNotificationById(id, userPrincipal);
 
         return ResponseEntity.ok().build();
     }
