@@ -18,10 +18,6 @@ public class UserPrincipal implements UserDetails {
     private final Set<GrantedAuthority> authorities;
     private final boolean enabled;
 
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-
     public UserPrincipal(Long id, String username, String password, Set<Role> roles, boolean enabled) {
         this.id = id;
         this.username = username;

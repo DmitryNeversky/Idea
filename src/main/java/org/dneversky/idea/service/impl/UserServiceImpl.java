@@ -13,9 +13,6 @@ import org.dneversky.idea.repository.UserRepository;
 import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +35,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     @Value("${uploadPath}")
     private String UPLOAD_PATH;
@@ -47,14 +44,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final NotificationRepository notificationRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleServiceImpl roleServiceImpl;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("User with username " + username + " not found in the database."));
-
-        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getRoles(), user.isEnabled());
-    }
 
     @Override
     public List<User> getAllUsers() {
@@ -92,10 +81,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User updateUser(String username, UserPrincipal principal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
-        if(principal.getUsername().equals(username) || principal.isAdmin()) {
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
-            User user = userRepository.findByUsername(username).orElseThrow(
-                    () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+        if(principal.getUsername().equals(username) || principal.isAdmin()) {
 
             if (removeAvatar) {
                 removeAvatar(user);
@@ -116,9 +105,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void deleteUser(String username, UserPrincipal userPrincipal) {
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+
         if(userPrincipal.getUsername().equals(username) || userPrincipal.isAdmin()) {
-            User user = userRepository.findByUsername(username).orElseThrow(
-                    () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
             removeAvatar(user);
 
@@ -199,9 +189,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void changeRoles(String username, Set<Role> roles, UserPrincipal principal) {
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+
         if(principal.isSuperAdmin()) {
-            User user = userRepository.findByUsername(username).orElseThrow(
-                    () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
 
             user.setRoles(roles);
 
