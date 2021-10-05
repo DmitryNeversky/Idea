@@ -114,6 +114,8 @@ public class UserServiceImpl implements UserService {
 
             userRepository.delete(user);
             log.info("User {} deleted.", user.getUsername());
+
+            return;
         }
 
         throw new PermissionException("You don't have permission to delete user with username " + username + ".");

@@ -6,6 +6,7 @@ import org.dneversky.idea.payload.IdeaRequest;
 import org.dneversky.idea.security.CurrentUser;
 import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.impl.IdeaServiceImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -29,6 +30,16 @@ public class IdeaController {
     public ResponseEntity<List<Idea>> getIdeas() {
 
         return ResponseEntity.ok(ideaServiceImpl.getAllIdeas());
+    }
+
+    @GetMapping("/pag")
+    public ResponseEntity<Page<Idea>> getPageIdeas(
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "5") Integer size,
+            @RequestParam(required = false, defaultValue = "ASC") String sortDirection,
+            @RequestParam(required = false, defaultValue = "createdDate") String sortBy) {
+
+        return ResponseEntity.ok(ideaServiceImpl.getIdeas(page, size, sortDirection, sortBy));
     }
 
     @PostMapping

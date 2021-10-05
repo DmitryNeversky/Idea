@@ -3,6 +3,7 @@ package org.dneversky.idea.service.impl;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.UserRepository;
+import org.dneversky.idea.security.UserPrincipal;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -18,7 +20,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +28,7 @@ import static org.mockito.BDDMockito.*;
 class UserServiceImplTest {
 
     private final User USER = new User("e@e", "123");
+    private final UserPrincipal userPrincipal = new UserPrincipal(null, "e@e", "123", null, true);
 
     @Spy
     private UserRepository userRepository;
@@ -58,14 +61,13 @@ class UserServiceImplTest {
 
     @Test
     void getNotExistedUserByUsername() {
-        willThrow(new EntityNotFoundException()).given(userRepository).findByUsername(anyString());
+        given(userRepository.findByUsername(USER.getUsername())).willReturn(Optional.empty());
 
-        try {
-            userService.getUserByUsername(anyString());
-            fail("Should be throwing...");
-        } catch (EntityNotFoundException ignored) { }
+        assertThatThrownBy(() -> userService.getUserByUsername(USER.getUsername()))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("User with username " + USER.getUsername() + " not found in the database.");
 
-        then(userRepository).should().findByUsername(anyString());
+        verify(userRepository, atLeastOnce()).findByUsername(USER.getUsername());
     }
 
     @Test
@@ -79,14 +81,13 @@ class UserServiceImplTest {
 
     @Test
     void getNotExistedUserById() {
-        willThrow(new EntityNotFoundException()).given(userRepository).findById(anyLong());
+        given(userRepository.findById(USER.getId())).willReturn(Optional.empty());
 
-        try {
-            userService.getUser(anyLong());
-            fail("Should be throwing...");
-        } catch (EntityNotFoundException ignored) { }
+        assertThatThrownBy(() -> userService.getUser(USER.getId()))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("User with id " + USER.getId() + " not found in the database.");
 
-        then(userRepository).should().findById(anyLong());
+        verify(userRepository, atLeastOnce()).findById(USER.getId());
     }
 
     @Test
@@ -100,14 +101,13 @@ class UserServiceImplTest {
 
     @Test
     void saveExistedUser() {
-        willThrow(new EntityExistsException()).given(userRepository).save(USER);
+        given(userRepository.findByUsername(USER.getUsername())).willReturn(Optional.of(USER));
 
-        try {
-            userService.saveUser(USER);
-            fail("Should be throwing...");
-        } catch (EntityExistsException ignored) { }
+        assertThatThrownBy(() -> userService.saveUser(USER))
+                .isInstanceOf(EntityExistsException.class)
+                .hasMessageContaining("User with username " + USER.getUsername() + " already exists.");
 
-        then(userRepository).should().save(USER);
+        verify(userRepository, never()).save(any());
     }
 
     @Test
@@ -122,9 +122,30 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Disabled
     void deleteExistedUser() {
+        given(userRepository.findByUsername(USER.getUsername())).willReturn(Optional.of(USER));
 
-        then(userRepository).should().delete(USER);
+        userService.deleteUser(USER.getUsername(), userPrincipal);
+
+        verify(userRepository).delete(USER);
+    }
+
+    @Test
+    void deleteUnExistedIfCurrentUser() {
+        assertThatThrownBy(() -> userService.deleteUser(USER.getUsername(), any()))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("User with username " + USER.getUsername() + " not found in the database.");
+
+        verify(userRepository, never()).delete(USER);
+    }
+
+    @Test
+    @Disabled
+    void deleteUnExistedIfAdmin() {
+        assertThatThrownBy(() -> userService.deleteUser(USER.getUsername(), userPrincipal))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("User with username " + USER.getUsername() + " not found in the database.");
+
+        verify(userRepository, never()).delete(USER);
     }
 }

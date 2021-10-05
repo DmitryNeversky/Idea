@@ -12,6 +12,9 @@ import org.dneversky.idea.repository.UserRepository;
 import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.IdeaService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +45,14 @@ public class IdeaServiceImpl implements IdeaService {
     public List<Idea> getAllIdeas() {
 
         return ideaRepository.findAll();
+    }
+
+    @Override
+    public Page<Idea> getIdeas(Integer page, Integer size, String sortDirection, String sortBy) {
+
+        return ideaRepository.findAll(
+                PageRequest.of(page, size, Sort.Direction.valueOf(sortDirection), sortBy)
+        );
     }
 
     @Override
