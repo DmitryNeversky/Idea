@@ -152,12 +152,12 @@
       <version>2.13.0-rc2</version>
     </dependency>
 
-    <!--    &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail &ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-starter-mail</artifactId>-->
-<!--      <version>${spring.boot.starter}</version>-->
-<!--    </dependency>-->
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-mail</artifactId>
+      <version>${spring.boot.starter}</version>
+    </dependency>
 
 <!--    &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-json &ndash;&gt;-->
 <!--    <dependency>-->
