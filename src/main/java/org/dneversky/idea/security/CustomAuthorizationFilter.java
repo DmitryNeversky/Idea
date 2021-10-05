@@ -52,7 +52,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     UserPrincipal userPrincipal = (UserPrincipal) userDetailsService.loadUserByUsername(username);
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userPrincipal, null, authorities);
-                    log.info(userPrincipal.getUsername());
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
                 } catch (Exception exception) {

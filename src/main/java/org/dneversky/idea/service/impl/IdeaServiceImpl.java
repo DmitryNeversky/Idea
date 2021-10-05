@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.exception.BadArgumentException;
 import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
@@ -26,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -48,7 +50,23 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Page<Idea> getIdeas(Integer page, Integer size, String sortDirection, String sortBy) {
+    public Page<Idea> getPagedIdeas(Integer page, Integer size, String sortDirection, String sortBy) {
+
+        if(page < 0) {
+            throw new BadArgumentException("Argument 'page' must not be less than 0.");
+        }
+
+        if(size < 1) {
+            throw new BadArgumentException("Argument 'size' must not be less than 1.");
+        }
+
+        if(!sortDirection.equals("ASC") && !sortDirection.equals("DESC")) {
+            throw new BadArgumentException("Argument 'direction' must be equals to 'ASC' or 'DESC'.");
+        }
+
+        if(Arrays.stream(Idea.class.getDeclaredFields()).noneMatch(f -> f.getName().equals(sortBy))) {
+            throw new BadArgumentException("Argument 'sortBy' must to have existed field.");
+        }
 
         return ideaRepository.findAll(
                 PageRequest.of(page, size, Sort.Direction.valueOf(sortDirection), sortBy)
