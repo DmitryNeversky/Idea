@@ -1,7 +1,9 @@
-FROM tomcat:8.0-alpine
+FROM alpine
 
-ADD ./target/idea.war /usr/local/tomcat/webapps
+RUN apk add openjdk8
 
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+COPY target/app.jar /app.jar
+
+CMD ["java", "-jar", "/app.jar"]
