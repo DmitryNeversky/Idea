@@ -1,5 +1,6 @@
 package org.dneversky.idea.advice;
 
+import org.dneversky.idea.exception.BadArgumentException;
 import org.dneversky.idea.exception.PermissionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +38,10 @@ public class ControllerExceptionAdvice {
     @ExceptionHandler(PermissionException.class)
     public ResponseEntity<?> handlePermissionException(PermissionException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(BadArgumentException.class)
+    public ResponseEntity<?> handleBadArgumentException(BadArgumentException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

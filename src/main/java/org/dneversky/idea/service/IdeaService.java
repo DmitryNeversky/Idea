@@ -13,7 +13,7 @@ public interface IdeaService {
 
     List<Idea> getAllIdeas();
 
-    Page<Idea> getIdeas(Integer page, Integer size, String sortDirection, String sortBy);
+    Page<Idea> getPagedIdeas(Integer page, Integer size, String sortDirection, String sortBy);
 
     Idea getIdea(Long id);
 
