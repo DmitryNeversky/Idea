@@ -44,9 +44,9 @@ kind: Service
 metadata:
   name: idea-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
-    app: webapp
+    app: idea-app
   ports:
   - port: 80
     targetPort: 8080
@@ -82,18 +82,19 @@ spec:
           #   limits:
           #     cpu: 50m
           #     memory: 50Mi
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: idea-ingress
-# spec:
-#   rules:
-#   - http:
-#       paths:
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: web-dep
-#             port:
-#               number: 8080
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: idea-ingress
+spec:
+  rules:
+  - host: idea-app
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: idea-service
+            port:
+              number: 8080
