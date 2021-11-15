@@ -67,11 +67,12 @@ export class SecureComponent implements OnInit {
     if(!this.passwordForm.valid)
       return;
 
-    const formData = new FormData();
-    formData.append('oldPassword', this.passwordForm.get('oldPassword').value);
-    formData.append('newPassword', this.passwordForm.get('newPassword').value);
+    let payload: object = {
+      currentPassword: this.passwordForm.get("oldPassword").value,
+      newPassword: this.passwordForm.get("newPassword").value
+    }
 
-    this.userService.changePassword(formData).subscribe(() => {
+    this.userService.changePassword(this.user.username, payload).subscribe(() => {
       this.authService.logout();
       this.snackBar.success('Пароль успешно изменен!');
       this.passwordError = null;

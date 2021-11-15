@@ -77,7 +77,7 @@ public class IdeaServiceImpl implements IdeaService {
     public Idea getIdea(Long id) {
 
         return ideaRepository.findById(id).orElseThrow(()
-                -> new EntityNotFoundException("Entity Idea with id " + id + "not found."));
+                -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
     }
 
     @Override
@@ -139,6 +139,8 @@ public class IdeaServiceImpl implements IdeaService {
             idea.getAuthor().getIdeas().remove(idea); // ?
 
             ideaRepository.delete(idea);
+
+            return;
         }
 
         throw new PermissionException("You don't have permissions to delete this Idea.");
@@ -212,7 +214,7 @@ public class IdeaServiceImpl implements IdeaService {
                 String fileName = java.util.UUID.randomUUID() + "_"
                         + StringUtils.cleanPath(Objects.requireNonNull(pair.getOriginalFilename()));
                 try {
-                    Path path = Paths.get(UPLOAD_PATH + "/images/" + fileName);
+                    Path path = Paths.get(UPLOAD_PATH + "images/" + fileName);
                     Files.copy(pair.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                     idea.getImages().add(fileName);
                 } catch (IOException e) {

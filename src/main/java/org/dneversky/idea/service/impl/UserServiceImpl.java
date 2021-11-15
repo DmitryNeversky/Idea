@@ -156,6 +156,8 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(passwordChangeRequest.getNewPassword()));
 
             userRepository.save(user);
+
+            return;
         }
 
         throw new PermissionException("You don't have permission to change the password of user with username " + username + ".");
@@ -205,7 +207,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void uploadAvatar(User user, MultipartFile avatar) {
-        if (avatar != null) {
+        if (avatar != null && !Objects.requireNonNull(avatar.getOriginalFilename()).isEmpty()) {
             removeAvatar(user);
             String fileName = java.util.UUID.randomUUID() + "_"
                     + StringUtils.cleanPath(Objects.requireNonNull(avatar.getOriginalFilename()));

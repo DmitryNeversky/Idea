@@ -74,7 +74,7 @@ export class ProfileComponent implements OnInit {
     if (this.removeAvatar)
       formData.append('removeAvatar', 'true')
 
-    this.userService.putUser(this.user.id, formData).subscribe((user: User) => {
+    this.userService.putUser(this.user.username, formData).subscribe((user: User) => {
       CurrentUserService.currentUser = user;
       this.user = user;
       this.snackBar.success('Данные изменены!');

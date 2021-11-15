@@ -60,6 +60,12 @@ public class UserController {
         return ResponseEntity.ok((userServiceImpl.getUser(id)));
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<User> getUserById(@PathVariable String username) {
+
+        return ResponseEntity.ok((userServiceImpl.getUserByUsername(username)));
+    }
+
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser(@CurrentUser UserPrincipal principal) {
 

@@ -1,7 +1,5 @@
 import {Injectable, NgZone} from "@angular/core";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
-import {CurrentUserService} from "../../services/current-user.service";
-import {Settings} from "../../models/Settings";
 import {NoticeSetting} from "../../models/settings/NoticeSetting";
 
 @Injectable({
@@ -12,14 +10,9 @@ export class SnackbarService {
     private readonly config: MatSnackBarConfig;
     public settings: NoticeSetting;
 
-    constructor(private snackbar: MatSnackBar, private zone: NgZone, private service: CurrentUserService) {
+    constructor(private snackbar: MatSnackBar, private zone: NgZone) {
         this.config = new MatSnackBarConfig();
         this.config.panelClass = ["snackbar-container"];
-        service.getSettings().subscribe((settings: Settings) => {
-            this.settings = settings.noticeSetting;
-            this.config.horizontalPosition = settings.noticeSetting.horizontalPosition;
-            this.config.verticalPosition = settings.noticeSetting.verticalPosition;
-        });
     }
 
     success(message: string, config?: MatSnackBarConfig) {

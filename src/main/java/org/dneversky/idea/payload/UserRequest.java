@@ -1,6 +1,5 @@
 package org.dneversky.idea.payload;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.dneversky.idea.entity.Post;

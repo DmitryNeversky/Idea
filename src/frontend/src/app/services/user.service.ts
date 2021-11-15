@@ -47,8 +47,8 @@ export class UserService {
     return this.httpClient.post<void>(`${this.apiBaseUrl}/users/code`, formData);
   }
 
-  public changePassword(formData: FormData): Observable<void> {
-    return this.httpClient.patch<void>(`${this.apiBaseUrl}/users/password`, formData);
+  public changePassword(id: number|string, body: object): Observable<void> {
+    return this.httpClient.patch<void>(`${this.apiBaseUrl}/users/${id}/password`, body);
   }
 
   public setNoticeSetting(noticeSetting: NoticeSetting): Observable<void> {
