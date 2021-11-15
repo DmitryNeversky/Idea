@@ -1,6 +1,7 @@
 package org.dneversky.idea.service.impl;
 
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.payload.UserRequest;
 import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.UserRepository;
 import org.dneversky.idea.security.UserPrincipal;
@@ -11,13 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -28,6 +29,7 @@ import static org.mockito.BDDMockito.*;
 class UserServiceImplTest {
 
     private final User USER = new User("e@e", "123");
+    private final UserRequest USER_REQUEST = new UserRequest("Petr Ivanov Alekseev", "9999999999", new Date());
     private final UserPrincipal userPrincipal = new UserPrincipal(null, "e@e", "123", null, true);
 
     @Spy

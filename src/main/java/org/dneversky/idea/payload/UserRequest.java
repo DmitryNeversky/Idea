@@ -32,4 +32,10 @@ public class UserRequest {
     private String about;
 
     private Post post;
+
+    public UserRequest(String name, String phone, Date birthday) {
+        this.name = name;
+        this.phone = phone;
+        this.birthday = birthday;
+    }
 }
