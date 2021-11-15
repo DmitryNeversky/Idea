@@ -1,6 +1,5 @@
 import {Injectable, NgZone} from "@angular/core";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
-import {NoticeSetting} from "../../models/settings/NoticeSetting";
 
 @Injectable({
     providedIn: "root",
@@ -8,22 +7,28 @@ import {NoticeSetting} from "../../models/settings/NoticeSetting";
 export class SnackbarService {
 
     private readonly config: MatSnackBarConfig;
-    public settings: NoticeSetting;
 
     constructor(private snackbar: MatSnackBar, private zone: NgZone) {
         this.config = new MatSnackBarConfig();
         this.config.panelClass = ["snackbar-container"];
+        if(!localStorage.getItem("disabledNotice")) {
+            localStorage.setItem('disabledNotice', 'false');
+            localStorage.setItem('successDuration', '2000');
+            localStorage.setItem('errorDuration', '3000');
+            localStorage.setItem('horizontalPosition', 'start');
+            localStorage.setItem('verticalPosition', 'bottom');
+        }
     }
 
     success(message: string, config?: MatSnackBarConfig) {
         this.config.panelClass = ["snackbar-container", "success"];
-        this.config.duration = this.settings.successDuration;
+        this.config.duration = +localStorage.getItem('successDuration');
         this.show(message, config);
     }
 
     error(message: string = 'Произошел сбой, попробуйте позже.', config?: MatSnackBarConfig) {
         this.config.panelClass = ["snackbar-container", "error"];
-        this.config.duration = this.settings.errorDuration;
+        this.config.duration = +localStorage.getItem('errorDuration');
         this.show(message, config);
     }
 
@@ -33,10 +38,12 @@ export class SnackbarService {
     }
 
     private show(message: string, config?: MatSnackBarConfig) {
-        if(this.settings.disabledNotice)
+        if(localStorage.getItem("disabledNotice") == 'true')
             return;
-        this.config.horizontalPosition = this.settings.horizontalPosition;
-        this.config.verticalPosition = this.settings.verticalPosition;
+        // @ts-ignore
+        this.config.horizontalPosition = localStorage.getItem("horizontalPosition");
+        // @ts-ignore
+        this.config.verticalPosition = localStorage.getItem("verticalPosition");
         config = config || this.config;
         this.zone.run(() => {
             this.snackbar.open(message, null, config);

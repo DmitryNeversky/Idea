@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../models/User";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
-import {NoticeSetting} from "../models/settings/NoticeSetting";
 import {Role} from "../models/Role";
 
 @Injectable({
@@ -49,10 +48,6 @@ export class UserService {
 
   public changePassword(id: number|string, body: object): Observable<void> {
     return this.httpClient.patch<void>(`${this.apiBaseUrl}/users/${id}/password`, body);
-  }
-
-  public setNoticeSetting(noticeSetting: NoticeSetting): Observable<void> {
-    return this.httpClient.put<void>(`${this.apiBaseUrl}/users/settings/notifies`, noticeSetting);
   }
 
   public blockUser(username: string): Observable<void> {

@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {User} from "../../../models/User";
 import {ActivatedRoute} from "@angular/router";
-import {Settings} from "../../../models/Settings";
 import {SnackbarService} from "../../../shared/snackbar/snackbar.service";
 import {UserService} from "../../../services/user.service";
 
@@ -15,21 +14,19 @@ export class NotifiesComponent implements OnInit {
 
   mainForm: FormGroup;
   currentUser: User;
-  settings: Settings;
 
   constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute,
               private userService: UserService, private snackBar: SnackbarService) { }
 
   ngOnInit(): void {
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
-    this.settings = this.currentUser.settings;
 
     this.mainForm = this.formBuilder.group({
-      disabledNotifies: [this.settings.noticeSetting.disabledNotice, []],
-      successDuration: [this.settings.noticeSetting.successDuration, []],
-      errorDuration: [this.settings.noticeSetting.errorDuration, []],
-      horizontalPosition: [this.settings.noticeSetting.horizontalPosition, []],
-      verticalPosition: [this.settings.noticeSetting.verticalPosition, []],
+      disabledNotifies: [localStorage.getItem('disabledNotice'), []],
+      successDuration: [localStorage.getItem('successDuration'), []],
+      errorDuration: [localStorage.getItem('errorDuration'), []],
+      horizontalPosition: [localStorage.getItem('horizontalPosition'), []],
+      verticalPosition: [localStorage.getItem('verticalPosition'), []],
     });
   }
 
@@ -37,28 +34,13 @@ export class NotifiesComponent implements OnInit {
     if(this.mainForm.invalid)
       return;
 
-    this.settings.noticeSetting.disabledNotice = this.mainForm.get('disabledNotifies').value;
-    this.settings.noticeSetting.successDuration = this.mainForm.get('successDuration').value;
-    this.settings.noticeSetting.errorDuration = this.mainForm.get('errorDuration').value;
-    this.settings.noticeSetting.horizontalPosition = this.mainForm.get('horizontalPosition').value;
-    this.settings.noticeSetting.verticalPosition = this.mainForm.get('verticalPosition').value;
+    localStorage.setItem('disabledNotice', this.mainForm.get('disabledNotifies').value);
+    localStorage.setItem('successDuration', this.mainForm.get('successDuration').value);
+    localStorage.setItem('errorDuration', this.mainForm.get('errorDuration').value);
+    localStorage.setItem('horizontalPosition', this.mainForm.get('horizontalPosition').value);
+    localStorage.setItem('verticalPosition', this.mainForm.get('verticalPosition').value);
 
-    this.userService.setNoticeSetting(this.settings.noticeSetting).subscribe(() => {
-      // need refactor
-      this.snackBar.settings = this.settings.noticeSetting;
-      this.snackBar.success('Настройки уведомлений изменены!', {
-        duration: this.settings.noticeSetting.successDuration,
-        horizontalPosition: this.settings.noticeSetting.horizontalPosition,
-        verticalPosition: this.settings.noticeSetting.verticalPosition,
-      });
-    }, error => {
-      console.log(error);
-      this.snackBar.error('Произошел сбой, попробуйте позже.', {
-        duration: this.settings.noticeSetting.errorDuration,
-        horizontalPosition: this.settings.noticeSetting.horizontalPosition,
-        verticalPosition: this.settings.noticeSetting.verticalPosition,
-      });
-    });
+    this.snackBar.success('Настройки уведомлений изменены!');
   }
 
   formatLabel(value: number) {
