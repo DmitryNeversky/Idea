@@ -12,7 +12,7 @@ export class SnackbarService {
         this.config = new MatSnackBarConfig();
         this.config.panelClass = ["snackbar-container"];
         if(!localStorage.getItem("disabledNotice")) {
-            localStorage.setItem('disabledNotice', 'false');
+            localStorage.setItem('disabledNotice', '0');
             localStorage.setItem('successDuration', '2000');
             localStorage.setItem('errorDuration', '3000');
             localStorage.setItem('horizontalPosition', 'start');
@@ -38,7 +38,7 @@ export class SnackbarService {
     }
 
     private show(message: string, config?: MatSnackBarConfig) {
-        if(localStorage.getItem("disabledNotice") == 'true')
+        if(!!+localStorage.getItem("disabledNotice"))
             return;
         // @ts-ignore
         this.config.horizontalPosition = localStorage.getItem("horizontalPosition");
