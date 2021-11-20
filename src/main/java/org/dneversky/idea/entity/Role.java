@@ -4,21 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Document
 @Getter
 @Setter
 @NoArgsConstructor
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
@@ -26,7 +26,6 @@ public class Role {
     private String name;
 
     @JsonIgnoreProperties("roles")
-    @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
 
     public Role(String name) {

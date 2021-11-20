@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Notification;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.exception.EntityExistsException;
+import org.dneversky.idea.exception.EntityNotFoundException;
 import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;
@@ -19,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

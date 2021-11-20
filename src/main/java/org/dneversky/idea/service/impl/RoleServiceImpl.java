@@ -2,6 +2,8 @@ package org.dneversky.idea.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.entity.Role;
+import org.dneversky.idea.exception.EntityExistsException;
+import org.dneversky.idea.exception.EntityNotFoundException;
 import org.dneversky.idea.payload.RoleRequest;
 import org.dneversky.idea.repository.RoleRepository;
 import org.dneversky.idea.repository.UserRepository;
@@ -9,8 +11,6 @@ import org.dneversky.idea.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service

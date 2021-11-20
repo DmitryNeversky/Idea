@@ -1,16 +1,15 @@
 package org.dneversky.idea.service.impl;
 
 import org.dneversky.idea.entity.Tag;
+import org.dneversky.idea.exception.EntityExistsException;
+import org.dneversky.idea.exception.EntityNotFoundException;
 import org.dneversky.idea.payload.TagRequest;
 import org.dneversky.idea.repository.IdeaRepository;
 import org.dneversky.idea.repository.TagRepository;
 import org.dneversky.idea.service.TagService;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TagServiceImpl implements TagService {

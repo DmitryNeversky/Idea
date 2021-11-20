@@ -1,6 +1,8 @@
 package org.dneversky.idea.service.impl;
 
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.exception.EntityExistsException;
+import org.dneversky.idea.exception.EntityNotFoundException;
 import org.dneversky.idea.payload.UserRequest;
 import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.UserRepository;
@@ -15,8 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;

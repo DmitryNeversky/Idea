@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.exception.BadArgumentException;
+import org.dneversky.idea.exception.EntityNotFoundException;
 import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

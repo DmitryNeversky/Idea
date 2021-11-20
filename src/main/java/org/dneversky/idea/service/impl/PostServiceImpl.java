@@ -2,6 +2,8 @@ package org.dneversky.idea.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.entity.Post;
+import org.dneversky.idea.exception.EntityExistsException;
+import org.dneversky.idea.exception.EntityNotFoundException;
 import org.dneversky.idea.payload.PostRequest;
 import org.dneversky.idea.repository.PostRepository;
 import org.dneversky.idea.repository.UserRepository;
@@ -9,8 +11,6 @@ import org.dneversky.idea.service.PostService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -29,7 +29,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post getPost(Integer id) {
 
-        return postRepository.getById(id);
+        return postRepository.findById(id).get();
     }
 
     @Override
