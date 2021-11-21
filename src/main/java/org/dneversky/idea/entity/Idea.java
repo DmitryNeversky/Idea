@@ -27,7 +27,7 @@ import java.util.*;
 public class Idea implements Serializable {
 
     @Id
-    private Long id;
+    private String id;
 
     private String title;
 
@@ -52,7 +52,7 @@ public class Idea implements Serializable {
     private User author;
 
     @JsonIgnore
-    private Set<Long> lookedUsers = new HashSet<>();
+    private Set<String> lookedUsers = new HashSet<>();
 
     @JsonIgnoreProperties("ideas")
     private Set<User> ratedUsers = new HashSet<>();

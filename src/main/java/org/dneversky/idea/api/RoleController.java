@@ -36,23 +36,23 @@ public class RoleController {
 
     @Secured({"ADMIN", "SUPER_ADMIN"})
     @PutMapping("/{id}")
-    public ResponseEntity<Role> saveRole(@PathVariable Integer id, @RequestBody @Valid RoleRequest roleRequest) {
+    public ResponseEntity<Role> saveRole(@PathVariable String id, @RequestBody @Valid RoleRequest roleRequest) {
 
         return ResponseEntity.ok(roleServiceImpl.updateRole(id, roleRequest));
     }
 
     @Secured({"ADMIN", "SUPER_ADMIN"})
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRole(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteRole(@PathVariable String id) {
         roleServiceImpl.deleteRole(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Role> getRole(@PathVariable int id) {
+    public ResponseEntity<Role> getRoleById(@PathVariable String id) {
 
-        return ResponseEntity.ok().body(roleServiceImpl.getRole(id));
+        return ResponseEntity.ok().body(roleServiceImpl.getRoleById(id));
     }
 
     @GetMapping("/name/{name}")

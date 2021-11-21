@@ -29,7 +29,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag getTag(Integer id) {
+    public Tag getTagById(String id) {
 
         return tagRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Tag with id " + id + " not found in the database."));
@@ -55,7 +55,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag updateTag(Integer id, TagRequest tagRequest) {
+    public Tag updateTag(String id, TagRequest tagRequest) {
         Tag tag = tagRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Tag with id " + id + " not found in the database."));
 
@@ -65,7 +65,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void deleteTag(Integer id) {
+    public void deleteTag(String id) {
         Tag tag = tagRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Tag with id " + id + " not found in the database."));
 

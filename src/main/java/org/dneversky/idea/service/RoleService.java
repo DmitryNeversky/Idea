@@ -9,13 +9,13 @@ public interface RoleService {
 
     List<Role> getAllRoles();
 
-    Role getRole(Integer id);
+    Role getRoleById(String id);
 
     Role getRole(String name);
 
     Role saveRole(RoleRequest roleRequest);
 
-    Role updateRole(Integer id, RoleRequest roleRequest);
+    Role updateRole(String id, RoleRequest roleRequest);
 
-    void deleteRole(Integer id);
+    void deleteRole(String id);
 }

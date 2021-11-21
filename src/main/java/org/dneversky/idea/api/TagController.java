@@ -28,9 +28,9 @@ public class TagController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Tag> getTag(@PathVariable Integer id) {
+    public ResponseEntity<Tag> getTagById(@PathVariable String id) {
 
-        return ResponseEntity.ok(tagServiceImpl.getTag(id));
+        return ResponseEntity.ok(tagServiceImpl.getTagById(id));
     }
 
     @GetMapping("/name/{name}")
@@ -48,14 +48,14 @@ public class TagController {
 
     @Secured({"ADMIN", "SUPER_ADMIN"})
     @PutMapping("/{id}")
-    public ResponseEntity<Tag> updateTag(@PathVariable Integer id, @RequestBody @Valid TagRequest tagRequest) {
+    public ResponseEntity<Tag> updateTag(@PathVariable String id, @RequestBody @Valid TagRequest tagRequest) {
 
         return ResponseEntity.ok(tagServiceImpl.updateTag(id, tagRequest));
     }
 
     @Secured({"ADMIN", "SUPER_ADMIN"})
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTag(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteTag(@PathVariable String id) {
         tagServiceImpl.deleteTag(id);
 
         return ResponseEntity.noContent().build();

@@ -9,11 +9,11 @@ public interface PostService {
 
     List<Post> getAllPosts();
 
-    Post getPost(Integer id);
+    Post getPost(String id);
 
     Post savePost(PostRequest postRequest);
 
-    Post updatePost(Integer id, PostRequest postRequest);
+    Post updatePost(String id, PostRequest postRequest);
 
-    void deletePost(Integer id);
+    void deletePost(String id);
 }

@@ -72,14 +72,14 @@ class UserServiceImplTest {
         verify(userRepository, atLeastOnce()).findByUsername(USER.getUsername());
     }
 
-    @Test
-    void getExistedUserById() {
-        given(userRepository.findById(1L)).willReturn(Optional.of(USER));
-
-        userService.getUser(1L);
-
-        then(userRepository).should().findById(1L);
-    }
+//    @Test
+//    void getExistedUserById() {
+//        given(userRepository.findById(1L)).willReturn(Optional.of(USER));
+//
+//        userService.getUser(1L);
+//
+//        then(userRepository).should().findById(1L);
+//    }
 
     @Test
     void getNotExistedUserById() {

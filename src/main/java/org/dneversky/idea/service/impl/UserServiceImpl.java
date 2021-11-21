@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(Long id) {
+    public User getUser(String id) {
 
         return userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("User with id " + id + " not found in the database."));
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteNotificationById(Integer id, UserPrincipal principal) {
+    public void deleteNotificationById(String id, UserPrincipal principal) {
         User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found in the database."));
         Notification notification = notificationRepository.findById(id).orElseThrow(

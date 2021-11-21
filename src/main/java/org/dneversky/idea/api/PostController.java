@@ -36,21 +36,21 @@ public class PostController {
 
     @Secured({"ADMIN", "SUPER_ADMIN"})
     @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable Integer id, @RequestBody @Valid PostRequest postRequest) {
+    public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestBody @Valid PostRequest postRequest) {
 
         return ResponseEntity.ok(postServiceImpl.updatePost(id, postRequest));
     }
 
     @Secured({"ADMIN", "SUPER_ADMIN"})
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePost(@PathVariable Integer id) {
+    public ResponseEntity<?> deletePost(@PathVariable String id) {
         postServiceImpl.deletePost(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPost(@PathVariable Integer id) {
+    public ResponseEntity<Post> getPost(@PathVariable String id) {
 
         return ResponseEntity.ok(postServiceImpl.getPost(id));
     }

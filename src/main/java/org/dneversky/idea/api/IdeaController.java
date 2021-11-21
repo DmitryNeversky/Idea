@@ -53,7 +53,7 @@ public class IdeaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Idea> update(@PathVariable Long id,
+    public ResponseEntity<Idea> update(@PathVariable String id,
                                         @RequestPart("idea") @Valid IdeaRequest idea,
                                         @RequestPart(value = "addImages", required = false) List<MultipartFile> addImages,
                                         @RequestPart(value = "addFiles", required = false) List<MultipartFile> addFiles,
@@ -63,39 +63,39 @@ public class IdeaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<?> delete(@PathVariable String id, @CurrentUser UserPrincipal userPrincipal) {
         ideaServiceImpl.deleteIdea(id, userPrincipal);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Idea> getById(@PathVariable Long id) {
+    public ResponseEntity<Idea> getById(@PathVariable String id) {
 
         return ResponseEntity.ok(ideaServiceImpl.getIdea(id));
     }
 
     @Secured({"ADMIN", "SUPER_ADMIN"})
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Idea> changeStatus(@PathVariable Long id, @RequestBody String status, @CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<Idea> changeStatus(@PathVariable String id, @RequestBody String status, @CurrentUser UserPrincipal userPrincipal) {
 
         return ResponseEntity.ok(ideaServiceImpl.changeStatus(id, Status.valueOf(status), userPrincipal));
     }
 
     @PatchMapping("/{id}/look")
-    public ResponseEntity<Idea> addLook(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<Idea> addLook(@PathVariable String id, @CurrentUser UserPrincipal userPrincipal) {
 
         return ResponseEntity.ok(ideaServiceImpl.addLook(id, userPrincipal));
     }
 
     @PatchMapping("/{id}/rating/add")
-    public ResponseEntity<Idea> addRating(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<Idea> addRating(@PathVariable String id, @CurrentUser UserPrincipal userPrincipal) {
 
         return ResponseEntity.ok(ideaServiceImpl.addRating(id, userPrincipal));
     }
 
     @PatchMapping("/{id}/rating/reduce")
-    public ResponseEntity<Idea> reduceRating(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<Idea> reduceRating(@PathVariable String id, @CurrentUser UserPrincipal userPrincipal) {
 
         return ResponseEntity.ok(ideaServiceImpl.reduceRating(id, userPrincipal));
     }

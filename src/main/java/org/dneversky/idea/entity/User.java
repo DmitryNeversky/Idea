@@ -28,7 +28,7 @@ import java.util.*;
 public class User {
 
     @Id
-    private Long id;
+    private String id;
 
     @Indexed
     @NotNull(message = "Username can not be null")

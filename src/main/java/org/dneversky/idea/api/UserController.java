@@ -55,13 +55,13 @@ public class UserController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable String id) {
 
         return ResponseEntity.ok((userServiceImpl.getUser(id)));
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<User> getUserById(@PathVariable String username) {
+    public ResponseEntity<User> getUserByName(@PathVariable String username) {
 
         return ResponseEntity.ok((userServiceImpl.getUserByUsername(username)));
     }
@@ -115,7 +115,7 @@ public class UserController {
     }
 
     @DeleteMapping("/notification/{id}")
-    public ResponseEntity<?> deleteNotification(@PathVariable Integer id, @CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<?> deleteNotification(@PathVariable String id, @CurrentUser UserPrincipal userPrincipal) {
         userServiceImpl.deleteNotificationById(id, userPrincipal);
 
         return ResponseEntity.ok().build();

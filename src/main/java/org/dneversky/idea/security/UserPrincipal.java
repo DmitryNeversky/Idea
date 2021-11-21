@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
-    private final Long id;
+    private final String id;
 
     private final String username;
     private final String password;
     private final Set<GrantedAuthority> authorities;
     private final boolean enabled;
 
-    public UserPrincipal(Long id, String username, String password, Set<Role> roles, boolean enabled) {
+    public UserPrincipal(String id, String username, String password, Set<Role> roles, boolean enabled) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -68,7 +68,7 @@ public class UserPrincipal implements UserDetails {
         return enabled;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

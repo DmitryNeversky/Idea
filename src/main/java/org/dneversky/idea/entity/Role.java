@@ -19,7 +19,7 @@ import java.util.List;
 public class Role {
 
     @Id
-    private Integer id;
+    private String id;
 
     @NotNull
     @Size(max = 128, message = "Name size is: min 0 max 128")

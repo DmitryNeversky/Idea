@@ -15,19 +15,19 @@ public interface IdeaService {
 
     Page<Idea> getPagedIdeas(Integer page, Integer size, String sortDirection, String sortBy);
 
-    Idea getIdea(Long id);
+    Idea getIdea(String id);
 
     Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, UserPrincipal userPrincipal);
 
-    Idea updateIdea(Long id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, UserPrincipal userPrincipal);
+    Idea updateIdea(String id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, UserPrincipal userPrincipal);
 
-    void deleteIdea(Long id, UserPrincipal userPrincipal);
+    void deleteIdea(String id, UserPrincipal userPrincipal);
 
-    Idea addLook(Long id, UserPrincipal userPrincipal);
+    Idea addLook(String id, UserPrincipal userPrincipal);
 
-    Idea addRating(Long id, UserPrincipal userPrincipal);
+    Idea addRating(String id, UserPrincipal userPrincipal);
 
-    Idea reduceRating(Long id, UserPrincipal userPrincipal);
+    Idea reduceRating(String id, UserPrincipal userPrincipal);
 
-    Idea changeStatus(Long id, Status status, UserPrincipal userPrincipal);
+    Idea changeStatus(String id, Status status, UserPrincipal userPrincipal);
 }

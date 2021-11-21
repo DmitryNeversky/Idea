@@ -27,9 +27,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getPost(Integer id) {
+    public Post getPost(String id) {
 
-        return postRepository.findById(id).get();
+        return postRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Post with id " + id + " not found."));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post updatePost(Integer id, PostRequest postRequest) {
+    public Post updatePost(String id, PostRequest postRequest) {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Post with id " + id + " not found."));
 
@@ -55,7 +56,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(Integer id) {
+    public void deletePost(String id) {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Post with id " + id + " not found."));
 

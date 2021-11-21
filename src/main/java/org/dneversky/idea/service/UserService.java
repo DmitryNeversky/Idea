@@ -14,7 +14,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User getUser(Long id);
+    User getUser(String id);
 
     User getUserByUsername(String username);
 
@@ -26,7 +26,7 @@ public interface UserService {
 
     void patchPassword(String username, UserPrincipal userPrincipal, PasswordChangeRequest passwordChangeRequest);
 
-    void deleteNotificationById(Integer id, UserPrincipal userPrincipal);
+    void deleteNotificationById(String id, UserPrincipal userPrincipal);
 
     void blockUser(String username, UserPrincipal userPrincipal);
 
