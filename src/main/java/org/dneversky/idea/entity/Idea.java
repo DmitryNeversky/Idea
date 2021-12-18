@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.dneversky.idea.model.Status;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -49,15 +50,18 @@ public class Idea implements Serializable {
     private Map<String, String> files = new HashMap<>();
 
     @JsonIgnoreProperties({"ideas", "roles"})
+    @DocumentReference
     private User author;
 
     @JsonIgnore
     private Set<String> lookedUsers = new HashSet<>();
 
     @JsonIgnoreProperties("ideas")
+    @DocumentReference
     private Set<User> ratedUsers = new HashSet<>();
 
     @JsonIgnoreProperties("ideas")
+    @DocumentReference
     private Set<User> unratedUsers = new HashSet<>();
 
     // for the response body

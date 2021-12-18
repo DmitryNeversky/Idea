@@ -97,8 +97,6 @@ public class IdeaServiceImpl implements IdeaService {
         User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found."));
 
-        user.getIdeas().add(idea);
-
         idea.setAuthor(user);
 
         return ideaRepository.save(idea);

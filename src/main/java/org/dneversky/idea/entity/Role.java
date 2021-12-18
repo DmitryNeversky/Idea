@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,6 +27,7 @@ public class Role {
     private String name;
 
     @JsonIgnoreProperties("roles")
+    @DocumentReference
     private List<User> users = new ArrayList<>();
 
     public Role(String name) {

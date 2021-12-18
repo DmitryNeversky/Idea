@@ -1,17 +1,9 @@
 version: "3"
 services:
-  api:
-    restart: always
-    image: idea
+  mongodb:
+    image: mongo
+    container_name: mongodb
     ports:
-      - 8080:8080
-    depends_on:
-      - mysql
-  mysql:
-    restart: always
-    image: mysql
-    ports:
-      - 3306:3306 
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=idea
+      - 27017:27017
+    volumes:
+      - /idea/data

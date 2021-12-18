@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
@@ -30,7 +31,7 @@ public class User {
     @Id
     private String id;
 
-    @Indexed
+    @Indexed(unique = true)
     @NotNull(message = "Username can not be null")
     @Email(message = "Email is invalid")
     @Size(min = 3, max = 64, message = "Username's size is: min 3 max 64")
@@ -68,7 +69,7 @@ public class User {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate registeredDate;
 
-    @JsonIgnoreProperties("author")
+    @DocumentReference
     private List<Idea> ideas = new ArrayList<>();
 
     @JsonIgnoreProperties("users")

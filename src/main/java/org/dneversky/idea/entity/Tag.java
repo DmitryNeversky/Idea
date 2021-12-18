@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,6 +25,7 @@ public class Tag {
     @Size(max = 128, message = "Name size is: min 0 max 128")
     private String name;
 
+    @DocumentReference
     private List<Idea> ideas = new ArrayList<>();
 
     public Tag(String name) {

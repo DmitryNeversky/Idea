@@ -121,16 +121,3 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 }
-
-//    @GetMapping("/code")
-//    public ResponseEntity<?> getCode() {
-//        // send a code on email
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @PostMapping("/code")
-//    public ResponseEntity<?> postCode(@RequestParam String key) {
-//        if(!key.equals("key"))
-//            return ResponseEntity.notFound().build();
-//        return ResponseEntity.ok().build();
-//    }
