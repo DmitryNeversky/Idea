@@ -39,21 +39,21 @@ public class TagController {
         return ResponseEntity.ok(tagServiceImpl.getTag(name));
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PostMapping
     public ResponseEntity<Tag> saveTag(@RequestBody @Valid TagRequest tagRequest) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(tagServiceImpl.saveTag(tagRequest));
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<Tag> updateTag(@PathVariable String id, @RequestBody @Valid TagRequest tagRequest) {
 
         return ResponseEntity.ok(tagServiceImpl.updateTag(id, tagRequest));
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTag(@PathVariable String id) {
         tagServiceImpl.deleteTag(id);

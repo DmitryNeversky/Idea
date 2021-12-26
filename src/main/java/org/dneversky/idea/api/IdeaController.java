@@ -75,7 +75,7 @@ public class IdeaController {
         return ResponseEntity.ok(ideaServiceImpl.getIdea(id));
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PatchMapping("/{id}/status")
     public ResponseEntity<Idea> changeStatus(@PathVariable String id, @RequestBody String status, @CurrentUser UserPrincipal userPrincipal) {
 
