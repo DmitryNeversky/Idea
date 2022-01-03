@@ -26,7 +26,7 @@ export class PostService {
   }
 
   public putPost(post: Post): Observable<Post> {
-    return this.httpClient.put<Post>(`${this.apiBaseUrl}/posts`, post);
+    return this.httpClient.put<Post>(`${this.apiBaseUrl}/posts/${post.id}`, post);
   }
 
   public deletePost(id: number|string): Observable<void> {

@@ -52,7 +52,7 @@ export class SecureComponent implements OnInit {
       }
     }).afterClosed().subscribe(result => {
       if(result) {
-        this.userService.deleteUser(this.user.id).subscribe(() => {
+        this.userService.deleteUser(this.user.username).subscribe(() => {
           this.authService.logout();
           this.snackBar.success('Пользователь удален.');
         }, error => {
