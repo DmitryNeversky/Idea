@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,12 +68,14 @@ public class RoleServiceImpl implements RoleService {
         Role role = roleRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Role with id " + id + " not found in the database."));
 
-        if(role.getUsers() != null && role.getUsers().size() > 0) {
-            role.getUsers().forEach(user -> {
-                user.getRoles().remove(role);
-                userRepository.save(user); // saveAll()
-            });
-        }
+        // TODO: using index of user.roles to find and delete roles from users quickly
+        userRepository.saveAll(
+                userRepository.findAll()
+                        .stream()
+                        .sorted()
+                        .filter(e -> e.getRoles().contains(role))
+                        .peek(e -> e.getRoles().remove(role))
+                        .collect(Collectors.toList()));
 
         roleRepository.delete(role);
     }

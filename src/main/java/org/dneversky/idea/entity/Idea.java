@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dneversky.idea.model.Status;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,7 +43,7 @@ public class Idea implements Serializable {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate createdDate;
 
-    @JsonIgnoreProperties("ideas")
+    @DBRef
     private List<Tag> tags = new ArrayList<>();
 
     private Set<String> images = new HashSet<>();

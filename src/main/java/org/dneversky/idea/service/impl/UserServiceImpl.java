@@ -96,6 +96,7 @@ public class UserServiceImpl implements UserService {
             user.setBirthday(userRequest.getBirthday());
             user.setCity(userRequest.getCity());
             user.setAbout(userRequest.getAbout());
+            user.setPost(userRequest.getPost());
 
             return userRepository.save(user);
         }
@@ -172,6 +173,8 @@ public class UserServiceImpl implements UserService {
             user.setEnabled(false);
 
             userRepository.save(user);
+
+            return;
         }
 
         throw new PermissionException("You don't have permission to block user with username " + username + ".");
@@ -186,6 +189,8 @@ public class UserServiceImpl implements UserService {
             user.setEnabled(true);
 
             userRepository.save(user);
+
+            return;
         }
 
         throw new PermissionException("You don't have permission to unblock user with username " + username + ".");
@@ -201,6 +206,8 @@ public class UserServiceImpl implements UserService {
             user.setRoles(roles);
 
             userRepository.save(user);
+
+            return;
         }
 
         throw new PermissionException("You don't have permission to change roles for user with username " + username + ".");

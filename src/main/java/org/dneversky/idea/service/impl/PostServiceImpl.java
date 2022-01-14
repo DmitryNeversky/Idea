@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,12 +62,20 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Post with id " + id + " not found."));
 
-        if(post.getUsers() != null && post.getUsers().size() > 0) {
-            post.getUsers().forEach(user -> {
-                user.setPost(null);
-                userRepository.save(user);
-            });
+        Optional<Post> findDefaultPost = postRepository.findByName("Default");
+        if(!findDefaultPost.isPresent()) {
+            postRepository.save(new Post("Default"));
         }
+
+        Post defaultPost = postRepository.getByName("Default");
+
+        // TODO: Single responsibility
+        userRepository.saveAll(
+                userRepository.findAllByPost(post)
+                        .stream()
+                        .peek(e -> e.setPost(defaultPost))
+                        .collect(Collectors.toList())
+        );
 
         postRepository.delete(post);
     }

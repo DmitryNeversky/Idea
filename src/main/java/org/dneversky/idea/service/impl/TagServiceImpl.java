@@ -8,8 +8,10 @@ import org.dneversky.idea.repository.IdeaRepository;
 import org.dneversky.idea.repository.TagRepository;
 import org.dneversky.idea.service.TagService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -69,12 +71,13 @@ public class TagServiceImpl implements TagService {
         Tag tag = tagRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Tag with id " + id + " not found in the database."));
 
-        if(tag.getIdeas() != null && tag.getIdeas().size() > 0) {
-            tag.getIdeas().forEach(idea -> {
-                idea.getTags().remove(tag);
-                ideaRepository.save(idea);
-            });
-        }
+        // TODO: Single responsibility
+        ideaRepository.saveAll(
+                ideaRepository.findAllByTag(id)
+                .stream()
+                    .peek(e -> e.getTags().remove(tag))
+                    .collect(Collectors.toList())
+        );
 
         tagRepository.delete(tag);
     }
