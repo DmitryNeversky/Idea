@@ -1,0 +1,27 @@
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username:
+      password:
+      database: idea
+      port: 27017
+      host: localhost
+      auto-index-creation: true
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+
+server:
+  port: 8080
+
+allowedOrigin: http://localhost:4200
+uploadPath: /home/koshey/IdeaProjects/Idea/src/frontend/src/assets/uploaded/
+
+tokenAccessExp: 720
+tokenRefreshExp: 1440
+
+kafka:
+  emailTopic: emailTopic
+  bootstrap-servers: 127.0.0.1:9092

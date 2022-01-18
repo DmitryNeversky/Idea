@@ -2,6 +2,7 @@ package org.dneversky.idea.handler;
 
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.entity.User;
+import org.dneversky.idea.service.impl.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
@@ -14,11 +15,19 @@ public class IdeaCascadeSaveMongoEventListener extends AbstractMongoEventListene
     @Autowired
     private MongoOperations mongoOperations;
 
+    @Autowired
+    private EmailServiceImpl emailService;
+
     @Override
     public void onAfterSave(AfterSaveEvent<Idea> event) {
         Idea idea = event.getSource();
         User author = idea.getAuthor();
         author.getIdeas().add(idea);
         mongoOperations.save(author);
+
+        emailService.send(
+                author.getUsername(),
+                "Idea's been successfully created",
+                "Your idea with title" + idea.getTitle() + "has been created!");
     }
 }

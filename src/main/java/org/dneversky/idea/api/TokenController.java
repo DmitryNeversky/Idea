@@ -29,10 +29,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("api")
 public class TokenController {
 
-    @Value("${token.refresh.expiration.minutes}")
+    @Value("${tokenRefreshExp}")
     private Integer REFRESH_EXPIRE_MINUTES;
 
-    @Value("${token.access.expiration.minutes}")
+    @Value("${tokenAccessExp}")
     private Integer ACCESS_EXPIRE_MINUTES;
 
     private final UserServiceImpl userServiceImpl;

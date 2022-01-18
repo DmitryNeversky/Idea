@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class Application {
     public static void main(String[] args) throws IOException {
         String UPLOAD_PATH = PropertiesLoader
-                .loadProperties("application.properties")
+                .loadProperties("application.yaml")
                 .getProperty("uploadPath");
         if(!Files.exists(Paths.get(UPLOAD_PATH))) {
             Files.createDirectory(Paths.get(UPLOAD_PATH));

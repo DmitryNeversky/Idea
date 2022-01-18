@@ -1,4 +1,4 @@
 /src/main/java/org/dneversky/idea/Application.java
-/src/main/resources/application.properties
+/src/main/resources/application.yaml
 /src/test/resources/application-test.properties
 /src/frontend/package-lock.json
