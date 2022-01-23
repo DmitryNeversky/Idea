@@ -35,6 +35,11 @@ public class EmailNotificationKafkaConfig {
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         properties.put(JsonSerializer.TYPE_MAPPINGS, "emailNotification:org.dneversky.idea.model.EmailNotification");
+        properties.put(ProducerConfig.ACKS_CONFIG, 1);
+        properties.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+        properties.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "lz4");
+        properties.put(ProducerConfig.BATCH_SIZE_CONFIG, "8000");
+        properties.put(ProducerConfig.LINGER_MS_CONFIG, "500");
 
         return properties;
     }
