@@ -84,6 +84,9 @@ public class IdeaServiceImpl implements IdeaService {
     public Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages,
                          List<MultipartFile> addFiles, UserPrincipal principal) {
 
+        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found."));
+
         Idea idea = new Idea();
         idea.setTitle(ideaRequest.getTitle());
         idea.setBody(ideaRequest.getBody());
@@ -91,13 +94,10 @@ public class IdeaServiceImpl implements IdeaService {
         idea.setCreatedDate(LocalDate.now());
         idea.setTags(ideaRequest.getTags());
 
+        idea.setAuthor(user);
+
         uploadImages(idea, addImages);
         uploadFiles(idea, addFiles);
-
-        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found."));
-
-        idea.setAuthor(user);
 
         return ideaRepository.save(idea);
     }
