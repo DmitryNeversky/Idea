@@ -39,16 +39,16 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     {
         try {
             ACCESS_EXPIRE_MINUTES = Integer.parseInt(PropertiesLoader
-                    .loadProperties("application.properties")
-                    .getProperty("token.access.expiration.minutes"));
+                    .loadProperties("application.yaml")
+                    .getProperty("tokenAccessExp"));
         } catch (IOException e) {
             log.warn("Unsuccessfully loaded property, error: {}", e.getMessage());
             ACCESS_EXPIRE_MINUTES = 30;
         }
         try {
             REFRESH_EXPIRE_MINUTES = Integer.parseInt(PropertiesLoader
-                    .loadProperties("application.properties")
-                    .getProperty("token.refresh.expiration.minutes"));
+                    .loadProperties("application.yaml")
+                    .getProperty("tokenRefreshExp"));
         } catch (IOException e) {
             log.warn("Unsuccessfully loaded property, error: {}", e.getMessage());
             REFRESH_EXPIRE_MINUTES = 1440;

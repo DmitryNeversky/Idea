@@ -88,7 +88,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PatchMapping("/{username}/block")
     public ResponseEntity<?> blockUser(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal) {
         userServiceImpl.blockUser(username, userPrincipal);
@@ -96,7 +96,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PatchMapping("/{username}/unblock")
     public ResponseEntity<?> unblockUser(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal) {
         userServiceImpl.unblockUser(username, userPrincipal);
@@ -104,7 +104,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @Secured("SUPER_ADMIN")
+    @Secured("ROLE_SUPER_ADMIN")
     @PatchMapping("/{username}/roles")
     public ResponseEntity<?> changeRoles(@PathVariable String username,
                                          @RequestBody Set<Role> roles,
@@ -121,16 +121,3 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 }
-
-//    @GetMapping("/code")
-//    public ResponseEntity<?> getCode() {
-//        // send a code on email
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @PostMapping("/code")
-//    public ResponseEntity<?> postCode(@RequestParam String key) {
-//        if(!key.equals("key"))
-//            return ResponseEntity.notFound().build();
-//        return ResponseEntity.ok().build();
-//    }

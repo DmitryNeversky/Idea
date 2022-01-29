@@ -1,5 +1,6 @@
 package org.dneversky.idea.payload;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.dneversky.idea.entity.Post;
@@ -31,6 +32,7 @@ public class UserRequest {
     @Size(max = 1024, message = "About size is: min 0 max 1024")
     private String about;
 
+    @JsonIgnoreProperties("users")
     private Post post;
 
     public UserRequest(String name, String phone, Date birthday) {

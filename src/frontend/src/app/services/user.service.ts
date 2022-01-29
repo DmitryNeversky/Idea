@@ -31,7 +31,7 @@ export class UserService {
   }
 
   public deleteUser(id: number|string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiBaseUrl}/${id}`);
+    return this.httpClient.delete<void>(`${this.apiBaseUrl}/users/${id}`);
   }
 
   public deleteNotification(id: number|string): Observable<void> {

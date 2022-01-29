@@ -76,5 +76,7 @@ public class TagServiceImpl implements TagService {
                 ideaRepository.save(idea);
             });
         }
+
+        tagRepository.delete(tag);
     }
 }

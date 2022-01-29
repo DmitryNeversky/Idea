@@ -27,21 +27,21 @@ public class RoleController {
         return ResponseEntity.ok().body(roleServiceImpl.getAllRoles());
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PostMapping
     public ResponseEntity<Role> saveRole(@RequestBody @Valid RoleRequest roleRequest) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(roleServiceImpl.saveRole(roleRequest));
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<Role> saveRole(@PathVariable Integer id, @RequestBody @Valid RoleRequest roleRequest) {
 
         return ResponseEntity.ok(roleServiceImpl.updateRole(id, roleRequest));
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRole(@PathVariable Integer id) {
         roleServiceImpl.deleteRole(id);

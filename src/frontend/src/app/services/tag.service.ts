@@ -30,7 +30,7 @@ export class TagService {
     }
 
     public putTag(tag: Tag): Observable<Tag> {
-        return this.httpClient.put<Tag>(`${this.apiBaseUrl}/tags`, tag);
+        return this.httpClient.put<Tag>(`${this.apiBaseUrl}/tags/${tag.id}`, tag);
     }
 
     public deleteTag(id: number|string): Observable<void> {

@@ -27,21 +27,21 @@ public class PostController {
         return ResponseEntity.ok(postServiceImpl.getAllPosts());
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PostMapping
     public ResponseEntity<Post> savePost(@RequestBody @Valid PostRequest postRequest) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(postServiceImpl.savePost(postRequest));
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable Integer id, @RequestBody @Valid PostRequest postRequest) {
 
         return ResponseEntity.ok(postServiceImpl.updatePost(id, postRequest));
     }
 
-    @Secured({"ADMIN", "SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePost(@PathVariable Integer id) {
         postServiceImpl.deletePost(id);
