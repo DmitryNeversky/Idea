@@ -2,3 +2,9 @@
 /src/main/resources/application.properties
 /src/test/resources/application-test.properties
 /src/frontend/package-lock.json
+/conf.env
+/docker-compose.yaml
+/Dockerfile
+/idea-deploy.yaml
+/idea-secret.yaml
+/laboratory_1.txt

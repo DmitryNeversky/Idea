@@ -17,9 +17,6 @@ server:
 allowedOrigin: http://localhost:4200
 uploadPath: /home/koshey/IdeaProjects/Idea/src/frontend/src/assets/uploaded/
 
-tokenAccessExp: 720
-tokenRefreshExp: 1440
-
 kafka:
   emailTopic: emailTopic
   bootstrap-servers: 127.0.0.1:9092
