@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
@@ -238,6 +239,16 @@ public class UserServiceImpl implements UserService {
                 }
             }
             user.setAvatar(null);
+        }
+    }
+
+    @PostConstruct
+    private void createRepositories() throws IOException {
+        if(!Files.exists(Paths.get(UPLOAD_PATH))) {
+            Files.createDirectory(Paths.get(UPLOAD_PATH));
+            Files.createDirectory(Paths.get(UPLOAD_PATH + "/images"));
+            Files.createDirectory(Paths.get(UPLOAD_PATH + "/images/avatar"));
+            Files.createDirectory(Paths.get(UPLOAD_PATH + "/files"));
         }
     }
 }
