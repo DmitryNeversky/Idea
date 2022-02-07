@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,11 +28,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("api")
 public class TokenController {
 
-    @Value("${tokenRefreshExp}")
-    private Integer REFRESH_EXPIRE_MINUTES;
-
-    @Value("${tokenAccessExp}")
-    private Integer ACCESS_EXPIRE_MINUTES;
+    private final Integer REFRESH_EXPIRE_MINUTES = 1440;
+    private final Integer ACCESS_EXPIRE_MINUTES = 720;
 
     private final UserServiceImpl userServiceImpl;
 

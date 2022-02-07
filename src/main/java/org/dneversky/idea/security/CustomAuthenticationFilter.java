@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.dneversky.idea.util.PropertiesLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,32 +26,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private Integer ACCESS_EXPIRE_MINUTES;
-    private Integer REFRESH_EXPIRE_MINUTES;
+    private final Integer ACCESS_EXPIRE_MINUTES = 720;
+    private final Integer REFRESH_EXPIRE_MINUTES = 1440;
 
     private final AuthenticationManager authenticationManager;
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-    }
-
-    {
-        try {
-            ACCESS_EXPIRE_MINUTES = Integer.parseInt(PropertiesLoader
-                    .loadProperties("application.yaml")
-                    .getProperty("tokenAccessExp"));
-        } catch (IOException e) {
-            log.warn("Unsuccessfully loaded property, error: {}", e.getMessage());
-            ACCESS_EXPIRE_MINUTES = 30;
-        }
-        try {
-            REFRESH_EXPIRE_MINUTES = Integer.parseInt(PropertiesLoader
-                    .loadProperties("application.yaml")
-                    .getProperty("tokenRefreshExp"));
-        } catch (IOException e) {
-            log.warn("Unsuccessfully loaded property, error: {}", e.getMessage());
-            REFRESH_EXPIRE_MINUTES = 1440;
-        }
     }
 
     @Override
