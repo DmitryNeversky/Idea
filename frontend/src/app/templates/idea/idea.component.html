@@ -1,0 +1,35 @@
+<mat-card *ngIf="idea">
+    <mat-card-title fxLayout.xs="column wrap" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
+        <span fxFlex.gt-xs="100%" fxFlexOrder.xs="2" class="title">{{idea.title}}</span>
+        <ng-container [ngSwitch]="idea.status">
+            <small class="status-circle" [ngClass]="'primary'" *ngSwitchCase="'ACCEPTED'"></small>
+            <small class="status-circle" [ngClass]="'accent'" *ngSwitchCase="'LOOKING'"></small>
+            <small class="status-circle" [ngClass]="'warn'" *ngSwitchCase="'REFUSED'"></small>
+        </ng-container>
+    </mat-card-title>
+    <mat-card-content>
+        <p class="text">{{idea.body | truncate: 600}}</p>
+        <mat-chip-list>
+            <mat-chip *ngFor="let tag of idea.tags" color="primary">
+                {{tag.name}}
+            </mat-chip>
+        </mat-chip-list>
+    </mat-card-content>
+    <mat-card-footer fxLayout.xs="column wrap" fxLayout.gt-xs="row">
+        <div class="meta" fxLayout="row" fxFlex.gt-xs>
+            <div class="rating">
+                <strong>{{idea.rating}}</strong>
+                <mat-icon class="silver" matTooltip="Рейтинг">bar_chart</mat-icon>
+            </div>
+            <div class="looks">
+                <strong>{{idea.looks}}</strong>
+                <mat-icon matTooltip="Просмотры" class="silver">visibility</mat-icon>
+            </div>
+            <div class="date">
+                <strong>{{idea.createdDate}}</strong>
+                <mat-icon matTooltip="Дата создания" class="silver">date_range</mat-icon>
+            </div>
+        </div>
+        <button class="look" (click)="look()" [routerLink]="['/ideas', 'id', idea.id]" mat-raised-button>Смотреть</button>
+    </mat-card-footer>
+</mat-card>

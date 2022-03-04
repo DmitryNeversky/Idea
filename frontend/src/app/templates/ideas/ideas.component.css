@@ -1,0 +1,58 @@
+/*Other*/
+
+.create-widget {
+    position: fixed;
+    right: 5%;
+    bottom: 5%;
+}
+
+/*Filter*/
+
+.filter-container {
+    margin-bottom: 20px;
+}
+
+.filter-tags::ng-deep .mat-chip-list-wrapper {
+    margin-bottom: 20px;
+}
+
+.filter-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reverse-sort-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/*Pagination*/
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.pagination-pagers {
+    margin: 0 5px;
+}
+
+.pagination-left {
+    margin-right: 20px;
+}
+
+.pagination-right {
+    margin-left: 20px;
+}
+
+.no-ideas {
+    text-align: center;
+    margin: 10% 0;
+    font-size: large;
+    color: #a8a8a8;
+}
+
+mat-chip {
+    cursor: pointer;
+}

@@ -1,0 +1,33 @@
+.col {
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+table {
+    width: 100%;
+}
+
+mat-paginator {
+    width: fit-content;
+}
+
+mat-form-field::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+}
+
+mat-form-field::ng-deep .mat-form-field-infix {
+    padding: 0.2em 0 0.8em 0;
+}
+
+mat-form-field::ng-deep .mat-form-field-label-wrapper {
+    top: -1.24375em;
+}
+
+mat-form-field::ng-deep .mat-form-field-subscript-wrapper {
+    padding: 1.8em 0 0 1em;
+}
+
+.post-item:hover {
+    background-color: #f7f7f7;
+    cursor: pointer;
+}

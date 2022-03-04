@@ -1,0 +1,30 @@
+mat-card {
+    margin-bottom: 1%;
+}
+
+.avatar {
+    margin-top: auto !important;
+    margin-bottom: auto;
+    text-align: center;
+}
+
+.info-content {
+    align-items: center;
+}
+
+.info-content > div img {
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+}
+
+.ideas-list > mat-list-item::ng-deep .mat-list-item-content {
+    width: 100%;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 1024px) {
+    .info-content {
+        text-align: center;
+    }
+}

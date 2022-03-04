@@ -1,0 +1,133 @@
+<mat-card>
+    <mat-card-title>Регистрация</mat-card-title>
+
+    <mat-card-content>
+        <mat-stepper [orientation]="orientation">
+            <mat-step state="perm_identity" [stepControl]="firstFormGroup" editable>
+                <form [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel>Личные данные</ng-template>
+                    <div fxLayout="row wrap" class="form-content">
+                        <mat-form-field fxFlex="45%" appearance="fill">
+                            <mat-label>имя</mat-label>
+                            <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="firstName">
+                            <mat-error *ngIf="firstFormGroup.get('firstName').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('firstName').hasError('pattern')">некорректно введены данные</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('firstName').hasError('maxlength')">
+                                максимальная длина {{firstFormGroup.get('firstName').errors.maxlength.requiredLength}} символов
+                                (сейчас {{firstFormGroup.get('firstName').errors.maxlength.actualLength}})</mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="45%" appearance="fill">
+                            <mat-label>отчество</mat-label>
+                            <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="secondName">
+                            <mat-error *ngIf="firstFormGroup.get('secondName').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('secondName').hasError('pattern')">некорректно введены данные</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('secondName').hasError('maxlength')">
+                                максимальная длина {{firstFormGroup.get('secondName').errors.maxlength.requiredLength}} символов
+                                (сейчас {{firstFormGroup.get('secondName').errors.maxlength.actualLength}})</mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="45%" appearance="fill">
+                            <mat-label>фамилия</mat-label>
+                            <input matInput pattern="[a-zA-Zа-яА-Я]*" formControlName="lastName">
+                            <mat-error *ngIf="firstFormGroup.get('lastName').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('lastName').hasError('pattern')">некорректно введены данные</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('lastName').hasError('maxlength')">
+                                максимальная длина {{firstFormGroup.get('lastName').errors.maxlength.requiredLength}} символов
+                                (сейчас {{firstFormGroup.get('lastName').errors.maxlength.actualLength}})</mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="45%" appearance="fill">
+                            <mat-label>телефон</mat-label>
+                            <input type="tel" prefix="+7" mask=" (000) 000-00-00" matInput formControlName="phone">
+                            <mat-icon matSuffix>phone</mat-icon>
+                            <mat-error *ngIf="firstFormGroup.get('phone').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="firstFormGroup.get('phone').hasError('maxlength')">некорректно введены данные</mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="45%" appearance="fill">
+                            <mat-label>дата рождения</mat-label>
+                            <input matInput [matDatepicker]="picker" placeholder="01/01/2001" formControlName="birthday">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="firstFormGroup.get('birthday').hasError('required')">укажите дату рождения</mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="45%" appearance="fill">
+                            <mat-label>должность</mat-label>
+                            <mat-select formControlName="post">
+                                <mat-option *ngFor="let post of posts" [value]="post">{{post.name}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="firstFormGroup.get('post').hasError('required')">укажите должность</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-actions">
+                        <div class="action">
+                            <button mat-button color="primary" routerLink="/auth" matStepperPrevious>авторизация</button>
+                        </div>
+                        <div class="action">
+                            <button mat-flat-button color="primary" matStepperNext>далее</button>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step state="admin_panel_settings" [stepControl]="secondFormGroup" editable>
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Безопасность</ng-template>
+                    <div fxLayout="row wrap" class="form-content">
+                        <mat-form-field fxFlex="45%" appearance="fill">
+                            <mat-label>email</mat-label>
+                            <input type="email" matInput placeholder="pat@example.com" formControlName="email">
+                            <mat-error *ngIf="secondFormGroup.get('email').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="secondFormGroup.get('email').hasError('email')">некорректный email</mat-error>
+                            <mat-error *ngIf="secondFormGroup.get('email').hasError('maxlength')">
+                                максимальная длина {{secondFormGroup.get('email').errors.maxlength.requiredLength}} символов
+                                (сейчас {{secondFormGroup.get('email').errors.maxlength.actualLength}})
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="45%" appearance="fill">
+                            <mat-label>пароль</mat-label>
+                            <input [type]="hide ? 'password' : 'text'" matInput formControlName="password">
+                            <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error *ngIf="secondFormGroup.get('password').hasError('required')">заполните поле</mat-error>
+                            <mat-error *ngIf="secondFormGroup.get('password').hasError('minlength')">
+                                минимальная длина {{secondFormGroup.get('password').errors.minlength.requiredLength}} символов
+                                (сейчас {{secondFormGroup.get('password').errors.minlength.actualLength}})
+                            </mat-error>
+                            <mat-error *ngIf="secondFormGroup.get('password').hasError('maxlength')">
+                                максимальная длина {{secondFormGroup.get('password').errors.maxlength.requiredLength}} символов
+                                (сейчас {{secondFormGroup.get('password').errors.maxlength.actualLength}})
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-actions">
+                        <div class="action">
+                            <button mat-flat-button color="primary" matStepperPrevious>назад</button>
+                        </div>
+                        <div class="action">
+                            <button mat-flat-button color="primary" matStepperNext>далее</button>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step state="verified">
+                <form [formGroup]="finalFormGroup" (ngSubmit)="registration()">
+                    <ng-template matStepLabel>Завершение</ng-template>
+                    <div fxLayout="row wrap" class="form-content">
+                        <mat-form-field fxFlex="45%" appearance="fill">
+                            <mat-label>Код подтверждения</mat-label>
+                            <input matInput formControlName="code">
+                        </mat-form-field>
+                        <mat-error fxFlex="100%" *ngIf="error">{{error}}</mat-error>
+                    </div>
+                    <div class="form-actions">
+                        <div class="action">
+                            <button mat-flat-button color="primary" matStepperPrevious>назад</button>
+                        </div>
+                        <div class="action">
+                            <button type="submit" mat-flat-button color="primary" matStepperNext>завершить</button>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+        </mat-stepper>
+        <mat-spinner class="load-spinner" mode="indeterminate" *ngIf="preloader"></mat-spinner>
+    </mat-card-content>
+</mat-card>

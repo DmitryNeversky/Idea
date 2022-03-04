@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ex72-frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ex72-app
+  template:
+    metadata:
+      labels:
+        app: ex72-app
+    spec:
+      containers:
+      - image: dneversky/ex72-frontend:frontend
+        name: ex72-frontend-container
+        envFrom:
+          - configMapRef:
+            name: common-config
+        resources:
+          requests:
+            cpu: 200m
+            memory: 150Mi
+          limits:
+            cpu: 1
+            memory: 1500Mi

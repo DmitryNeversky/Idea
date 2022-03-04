@@ -1,0 +1,135 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden; background-color: #f7f7f7 }
+
+.accent { background: #ffd740 !important; color: #000000bf !important; }
+.warn { background: #f44336 !important; color: white !important; }
+.primary { background: #673ab7 !important; color: white !important; }
+.silver { color: #9c9c9c !important; }
+
+app-root .mat-list-base .mat-list-item .mat-list-item-content, app-root .mat-list-base .mat-list-option .mat-list-item-content {
+    padding: 0;
+}
+
+app-root {
+    height: 100%;
+    width: 100%;
+}
+
+small.status {
+    width: fit-content;
+    height: fit-content;
+    padding: .25% 1%;
+    font-size: 10pt;
+}
+
+small.status-fill {
+    width: 100%;
+    text-align: center;
+}
+
+small.status-circle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 0 0 0 25px;
+}
+
+.prefix {
+    font-size: 10pt;
+    color: #757575;
+    font-weight: 500;
+}
+
+.filter-container .mat-form-field-wrapper {
+    padding: 0;
+}
+
+mat-card {
+    word-break: break-word;
+}
+
+mat-button-toggle button {
+    height: 100%;
+}
+
+mat-button-toggle-group {
+    flex-wrap: wrap;
+    width: fit-content;
+}
+
+.mat-horizontal-content-container {
+    padding-bottom: 0 !important;
+}
+
+.left-panel .mat-button-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.left-panel button .name {
+    padding: 0 20px;
+}
+
+.files {
+    position: relative;
+    text-align: center;
+}
+
+.files > p {
+    overflow-wrap: break-word;
+}
+
+button.cancel {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+}
+
+.card-content {
+    padding: 5% 0;
+}
+
+.title {
+    align-self: center;
+    overflow-wrap: anywhere;
+}
+
+mat-spinner.load-spinner {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    opacity: .6;
+}
+
+mat-spinner.load-spinner > svg {
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+@media screen and (max-width: 600px) {
+    small.status {
+        width: 100%;
+        text-align: center;
+        padding: .5% 0;
+        border-radius: 4px 4px 0 0 !important;
+    }
+}
+
+@media screen and (min-width: 600px){
+    .card-content {
+        padding: 2% 0;
+    }
+}

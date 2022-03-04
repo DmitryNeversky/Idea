@@ -1,0 +1,35 @@
+mat-form-field {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-container {
+    margin: 5%;
+}
+
+.load-images img{
+    max-height: 110px;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    border-radius: 5%;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.form-actions button {
+    margin-left: 10px;
+}
+
+.mat-form-field textarea {
+    height: 200px;
+}
+
+.canceled {
+    color: #f35454;
+}

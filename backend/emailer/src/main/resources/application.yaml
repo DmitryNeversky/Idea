@@ -1,0 +1,16 @@
+spring:
+  mail:
+    host: "smtp.yandex.ru"
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    port: 465
+    protocol: "smtps"
+    default-encoding: "UTF-8"
+server:
+  port: ${SERVER_PORT}
+
+jsonDeserializer:
+  trustedPackages: org.dneversky.idea.*  # use a comma to add more packages
+
+kafka:
+  bootstrap-servers: localhost:9092

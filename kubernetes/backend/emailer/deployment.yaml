@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ex72-emailer-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ex72-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ex72-app
+    spec:
+      containers:
+      - image: dneversky/ex72-emailer:latest
+        name: ex72-emailer-container
+        ports:
+          - containerPort: 8083
+        envFrom:
+          - configMapRef:
+              name: emailer-config
+          - secretRef:
+              name: emailer-secret
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 500m
+            memory: 150Mi

@@ -1,0 +1,31 @@
+<div class="content" fxLayout.xs="column" fxLayout.gt-xs="row wrap" fxLayoutGap.xs="5%" fxLayoutGap.gt-xs="1%">
+    <mat-card fxFlex.xs="100%" fxFlex.gt-xs="30%" fxFlexFill>
+        <mat-card-content class="info-content" fxLayout="column wrap">
+            <h3 class="silver" fxFlex="100%">Условия отображения</h3>
+            <mat-form-field appearance="outline" fxFlex="fit-content">
+                <mat-label>Статус</mat-label>
+                <mat-select [(ngModel)]="status" (selectionChange)="filter()">
+                    <mat-option value="ACCEPTED">Принято</mat-option>
+                    <mat-option value="LOOKING">Рассматривается</mat-option>
+                    <mat-option value="REFUSED">Отказано</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-button-toggle-group value="1" fxFlex="fit-content">
+                <mat-button-toggle (click)="sort(1)" value="1">Алфавиту</mat-button-toggle>
+                <mat-button-toggle (click)="sort(2)" value="2">Просмотрам</mat-button-toggle>
+                <mat-button-toggle (click)="sort(3)" value="3">Голосам</mat-button-toggle>
+                <mat-button-toggle (click)="sort(4)" value="4">Новизне</mat-button-toggle>
+                <button mat-button class="reverse-sort-button"
+                        (click)="reverseSort()" [ngClass]="reverse ? 'mat-button-toggle-checked' : 'mat-button-toggle'">
+                    <mat-icon>sort</mat-icon>
+                </button>
+            </mat-button-toggle-group>
+        </mat-card-content>
+    </mat-card>
+    <div fxLayout="column" fxFlex.xs="100%" fxFlex.gt-xs fxFlexFill
+         *ngIf="ideas.length > 0; else noIdeas">
+        <app-idea *ngFor="let idea of filteredIdeas" [idea]="idea"></app-idea>
+    </div>
+    <ng-template #noIdeas><p class="no-ideas">Идей не найдено</p></ng-template>
+</div>

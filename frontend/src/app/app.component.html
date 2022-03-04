@@ -1,0 +1,3 @@
+<div [ngClass]="darkMode ? 'dark-theme-mode' : ''" [@appRoutesAnimation]="prepareRoute(outlet)" fxFlex>
+    <router-outlet #outlet="outlet"></router-outlet>
+</div>

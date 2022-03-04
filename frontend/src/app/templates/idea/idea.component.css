@@ -1,0 +1,45 @@
+mat-card {
+    margin-bottom: 40px;
+    padding: 0;
+}
+
+mat-card-title {
+    padding: 10px 20px;
+    background: silver;
+}
+
+@media screen and (max-width: 600px) {
+    .meta {
+        width: 100%;
+        justify-content: space-between;
+    }
+    button.look {
+        width: 100%;
+        margin-top: 5px;
+    }
+}
+
+.meta > div {
+    display: flex;
+    align-items: center;
+    margin-right: 2%;
+}
+
+.meta > div > strong {
+    margin: 10px;
+}
+
+mat-card-title, mat-card-footer, mat-card-content {
+    padding: 10px 20px;
+    margin: 0;
+}
+
+mat-card-title, mat-card-footer {
+    display: flex;
+    align-items: baseline;
+}
+
+mat-card-content {
+    margin: 0;
+    word-break: break-word;
+}

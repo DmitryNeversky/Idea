@@ -1,0 +1,47 @@
+/*Filter*/
+
+.filter-container {
+    margin-bottom: 40px;
+}
+
+.filter-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reverse-sort-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/*Pagination*/
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.pagination-pagers {
+    margin: 0 5px;
+}
+
+.pagination-left {
+    margin-right: 20px;
+}
+
+.pagination-right {
+    margin-left: 20px;
+}
+
+.no-content {
+    text-align: center;
+    margin: 10% 0;
+    font-size: large;
+    color: #a8a8a8;
+}
+/*User item*/
+
+app-user-item:hover {
+    cursor: pointer;
+}

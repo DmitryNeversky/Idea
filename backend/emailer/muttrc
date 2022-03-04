@@ -1,0 +1,16 @@
+set realname = «Microservice»
+set from = «springapplication@yandex.ru»
+set use_from = yes
+
+set imap_user = springapplication@yandex.ru»
+set imap_pass = «vuolmfprzkknmctq»
+set smtp_url = «smtps://springapplication@smtp.yandex.ru:465»
+set smtp_pass = «vuolmfprzkknmctq»
+
+set ssl_starttls = yes
+set ssl_force_tls = yes
+
+set folder = «imaps://imap.yandex.ru:993»
+set spoolfile = «imaps://springapplication@yandex.ru»
+set record = «Отправленные»
+set trash = «Удаленные»

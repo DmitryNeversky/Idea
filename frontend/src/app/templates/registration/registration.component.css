@@ -1,0 +1,39 @@
+mat-card {
+    width: 60%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+mat-form-field {
+    padding-bottom: 2%;
+}
+
+.form-content {
+    margin: 20px 0;
+    justify-content: space-between;
+}
+
+mat-radio-group {
+    display: flex;
+    justify-content: space-evenly;
+    line-height: 3.6;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+@media screen and (max-width: 600px){
+    mat-card {
+        width: 100%;
+        padding: 5% 2%;
+        margin: 0;
+    }
+}

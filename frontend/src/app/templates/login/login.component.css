@@ -1,0 +1,26 @@
+mat-card {
+    width: 50%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.form-actions button {
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 600px){
+    mat-card {
+        width: 90%;
+    }
+}

@@ -1,0 +1,87 @@
+<div class="row" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+    <mat-card fxFlex.xs="100%" fxFlex.gt-xs="80%">
+        <mat-card-content>
+
+            <h1>Создание идеи</h1>
+            <form [formGroup]="mainForm" (ngSubmit)="create()">
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Заголовок</mat-label>
+                    <input matInput formControlName="title">
+                    <mat-error *ngIf="mainForm.get('title').hasError('required')">заполните поле</mat-error>
+                    <mat-error *ngIf="mainForm.get('title').hasError('minlength')">
+                        минимальная длина {{mainForm.get('title').errors.minlength.requiredLength}} символов
+                        (сейчас {{mainForm.get('title').errors.minlength.actualLength}})
+                    </mat-error>
+                    <mat-error *ngIf="mainForm.get('title').hasError('maxlength')">
+                        максимальная длина {{mainForm.get('title').errors.maxlength.requiredLength}} символов
+                        (сейчас {{mainForm.get('title').errors.maxlength.actualLength}})
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Основная идея</mat-label>
+                    <textarea matInput formControlName="text"></textarea>
+                    <mat-error *ngIf="mainForm.get('text').hasError('required')">заполните поле</mat-error>
+                    <mat-error *ngIf="mainForm.get('text').hasError('minlength')">
+                        минимальная длина {{mainForm.get('text').errors.minlength.requiredLength}} символов
+                        (сейчас {{mainForm.get('text').errors.minlength.actualLength}})
+                    </mat-error>
+                    <mat-error *ngIf="mainForm.get('text').hasError('maxlength')">
+                        максимальная длина {{mainForm.get('text').errors.maxlength.requiredLength}} символов
+                        (сейчас {{mainForm.get('text').errors.maxlength.actualLength}})
+                    </mat-error>
+                </mat-form-field>
+
+                <app-chips [allTags]="tags" [tags]="addedTags" (tagsEmitter)="setTags($event)" #chips></app-chips>
+
+                <div class="load-images" fxLayout="row wrap" *ngIf="imagesLoader.dataTransfer.items.length > 0">
+                    <p fxFlex="100%"><strong>Прикрепленные изображения</strong></p>
+                    <img fxFlex.xs="24%" fxFlex.lt-lg="19%" fxFlex.lg="9%" fxFlex.gt-lg="9%" src="{{ image }}" *ngFor="let image of imagesLoader.loadImages; let index = index" class="image mat-elevation-z2"
+                         (click)="imagesLoader.removeImage(image, index, imageInput)" alt="load.image">
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutGap="5%" *ngIf="filesLoader.files.length > 0">
+                    <p fxFlex="100%"><strong>Прикрепленные документы</strong></p>
+                    <br>
+                    <div fxFlex="15%" class="files" *ngFor="let file of filesLoader.files; let index = index">
+                        <img [src]="'assets/' + file.icon" alt="images.image">
+                        <p>{{file.name}}</p>
+                        <button type="button" mat-icon-button (click)="filesLoader.removeFile(file, index, fileInput)" class="cancel">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div class="action">
+                        <input type="file" style="display: none" (change)="imagesLoader.load($event)" accept="image/*" multiple #imageInput>
+                        <input type="file" style="display: none" (change)="filesLoader.loadFiles($event)"
+                               accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.xml" multiple #fileInput>
+                        <button type="button" mat-icon-button (click)="imageInput.click()">
+                            <mat-icon color="warn">add_photo_alternate</mat-icon>
+                        </button>
+                        <button type="button" mat-icon-button (click)="fileInput.click()">
+                            <mat-icon color="warn">description</mat-icon>
+                        </button>
+                    </div>
+                    <div class="action">
+                        <button type="button" mat-button color="primary">сохранить</button>
+                        <button type="submit" (click)="chips.emitChips()" mat-flat-button color="primary">создать</button>
+                    </div>
+                </div>
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="advices" fxFlex.xs="100%" fxFlex.gt-xs="20%">
+        <mat-card-content>
+            <h3>Советы по созданию</h3>
+            <ul>
+                <li>Убедитесь, что до вас такой идеи не было написано</li>
+                <li>Четко сформулируйте и опишите мысль</li>
+            </ul>
+        </mat-card-content>
+    </mat-card>
+</div>

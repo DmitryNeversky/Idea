@@ -1,0 +1,10 @@
+<nav mat-tab-nav-bar disableRipple>
+    <a routerLinkActive="primary" mat-tab-link routerLink="profile">Профиль</a>
+    <a routerLinkActive="primary" mat-tab-link routerLink="notifies">Уведомления</a>
+    <a routerLinkActive="primary" mat-tab-link routerLink="interface">Интерфейс</a>
+    <a routerLinkActive="primary" mat-tab-link routerLink="secure">Безопасность</a>
+</nav>
+
+<div [@routesAnimation]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+</div>
