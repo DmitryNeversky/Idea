@@ -12,7 +12,6 @@ export class IdeaResolver implements Resolve<Idea> {
   constructor(private ideaService: IdeaService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Idea> | Promise<Idea>{
-
-    return this.ideaService.getIdeaById(route.paramMap.get('id'));
+    return this.ideaService.getIdeaById(route.parent.paramMap.get('id'));
   }
 }

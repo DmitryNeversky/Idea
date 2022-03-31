@@ -70,13 +70,18 @@ import {MatSortModule} from "@angular/material/sort";
 import {ModalComponent} from './templates/admin/modal/modal.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSliderModule} from "@angular/material/slider";
+import {IdeaDescriptionComponent} from "./templates/idea-fill/description/idea-description.component";
+import {IdeaCommentsComponent} from './templates/idea-fill/comments/idea-comments.component';
+import {IdeaRequestsComponent} from './templates/idea-fill/requests/idea-requests.component';
+import {IdeaTeamComponent} from './templates/idea-fill/team/idea-team.component';
+import { CommentComponent } from './templates/idea-fill/comments/comment/comment.component';
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
-    {
-        provide: HTTP_INTERCEPTORS,
-        useClass: TokenInterceptor,
-        multi: true
-    },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  },
 ]
 
 @NgModule({
@@ -109,60 +114,65 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     AdminTagsComponent,
     AdminPostsComponent,
     ModalComponent,
+    IdeaDescriptionComponent,
+    IdeaCommentsComponent,
+    IdeaRequestsComponent,
+    IdeaTeamComponent,
+    CommentComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
 
-        MatSidenavModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatButtonModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatDividerModule,
-        MatListModule,
-        MatBadgeModule,
-        MatCardModule,
-        MatGridListModule,
-        MatMenuModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatButtonToggleModule,
-        MatDialogModule,
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatDividerModule,
+    MatListModule,
+    MatBadgeModule,
+    MatCardModule,
+    MatGridListModule,
+    MatMenuModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatButtonToggleModule,
+    MatDialogModule,
 
-        HttpClientModule,
-        ReactiveFormsModule,
-        RouterModule,
-        AppRoutingModule,
-        FormsModule,
-        SharedModule,
-        MatProgressBarModule,
-        MatTableModule,
-        FlexLayoutModule,
-        MatTooltipModule,
-        MatStepperModule,
-        MatRadioModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatProgressSpinnerModule,
-        NgxMaskModule.forRoot(),
-        MatTabsModule,
-        MatChipsModule,
-        MatSortModule,
-        MatSlideToggleModule,
-        MatSliderModule,
-    ],
+    HttpClientModule,
+    ReactiveFormsModule,
+    RouterModule,
+    AppRoutingModule,
+    FormsModule,
+    SharedModule,
+    MatProgressBarModule,
+    MatTableModule,
+    FlexLayoutModule,
+    MatTooltipModule,
+    MatStepperModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatProgressSpinnerModule,
+    NgxMaskModule.forRoot(),
+    MatTabsModule,
+    MatChipsModule,
+    MatSortModule,
+    MatSlideToggleModule,
+    MatSliderModule,
+  ],
   providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDERS,
-          {
-            provide: STEPPER_GLOBAL_OPTIONS,
-            useValue: { displayDefaultIndicatorType: false }
-          },
-          {
-              provide: MAT_DATE_LOCALE,
-              useValue: 'en-GB',
-          }
-      ],
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false }
+    },
+    {
+        provide: MAT_DATE_LOCALE,
+        useValue: 'en-GB',
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

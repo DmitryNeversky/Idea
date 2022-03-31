@@ -32,6 +32,10 @@ import {AdminPostsComponent} from "./templates/admin/admin-posts/admin-posts.com
 import {UpdateIdeaGuard} from "./security/update-idea.guard";
 import {RolesResolver} from "./resolvers/roles.resolver";
 import {LoginGuard} from "./security/login.guard";
+import {IdeaDescriptionComponent} from "./templates/idea-fill/description/idea-description.component";
+import {IdeaRequestsComponent} from "./templates/idea-fill/requests/idea-requests.component";
+import {IdeaTeamComponent} from "./templates/idea-fill/team/idea-team.component";
+import {IdeaCommentsComponent} from "./templates/idea-fill/comments/idea-comments.component";
 
 const routes: Routes = [
     {
@@ -55,15 +59,57 @@ const routes: Routes = [
                 },
             },
             {
-                path: 'ideas/id/:id',
+                path: 'ideas/:id',
                 component: IdeaFillComponent,
                 data: { animation: 'idea' },
                 canActivate: [AuthGuard],
-                resolve: {
-                    idea: IdeaResolver,
-                    currentUser: CurrentUserResolver,
-                    roles: RolesResolver
-                }
+                children: [
+                    {
+                        path: '',
+                        pathMatch: 'full',
+                        redirectTo: 'description'
+                    },
+                    {
+                        path: 'description',
+                        component: IdeaDescriptionComponent,
+                        data: { animation: 'ideaDescription' },
+                        resolve: {
+                            idea: IdeaResolver,
+                            currentUser: CurrentUserResolver,
+                            roles: RolesResolver
+                        }
+                    },
+                    {
+                        path: 'comments',
+                        component: IdeaCommentsComponent,
+                        data: { animation: 'comments' },
+                        resolve: {
+                            idea: IdeaResolver,
+                            currentUser: CurrentUserResolver,
+                            roles: RolesResolver
+                        }
+                    },
+                    {
+                        path: 'requests',
+                        component: IdeaRequestsComponent,
+                        data: { animation: 'requests' },
+                        resolve: {
+                            idea: IdeaResolver,
+                            currentUser: CurrentUserResolver,
+                            roles: RolesResolver
+                        }
+                    },
+                    {
+                        path: 'team',
+                        component: IdeaTeamComponent,
+                        data: { animation: 'team' },
+                        resolve: {
+                            idea: IdeaResolver,
+                            currentUser: CurrentUserResolver,
+                            roles: RolesResolver
+                        }
+                    },
+                ]
             },
             {
                 path: 'ideas/create',
