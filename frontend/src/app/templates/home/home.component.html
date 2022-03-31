@@ -4,6 +4,10 @@
     </button>
     <span>My App</span>
     <span class="header-spacer"></span>
+    <button mat-icon-button class="mail-icon">
+        <mat-icon [matBadge]="currentUser.notifications.length > 0 ? currentUser.notifications.length : ''"
+                  matBadgePosition="after" matBadgeColor="warn">mail</mat-icon>
+    </button>
     <button mat-icon-button [matMenuTriggerFor]="NotifyMenu" class="notification-icon">
         <mat-icon [matBadge]="currentUser.notifications.length > 0 ? currentUser.notifications.length : ''"
                   matBadgePosition="after" matBadgeColor="warn">notifications</mat-icon>
