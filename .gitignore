@@ -10,8 +10,5 @@
 /frontend/.editorconfig
 /frontend/.gitignore
 /frontend/frontend.iml
-/frontend/tsconfig.app.json
-/frontend/tsconfig.json
-/frontend/tsconfig.spec.json
 /frontend/README.md
 /frontend/package-lock.json
