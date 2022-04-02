@@ -32,6 +32,7 @@ import {AdminPostsComponent} from "./templates/admin/admin-posts/admin-posts.com
 import {UpdateIdeaGuard} from "./security/update-idea.guard";
 import {RolesResolver} from "./resolvers/roles.resolver";
 import {LoginGuard} from "./security/login.guard";
+import {ChatComponent} from "./templates/chat/chat.component";
 
 const routes: Routes = [
     {
@@ -220,6 +221,11 @@ const routes: Routes = [
                         }
                     }
                 ]
+            },
+            {
+                path: 'chat',
+                component: ChatComponent,
+                data: { animation: 'chat' }
             }
         ]
     },

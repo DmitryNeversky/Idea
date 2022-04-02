@@ -70,6 +70,8 @@ import {MatSortModule} from "@angular/material/sort";
 import {ModalComponent} from './templates/admin/modal/modal.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSliderModule} from "@angular/material/slider";
+import { ChatComponent } from './templates/chat/chat.component';
+import { MessageComponent } from './templates/chat/message/message.component';
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -109,6 +111,8 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     AdminTagsComponent,
     AdminPostsComponent,
     ModalComponent,
+    ChatComponent,
+    MessageComponent,
   ],
     imports: [
         BrowserModule,

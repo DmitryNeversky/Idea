@@ -4,7 +4,7 @@
     </button>
     <span>My App</span>
     <span class="header-spacer"></span>
-    <button mat-icon-button class="mail-icon">
+    <button mat-icon-button routerLink="/chat" class="mail-icon">
         <mat-icon [matBadge]="currentUser.notifications.length > 0 ? currentUser.notifications.length : ''"
                   matBadgePosition="after" matBadgeColor="warn">mail</mat-icon>
     </button>

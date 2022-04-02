@@ -1,0 +1,4 @@
+server:
+  port: 8084
+
+allowedOrigin: http://localhost:4200

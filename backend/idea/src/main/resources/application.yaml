@@ -18,7 +18,7 @@ server:
   port: 8080
 
 allowedOrigin: http://localhost:4200
-uploadPath: /home/koshey/IdeaProjects/Ex72/frontend/assets/uploaded
+uploadPath: /home/koshey/IdeaProjects/Ex72/frontend/src/assets/uploaded
 
 kafka:
   emailTopic: emailTopic
