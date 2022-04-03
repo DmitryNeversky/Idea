@@ -7,8 +7,8 @@ spring:
       ddl-auto: update
   datasource:
     url: jdbc:mysql://localhost:3306/ex72
-    username: local
-    password: local
+    username: root
+    password: root
   servlet:
     multipart:
       max-request-size: 100MB

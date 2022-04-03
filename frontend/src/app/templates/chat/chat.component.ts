@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ChatService} from "../../services/chat.service";
+import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs';
 
 @Component({
   selector: 'app-chat',
@@ -8,19 +9,48 @@ import {ChatService} from "../../services/chat.service";
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
-  private messages: any = [];
+  private socket = null;
+  private stompClient = null;
 
-  constructor(private stompService: ChatService) { }
+  public messages: any[] = [];
+
+  constructor() { }
 
   ngOnInit(): void {
-    this.stompService.connect();
+    this.socket = new SockJS('http://localhost:8084/chat');
+    this.stompClient = Stomp.over(this.socket);
+    this.connect();
   }
 
   ngOnDestroy(): void {
-    this.stompService.disconnect();
+    this.disconnect();
   }
 
-  sendMessage(): void {
-    this.stompService.sendMessage('hello, websocket');
+  connect(): void {
+    this.stompClient.connect({}, (frame) => {
+      this.stompClient.subscribe('/topic/greetings', (data) => {
+        this.onMessageReceived(data);
+        console.log("HERE IS FROM GREETINGS :: " + data);
+      });
+    });
+  }
+
+  disconnect(): void {
+    if(this.stompClient !== null)
+      this.stompClient.disconnect();
+    console.log("Websocket has been disconnected.");
+  }
+
+  reconnect(): void {
+    this.disconnect();
+    this.connect();
+  }
+
+  sendMessage(message: string): void {
+    this.stompClient.send("/app/hello", {}, JSON.stringify(message));
+  }
+
+  onMessageReceived(message): void {
+    this.messages.push(message);
   }
 }

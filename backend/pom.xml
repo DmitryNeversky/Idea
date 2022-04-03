@@ -12,7 +12,7 @@
   <modules>
     <module>idea</module>
     <module>emailer</module>
-    <module>chatter</module>
+    <module>messenger</module>
   </modules>
 
   <name>Ex72</name>

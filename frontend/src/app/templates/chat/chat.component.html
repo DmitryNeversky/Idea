@@ -1,2 +1,2 @@
-<p>chat works!</p>
-<button (click)="sendMessage()">send message</button>
+<app-message *ngFor="let message of messages" [message]="message"></app-message>
+<button (click)="sendMessage('Go > Went > Gone')">send message</button>

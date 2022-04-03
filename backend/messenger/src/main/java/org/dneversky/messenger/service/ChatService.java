@@ -1,4 +1,4 @@
-package com.dneversky.chatter.service;
+package org.dneversky.messenger.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
