@@ -1,4 +1,21 @@
 spring:
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+kafka:
+  emailTopic: emailTopic
+  bootstrap-servers: localhost:9092
+allowedOrigin: http://localhost:4200
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
   jpa:
     properties:
       hibernate:
@@ -9,17 +26,36 @@ spring:
     url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
+
+server:
+  port: ${SERVER_PORT}
+
+uploadPath: ${RESOURCE_PATH}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  rabbitmq:
+    host: localhost
+    port: 5672
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/ex72
+    username: root
+    password: root
   servlet:
     multipart:
       max-request-size: 100MB
       max-file-size: 100MB
 
 server:
-  port: ${SERVER_PORT}
+  port: 8080
 
-allowedOrigin: http://localhost:4200
-uploadPath: ${RESOURCE_PATH}
-
-kafka:
-  emailTopic: emailTopic
-  bootstrap-servers: localhost:9092
+uploadPath: /home/koshey/IdeaProjects/Ex72/frontend/src/assets/uploaded/

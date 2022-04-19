@@ -12,6 +12,7 @@ import org.dneversky.idea.repository.IdeaRepository;
 import org.dneversky.idea.repository.UserRepository;
 import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.IdeaService;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,7 +43,7 @@ public class IdeaServiceImpl implements IdeaService {
 
     private final IdeaRepository ideaRepository;
     private final UserRepository userRepository;
-    private final EmailServiceImpl emailService;
+    private final AmqpTemplate amqpTemplate;
 
     @Override
     public List<Idea> getAllIdeas() {
@@ -154,10 +155,7 @@ public class IdeaServiceImpl implements IdeaService {
 
         if(principal.isAdmin()) {
             idea.setStatus(status);
-            emailService.send(
-                    idea.getAuthor().getUsername(),
-                    "Service for producing ideas", "Статус вашей идеи с заголовком " +
-                            idea.getTitle() + " изменен на " + status.getName() + ".");
+            amqpTemplate.convertAndSend("notificationQueue", "Статус идеи изменен.");
             return ideaRepository.save(idea);
         }
 

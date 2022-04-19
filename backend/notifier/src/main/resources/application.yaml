@@ -1,8 +1,23 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  rabbitmq:
+    host: "127.0.0.1"
+    port: 5672
+
 server:
   port: 8085
 
-allowedOrigin: http://localhost:4200
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
 
-kafka:
-  emailTopic: emailTopic
-  bootstrap-servers: localhost:9092
+server:
+  port: ${SERVER_PORT}
