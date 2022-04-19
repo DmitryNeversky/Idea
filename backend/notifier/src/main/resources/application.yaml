@@ -1,0 +1,8 @@
+server:
+  port: 8085
+
+allowedOrigin: http://localhost:4200
+
+kafka:
+  emailTopic: emailTopic
+  bootstrap-servers: localhost:9092
