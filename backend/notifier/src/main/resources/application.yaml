@@ -1,3 +1,4 @@
+allowedOrigin: http://localhost:4200
 ---
 spring:
   config:

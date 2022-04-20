@@ -22,13 +22,13 @@ public class Notification {
     private Integer id;
 
     private String title;
-    private String message;
+    private String text;
     @JsonFormat(pattern = "dd-MM-yy HH:mm:SS")
     private LocalDateTime createdDate;
 
-    public Notification(String title, String message, LocalDateTime createdDate) {
+    public Notification(String title, String text, LocalDateTime createdDate) {
         this.title = title;
-        this.message = message;
+        this.text = text;
         this.createdDate = createdDate;
     }
 }

@@ -14,6 +14,9 @@ import {User} from "../../models/User";
 import {routesAnimation} from "../../animation/routes-animation";
 import {Notification} from "../../models/Notification";
 import {UserService} from "../../services/user.service";
+// import {Stomp} from "@stomp/stompjs";
+import * as Stomp from "stompjs";
+import * as SockJS from "sockjs-client";
 
 @Component({
   selector: 'app-home',
@@ -62,6 +65,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
     this.darkMode = !!localStorage.getItem('dark-mode');
+    this.connectToWebSocket();
   }
 
   prepareRoute(outlet: RouterOutlet) {
@@ -91,5 +95,19 @@ export class HomeComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  connectToWebSocket() {
+    const socket = new SockJS("http://localhost:8085/notifications");
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function(frame) {
+      stompClient.subscribe("/user/topic/notifications1", function(message) {
+        console.log(message)
+        console.log("GOT IT");
+      });
+    }, function(error) {
+      alert("STOMP error " + error);
+    });
   }
 }
