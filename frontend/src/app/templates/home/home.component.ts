@@ -102,8 +102,7 @@ export class HomeComponent implements OnInit {
     const stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function(frame) {
-      stompClient.subscribe("/user/topic/notifications1", function(message) {
-        console.log(message)
+      stompClient.subscribe("/topic/notifications", function(message) {
         console.log("GOT IT");
       });
     }, function(error) {

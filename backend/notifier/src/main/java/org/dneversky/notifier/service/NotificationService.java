@@ -12,6 +12,6 @@ public class NotificationService {
     private SimpMessagingTemplate messagingTemplate;
 
     public void sendNotification(Notification notification) {
-        messagingTemplate.convertAndSendToUser("1", "/topic/notifications", notification);
+        messagingTemplate.convertAndSend("/topic/notifications", notification);
     }
 }
