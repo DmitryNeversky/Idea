@@ -3,9 +3,7 @@ spring:
     multipart:
       max-request-size: 100MB
       max-file-size: 100MB
-kafka:
-  emailTopic: emailTopic
-  bootstrap-servers: localhost:9092
+
 allowedOrigin: http://localhost:4200
 
 ---

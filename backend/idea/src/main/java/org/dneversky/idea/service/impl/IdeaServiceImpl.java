@@ -6,6 +6,7 @@ import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.exception.BadArgumentException;
 import org.dneversky.idea.exception.PermissionException;
+import org.dneversky.idea.model.EmailNotification;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
 import org.dneversky.idea.repository.IdeaRepository;
@@ -156,6 +157,7 @@ public class IdeaServiceImpl implements IdeaService {
         if(principal.isAdmin()) {
             idea.setStatus(status);
             amqpTemplate.convertAndSend("notificationQueue", "Статус идеи изменен.");
+            amqpTemplate.convertAndSend("emailQueue", new EmailNotification(idea.getAuthor().getUsername(), "Status changed", "Status of idea changed"));
             return ideaRepository.save(idea);
         }
 

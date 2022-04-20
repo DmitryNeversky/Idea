@@ -17,4 +17,9 @@ public class NotificationListener {
     public void listenTwo(String message) {
         System.out.println(message);
     }
+
+    @RabbitListener(queues = "notificationQueue")
+    public void listenThree(String message) {
+        System.out.println(message);
+    }
 }
