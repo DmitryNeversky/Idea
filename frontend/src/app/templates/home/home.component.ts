@@ -14,7 +14,6 @@ import {User} from "../../models/User";
 import {routesAnimation} from "../../animation/routes-animation";
 import {Notification} from "../../models/Notification";
 import {UserService} from "../../services/user.service";
-// import {Stomp} from "@stomp/stompjs";
 import * as Stomp from "stompjs";
 import * as SockJS from "sockjs-client";
 
@@ -31,25 +30,18 @@ export class HomeComponent implements OnInit {
   public darkMode: boolean = false;
   public currentUser: User;
 
-  constructor(private router: Router, private sharedService: SharedService,
-              private authService: AuthService, private activatedRoute: ActivatedRoute,
-              private userService: UserService) {
+  constructor(private router: Router, private sharedService: SharedService, private authService: AuthService,
+              private activatedRoute: ActivatedRoute, private userService: UserService) {
+
     this.router.events.subscribe((event: any) => {
       switch (true) {
-        case event instanceof NavigationStart: {
-          this.loading = true;
-          break;
-        }
-
+        case event instanceof NavigationStart:
+          this.loading = true; break;
         case event instanceof NavigationEnd:
         case event instanceof NavigationCancel:
-        case event instanceof NavigationError: {
-          this.loading = false;
-          break;
-        }
-        default: {
-          break;
-        }
+        case event instanceof NavigationError:
+          this.loading = false; break;
+        default: break;
       }
     });
 
@@ -103,12 +95,10 @@ export class HomeComponent implements OnInit {
     const socket = new SockJS("http://localhost:8085/notifications");
     const stompClient = Stomp.over(socket);
 
-    stompClient.connect({}, frame => {
-      stompClient.subscribe(`/topic/user/${this.currentUser.id}/notifications`, (notification: Notification) => {
-        this.currentUser.notifications.push(notification);
+    stompClient.connect({}, () => {
+      stompClient.subscribe(`/topic/user/${this.currentUser.id}/notifications`, (frame: any) => {
+        this.currentUser.notifications.push(JSON.parse(frame.body));
       });
-    }, function(error) {
-      alert("STOMP error " + error);
     });
   }
 }
