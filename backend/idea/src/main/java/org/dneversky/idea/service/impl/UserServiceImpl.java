@@ -2,13 +2,11 @@ package org.dneversky.idea.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dneversky.idea.entity.Notification;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;
-import org.dneversky.idea.repository.NotificationRepository;
 import org.dneversky.idea.repository.UserRepository;
 import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.UserService;
@@ -42,7 +40,6 @@ public class UserServiceImpl implements UserService {
     private String UPLOAD_PATH;
 
     private final UserRepository userRepository;
-    private final NotificationRepository notificationRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleServiceImpl roleServiceImpl;
 
@@ -121,18 +118,6 @@ public class UserServiceImpl implements UserService {
         }
 
         throw new PermissionException("You don't have permission to delete user with username " + username + ".");
-    }
-
-    @Override
-    public void deleteNotificationById(Integer id, UserPrincipal principal) {
-        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found in the database."));
-        Notification notification = notificationRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Notification with id " + id + " not found."));
-
-        user.getNotifications().remove(notification);
-
-        userRepository.save(user);
     }
 
     public boolean verifyOldPassword(String username, String oldPassword) {

@@ -64,6 +64,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
+    if(!this.currentUser.notifications)
+      this.currentUser.notifications = [];
     this.darkMode = !!localStorage.getItem('dark-mode');
     this.connectToWebSocket();
   }
@@ -101,9 +103,9 @@ export class HomeComponent implements OnInit {
     const socket = new SockJS("http://localhost:8085/notifications");
     const stompClient = Stomp.over(socket);
 
-    stompClient.connect({}, function(frame) {
-      stompClient.subscribe("/topic/notifications", function(message) {
-        console.log("GOT IT");
+    stompClient.connect({}, frame => {
+      stompClient.subscribe(`/topic/user/${this.currentUser.id}/notifications`, (notification: Notification) => {
+        this.currentUser.notifications.push(notification);
       });
     }, function(error) {
       alert("STOMP error " + error);

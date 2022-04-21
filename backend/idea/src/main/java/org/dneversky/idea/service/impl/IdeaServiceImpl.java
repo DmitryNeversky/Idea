@@ -3,11 +3,11 @@ package org.dneversky.idea.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.idea.entity.Idea;
-import org.dneversky.idea.entity.Notification;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.exception.BadArgumentException;
 import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.model.EmailNotification;
+import org.dneversky.idea.model.Notification;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
 import org.dneversky.idea.repository.IdeaRepository;
@@ -157,9 +157,8 @@ public class IdeaServiceImpl implements IdeaService {
 
         if(principal.isAdmin()) {
             idea.setStatus(status);
-            Notification notification = new Notification();
-            notification.setText("Hello, World!");
-            amqpTemplate.convertAndSend("notificationQueue", notification);
+            // TODO: on idea saved
+            amqpTemplate.convertAndSend("notificationQueue", new Notification("Изменение статуса", "Статус идеи с заголовком" + idea.getTitle() + "изменен на " + status.getName(), principal.getId()));
             amqpTemplate.convertAndSend("emailQueue", new EmailNotification(idea.getAuthor().getUsername(), "Status changed", "Status of idea changed"));
             return ideaRepository.save(idea);
         }

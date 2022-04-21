@@ -26,8 +26,6 @@ public interface UserService {
 
     void patchPassword(String username, UserPrincipal userPrincipal, PasswordChangeRequest passwordChangeRequest);
 
-    void deleteNotificationById(Integer id, UserPrincipal userPrincipal);
-
     void blockUser(String username, UserPrincipal userPrincipal);
 
     void unblockUser(String username, UserPrincipal userPrincipal);

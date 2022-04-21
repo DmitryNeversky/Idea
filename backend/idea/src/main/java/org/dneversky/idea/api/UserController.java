@@ -113,11 +113,4 @@ public class UserController {
 
         return ResponseEntity.ok().build();
     }
-
-    @DeleteMapping("/notification/{id}")
-    public ResponseEntity<?> deleteNotification(@PathVariable Integer id, @CurrentUser UserPrincipal userPrincipal) {
-        userServiceImpl.deleteNotificationById(id, userPrincipal);
-
-        return ResponseEntity.ok().build();
-    }
 }

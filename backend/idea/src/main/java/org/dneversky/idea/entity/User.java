@@ -88,9 +88,6 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Notification> notifications = new ArrayList<>();
-
     @JsonIgnoreProperties("users")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinTable(
