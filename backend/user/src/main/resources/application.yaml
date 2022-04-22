@@ -1,0 +1,20 @@
+---
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+  config:
+    activate:
+      on-profile: dev
+server:
+  port: 8083
+---
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+  config:
+    activate:
+      on-profile: prod
+server:
+  port: ${SERVER_PORT}

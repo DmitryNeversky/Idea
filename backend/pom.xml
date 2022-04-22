@@ -12,7 +12,9 @@
   <modules>
     <module>idea</module>
     <module>emailer</module>
-      <module>notifier</module>
+    <module>notifier</module>
+    <module>user</module>
+    <module>gateway</module>
   </modules>
 
   <name>Ex72</name>
