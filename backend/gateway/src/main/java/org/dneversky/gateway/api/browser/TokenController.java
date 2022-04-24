@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.gateway.api.browser;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.gateway.api.browser;
 
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.model.Status;

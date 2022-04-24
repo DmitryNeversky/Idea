@@ -1,11 +1,3 @@
-spring:
-  servlet:
-    multipart:
-      max-request-size: 100MB
-      max-file-size: 100MB
-
-allowedOrigin: http://localhost:4200
-
 ---
 spring:
   config:
@@ -48,10 +40,6 @@ spring:
     url: jdbc:mysql://localhost:3306/ex72
     username: root
     password: root
-  servlet:
-    multipart:
-      max-request-size: 100MB
-      max-file-size: 100MB
 
 server:
   port: 8080

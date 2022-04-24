@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dneversky.idea.model.Status;
+import org.dneversky.idea.model.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package org.dneversky.idea.converter;
+package org.dneversky.gateway.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;

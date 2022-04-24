@@ -30,10 +30,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -87,9 +85,6 @@ public class IdeaServiceImpl implements IdeaService {
     @Override
     public Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages,
                          List<MultipartFile> addFiles, UserPrincipal principal) {
-
-        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found."));
 
         Idea idea = new Idea();
         idea.setTitle(ideaRequest.getTitle());

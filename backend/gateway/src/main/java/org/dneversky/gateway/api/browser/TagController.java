@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.gateway.api.browser;
 
 import org.dneversky.idea.entity.Tag;
 import org.dneversky.idea.payload.TagRequest;

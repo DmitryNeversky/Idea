@@ -1,4 +1,4 @@
-package org.dneversky.idea.payload;
+package org.dneversky.user.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

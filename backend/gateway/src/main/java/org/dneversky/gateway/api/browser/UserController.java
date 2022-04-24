@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.gateway.api.browser;
 
 import lombok.RequiredArgsConstructor;
 import org.dneversky.idea.entity.Role;
