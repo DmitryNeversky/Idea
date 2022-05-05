@@ -1,7 +1,9 @@
 package org.dneversky.gateway.advice;
 
-import org.dneversky.idea.exception.BadArgumentException;
-import org.dneversky.idea.exception.PermissionException;
+import org.dneversky.gateway.exception.BadArgumentException;
+import org.dneversky.gateway.exception.EntityExistsException;
+import org.dneversky.gateway.exception.EntityNotFoundException;
+import org.dneversky.gateway.exception.PermissionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -9,8 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 

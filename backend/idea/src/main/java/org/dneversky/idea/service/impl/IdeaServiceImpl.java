@@ -2,8 +2,7 @@ package org.dneversky.idea.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dneversky.idea.entity.Idea;
-import org.dneversky.idea.entity.User;
+import org.dneversky.idea.agregate.Idea;
 import org.dneversky.idea.exception.BadArgumentException;
 import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.model.EmailNotification;
@@ -11,8 +10,6 @@ import org.dneversky.idea.model.Notification;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
 import org.dneversky.idea.repository.IdeaRepository;
-import org.dneversky.idea.repository.UserRepository;
-import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.IdeaService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,8 +27,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +41,6 @@ public class IdeaServiceImpl implements IdeaService {
     private String UPLOAD_PATH;
 
     private final IdeaRepository ideaRepository;
-    private final UserRepository userRepository;
     private final AmqpTemplate amqpTemplate;
 
     @Override
@@ -84,7 +82,7 @@ public class IdeaServiceImpl implements IdeaService {
 
     @Override
     public Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages,
-                         List<MultipartFile> addFiles, UserPrincipal principal) {
+                         List<MultipartFile> addFiles, Long currentUserId) {
 
         Idea idea = new Idea();
         idea.setTitle(ideaRequest.getTitle());
@@ -104,7 +102,7 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea updateIdea(Long id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, UserPrincipal principal) {
+    public Idea updateIdea(Long id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, Long currentUserId) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
 
@@ -127,7 +125,7 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public void deleteIdea(Long id, UserPrincipal principal) {
+    public void deleteIdea(Long id, Long currentUserId) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
 
@@ -146,7 +144,7 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea changeStatus(Long id, Status status, UserPrincipal principal) {
+    public Idea changeStatus(Long id, Status status, Long currentUserId) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
 
@@ -162,7 +160,7 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea addLook(Long id, UserPrincipal principal) {
+    public Idea addLook(Long id, Long currentUserId) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
 
@@ -176,7 +174,7 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea addRating(Long id, UserPrincipal principal) {
+    public Idea addRating(Long id, Long currentUserId) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
         User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
@@ -192,7 +190,7 @@ public class IdeaServiceImpl implements IdeaService {
     }
 
     @Override
-    public Idea reduceRating(Long id, UserPrincipal principal) {
+    public Idea reduceRating(Long id, Long currentUserId) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
         User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(

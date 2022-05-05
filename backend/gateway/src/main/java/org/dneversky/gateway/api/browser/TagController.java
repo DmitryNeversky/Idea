@@ -1,6 +1,6 @@
 package org.dneversky.gateway.api.browser;
 
-import org.dneversky.idea.entity.Tag;
+import org.dneversky.idea.agregate.Tag;
 import org.dneversky.idea.payload.TagRequest;
 import org.dneversky.idea.service.impl.TagServiceImpl;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package org.dneversky.gateway.api.browser;
 
-import org.dneversky.idea.entity.Idea;
+import org.dneversky.idea.agregate.Idea;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
 import org.dneversky.idea.security.CurrentUser;

@@ -1,6 +1,6 @@
 package org.dneversky.gateway.api.browser;
 
-import org.dneversky.idea.entity.Role;
+import org.dneversky.idea.agregate.Role;
 import org.dneversky.idea.payload.RoleRequest;
 import org.dneversky.idea.service.impl.RoleServiceImpl;
 import org.springframework.http.HttpStatus;

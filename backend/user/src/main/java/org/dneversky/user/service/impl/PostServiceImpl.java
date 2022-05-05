@@ -1,7 +1,7 @@
 package org.dneversky.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.dneversky.idea.entity.Post;
+import org.dneversky.idea.agregate.Post;
 import org.dneversky.idea.payload.PostRequest;
 import org.dneversky.idea.repository.PostRepository;
 import org.dneversky.idea.repository.UserRepository;

@@ -1,7 +1,7 @@
 package org.dneversky.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.dneversky.idea.entity.Role;
+import org.dneversky.idea.agregate.Role;
 import org.dneversky.idea.payload.RoleRequest;
 import org.dneversky.idea.repository.RoleRepository;
 import org.dneversky.idea.repository.UserRepository;

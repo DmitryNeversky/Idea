@@ -2,8 +2,8 @@ package org.dneversky.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dneversky.idea.entity.Role;
-import org.dneversky.idea.entity.User;
+import org.dneversky.idea.agregate.Role;
+import org.dneversky.idea.agregate.User;
 import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;

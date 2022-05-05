@@ -1,10 +1,7 @@
 package org.dneversky.gateway.security;
 
 import lombok.RequiredArgsConstructor;
-import org.dneversky.gateway.model.User;
-import org.dneversky.gateway.servie.UserService;
-import org.dneversky.idea.entity.User;
-import org.dneversky.idea.service.UserService;
+import org.dneversky.gateway.servie.impl.UserServiceImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,12 +11,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getUserByUsername(username);
+        UserPrincipal user = userService.getUserPrincipal(username);
 
-        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getRoles(), user.isEnabled());
+        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), null, user.isEnabled());
     }
 }

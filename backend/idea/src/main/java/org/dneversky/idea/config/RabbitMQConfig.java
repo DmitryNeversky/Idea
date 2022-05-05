@@ -31,12 +31,17 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue notificationQueue() {
-        return new Queue("notificationQueue");
+    public Queue createIdeaEvent() {
+        return new Queue("createIdeaEvent");
     }
 
     @Bean
-    public Queue emailQueue() {
-        return new Queue("emailQueue");
+    public Queue updateIdeaEvent() {
+        return new Queue("updateIdeaEvent");
+    }
+
+    @Bean
+    public Queue deleteIdeaEvent() {
+        return new Queue("deleteIdeaEvent");
     }
 }

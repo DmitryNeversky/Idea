@@ -1,6 +1,6 @@
 package org.dneversky.user.service;
 
-import org.dneversky.idea.entity.Role;
+import org.dneversky.idea.agregate.Role;
 import org.dneversky.idea.payload.RoleRequest;
 
 import java.util.List;

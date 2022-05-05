@@ -1,9 +1,8 @@
 package org.dneversky.idea.service;
 
-import org.dneversky.idea.entity.Idea;
+import org.dneversky.idea.agregate.Idea;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
-import org.dneversky.idea.security.UserPrincipal;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,17 +16,17 @@ public interface IdeaService {
 
     Idea getIdea(Long id);
 
-    Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, UserPrincipal userPrincipal);
+    Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, Long currentUserId);
 
-    Idea updateIdea(Long id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, UserPrincipal userPrincipal);
+    Idea updateIdea(Long id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, Long currentUserId);
 
-    void deleteIdea(Long id, UserPrincipal userPrincipal);
+    void deleteIdea(Long id, Long currentUserId);
 
-    Idea addLook(Long id, UserPrincipal userPrincipal);
+    Idea addLook(Long id, Long currentUserId);
 
-    Idea addRating(Long id, UserPrincipal userPrincipal);
+    Idea addRating(Long id, Long currentUserId);
 
-    Idea reduceRating(Long id, UserPrincipal userPrincipal);
+    Idea reduceRating(Long id, Long currentUserId);
 
-    Idea changeStatus(Long id, Status status, UserPrincipal userPrincipal);
+    Idea changeStatus(Long id, Status status, Long currentUserId);
 }

@@ -1,6 +1,6 @@
 package org.dneversky.gateway.api.browser;
 
-import org.dneversky.idea.entity.Post;
+import org.dneversky.idea.agregate.Post;
 import org.dneversky.idea.payload.PostRequest;
 import org.dneversky.idea.service.impl.PostServiceImpl;
 import org.springframework.http.HttpStatus;

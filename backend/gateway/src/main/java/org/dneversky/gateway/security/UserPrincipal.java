@@ -1,7 +1,7 @@
 package org.dneversky.gateway.security;
 
-import org.dneversky.idea.entity.Role;
-import org.dneversky.idea.entity.User;
+import org.dneversky.idea.agregate.Role;
+import org.dneversky.idea.agregate.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,16 +32,6 @@ public class UserPrincipal implements UserDetails {
                     .map(role -> new SimpleGrantedAuthority(role.getName()))
                     .collect(Collectors.toSet());
         }
-    }
-
-    public static UserPrincipal buildPrincipal(User user) {
-        return new UserPrincipal(
-                user.getId(),
-                user.getUsername(),
-                user.getPassword(),
-                user.getRoles(),
-                user.isEnabled()
-        );
     }
 
     @Override

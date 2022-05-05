@@ -1,8 +1,8 @@
 package org.dneversky.gateway.api.browser;
 
 import lombok.RequiredArgsConstructor;
-import org.dneversky.idea.entity.Role;
-import org.dneversky.idea.entity.User;
+import org.dneversky.idea.agregate.Role;
+import org.dneversky.idea.agregate.User;
 import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;
 import org.dneversky.idea.security.CurrentUser;

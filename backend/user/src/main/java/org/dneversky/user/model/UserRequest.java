@@ -3,7 +3,7 @@ package org.dneversky.user.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.dneversky.idea.entity.Post;
+import org.dneversky.idea.agregate.Post;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
