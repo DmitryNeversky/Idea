@@ -1,11 +1,11 @@
 package org.dneversky.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.dneversky.idea.agregate.Role;
-import org.dneversky.idea.payload.RoleRequest;
-import org.dneversky.idea.repository.RoleRepository;
-import org.dneversky.idea.repository.UserRepository;
-import org.dneversky.idea.service.RoleService;
+import org.dneversky.user.entity.Role;
+import org.dneversky.user.model.RoleRequest;
+import org.dneversky.user.repository.RoleRepository;
+import org.dneversky.user.repository.UserRepository;
+import org.dneversky.user.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

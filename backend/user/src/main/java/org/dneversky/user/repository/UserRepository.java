@@ -1,6 +1,6 @@
 package org.dneversky.user.repository;
 
-import org.dneversky.idea.agregate.User;
+import org.dneversky.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

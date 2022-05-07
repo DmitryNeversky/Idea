@@ -1,11 +1,11 @@
 package org.dneversky.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.dneversky.idea.agregate.Post;
-import org.dneversky.idea.payload.PostRequest;
-import org.dneversky.idea.repository.PostRepository;
-import org.dneversky.idea.repository.UserRepository;
-import org.dneversky.idea.service.PostService;
+import org.dneversky.user.entity.Post;
+import org.dneversky.user.model.PostRequest;
+import org.dneversky.user.repository.PostRepository;
+import org.dneversky.user.repository.UserRepository;
+import org.dneversky.user.service.PostService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

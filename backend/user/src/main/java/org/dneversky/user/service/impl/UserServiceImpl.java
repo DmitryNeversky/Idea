@@ -1,15 +1,14 @@
 package org.dneversky.user.service.impl;
 
+import com.sun.security.auth.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dneversky.idea.agregate.Role;
-import org.dneversky.idea.agregate.User;
 import org.dneversky.idea.exception.PermissionException;
-import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;
-import org.dneversky.idea.repository.UserRepository;
-import org.dneversky.idea.security.UserPrincipal;
-import org.dneversky.idea.service.UserService;
+import org.dneversky.user.entity.Role;
+import org.dneversky.user.entity.User;
+import org.dneversky.user.model.PasswordChangeRequest;
+import org.dneversky.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl {
 
     @Value("${uploadPath}")
     private String UPLOAD_PATH;

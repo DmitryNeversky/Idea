@@ -1,9 +1,9 @@
 package org.dneversky.gateway.config;
 
-import lombok.RequiredArgsConstructor;
-import org.dneversky.idea.security.CustomAuthenticationFilter;
-import org.dneversky.idea.security.CustomAuthorizationFilter;
-import org.dneversky.idea.security.UserDetailsServiceImpl;
+import org.dneversky.gateway.security.CustomAuthenticationFilter;
+import org.dneversky.gateway.security.CustomAuthorizationFilter;
+import org.dneversky.gateway.security.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,11 +21,17 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableGlobalMethodSecurity(
         securedEnabled = true
 )
-@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsService;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+/**
+        AuthenticationManager compares username & password from request's header with a real data storing in a database.
+**/
 
     @Bean
     @Override
@@ -40,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter authenticationFilter = new CustomAuthenticationFilter(authenticationManager());
+        CustomAuthenticationFilter authenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         authenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);

@@ -1,22 +1,17 @@
 package org.dneversky.gateway.api.browser;
 
 import lombok.RequiredArgsConstructor;
-import org.dneversky.idea.agregate.Role;
-import org.dneversky.idea.agregate.User;
-import org.dneversky.idea.payload.PasswordChangeRequest;
-import org.dneversky.idea.payload.UserRequest;
-import org.dneversky.idea.security.CurrentUser;
-import org.dneversky.idea.security.UserPrincipal;
-import org.dneversky.idea.service.impl.UserServiceImpl;
+import org.dneversky.gateway.model.User;
+import org.dneversky.gateway.servie.impl.UserServiceImpl;
+import org.dneversky.gateway.security.CurrentUser;
+import org.dneversky.gateway.security.UserPrincipal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("api/users")

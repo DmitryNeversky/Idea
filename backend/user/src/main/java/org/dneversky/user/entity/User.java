@@ -12,12 +12,16 @@ import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -68,15 +72,6 @@ public class User {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate registeredDate;
-
-    @JsonIgnoreProperties("author")
-    @OneToMany(cascade = CascadeType.DETACH)
-    @JoinTable(
-            name = "user_ideas",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "idea_id")
-    )
-    private List<Idea> ideas = new ArrayList<>();
 
     @JsonIgnoreProperties("users")
     @ManyToMany(fetch = FetchType.EAGER)

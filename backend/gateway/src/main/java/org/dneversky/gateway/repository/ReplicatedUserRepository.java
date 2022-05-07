@@ -4,7 +4,9 @@ import org.dneversky.gateway.security.UserPrincipal;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ReplicatedUserRepository extends CrudRepository<UserPrincipal, Long> {
-    UserPrincipal findByUsername(String username);
+    Optional<UserPrincipal> findByUsername(String username);
 }

@@ -1,10 +1,10 @@
 package org.dneversky.user.service;
 
-import org.dneversky.idea.agregate.Role;
-import org.dneversky.idea.agregate.User;
-import org.dneversky.idea.payload.PasswordChangeRequest;
-import org.dneversky.idea.payload.UserRequest;
-import org.dneversky.idea.security.UserPrincipal;
+import com.sun.security.auth.UserPrincipal;
+import org.dneversky.user.entity.Role;
+import org.dneversky.user.entity.User;
+import org.dneversky.user.model.PasswordChangeRequest;
+import org.dneversky.user.model.UserRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -20,15 +20,15 @@ public interface UserService {
 
     User saveUser(User user);
 
-    User updateUser(String username, UserPrincipal principal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
+    User updateUser(String username, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
 
-    void deleteUser(String username, UserPrincipal userPrincipal);
+    void deleteUser(String username);
 
-    void patchPassword(String username, UserPrincipal userPrincipal, PasswordChangeRequest passwordChangeRequest);
+    void patchPassword(String username, PasswordChangeRequest passwordChangeRequest);
 
-    void blockUser(String username, UserPrincipal userPrincipal);
+    void blockUser(String username);
 
-    void unblockUser(String username, UserPrincipal userPrincipal);
+    void unblockUser(String username);
 
-    void changeRoles(String username, Set<Role> roles, UserPrincipal userPrincipal);
+    void changeRoles(String username, Set<Role> roles);
 }
