@@ -1,6 +1,7 @@
 package org.dneversky.gateway.config;
 
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -24,6 +25,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public DirectExchange exchange() {
+        return new DirectExchange("rpc_exchange");
+    }
+
+    @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
@@ -38,5 +44,10 @@ public class RabbitMQConfig {
     @Bean
     public Queue emailQueue() {
         return new Queue("emailQueue");
+    }
+
+    @Bean
+    public Queue userQueue() {
+        return new Queue("userQueue");
     }
 }

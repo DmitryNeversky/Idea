@@ -1,7 +1,5 @@
 package org.dneversky.gateway.security;
 
-import org.dneversky.idea.agregate.Role;
-import org.dneversky.idea.agregate.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
