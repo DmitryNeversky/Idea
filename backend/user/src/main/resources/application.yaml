@@ -6,6 +6,16 @@ spring:
   config:
     activate:
       on-profile: dev
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/ex72
+    username: root
+    password: root
 server:
   port: 8083
 ---

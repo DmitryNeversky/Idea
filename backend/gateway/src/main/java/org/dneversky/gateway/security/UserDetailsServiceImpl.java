@@ -15,7 +15,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserPrincipal user = userService.getUserPrincipal(username);
+        UserPrincipal user = userService.getUserByUsername(username);
 
         return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), null, user.isEnabled());
     }

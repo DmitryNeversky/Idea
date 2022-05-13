@@ -16,7 +16,6 @@
     <module>user</module>
     <module>gateway</module>
     <module>kitchen</module>
-    <module>Order</module>
   </modules>
 
   <name>Ex72</name>
@@ -45,6 +44,11 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
     <dependency>

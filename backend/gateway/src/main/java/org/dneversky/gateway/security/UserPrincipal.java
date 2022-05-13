@@ -1,12 +1,10 @@
 package org.dneversky.gateway.security;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
@@ -14,22 +12,15 @@ public class UserPrincipal implements UserDetails {
 
     private final String username;
     private final String password;
-    private final Set<GrantedAuthority> authorities;
+    private final Set<? extends GrantedAuthority> authorities;
     private final boolean enabled;
 
-    public UserPrincipal(Long id, String username, String password, Set<Role> roles, boolean enabled) {
+    public UserPrincipal(Long id, String username, String password, Set<? extends GrantedAuthority> authorities, boolean enabled) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
-
-        if(roles == null) {
-            this.authorities = null;
-        } else {
-            this.authorities = roles.stream()
-                    .map(role -> new SimpleGrantedAuthority(role.getName()))
-                    .collect(Collectors.toSet());
-        }
+        this.authorities = authorities;
     }
 
     @Override
@@ -69,16 +60,5 @@ public class UserPrincipal implements UserDetails {
 
     public Long getId() {
         return id;
-    }
-
-    public boolean isAdmin() {
-        return this.authorities.stream().anyMatch(a ->
-                a.getAuthority().equals("ADMIN") ||
-                a.getAuthority().equals("SUPER_ADMIN")
-        );
-    }
-
-    public boolean isSuperAdmin() {
-        return this.authorities.stream().anyMatch(a -> a.getAuthority().equals("SUPER_ADMIN"));
     }
 }

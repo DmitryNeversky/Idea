@@ -1,12 +1,9 @@
 package org.dneversky.user.config;
 
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,19 +21,17 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate() {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
-        return rabbitTemplate;
+    public DirectExchange directRPCExchange() {
+        return new DirectExchange("rpc_exchange");
     }
 
     @Bean
-    public Queue notificationQueue() {
-        return new Queue("notificationQueue");
+    public Queue userQueue() {
+        return new Queue("userQueue");
     }
 
     @Bean
-    public Queue emailQueue() {
-        return new Queue("emailQueue");
+    public Binding binding(DirectExchange exchange, Queue queue) {
+        return BindingBuilder.bind(queue).to(exchange).with("rpc");
     }
 }
