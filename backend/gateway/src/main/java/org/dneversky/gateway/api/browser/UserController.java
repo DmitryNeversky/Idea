@@ -15,8 +15,8 @@ public class UserController {
     private final UserServiceImpl userServiceImpl;
 
     @GetMapping
-    public UserPrincipal getUsername() {
-
-        return userServiceImpl.getUserByUsername("e@e");
+    public String getUsername() {
+        userServiceImpl.getUserByUsername("e@e");
+        return "Ok";
     }
 }
