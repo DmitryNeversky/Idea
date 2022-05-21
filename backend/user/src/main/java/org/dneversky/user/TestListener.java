@@ -1,31 +1,47 @@
 package org.dneversky.user;
 
+import lombok.RequiredArgsConstructor;
+import org.dneversky.user.config.RabbitMQConfig;
 import org.dneversky.user.entity.User;
 import org.dneversky.user.model.UserReplyMessage;
 import org.dneversky.user.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
+@RequiredArgsConstructor
 @EnableRabbit
 @Component
 public class TestListener {
 
+    private static final Logger logger = LoggerFactory.getLogger(TestListener.class);
+
     private final UserRepository userRepository;
+    private final RabbitTemplate rabbitTemplate;
 
-    public TestListener(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @RabbitListener(queues = RabbitMQConfig.RECEIVE_QUEUE)
+    public void doGet(Message message) {
+        logger.info("Received message: {}", message);
+        Message response = MessageBuilder.withBody("Hello, world!".getBytes()).build();
+        rabbitTemplate.sendAndReceive(RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.REPLY_QUEUE, response);
 
-    @RabbitListener(queues = "userQueue", messageConverter = "jsonMessageConverter")
-    public UserReplyMessage doGet(String username) {
-        User user = userRepository.findByUsername(username).orElse(null);
-        if(user != null) {
-
-            return new UserReplyMessage(user.getId(), user.getUsername(), user.getPassword(), user.isEnabled());
-        }
-
-        return null;
+//        User user = userRepository.findByUsername(username).orElse(null);
+//        System.out.println(user);
+//        if(user != null) {
+//            MessageProperties properties = new MessageProperties();
+//            properties.setType("org.dneversky.gateway.model.UserResponse");
+//            properties.setContentType("application/json");
+//
+//            String message = new UserReplyMessage(user.getId(), user.getUsername(), user.getPassword(), user.isEnabled()).toString();
+//            return message;
+//        }
+//
+//        return null;
     }
 }

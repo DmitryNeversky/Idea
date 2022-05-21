@@ -1,52 +1,46 @@
 package org.dneversky.user.config;
 
-import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
 
+    public static final String RECEIVE_QUEUE = "rpc_queue";
+    public static final String REPLY_QUEUE = "reply_queue";
+    public static final String RPC_EXCHANGE = "rpc_exchange";
+
     @Bean
-    public ConnectionFactory connectionFactory() {
-        return new CachingConnectionFactory();
+    public TopicExchange rpcExchange() {
+        return new TopicExchange(RPC_EXCHANGE);
     }
 
     @Bean
-    public AmqpAdmin amqpAdmin() {
-        return new RabbitAdmin(connectionFactory());
+    public Queue receiveQueue() {
+        return new Queue(RECEIVE_QUEUE);
     }
 
     @Bean
-    public DirectExchange directRPCExchange() {
-        return new DirectExchange("rpc_exchange");
+    public Queue replyQueue() {
+        return new Queue(REPLY_QUEUE);
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate() {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-        rabbitTemplate.setMessageConverter(jsonMessageConverter());
-
-        return rabbitTemplate;
+    public Binding receiveBinding() {
+        return BindingBuilder.bind(receiveQueue()).to(rpcExchange()).with(RECEIVE_QUEUE);
     }
 
     @Bean
-    public Queue userQueue() {
-        return new Queue("userQueue");
+    public Binding replyBinding() {
+        return BindingBuilder.bind(replyQueue()).to(rpcExchange()).with(REPLY_QUEUE);
     }
 
-    @Bean
-    public Binding binding(DirectExchange exchange, Queue queue) {
-        return BindingBuilder.bind(queue).to(exchange).with("rpc");
-    }
-
-    @Bean
-    public Jackson2JsonMessageConverter jsonMessageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
+//    @Bean
+//    public Jackson2JsonMessageConverter jsonMessageConverter() {
+//        return new Jackson2JsonMessageConverter();
+//    }
 }
