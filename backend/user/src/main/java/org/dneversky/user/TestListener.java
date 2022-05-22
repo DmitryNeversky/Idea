@@ -26,10 +26,11 @@ public class TestListener {
     private final RabbitTemplate rabbitTemplate;
 
     @RabbitListener(queues = RabbitMQConfig.RECEIVE_QUEUE)
-    public void doGet(Message message) {
+    public void doGet(UserReplyMessage message) {
         logger.info("Received message: {}", message);
-        Message response = MessageBuilder.withBody("Hello, world!".getBytes()).build();
-        rabbitTemplate.sendAndReceive(RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.REPLY_QUEUE, response);
+        UserReplyMessage response = new UserReplyMessage();
+        logger.info("Sending message: {}", response);
+        rabbitTemplate.convertSendAndReceive(RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.REPLY_QUEUE, response);
 
 //        User user = userRepository.findByUsername(username).orElse(null);
 //        System.out.println(user);
