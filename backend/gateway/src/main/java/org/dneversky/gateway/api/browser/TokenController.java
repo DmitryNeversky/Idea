@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dneversky.gateway.security.UserPrincipal;
 import org.dneversky.gateway.servie.impl.UserServiceImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -45,13 +47,14 @@ public class TokenController {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
-                UserPrincipal user = userServiceImpl.getUserByUsername(username);
+                UserPrincipal user = UserPrincipal.buildPrincipal(userServiceImpl.getUserByUsername(username));
                 String accessToken = JWT.create()
                         .withSubject(user.getUsername())
                         .withExpiresAt(new Date(System.currentTimeMillis() + (ACCESS_EXPIRE_MINUTES * 60 * 1000)))
                         .withIssuer(request.getRequestURL().toString())
-//                        .withClaim("roles", user.getRoles().stream()
-//                                .map(Role::getName).collect(Collectors.toList()))
+                        .withClaim("roles", user.getAuthorities().stream()
+                                .map(e -> new SimpleGrantedAuthority(e.getAuthority()))
+                                .collect(Collectors.toList()))
                         .sign(algorithm);
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", accessToken);
