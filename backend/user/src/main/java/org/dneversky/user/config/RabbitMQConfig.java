@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String RECEIVE_QUEUE = "rpc_queue";
     public static final String RPC_EXCHANGE = "rpc_exchange";
-    public static final String ROUTING_KEY = "rpc_key";
+    public static final String RPC_USER_QUEUE = "rpcUserQueue";
+    public static final String RPC_USERS_QUEUE = "rpcUsersQueue";
 
     @Bean
     public DirectExchange rpcExchange() {
@@ -22,13 +22,23 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue receiveQueue() {
-        return new Queue(RECEIVE_QUEUE);
+    public Queue rpcUserQueue() {
+        return new Queue(RPC_USER_QUEUE);
     }
 
     @Bean
-    public Binding receiveBinding() {
-        return BindingBuilder.bind(receiveQueue()).to(rpcExchange()).with(ROUTING_KEY);
+    public Queue rpcUsersQueue() {
+        return new Queue(RPC_USERS_QUEUE);
+    }
+
+    @Bean
+    public Binding rpcUserQueueBinding() {
+        return BindingBuilder.bind(rpcUserQueue()).to(rpcExchange()).with(rpcUserQueue().getName());
+    }
+
+    @Bean
+    public Binding rpcUsersQueueBinding() {
+        return BindingBuilder.bind(rpcUsersQueue()).to(rpcExchange()).with(rpcUsersQueue().getName());
     }
 
     @Bean

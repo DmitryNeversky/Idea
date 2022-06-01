@@ -19,7 +19,7 @@ public class TestListener {
 
     private static final Logger logger = LoggerFactory.getLogger(TestListener.class);
 
-    @RabbitListener(queues = RabbitMQConfig.RECEIVE_QUEUE)
+    @RabbitListener(queues = RabbitMQConfig.RPC_USER_QUEUE)
     public User getUserByUsername(String username) {
         logger.info("Received message: {}", username);
         User user = userRepository.findByUsername(username).orElse(null);
@@ -27,7 +27,7 @@ public class TestListener {
         return user;
     }
 
-    @RabbitListener(queues = RabbitMQConfig.RECEIVE_QUEUE)
+    @RabbitListener(queues = RabbitMQConfig.RPC_USERS_QUEUE)
     public List<User> getAllUsers() {
         List<User> users = userRepository.findAll();
         logger.info("Sending message: {}", users);

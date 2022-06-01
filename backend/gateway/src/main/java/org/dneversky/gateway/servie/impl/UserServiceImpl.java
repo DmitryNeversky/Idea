@@ -22,7 +22,7 @@ public class UserServiceImpl {
     public User getUserByUsername(String username) {
         logger.info("Sending created message: {}", username);
         User response = rabbitTemplate.convertSendAndReceiveAsType(
-                RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.ROUTING_KEY, username,
+                RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.RPC_USER_QUEUE, username,
                 new ParameterizedTypeReference<User>() {});
         logger.info("Getting response: {}", response);
 
@@ -31,7 +31,7 @@ public class UserServiceImpl {
 
     public List<User> getAllUsers() {
         List<User> response = rabbitTemplate.convertSendAndReceiveAsType(
-                RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.ROUTING_KEY, 1,
+                RabbitMQConfig.RPC_EXCHANGE, RabbitMQConfig.RPC_USERS_QUEUE, 1,
                 new ParameterizedTypeReference<List<User>>() {});
         logger.info("Getting response: {}", response);
 
