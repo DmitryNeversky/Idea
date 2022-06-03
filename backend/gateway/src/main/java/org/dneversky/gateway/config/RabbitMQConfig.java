@@ -10,8 +10,9 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     public static final String RPC_EXCHANGE = "rpc_exchange";
-    public static final String RPC_USER_QUEUE = "rpcUserQueue";
-    public static final String RPC_USERS_QUEUE = "rpcUsersQueue";
+    public static final String RPC_GET_USERS = "rpc.get.users";
+    public static final String RPC_GET_USER_BY_ID = "rpc.get.user.byId";
+    public static final String RPC_GET_USER_BY_USERNAME = "rpc.get.user.byUsername";
 
     @Bean
     public DirectExchange rpcExchange() {

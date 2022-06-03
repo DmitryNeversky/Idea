@@ -19,18 +19,26 @@ public class TestListener {
 
     private static final Logger logger = LoggerFactory.getLogger(TestListener.class);
 
-    @RabbitListener(queues = RabbitMQConfig.RPC_USER_QUEUE)
-    public User getUserByUsername(String username) {
-        logger.info("Received message: {}", username);
-        User user = userRepository.findByUsername(username).orElse(null);
+    @RabbitListener(queues = RabbitMQConfig.RPC_GET_USERS)
+    public List<User> rpcGetUsers() {
+        List<User> users = userRepository.findAll();
+        logger.info("Sending message: {}", users);
+        return users;
+    }
+
+    @RabbitListener(queues = RabbitMQConfig.RPC_GET_USER_BY_ID)
+    public User rpcGetUserById(Long id) {
+        logger.info("Received message: {}", id);
+        User user = userRepository.findById(id).orElse(null);
         logger.info("Sending message: {}", user);
         return user;
     }
 
-    @RabbitListener(queues = RabbitMQConfig.RPC_USERS_QUEUE)
-    public List<User> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        logger.info("Sending message: {}", users);
-        return users;
+    @RabbitListener(queues = RabbitMQConfig.RPC_GET_USER_BY_USERNAME)
+    public User rpcGetUserByUsername(String username) {
+        logger.info("Received message: {}", username);
+        User user = userRepository.findByUsername(username).orElse(null);
+        logger.info("Sending message: {}", user);
+        return user;
     }
 }

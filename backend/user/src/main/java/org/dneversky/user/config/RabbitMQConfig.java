@@ -13,8 +13,9 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     public static final String RPC_EXCHANGE = "rpc_exchange";
-    public static final String RPC_USER_QUEUE = "rpcUserQueue";
-    public static final String RPC_USERS_QUEUE = "rpcUsersQueue";
+    public static final String RPC_GET_USERS = "rpc.get.users";
+    public static final String RPC_GET_USER_BY_ID = "rpc.get.user.byId";
+    public static final String RPC_GET_USER_BY_USERNAME = "rpc.get.user.byUsername";
 
     @Bean
     public DirectExchange rpcExchange() {
@@ -22,23 +23,33 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue rpcUserQueue() {
-        return new Queue(RPC_USER_QUEUE);
+    public Queue rpcGetUsers() {
+        return new Queue(RPC_GET_USERS);
     }
 
     @Bean
-    public Queue rpcUsersQueue() {
-        return new Queue(RPC_USERS_QUEUE);
+    public Queue rpcGetUserById() {
+        return new Queue(RPC_GET_USER_BY_ID);
     }
 
     @Bean
-    public Binding rpcUserQueueBinding() {
-        return BindingBuilder.bind(rpcUserQueue()).to(rpcExchange()).with(rpcUserQueue().getName());
+    public Queue rpcGetUserByUsername() {
+        return new Queue(RPC_GET_USER_BY_USERNAME);
     }
 
     @Bean
-    public Binding rpcUsersQueueBinding() {
-        return BindingBuilder.bind(rpcUsersQueue()).to(rpcExchange()).with(rpcUsersQueue().getName());
+    public Binding rpcGetUsersBinding() {
+        return BindingBuilder.bind(rpcGetUsers()).to(rpcExchange()).with(rpcGetUsers().getName());
+    }
+
+    @Bean
+    public Binding rpcGetUserByIdBinding() {
+        return BindingBuilder.bind(rpcGetUserById()).to(rpcExchange()).with(rpcGetUserById().getName());
+    }
+
+    @Bean
+    public Binding rpcGetUserByUsernameBinding() {
+        return BindingBuilder.bind(rpcGetUserByUsername()).to(rpcExchange()).with(rpcGetUserByUsername().getName());
     }
 
     @Bean

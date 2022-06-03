@@ -6,6 +6,7 @@ import org.dneversky.gateway.security.UserPrincipal;
 import org.dneversky.gateway.servie.impl.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,18 @@ public class UserController {
     public ResponseEntity<List<User>> getUsers() {
 
         return ResponseEntity.ok(userServiceImpl.getAllUsers());
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+
+        return ResponseEntity.ok((userServiceImpl.getUserById(id)));
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+
+        return ResponseEntity.ok((userServiceImpl.getUserByUsername(username)));
     }
 
 //    @PostMapping
