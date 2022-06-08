@@ -23,33 +23,23 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue rpcGetUsers() {
-        return new Queue(RPC_GET_USERS);
-    }
-
-    @Bean
-    public Queue rpcGetUserById() {
-        return new Queue(RPC_GET_USER_BY_ID);
-    }
-
-    @Bean
-    public Queue rpcGetUserByUsername() {
-        return new Queue(RPC_GET_USER_BY_USERNAME);
+    public Queue rpcQueue() {
+        return new Queue("rpc_user_queue");
     }
 
     @Bean
     public Binding rpcGetUsersBinding() {
-        return BindingBuilder.bind(rpcGetUsers()).to(rpcExchange()).with(rpcGetUsers().getName());
+        return BindingBuilder.bind(rpcQueue()).to(rpcExchange()).with(RPC_GET_USERS);
     }
 
     @Bean
     public Binding rpcGetUserByIdBinding() {
-        return BindingBuilder.bind(rpcGetUserById()).to(rpcExchange()).with(rpcGetUserById().getName());
+        return BindingBuilder.bind(rpcQueue()).to(rpcExchange()).with(RPC_GET_USER_BY_ID);
     }
 
     @Bean
     public Binding rpcGetUserByUsernameBinding() {
-        return BindingBuilder.bind(rpcGetUserByUsername()).to(rpcExchange()).with(rpcGetUserByUsername().getName());
+        return BindingBuilder.bind(rpcQueue()).to(rpcExchange()).with(RPC_GET_USER_BY_USERNAME);
     }
 
     @Bean
