@@ -16,6 +16,7 @@ public class RabbitMQConfig {
     public static final String RPC_GET_USERS = "rpc.get.users";
     public static final String RPC_GET_USER_BY_ID = "rpc.get.user.byId";
     public static final String RPC_GET_USER_BY_USERNAME = "rpc.get.user.byUsername";
+    public static final String RPC_SAVE_USER = "rpc.save.user";
 
     @Bean
     public DirectExchange rpcExchange() {
@@ -40,6 +41,11 @@ public class RabbitMQConfig {
     @Bean
     public Binding rpcGetUserByUsernameBinding() {
         return BindingBuilder.bind(rpcQueue()).to(rpcExchange()).with(RPC_GET_USER_BY_USERNAME);
+    }
+
+    @Bean
+    public Binding rpcSaveUser() {
+        return BindingBuilder.bind(rpcQueue()).to(rpcExchange()).with(RPC_SAVE_USER);
     }
 
     @Bean

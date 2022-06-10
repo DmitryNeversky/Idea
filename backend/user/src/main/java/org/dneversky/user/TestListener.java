@@ -41,4 +41,12 @@ public class TestListener {
         logger.info("Sending message: {}", user);
         return user;
     }
+
+    @RabbitListener(queues = RabbitMQConfig.RPC_SAVE_USER)
+    public User rpcSaveUser(User user) {
+        logger.info("Received message: {}", user);
+        User newUser = userRepository.save(user);
+        logger.info("Sending message: {}", newUser);
+        return user;
+    }
 }

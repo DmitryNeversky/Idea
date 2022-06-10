@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dneversky.gateway.security.UserPrincipal;
-import org.dneversky.gateway.servie.impl.UserServiceImpl;
+import org.dneversky.gateway.client.UserClient;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +31,10 @@ public class TokenController {
     private final Integer REFRESH_EXPIRE_MINUTES = 1440;
     private final Integer ACCESS_EXPIRE_MINUTES = 720;
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserClient userClient;
 
-    public TokenController(UserServiceImpl userServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
+    public TokenController(UserClient userClient) {
+        this.userClient = userClient;
     }
 
     @GetMapping("/token/refresh")
@@ -47,7 +47,7 @@ public class TokenController {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
-                UserPrincipal user = UserPrincipal.buildPrincipal(userServiceImpl.getUserByUsername(username));
+                UserPrincipal user = UserPrincipal.buildPrincipal(userClient.getUserByUsername(username));
                 String accessToken = JWT.create()
                         .withSubject(user.getUsername())
                         .withExpiresAt(new Date(System.currentTimeMillis() + (ACCESS_EXPIRE_MINUTES * 60 * 1000)))

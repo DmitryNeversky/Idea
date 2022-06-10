@@ -1,14 +1,13 @@
 package org.dneversky.gateway.api.browser;
 
 import lombok.RequiredArgsConstructor;
+import org.dneversky.gateway.client.UserClient;
 import org.dneversky.gateway.model.User;
+import org.dneversky.gateway.security.CurrentUser;
 import org.dneversky.gateway.security.UserPrincipal;
-import org.dneversky.gateway.servie.impl.UserServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,31 +16,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserClient userClient;
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
 
-        return ResponseEntity.ok(userServiceImpl.getAllUsers());
+        return ResponseEntity.ok(userClient.getAllUsers());
     }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
 
-        return ResponseEntity.ok((userServiceImpl.getUserById(id)));
+        return ResponseEntity.ok((userClient.getUserById(id)));
     }
 
     @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
 
-        return ResponseEntity.ok((userServiceImpl.getUserByUsername(username)));
+        return ResponseEntity.ok((userClient.getUserByUsername(username)));
     }
 
-//    @PostMapping
-//    public ResponseEntity<User> save(@RequestBody @Valid User user) {
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.saveUser(user));
-//    }
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrentUser(@CurrentUser UserPrincipal principal) {
+
+        return ResponseEntity.ok(userClient.getUserByUsername(principal.getUsername()));
+    }
+
+    @PostMapping
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userClient.saveUser(user));
+    }
 //
 //    @PutMapping("/{username}")
 //    public ResponseEntity<User> update(@PathVariable String username,
@@ -60,23 +65,8 @@ public class UserController {
 //        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 //    }
 //
-//    @GetMapping("/id/{id}")
-//    public ResponseEntity<User> getUserById(@PathVariable Long id) {
 //
-//        return ResponseEntity.ok((userServiceImpl.getUser(id)));
-//    }
 //
-//    @GetMapping("/username/{username}")
-//    public ResponseEntity<User> getUserById(@PathVariable String username) {
-//
-//        return ResponseEntity.ok((userServiceImpl.getUserByUsername(username)));
-//    }
-//
-//    @GetMapping("/current")
-//    public ResponseEntity<User> getCurrentUser(@CurrentUser UserPrincipal principal) {
-//
-//        return ResponseEntity.ok(userServiceImpl.getUserByUsername(principal.getUsername()));
-//    }
 //
 //    @PatchMapping("/{username}/password")
 //    public ResponseEntity<?> changePassword(@PathVariable String username,
