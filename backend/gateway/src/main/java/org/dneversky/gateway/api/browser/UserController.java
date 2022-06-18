@@ -1,7 +1,6 @@
 package org.dneversky.gateway.api.browser;
 
-import lombok.RequiredArgsConstructor;
-import org.dneversky.gateway.client.UserClient;
+import org.dneversky.gateway.client.FeignUserClient;
 import org.dneversky.gateway.model.User;
 import org.dneversky.gateway.security.CurrentUser;
 import org.dneversky.gateway.security.UserPrincipal;
@@ -13,39 +12,42 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
-@RequiredArgsConstructor
 public class UserController {
 
-    private final UserClient userClient;
+    private final FeignUserClient feignClient;
+
+    public UserController(FeignUserClient feignClient) {
+        this.feignClient = feignClient;
+    }
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
 
-        return ResponseEntity.ok(userClient.getAllUsers());
+        return ResponseEntity.ok(feignClient.getUsers());
     }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
 
-        return ResponseEntity.ok((userClient.getUserById(id)));
+        return ResponseEntity.ok((feignClient.getUserById(id)));
     }
 
     @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
 
-        return ResponseEntity.ok((userClient.getUserByUsername(username)));
+        return ResponseEntity.ok((feignClient.getUserByUsername(username)));
     }
 
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser(@CurrentUser UserPrincipal principal) {
 
-        return ResponseEntity.ok(userClient.getUserByUsername(principal.getUsername()));
+        return ResponseEntity.ok(feignClient.getUserByUsername(principal.getUsername()));
     }
 
     @PostMapping
     public ResponseEntity<User> saveUser(@RequestBody User user) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userClient.saveUser(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(feignClient.addUser(user));
     }
 
 //    @PutMapping("/{username}")
