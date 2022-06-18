@@ -47,7 +47,7 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userClient.saveUser(user));
     }
-//
+
 //    @PutMapping("/{username}")
 //    public ResponseEntity<User> update(@PathVariable String username,
 //                                       @CurrentUser UserPrincipal userPrincipal,
@@ -55,7 +55,7 @@ public class UserController {
 //                                       @RequestPart(name = "avatar", required = false) MultipartFile avatar,
 //                                       @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
 //
-//        return ResponseEntity.ok(userServiceImpl.updateUser(username, userPrincipal, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
+//        return ResponseEntity.ok(userClient.updateUser(username, userPrincipal, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
 //    }
 //
 //    @DeleteMapping("/{username}")

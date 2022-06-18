@@ -1,7 +1,6 @@
 package org.dneversky.gateway.client;
 
 import org.dneversky.gateway.config.UserRabbitMQConfig;
-import org.dneversky.gateway.exception.EntityExistsException;
 import org.dneversky.gateway.exception.EntityNotFoundException;
 import org.dneversky.gateway.model.User;
 import org.slf4j.Logger;
@@ -62,9 +61,6 @@ public class UserClient {
                 UserRabbitMQConfig.RPC_EXCHANGE, UserRabbitMQConfig.RPC_SAVE_USER, user,
                 new ParameterizedTypeReference<User>() {});
         logger.info("Getting response: {}", response);
-        if(response == null) {
-            throw new EntityExistsException("User with username " + user.getUsername() + " already exists.");
-        }
 
         return response;
     }

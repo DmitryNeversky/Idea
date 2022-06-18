@@ -13,10 +13,12 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     public static final String RPC_EXCHANGE = "rpc_exchange";
+    public static final String RPC_USER_QUEUE = "rpc_user_queue";
     public static final String RPC_GET_USERS = "rpc.get.users";
     public static final String RPC_GET_USER_BY_ID = "rpc.get.user.byId";
     public static final String RPC_GET_USER_BY_USERNAME = "rpc.get.user.byUsername";
     public static final String RPC_SAVE_USER = "rpc.save.user";
+//    public static final String RPC_UPDATE_USER = "rpc.update.user";
 
     @Bean
     public DirectExchange rpcExchange() {
@@ -25,27 +27,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue rpcQueue() {
-        return new Queue("rpc_user_queue");
-    }
-
-    @Bean
-    public Binding rpcGetUsersBinding() {
-        return BindingBuilder.bind(rpcQueue()).to(rpcExchange()).with(RPC_GET_USERS);
-    }
-
-    @Bean
-    public Binding rpcGetUserByIdBinding() {
-        return BindingBuilder.bind(rpcQueue()).to(rpcExchange()).with(RPC_GET_USER_BY_ID);
-    }
-
-    @Bean
-    public Binding rpcGetUserByUsernameBinding() {
-        return BindingBuilder.bind(rpcQueue()).to(rpcExchange()).with(RPC_GET_USER_BY_USERNAME);
-    }
-
-    @Bean
-    public Binding rpcSaveUser() {
-        return BindingBuilder.bind(rpcQueue()).to(rpcExchange()).with(RPC_SAVE_USER);
+        return new Queue(RPC_USER_QUEUE);
     }
 
     @Bean
