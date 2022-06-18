@@ -9,10 +9,11 @@ import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityExistsException;
 import java.util.List;
 
 @Component
@@ -24,18 +25,19 @@ public class TestListener {
     private static final Logger logger = LoggerFactory.getLogger(TestListener.class);
 
     @RabbitListener(
-            bindings = @QueueBinding(value = @Queue(RabbitMQConfig.RPC_USER_QUEUE),
+            bindings = @QueueBinding(value = @Queue(value = RabbitMQConfig.RPC_GET_USERS),
             exchange = @Exchange(value = RabbitMQConfig.RPC_EXCHANGE),
             key = RabbitMQConfig.RPC_GET_USERS)
     )
-    public List<User> rpcGetUsers() {
+    public List<User> rpcGetUsers(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String key) {
+        System.out.println(key);
         List<User> users = userRepository.findAll();
         logger.info("Sending message: {}", users);
         return users;
     }
 
     @RabbitListener(
-            bindings = @QueueBinding(value = @Queue(RabbitMQConfig.RPC_USER_QUEUE),
+            bindings = @QueueBinding(value = @Queue(RabbitMQConfig.RPC_GET_USER_BY_ID),
             exchange = @Exchange(value = RabbitMQConfig.RPC_EXCHANGE),
             key = RabbitMQConfig.RPC_GET_USER_BY_ID)
     )
@@ -47,7 +49,7 @@ public class TestListener {
     }
 
     @RabbitListener(
-            bindings = @QueueBinding(value = @Queue(RabbitMQConfig.RPC_USER_QUEUE),
+            bindings = @QueueBinding(value = @Queue(RabbitMQConfig.RPC_GET_USER_BY_USERNAME),
             exchange = @Exchange(value = RabbitMQConfig.RPC_EXCHANGE),
             key = RabbitMQConfig.RPC_GET_USER_BY_USERNAME)
     )
@@ -56,18 +58,5 @@ public class TestListener {
         User user = userRepository.findByUsername(username).orElse(null);
         logger.info("Sending message: {}", user);
         return user;
-    }
-
-    @RabbitListener(
-            bindings = @QueueBinding(value = @Queue(RabbitMQConfig.RPC_USER_QUEUE),
-            exchange = @Exchange(value = RabbitMQConfig.RPC_EXCHANGE),
-            key = RabbitMQConfig.RPC_SAVE_USER)
-    )
-    public User rpcSaveUser(User user) {
-        throw new EntityExistsException("Entity exists");
-//        logger.info("Received message: {}", user);
-//        User newUser = userRepository.save(user);
-//        logger.info("Sending message: {}", newUser);
-//        return user;
     }
 }
