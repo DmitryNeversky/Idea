@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
 import {Router} from "@angular/router";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {CurrentUserService} from "./current-user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export class AuthService {
   }
 
   logout(): void {
+    CurrentUserService.currentUser = null;
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     this.router.navigate(['/auth']);

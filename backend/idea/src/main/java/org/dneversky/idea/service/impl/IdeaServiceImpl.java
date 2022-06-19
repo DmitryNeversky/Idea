@@ -42,7 +42,6 @@ public class IdeaServiceImpl implements IdeaService {
 
     private final IdeaRepository ideaRepository;
     private final UserRepository userRepository;
-    private final EmailServiceImpl emailService;
 
     @Override
     public List<Idea> getAllIdeas() {
@@ -154,10 +153,6 @@ public class IdeaServiceImpl implements IdeaService {
 
         if(principal.isAdmin()) {
             idea.setStatus(status);
-            emailService.send(
-                    idea.getAuthor().getUsername(),
-                    "Service for producing ideas", "Статус вашей идеи с заголовком " +
-                            idea.getTitle() + " изменен на " + status.getName() + ".");
             return ideaRepository.save(idea);
         }
 
