@@ -1,4 +1,8 @@
+---
 spring:
+  config:
+    activate:
+      on-profile: dev
   rabbitmq:
     host: localhost
     port: 5672
@@ -16,9 +20,33 @@ spring:
     multipart:
       max-request-size: 100MB
       max-file-size: 100MB
-
 server:
   port: 8080
-
-allowedOrigin: http://localhost:4200
+allowedOrigin: http://localhost
 uploadPath: /home/koshey/IdeaProjects/Ex72/frontend/src/assets/uploaded/
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+server:
+  port: ${SERVER_PORT}
+allowedOrigin: ${ALLOWED_ORIGIN}
+uploadPath: ${UPLOAD_PATH}

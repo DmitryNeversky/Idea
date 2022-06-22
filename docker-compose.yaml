@@ -1,0 +1,55 @@
+version: "3"
+services:
+  rabbit:
+    image: rabbitmq
+    container_name: rabbit
+  mysql:
+    image: mysql
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: idea
+  idea:
+    image: dneversky/idea
+    container_name: idea
+    ports:
+      - 8080:8080
+    volumes:
+      - shared-uploads:/uploads
+    environment:
+      RABBITMQ_HOST: rabbit
+      RABBITMQ_PORT: 5672
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_NAME: idea
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      SERVER_PORT: 8080
+      UPLOAD_PATH: /uploads/
+      ALLOWED_ORIGIN: http://localhost
+    depends_on:
+      - mysql
+      - rabbit
+  emailer:
+    image: dneversky/emailer
+    container_name: emailer
+    ports:
+      - 8081:8081
+    environment:
+      SMTP_USERNAME: springapplication@yandex.ru
+      SMTP_PASSWORD: vuolmfprzkknmctq
+      SERVER_PORT: 8081
+      RABBITMQ_HOST: rabbit
+      RABBITMQ_PORT: 5672
+    depends_on:
+      - rabbit
+  frontend:
+    image: dneversky/idea-frontend
+    ports:
+      - 80:80
+    volumes:
+      - shared-uploads:/usr/share/nginx/html/assets/uploaded
+volumes:
+  shared-uploads:

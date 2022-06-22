@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverUrl: "http://localhost:8888",
-  apiBaseUrl: "http://localhost:8888/api",
+  serverUrl: "http://localhost:8080",
+  apiBaseUrl: "http://localhost:8080/api",
   uploadPath: "assets/uploaded/"
 };
