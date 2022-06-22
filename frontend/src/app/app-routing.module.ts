@@ -44,6 +44,11 @@ const routes: Routes = [
         },
         children: [
             {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'ideas'
+            },
+            {
                 path: 'ideas',
                 component: IdeasComponent,
                 data: { animation: 'ideas' },

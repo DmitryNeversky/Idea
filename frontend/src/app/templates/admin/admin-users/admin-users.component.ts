@@ -220,7 +220,14 @@ export class AdminUsersComponent implements OnInit {
   changeRoles(user: User) {
     this.preloader = true;
 
-    this.userService.changeRoles(user.username, this.rolesControl.value).subscribe(() => {
+    let newRoles: Role[] = [];
+    this.rolesControl.value.forEach(e => {
+      newRoles.push(new Role(e.id, e.name));
+    })
+
+    console.log(newRoles)
+
+    this.userService.changeRoles(user.username, newRoles).subscribe(() => {
       this.paginatedUsers.find(u => u.id == user.id).roles = this.rolesControl.value;
       this.preloader = false;
       this.snackbar.success("Роли применены.");

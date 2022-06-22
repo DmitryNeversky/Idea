@@ -13,6 +13,7 @@ import org.dneversky.idea.repository.UserRepository;
 import org.dneversky.idea.security.UserPrincipal;
 import org.dneversky.idea.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
     public User getUserByUsername(String username) {
 
         return userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
+                () -> new UsernameNotFoundException("User with username " + username + " not found in the database."));
     }
 
     @Override

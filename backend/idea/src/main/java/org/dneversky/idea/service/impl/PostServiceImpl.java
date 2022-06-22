@@ -60,8 +60,9 @@ public class PostServiceImpl implements PostService {
                 () -> new EntityNotFoundException("Post with id " + id + " not found."));
 
         if(post.getUsers() != null && post.getUsers().size() > 0) {
+            Post defaultPost = postRepository.findByName("Default").orElse(null);
             post.getUsers().forEach(user -> {
-                user.setPost(null);
+                user.setPost(defaultPost);
                 userRepository.save(user);
             });
         }
