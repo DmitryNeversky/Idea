@@ -2,10 +2,12 @@ package org.dneversky.idea.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dneversky.idea.client.EmailSender;
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.exception.BadArgumentException;
 import org.dneversky.idea.exception.PermissionException;
+import org.dneversky.idea.model.EmailNotification;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
 import org.dneversky.idea.repository.IdeaRepository;
@@ -42,6 +44,7 @@ public class IdeaServiceImpl implements IdeaService {
 
     private final IdeaRepository ideaRepository;
     private final UserRepository userRepository;
+    private final EmailSender emailSender;
 
     @Override
     public List<Idea> getAllIdeas() {
@@ -153,6 +156,9 @@ public class IdeaServiceImpl implements IdeaService {
 
         if(principal.isAdmin()) {
             idea.setStatus(status);
+            emailSender.sendMessage(new EmailNotification(idea.getAuthor().getUsername(),
+                    "Status of your idea is changed",
+                    "Dear " + idea.getAuthor().getName() + ", status of your idea with id " + id + " and title " + idea.getTitle() + " has been changed to " + status.getName() + "."));
             return ideaRepository.save(idea);
         }
 

@@ -1,5 +1,6 @@
 package org.dneversky.idea.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class Tag {
     @Size(max = 128, message = "Name size is: min 0 max 128")
     private String name;
 
+    @JsonIgnoreProperties("ideas")
     @ManyToMany(mappedBy = "tags", cascade = CascadeType.DETACH)
     private List<Idea> ideas = new ArrayList<>();
 

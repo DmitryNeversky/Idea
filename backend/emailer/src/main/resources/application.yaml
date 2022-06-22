@@ -1,4 +1,25 @@
+---
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+  mail:
+    host: "smtp.yandex.ru"
+    username: springapplication@yandex.ru
+    password: vuolmfprzkknmctq
+    port: 465
+    protocol: "smtps"
+    default-encoding: "UTF-8"
+  config:
+    activate:
+      on-profile: dev
+server:
+  port: 8082
+---
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
   mail:
     host: "smtp.yandex.ru"
     username: ${SMTP_USERNAME}
@@ -6,11 +27,8 @@ spring:
     port: 465
     protocol: "smtps"
     default-encoding: "UTF-8"
+  config:
+    activate:
+      on-profile: prod
 server:
   port: ${SERVER_PORT}
-
-jsonDeserializer:
-  trustedPackages: org.dneversky.idea.*  # use a comma to add more packages
-
-kafka:
-  bootstrap-servers: localhost:9092

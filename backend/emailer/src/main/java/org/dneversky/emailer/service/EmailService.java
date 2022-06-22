@@ -5,16 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
 
-    Logger logger = LoggerFactory.getLogger(EmailService.class);
+    Logger logger = LoggerFactory.getLogger(EmailListener.class);
 
     @Value("${spring.mail.username}")
     private String username;
@@ -22,10 +20,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @KafkaListener(containerFactory = "listenerContainerFactory", topics = "emailTopic")
-    public void sendSimpleMessage(@Payload EmailNotification emailNotification) {
-        logger.info("Received {}", emailNotification.toString());
-
+    public void sendMessage(EmailNotification emailNotification) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(username);
         message.setTo(emailNotification.getMailTo());
