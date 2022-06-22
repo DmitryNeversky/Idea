@@ -22,8 +22,11 @@ export class UserService {
     return this.httpClient.get<User>(`${this.apiBaseUrl}/users/id/${id}`);
   }
 
-  public saveUser(user: User): Observable<User> {
-    return this.httpClient.post<User>(`${this.apiBaseUrl}/users`, user);
+  public saveUser(user: User, admin: boolean): Observable<User> {
+    let formData = new FormData();
+    formData.append("user", JSON.stringify(user));
+    formData.append("admin", JSON.stringify(admin));
+    return this.httpClient.post<User>(`${this.apiBaseUrl}/users`, formData);
   }
 
   public putUser(id: number|string, formData: FormData): Observable<User> {

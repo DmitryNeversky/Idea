@@ -111,10 +111,7 @@
                 <form [formGroup]="finalFormGroup" (ngSubmit)="registration()">
                     <ng-template matStepLabel>Завершение</ng-template>
                     <div fxLayout="row wrap" class="form-content">
-                        <mat-form-field fxFlex="45%" appearance="fill">
-                            <mat-label>Код подтверждения</mat-label>
-                            <input matInput formControlName="code">
-                        </mat-form-field>
+                        <mat-checkbox (change)="admin = !admin">Хочу быть администратором!</mat-checkbox>
                         <mat-error fxFlex="100%" *ngIf="error">{{error}}</mat-error>
                     </div>
                     <div class="form-actions">

@@ -24,6 +24,7 @@ export class RegistrationComponent implements OnInit {
   orientation: StepperOrientation = "horizontal";
 
   posts: Post[];
+  admin: boolean = false;
 
   constructor(private _formBuilder: FormBuilder,
               private userService: UserService,
@@ -48,7 +49,7 @@ export class RegistrationComponent implements OnInit {
       password: ['', [Validators.minLength(6), Validators.maxLength(32), Validators.required]],
     });
     this.finalFormGroup = this._formBuilder.group({
-      code: ['', [Validators.required, Validators.maxLength(64)]]
+      // code: ['', [Validators.required, Validators.maxLength(64)]]
     });
   }
 
@@ -75,7 +76,7 @@ export class RegistrationComponent implements OnInit {
 
     this.preloader = true;
 
-    this.userService.saveUser(user).subscribe(() => {
+    this.userService.saveUser(user, this.admin).subscribe(() => {
       this.preloader = false;
       this.router.navigate(['/auth']);
     }, (error: HttpErrorResponse) => {

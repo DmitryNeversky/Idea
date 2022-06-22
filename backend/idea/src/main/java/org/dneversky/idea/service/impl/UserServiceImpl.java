@@ -68,13 +68,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(User user) {
+    public User saveUser(User user, boolean admin) {
         if(userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new EntityExistsException("User with username " + user.getUsername() + " already exists.");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(LocalDate.now());
+        if(admin) user.getRoles().add(roleServiceImpl.getRole(3));
         user.getRoles().add(roleServiceImpl.getRole("USER"));
         user.setEnabled(true);
 

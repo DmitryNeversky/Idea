@@ -18,7 +18,7 @@ public interface UserService {
 
     User getUserByUsername(String username);
 
-    User saveUser(User user);
+    User saveUser(User user, boolean admin);
 
     User updateUser(String username, UserPrincipal principal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
 

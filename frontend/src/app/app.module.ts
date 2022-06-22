@@ -70,6 +70,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {ModalComponent} from './templates/admin/modal/modal.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSliderModule} from "@angular/material/slider";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -152,6 +153,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     MatSortModule,
     MatSlideToggleModule,
     MatSliderModule,
+    MatCheckboxModule,
   ],
   providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDERS,
           {

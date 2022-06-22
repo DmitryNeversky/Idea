@@ -32,9 +32,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody @Valid User user) {
+    public ResponseEntity<User> save(@RequestPart("user") @Valid User user, @RequestPart("admin") boolean admin) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.saveUser(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.saveUser(user, admin));
     }
 
     @PutMapping("/{username}")
