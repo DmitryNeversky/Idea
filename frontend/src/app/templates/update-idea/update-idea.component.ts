@@ -70,7 +70,6 @@ export class UpdateIdeaComponent implements OnInit {
       formData.append('addFiles', this.filesLoader.dataTransfer.files[i])
 
     formData.append('idea', JSON.stringify(this.idea));
-    console.log(this.idea)
 
     this.preloader = true;
 

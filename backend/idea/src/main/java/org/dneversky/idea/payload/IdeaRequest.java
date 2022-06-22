@@ -1,5 +1,6 @@
 package org.dneversky.idea.payload;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class IdeaRequest {
     @Size(min = 256, max = 32768, message = "Text's size is: min 256 max 32768")
     private String body;
 
+    @JsonIgnoreProperties(value = "ideas")
     private List<Tag> tags;
 
     private List<String> removeImages;

@@ -44,7 +44,16 @@ export class CreateIdeaComponent implements OnInit{
 
     idea.title = this.mainForm.get('title').value;
     idea.body = this.mainForm.get('text').value;
-    idea.tags = this.addedTags;
+
+    let newTags: Tag[] = [];
+    this.addedTags.forEach(e => {
+      const newTag: Tag = new Tag();
+      newTag.id = e.id;
+      newTag.name = e.name;
+      newTags.push(newTag)
+    });
+
+    idea.tags = newTags;
 
     const formData = new FormData();
     formData.append('idea', JSON.stringify(idea));
