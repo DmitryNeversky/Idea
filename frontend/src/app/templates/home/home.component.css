@@ -21,6 +21,10 @@ mat-progress-bar {
 
 /*left panel*/
 
+.active {
+    background-color: rgba(243, 84, 84, 0.12);
+}
+
 .row {
     height: 100%;
 }
@@ -35,6 +39,7 @@ mat-progress-bar {
 .left-panel button {
     color: #f35454;
     padding: 15px 0;
+    border-radius: 0;
 }
 
 @media screen and (max-width: 600px) {

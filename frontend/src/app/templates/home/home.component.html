@@ -2,7 +2,7 @@
     <button (click)="togglePanel()" mat-icon-button aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
-    <span>My App</span>
+<!--    <span>Web application</span>-->
     <span class="header-spacer"></span>
     <button mat-icon-button [matMenuTriggerFor]="NotifyMenu" class="notification-icon">
         <mat-icon [matBadge]="currentUser.notifications.length > 0 ? currentUser.notifications.length : ''"
@@ -41,16 +41,16 @@
 
 <div class="row" fxLayout="row">
     <div [ngStyle]="darkMode ? {background: '#424242'} : {}" *ngIf="!expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content" fxHide.xs>
-        <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon></button>
-        <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon></button>
-        <button mat-button color="warn" routerLink="/settings"><mat-icon>settings</mat-icon></button>
-        <button mat-button color="warn" routerLink="/admin"><mat-icon>admin_panel_settings</mat-icon></button>
+        <button mat-button color="warn" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/"><mat-icon>home</mat-icon></button>
+        <button mat-button color="warn" routerLinkActive="active" routerLink="ideas"><mat-icon>lightbulb</mat-icon></button>
+        <button mat-button color="warn" routerLinkActive="active" routerLink="/settings"><mat-icon>settings</mat-icon></button>
+        <button mat-button color="warn" routerLinkActive="active" routerLink="/admin"><mat-icon>admin_panel_settings</mat-icon></button>
     </div>
     <div [ngStyle]="darkMode ? {background: '#424242'} : {}" *ngIf="expanded" class="left-panel mat-elevation-z3" fxFlex="fit-content">
-        <button mat-button color="warn" routerLink="/"><mat-icon>home</mat-icon><span class="name">Главная</span></button>
-        <button mat-button color="warn" routerLink="ideas"><mat-icon>lightbulb</mat-icon><span class="name">Идеи</span></button>
-        <button mat-button color="warn" routerLink="/settings"><mat-icon>settings</mat-icon><span class="name">Настройки</span></button>
-        <button mat-button color="warn" routerLink="/admin">
+        <button mat-button color="warn" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/"><mat-icon>home</mat-icon><span class="name">Главная</span></button>
+        <button mat-button color="warn" routerLinkActive="active" routerLink="ideas"><mat-icon>lightbulb</mat-icon><span class="name">Идеи</span></button>
+        <button mat-button color="warn" routerLinkActive="active" routerLink="/settings"><mat-icon>settings</mat-icon><span class="name">Настройки</span></button>
+        <button mat-button color="warn" routerLinkActive="active" routerLink="/admin">
             <mat-icon>admin_panel_settings</mat-icon><span class="name">Управление</span>
         </button>
     </div>
