@@ -1,49 +1,33 @@
 package org.dneversky.emailer.config;
 
-import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
 
 @Configuration
-public class RabbitMQConfig implements RabbitListenerConfigurer {
+public class RabbitMQConfig {
 
     @Bean
-    public MappingJackson2MessageConverter jackson2Converter() {
-        return new MappingJackson2MessageConverter();
+    public DirectExchange directExchange() {
+        return new DirectExchange("e.messages");
     }
 
     @Bean
-    public DefaultMessageHandlerMethodFactory handlerMethodFactory() {
-        DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
-        factory.setMessageConverter(jackson2Converter());
-        return factory;
-    }
-
-    @Override
-    public void configureRabbitListeners(RabbitListenerEndpointRegistrar registrar) {
-        registrar.setMessageHandlerMethodFactory(handlerMethodFactory());
+    public Queue emailQueue() {
+        return new Queue("q.email");
     }
 
     @Bean
-    public ConnectionFactory connectionFactory() {
-        return new CachingConnectionFactory();
+    public Binding binding() {
+        return BindingBuilder.bind(emailQueue()).to(directExchange()).with("msg");
     }
 
     @Bean
-    public AmqpAdmin amqpAdmin() {
-        return new RabbitAdmin(connectionFactory());
-    }
-
-    @Bean
-    public Queue notificationQueue() {
-        return new Queue("emailQueue");
+    public Jackson2JsonMessageConverter messageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 }

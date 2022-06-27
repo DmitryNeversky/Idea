@@ -6,4 +6,4 @@ COPY muttrc ~/.muttrc
 COPY target/emailer.jar /emailer.jar
 
 ENTRYPOINT ["java"]
-CMD ["-jar", "/emailer.jar"]
+CMD ["-Dspring.profiles.active=prod", "-jar", "/emailer.jar"]
