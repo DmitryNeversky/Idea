@@ -1,6 +1,5 @@
 package org.dneversky.gateway.api.browser;
 
-import org.dneversky.gateway.client.FeignUserClient;
 import org.dneversky.gateway.model.User;
 import org.dneversky.gateway.security.CurrentUser;
 import org.dneversky.gateway.security.UserPrincipal;
@@ -8,46 +7,41 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
 public class UserController {
 
-    private final FeignUserClient feignClient;
-
-    public UserController(FeignUserClient feignClient) {
-        this.feignClient = feignClient;
-    }
-
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
 
-        return ResponseEntity.ok(feignClient.getUsers());
+        return ResponseEntity.ok(new ArrayList<>());
     }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
 
-        return ResponseEntity.ok((feignClient.getUserById(id)));
+        return ResponseEntity.ok(null);
     }
 
     @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
 
-        return ResponseEntity.ok((feignClient.getUserByUsername(username)));
+        return ResponseEntity.ok(null);
     }
 
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser(@CurrentUser UserPrincipal principal) {
 
-        return ResponseEntity.ok(feignClient.getUserByUsername(principal.getUsername()));
+        return ResponseEntity.ok(null);
     }
 
     @PostMapping
     public ResponseEntity<User> saveUser(@RequestBody User user) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(feignClient.addUser(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 //
 //    @PutMapping("/{username}")

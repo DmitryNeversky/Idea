@@ -1,9 +1,5 @@
-package org.dneversky.gateway.advice;
+package org.dneversky.gateway.exception;
 
-import org.dneversky.gateway.exception.BadArgumentException;
-import org.dneversky.gateway.exception.EntityExistsException;
-import org.dneversky.gateway.exception.EntityNotFoundException;
-import org.dneversky.gateway.exception.PermissionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
