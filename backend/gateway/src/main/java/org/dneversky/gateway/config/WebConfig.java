@@ -42,14 +42,4 @@ public class WebConfig {
     public PasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Override
-//    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-//        HttpServletRequest request = (HttpServletRequest) servletRequest;
-//        HttpServletResponse response = (HttpServletResponse) servletResponse;
-//
-//        //response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-//
-//        filterChain.doFilter(request, response);
-//    }
 }

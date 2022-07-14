@@ -1,23 +1,36 @@
 package org.dneversky.gateway.api.browser;
 
+import org.dneversky.gateway.api.grpc.UserServiceGRPC;
 import org.dneversky.gateway.model.User;
 import org.dneversky.gateway.security.CurrentUser;
 import org.dneversky.gateway.security.UserPrincipal;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
 public class UserController {
 
+    @EventListener(ContextRefreshedEvent.class)
+    public void ready() {
+        System.out.println(userServiceGRPC.getUserPrincipalByUsername("E:F:0"));
+    }
+
+    private final UserServiceGRPC userServiceGRPC;
+
+    public UserController(UserServiceGRPC userServiceGRPC) {
+        this.userServiceGRPC = userServiceGRPC;
+    }
+
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
 
-        return ResponseEntity.ok(new ArrayList<>());
+        return ResponseEntity.ok(userServiceGRPC.getAllUsers());
     }
 
     @GetMapping("/id/{id}")

@@ -5,8 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.dneversky.gateway.client.FeignUserClient;
 import org.dneversky.gateway.security.UserPrincipal;
+import org.dneversky.gateway.api.grpc.UserServiceGRPC;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +28,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("api")
 public class TokenController {
 
-    private final Integer REFRESH_EXPIRE_MINUTES = 1440;
     private final Integer ACCESS_EXPIRE_MINUTES = 720;
+    private final String ALGORITHM_SECRET = "secret";
 
-    private final FeignUserClient userClient;
+    private final UserServiceGRPC userServiceGRPC;
 
-    public TokenController(FeignUserClient userClient) {
-        this.userClient = userClient;
+    public TokenController(UserServiceGRPC userServiceGRPC) {
+        this.userServiceGRPC = userServiceGRPC;
     }
 
     @GetMapping("/token/refresh")
@@ -43,11 +43,11 @@ public class TokenController {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refreshToken = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                Algorithm algorithm = Algorithm.HMAC256(ALGORITHM_SECRET.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
-                UserPrincipal user = UserPrincipal.buildPrincipal(userClient.getUserByUsername(username));
+                UserPrincipal user = userServiceGRPC.getUserPrincipalByUsername(username);
                 String accessToken = JWT.create()
                         .withSubject(user.getUsername())
                         .withExpiresAt(new Date(System.currentTimeMillis() + (ACCESS_EXPIRE_MINUTES * 60 * 1000)))

@@ -1,6 +1,7 @@
 package org.dneversky.gateway.security;
 
-import org.dneversky.gateway.model.User;
+import org.dneversky.gateway.UserServiceOuterClass;
+import org.dneversky.gateway.model.UserPrincipalModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,15 +20,15 @@ public class UserPrincipal implements UserDetails {
     private final Set<? extends GrantedAuthority> authorities;
     private final boolean enabled;
 
-    public UserPrincipal(Long id, String username, String password, Set<? extends GrantedAuthority> authorities, boolean enabled) {
+    public UserPrincipal(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities, boolean enabled) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
-        this.authorities = authorities;
+        this.authorities = new HashSet<>(authorities);
     }
 
-    public static UserPrincipal buildPrincipal(User user) {
+    public static UserPrincipal buildPrincipal(UserPrincipalModel user) {
         Set<SimpleGrantedAuthority> authorities1 = new HashSet<>();
         if(user.getRoles() != null) {
             authorities1 = user.getRoles().stream()
@@ -35,6 +36,13 @@ public class UserPrincipal implements UserDetails {
                     .collect(Collectors.toSet());
         }
         return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), authorities1, user.isEnabled());
+    }
+
+    public static UserPrincipal buildPrincipal(UserServiceOuterClass.UserPrincipal user) {
+        Set<SimpleGrantedAuthority> authorities1 = user.getRolesList().stream()
+                .map(e -> new SimpleGrantedAuthority(e.getName()))
+                .collect(Collectors.toSet());
+        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), authorities1, user.getEnabled());
     }
 
     @Override

@@ -3,9 +3,6 @@ spring:
     multipart:
       max-request-size: 100MB
       max-file-size: 100MB
-
-allowedOrigin: http://localhost:4200
-
 ---
 spring:
   config:
@@ -14,10 +11,8 @@ spring:
   rabbitmq:
     host: ${RABBITMQ_HOST}
     port: ${RABBITMQ_PORT}
-
 server:
   port: ${SERVER_PORT}
-
 ---
 spring:
   config:
@@ -26,9 +21,12 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-
 server:
   port: 8080
-
 userService:
   port: 8083
+allowedOrigin: http://localhost:4200
+grpc:
+  client:
+    GLOBAL:
+      negotiation-type: PLAINTEXT

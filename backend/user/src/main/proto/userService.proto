@@ -1,0 +1,59 @@
+syntax = 'proto3';
+package org.dneversky.gateway;
+
+// Data Transfer Objects
+
+message UserPrincipal {
+  int64 id = 1;
+  string username = 2;
+  string password = 3;  // encoding required?
+  repeated Role roles = 4;
+  bool enabled = 5;
+}
+
+message SimpleUser {
+  int64 id = 1;
+  string username = 2;
+  repeated Role roles = 3;
+  string name = 4;
+  string phone = 5;
+  string birthday = 6;
+  string avatar = 7;
+  string city = 8;
+  string about = 9;
+  string registeredDate = 10;
+  Post post = 11;
+}
+
+message Role {
+  int32 id = 1;
+  string name = 2;
+}
+
+message Post {
+  int32 id = 1;
+  string name = 2;
+}
+
+// Requests / Responses
+
+message UserPrincipalByUsernameRequest {
+  string username = 1;
+}
+
+message UserPrincipalByUsernameResponse {
+  UserPrincipal user = 1;
+}
+
+message AllUsersRequest {}
+
+message AllUsersResponse {
+  repeated SimpleUser users = 1;
+}
+
+// Services
+
+service UserService {
+  rpc getUserPrincipalByUsername(UserPrincipalByUsernameRequest) returns (UserPrincipalByUsernameResponse);
+  rpc getAllUsers(AllUsersRequest) returns (AllUsersResponse);
+}

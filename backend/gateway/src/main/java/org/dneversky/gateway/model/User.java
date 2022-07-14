@@ -1,27 +1,25 @@
 package org.dneversky.gateway.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.dneversky.gateway.UserServiceOuterClass;
 import org.dneversky.gateway.security.Role;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable {
+public class User {
 
     private Long id;
     private String username;
-    private String password;
     private Set<Role> roles;
-    private boolean enabled;
 
     private String name;
     private String phone;
@@ -31,4 +29,15 @@ public class User implements Serializable {
     private String about;
     private LocalDate registeredDate;
     private Post post;
+
+    public static User buildUser(UserServiceOuterClass.SimpleUser user) {
+        return new User(user.getId(), user.getUsername(),
+                user.getRolesList().stream()
+                        .map(e -> new Role(e.getId(), e.getName()))
+                        .collect(Collectors.toSet()),
+                user.getName(), user.getPhone(),
+                new Date(user.getBirthday()), user.getAvatar(), user.getCity(), user.getAbout(),
+                LocalDate.parse(Arrays.toString(user.getRegisteredDate().toCharArray())),
+                new Post(user.getPost().getId(), user.getPost().getName()));
+    }
 }

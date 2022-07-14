@@ -15,4 +15,9 @@ public class Post {
     private int id;
     private String name;
     private Set<User> users = new HashSet<>();
+
+    public Post(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

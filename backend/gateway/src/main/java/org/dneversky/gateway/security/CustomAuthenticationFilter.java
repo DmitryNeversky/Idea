@@ -33,12 +33,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     private final Integer ACCESS_EXPIRE_MINUTES = 720;
     private final Integer REFRESH_EXPIRE_MINUTES = 1440;
+    private final String ALGORITHM_SECRET = "secret";
 
     private final AuthenticationManager authenticationManager;
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
+
+    /** Retrieves params 'username' and 'password' from incoming request and try to authenticate user **/
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
@@ -53,13 +56,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         } catch (AuthenticationException e) {
             log.error(e.getMessage());
         }
-        return null;
+        return null;  // null?
     }
+
+    /** On successful authentication user by attemptAuthentication() method generates new Access Token and Refresh Token putting their hash in fields access_token and refresh_token in the response correspondingly **/
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        Algorithm algorithm = Algorithm.HMAC256(ALGORITHM_SECRET.getBytes());
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (ACCESS_EXPIRE_MINUTES * 60 * 1000)))
@@ -78,6 +83,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
+
+    /** On unsuccessful authentication user by attemptAuthentication() method puts 'status code 403' in the response **/
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {

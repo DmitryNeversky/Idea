@@ -12,10 +12,8 @@
   <modules>
     <module>idea</module>
     <module>emailer</module>
-    <module>notifier</module>
     <module>user</module>
     <module>gateway</module>
-    <module>kitchen</module>
   </modules>
 
   <name>Ex72</name>
@@ -104,6 +102,28 @@
       </plugins>
     </pluginManagement>
     <plugins>
+<!--      <plugin>-->
+<!--        <groupId>org.xolstice.maven.plugins</groupId>-->
+<!--        <artifactId>protobuf-maven-plugin</artifactId>-->
+<!--        <version>0.6.1</version>-->
+<!--        <configuration>-->
+<!--          <protocArtifact>-->
+<!--            com.google.protobuf:protoc:3.3.0:exe:${os.detected.classifier}-->
+<!--          </protocArtifact>-->
+<!--          <pluginId>grpc-java</pluginId>-->
+<!--          <pluginArtifact>-->
+<!--            io.grpc:protoc-gen-grpc-java:1.4.0:exe:${os.detected.classifier}-->
+<!--          </pluginArtifact>-->
+<!--        </configuration>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <goals>-->
+<!--              <goal>compile</goal>-->
+<!--              <goal>compile-custom</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>

@@ -1,8 +1,5 @@
-package org.dneversky.gateway.config;
+package org.dneversky.gateway.security;
 
-import org.dneversky.gateway.security.CustomAuthenticationFilter;
-import org.dneversky.gateway.security.CustomAuthorizationFilter;
-import org.dneversky.gateway.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
