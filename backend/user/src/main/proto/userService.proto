@@ -3,26 +3,20 @@ package org.dneversky.gateway;
 
 // Data Transfer Objects
 
-message UserPrincipal {
+message User {
   int64 id = 1;
   string username = 2;
-  string password = 3;  // encoding required?
+  string password = 3;
   repeated Role roles = 4;
   bool enabled = 5;
-}
-
-message SimpleUser {
-  int64 id = 1;
-  string username = 2;
-  repeated Role roles = 3;
-  string name = 4;
-  string phone = 5;
-  string birthday = 6;
-  string avatar = 7;
-  string city = 8;
-  string about = 9;
-  string registeredDate = 10;
-  Post post = 11;
+  string name = 6;
+  string phone = 7;
+  string birthday = 8;
+  string avatar = 9;
+  string city = 10;
+  string about = 11;
+  string registeredDate = 12;
+  Post post = 13;
 }
 
 message Role {
@@ -37,23 +31,24 @@ message Post {
 
 // Requests / Responses
 
-message UserPrincipalByUsernameRequest {
+message UserByUsernameRequest {
   string username = 1;
 }
 
-message UserPrincipalByUsernameResponse {
-  UserPrincipal user = 1;
+message UserByIdRequest {
+  int64 id = 1;
 }
 
 message AllUsersRequest {}
 
 message AllUsersResponse {
-  repeated SimpleUser users = 1;
+  repeated User users = 1;
 }
 
 // Services
 
 service UserService {
-  rpc getUserPrincipalByUsername(UserPrincipalByUsernameRequest) returns (UserPrincipalByUsernameResponse);
   rpc getAllUsers(AllUsersRequest) returns (AllUsersResponse);
+  rpc getUserByUsername(UserByUsernameRequest) returns (User);
+  rpc getUserById(UserByIdRequest) returns (User);
 }

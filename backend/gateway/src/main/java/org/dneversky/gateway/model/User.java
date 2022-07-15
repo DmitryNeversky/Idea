@@ -19,7 +19,9 @@ public class User {
 
     private Long id;
     private String username;
+    private String password;
     private Set<Role> roles;
+    private boolean enabled;
 
     private String name;
     private String phone;
@@ -30,11 +32,12 @@ public class User {
     private LocalDate registeredDate;
     private Post post;
 
-    public static User buildUser(UserServiceOuterClass.SimpleUser user) {
-        return new User(user.getId(), user.getUsername(),
+    public static User buildUser(UserServiceOuterClass.User user) {
+        return new User(user.getId(), user.getUsername(), user.getPassword(),
                 user.getRolesList().stream()
                         .map(e -> new Role(e.getId(), e.getName()))
                         .collect(Collectors.toSet()),
+                user.getEnabled(),
                 user.getName(), user.getPhone(),
                 new Date(user.getBirthday()), user.getAvatar(), user.getCity(), user.getAbout(),
                 LocalDate.parse(Arrays.toString(user.getRegisteredDate().toCharArray())),

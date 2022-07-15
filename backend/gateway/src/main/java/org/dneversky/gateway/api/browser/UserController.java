@@ -1,11 +1,10 @@
 package org.dneversky.gateway.api.browser;
 
-import org.dneversky.gateway.api.grpc.UserServiceGRPC;
 import org.dneversky.gateway.model.User;
 import org.dneversky.gateway.security.CurrentUser;
 import org.dneversky.gateway.security.UserPrincipal;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
+import org.dneversky.gateway.service.UserService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,21 +15,16 @@ import java.util.List;
 @RequestMapping("api/users")
 public class UserController {
 
-    @EventListener(ContextRefreshedEvent.class)
-    public void ready() {
-        System.out.println(userServiceGRPC.getUserPrincipalByUsername("E:F:0"));
-    }
+    private final UserService userService;
 
-    private final UserServiceGRPC userServiceGRPC;
-
-    public UserController(UserServiceGRPC userServiceGRPC) {
-        this.userServiceGRPC = userServiceGRPC;
+    public UserController(@Qualifier("userServiceImpl") UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
 
-        return ResponseEntity.ok(userServiceGRPC.getAllUsers());
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/id/{id}")
@@ -42,7 +36,7 @@ public class UserController {
     @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
     @GetMapping("/current")

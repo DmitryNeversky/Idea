@@ -26,9 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-/**
-        AuthenticationManager compares username & password from request's header with a real data storing in a database.
-**/
+    /** AuthenticationManager compares username & password from request's header with a real data storing in a database. **/
 
     @Bean
     @Override

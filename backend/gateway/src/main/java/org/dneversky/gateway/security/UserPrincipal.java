@@ -1,7 +1,7 @@
 package org.dneversky.gateway.security;
 
 import org.dneversky.gateway.UserServiceOuterClass;
-import org.dneversky.gateway.model.UserPrincipalModel;
+import org.dneversky.gateway.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +28,7 @@ public class UserPrincipal implements UserDetails {
         this.authorities = new HashSet<>(authorities);
     }
 
-    public static UserPrincipal buildPrincipal(UserPrincipalModel user) {
+    public static UserPrincipal buildPrincipal(User user) {
         Set<SimpleGrantedAuthority> authorities1 = new HashSet<>();
         if(user.getRoles() != null) {
             authorities1 = user.getRoles().stream()
@@ -38,7 +38,7 @@ public class UserPrincipal implements UserDetails {
         return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), authorities1, user.isEnabled());
     }
 
-    public static UserPrincipal buildPrincipal(UserServiceOuterClass.UserPrincipal user) {
+    public static UserPrincipal buildPrincipal(UserServiceOuterClass.User user) {
         Set<SimpleGrantedAuthority> authorities1 = user.getRolesList().stream()
                 .map(e -> new SimpleGrantedAuthority(e.getName()))
                 .collect(Collectors.toSet());
