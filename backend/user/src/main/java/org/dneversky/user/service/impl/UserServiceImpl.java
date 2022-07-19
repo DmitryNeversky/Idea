@@ -1,24 +1,28 @@
 package org.dneversky.user.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import org.dneversky.user.entity.Role;
 import org.dneversky.user.entity.User;
+import org.dneversky.user.exception.EntityNotFoundException;
 import org.dneversky.user.model.PasswordChangeRequest;
 import org.dneversky.user.model.UserRequest;
 import org.dneversky.user.repository.UserRepository;
 import org.dneversky.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<User> getAllUsers() {
