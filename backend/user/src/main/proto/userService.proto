@@ -19,6 +19,15 @@ message User {
   Post post = 13;
 }
 
+message UserToSave {
+  string username = 1;
+  string password = 2;
+  string name = 3;
+  string phone = 4;
+  string birthday = 5;
+  Post post = 6;
+}
+
 message Role {
   int32 id = 1;
   string name = 2;
@@ -51,4 +60,5 @@ service UserService {
   rpc getAllUsers(AllUsersRequest) returns (AllUsersResponse);
   rpc getUserByUsername(UserByUsernameRequest) returns (User);
   rpc getUserById(UserByIdRequest) returns (User);
+  rpc saveUser(UserToSave) returns (User);
 }

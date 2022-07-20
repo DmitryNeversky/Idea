@@ -52,4 +52,9 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void saveUser(UserServiceOuterClass.UserToSave request, StreamObserver<UserServiceOuterClass.User> responseObserver) {
+
+    }
 }

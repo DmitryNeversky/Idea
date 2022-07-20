@@ -1,6 +1,7 @@
 package org.dneversky.gateway.service.impl;
 
 import org.dneversky.gateway.api.grpc.GRPCUserClient;
+import org.dneversky.gateway.model.SaveUserRequest;
 import org.dneversky.gateway.model.User;
 import org.dneversky.gateway.security.UserPrincipal;
 import org.dneversky.gateway.service.UserService;
@@ -38,5 +39,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Long id) {
         return User.buildUser(userClient.getUserById(id));
+    }
+
+    @Override
+    public User saveUser(SaveUserRequest userRequest) {
+        return User.buildUser(userClient.saveUser(userRequest));
     }
 }

@@ -1,13 +1,12 @@
 package org.dneversky.gateway.api.browser;
 
+import org.dneversky.gateway.model.SaveUserRequest;
 import org.dneversky.gateway.model.User;
-import org.dneversky.gateway.service.UserService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.dneversky.gateway.service.impl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,9 +14,10 @@ import java.util.List;
 @RequestMapping("api/users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserController(@Qualifier("userServiceImpl") UserService userService) {
+    @Autowired
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
@@ -45,11 +45,11 @@ public class UserController {
 //        return ResponseEntity.ok(null);
 //    }
 //
-//    @PostMapping
-//    public ResponseEntity<User> saveUser(@RequestBody User user) {
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(null);
-//    }
+    @PostMapping
+    public ResponseEntity<User> saveUser(@RequestBody SaveUserRequest userRequest) {
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userRequest));
+    }
 //
 //    @PutMapping("/{username}")
 //    public ResponseEntity<User> update(@PathVariable String username,
