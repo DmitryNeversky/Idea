@@ -1,4 +1,4 @@
-package org.dneversky.gateway.security;
+package org.dneversky.gateway.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

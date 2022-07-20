@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.dneversky.gateway.UserServiceOuterClass;
-import org.dneversky.gateway.security.Role;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,11 +35,14 @@ public class User {
         return new User(user.getId(), user.getUsername(), user.getPassword(),
                 user.getRolesList().stream()
                         .map(e -> new Role(e.getId(), e.getName()))
-                        .collect(Collectors.toSet()),
-                user.getEnabled(),
-                user.getName(), user.getPhone(),
-                new Date(user.getBirthday()), user.getAvatar(), user.getCity(), user.getAbout(),
-                LocalDate.parse(Arrays.toString(user.getRegisteredDate().toCharArray())),
+                        .collect(Collectors.toSet()), user.getEnabled(),
+                Optional.of(user.getName()).orElse(""),
+                Optional.of(user.getPhone()).orElse(""),
+                new Date(),
+                Optional.of(user.getAvatar()).orElse(""),
+                Optional.of(user.getCity()).orElse(""),
+                Optional.of(user.getAbout()).orElse(""),
+                LocalDate.parse(user.getRegisteredDate()),
                 new Post(user.getPost().getId(), user.getPost().getName()));
     }
 }

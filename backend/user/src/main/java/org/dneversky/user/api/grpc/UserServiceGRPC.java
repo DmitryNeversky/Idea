@@ -4,11 +4,9 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.dneversky.gateway.UserServiceGrpc;
 import org.dneversky.gateway.UserServiceOuterClass;
-import org.dneversky.user.converter.UserGRPCConverter;
+import org.dneversky.user.converter.UserConverter;
 import org.dneversky.user.entity.User;
-import org.dneversky.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.dneversky.user.service.impl.UserServiceImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,10 +14,9 @@ import java.util.stream.Collectors;
 @GrpcService
 public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    @Autowired
-    public UserServiceGRPC(@Qualifier("userServiceImpl") UserService userService) {
+    public UserServiceGRPC(UserServiceImpl userService) {
         this.userService = userService;
     }
 
@@ -27,7 +24,7 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
     public void getUserByUsername(UserServiceOuterClass.UserByUsernameRequest request, StreamObserver<UserServiceOuterClass.User> responseObserver) {
         User user = userService.getUserByUsername(request.getUsername());
 
-        UserServiceOuterClass.User response = UserGRPCConverter.convert(user);
+        UserServiceOuterClass.User response = UserConverter.convert(user);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -38,7 +35,7 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
         List<User> users = userService.getAllUsers();
 
         UserServiceOuterClass.AllUsersResponse response = UserServiceOuterClass.AllUsersResponse.newBuilder()
-                .addAllUsers(users.stream().map(UserGRPCConverter::convert).collect(Collectors.toList())).build();
+                .addAllUsers(users.stream().map(UserConverter::convert).collect(Collectors.toList())).build();
 
         System.out.println(response);
 
@@ -50,7 +47,7 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
     public void getUserById(UserServiceOuterClass.UserByIdRequest request, StreamObserver<UserServiceOuterClass.User> responseObserver) {
         User user = userService.getUser(request.getId());
 
-        UserServiceOuterClass.User response = UserGRPCConverter.convert(user);
+        UserServiceOuterClass.User response = UserConverter.convert(user);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();

@@ -6,7 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dneversky.gateway.security.UserPrincipal;
-import org.dneversky.gateway.api.grpc.GRPCUserClient;
 import org.dneversky.gateway.service.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +26,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/token")
 public class TokenController {
 
     private final Integer ACCESS_EXPIRE_MINUTES = 720;
@@ -39,7 +38,7 @@ public class TokenController {
         this.userService = userService;
     }
 
-    @GetMapping("/token/refresh")
+    @GetMapping("/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
