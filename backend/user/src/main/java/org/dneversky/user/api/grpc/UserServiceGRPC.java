@@ -30,22 +30,20 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
         UserServiceOuterClass.User response = UserGRPCConverter.convert(user);
 
         responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     @Override
     public void getAllUsers(UserServiceOuterClass.AllUsersRequest request, StreamObserver<UserServiceOuterClass.AllUsersResponse> responseObserver) {
         List<User> users = userService.getAllUsers();
 
-        System.out.println(users);
-
         UserServiceOuterClass.AllUsersResponse response = UserServiceOuterClass.AllUsersResponse.newBuilder()
-                .addAllUsers(users.stream().map(UserGRPCConverter::convert).collect(Collectors.toList()))
-                .build();
+                .addAllUsers(users.stream().map(UserGRPCConverter::convert).collect(Collectors.toList())).build();
 
         System.out.println(response);
-        System.out.println(users);
 
         responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     @Override
@@ -55,5 +53,6 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
         UserServiceOuterClass.User response = UserGRPCConverter.convert(user);
 
         responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 }

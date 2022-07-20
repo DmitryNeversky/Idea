@@ -19,12 +19,12 @@ public class GRPCUserClient implements UserClient {
     public List<UserServiceOuterClass.User> getAllUsers() {
         log.info("Getting all users via grpc...");
 
-        List<UserServiceOuterClass.User> response = stub
-                .getAllUsers(UserServiceOuterClass.AllUsersRequest.newBuilder().build()).getUsersList();
+        UserServiceOuterClass.AllUsersRequest request = UserServiceOuterClass.AllUsersRequest.newBuilder().build();
+        UserServiceOuterClass.AllUsersResponse response = stub.getAllUsers(request);
 
         log.info("Gotten users via grpc: {}", response);
 
-        return response;
+        return response.getUsersList();
     }
 
     @Override
