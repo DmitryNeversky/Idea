@@ -2,15 +2,18 @@ package org.dneversky.user.service.impl;
 
 import org.dneversky.user.entity.Role;
 import org.dneversky.user.entity.User;
+import org.dneversky.user.exception.EntityExistsException;
 import org.dneversky.user.exception.EntityNotFoundException;
 import org.dneversky.user.model.PasswordChangeRequest;
 import org.dneversky.user.model.UserRequest;
 import org.dneversky.user.repository.UserRepository;
 import org.dneversky.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -18,10 +21,14 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleServiceImpl roleService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleServiceImpl roleService) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @Override
@@ -46,7 +53,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        return null;
+        if(userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new EntityExistsException("User with username " + user.getUsername() + " already exists.");
+        }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRegisteredDate(LocalDate.now());
+        user.getRoles().add(roleService.getRole("USER"));
+        user.setEnabled(true);
+
+        return userRepository.save(user);
     }
 
     @Override

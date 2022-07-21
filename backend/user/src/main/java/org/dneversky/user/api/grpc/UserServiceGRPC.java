@@ -55,6 +55,11 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
 
     @Override
     public void saveUser(UserServiceOuterClass.UserToSave request, StreamObserver<UserServiceOuterClass.User> responseObserver) {
+        User user = userService.saveUser(UserConverter.convert(request));
 
+        UserServiceOuterClass.User response = UserConverter.convert(user);
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 }

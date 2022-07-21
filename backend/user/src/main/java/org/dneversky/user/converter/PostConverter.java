@@ -11,4 +11,11 @@ public class PostConverter {
                 .setName(post.getName())
                 .build();
     }
+
+    public static Post convert(UserServiceOuterClass.Post post) {
+        return Post.builder()
+                .id(post.getId())
+                .name(post.getName())
+                .build();
+    }
 }

@@ -72,7 +72,10 @@ public class PostServiceImpl implements PostService {
     @PostConstruct
     private void init() {
         if(!postRepository.existsByName("Default")) {
-            postRepository.save(new Post("Default"));
+            Post post = Post.builder()
+                    .name("Default")
+                    .build();
+            postRepository.save(post);
         }
     }
 }
