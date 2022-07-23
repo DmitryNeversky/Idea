@@ -1,7 +1,7 @@
 package org.dneversky.user.service;
 
 import org.dneversky.user.entity.Role;
-import org.dneversky.user.model.RoleRequest;
+import org.dneversky.user.dto.RoleRequest;
 
 import java.util.List;
 

@@ -1,34 +1,37 @@
 package org.dneversky.user.service.impl;
 
+import org.dneversky.user.dto.PasswordChangeRequest;
+import org.dneversky.user.dto.SaveUserRequest;
+import org.dneversky.user.dto.UpdateUserRequest;
+import org.dneversky.user.entity.Post;
 import org.dneversky.user.entity.Role;
 import org.dneversky.user.entity.User;
 import org.dneversky.user.exception.EntityExistsException;
 import org.dneversky.user.exception.EntityNotFoundException;
-import org.dneversky.user.model.PasswordChangeRequest;
-import org.dneversky.user.model.UserRequest;
 import org.dneversky.user.repository.UserRepository;
 import org.dneversky.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class DefaultUserService implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RoleServiceImpl roleService;
+    private final DefaultRoleService roleService;
+    private final DefaultPostService postService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleServiceImpl roleService) {
+    public DefaultUserService(UserRepository userRepository, PasswordEncoder passwordEncoder, DefaultRoleService roleService, DefaultPostService postService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
+        this.postService = postService;
     }
 
     @Override
@@ -52,13 +55,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(User user) {
-        if(userRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new EntityExistsException("User with username " + user.getUsername() + " already exists.");
+    public User saveUser(SaveUserRequest userRequest) {
+        if(userRepository.findByUsername(userRequest.getUsername()).isPresent()) {
+            throw new EntityExistsException("User with username " + userRequest.getUsername() + " already exists.");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Post post = postService.getPost(userRequest.getPostId());
+        User user = new User(userRequest);
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setRegisteredDate(LocalDate.now());
+        user.setPost(post);
         user.getRoles().add(roleService.getRole("USER"));
         user.setEnabled(true);
 
@@ -66,8 +72,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(String username, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
-        return null;
+    public User updateUser(String username, UpdateUserRequest userRequest) {
+        if(!userRepository.findByUsername(userRequest.getUsername()).isPresent()) {
+            throw new EntityNotFoundException("User with username " + userRequest.getUsername() + " not found.");
+        }
+
+        Post post = postService.getPost(userRequest.getPostId());
+        User user = userRepository.getByUsername(userRequest.getUsername());
+        user.setPost(post);
+        user.mergeUpdateRequest(userRequest);
+
+        return user;
     }
 
     @Override

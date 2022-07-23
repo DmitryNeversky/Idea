@@ -11,4 +11,11 @@ public final class RoleConverter {
                 .setName(role.getName())
                 .build();
     }
+
+    public static Role convert(UserServiceOuterClass.Role role) {
+        return Role.builder()
+                .id(role.getId())
+                .name(role.getName())
+                .build();
+    }
 }

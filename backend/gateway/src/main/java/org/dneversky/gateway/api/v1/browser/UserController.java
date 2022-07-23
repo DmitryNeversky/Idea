@@ -1,12 +1,17 @@
-package org.dneversky.gateway.api.browser;
+package org.dneversky.gateway.api.v1.browser;
 
-import org.dneversky.gateway.model.SaveUserRequest;
+import org.dneversky.gateway.dto.SaveUserRequest;
+import org.dneversky.gateway.dto.UpdateUserRequest;
+import org.dneversky.gateway.dto.UserResponse;
 import org.dneversky.gateway.model.User;
-import org.dneversky.gateway.service.impl.UserServiceImpl;
+import org.dneversky.gateway.security.CurrentUser;
+import org.dneversky.gateway.security.UserPrincipal;
+import org.dneversky.gateway.service.impl.DefaultUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,52 +19,52 @@ import java.util.List;
 @RequestMapping("api/users")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final DefaultUserService userService;
 
     @Autowired
-    public UserController(UserServiceImpl userService) {
+    public UserController(DefaultUserService userService) {
         this.userService = userService;
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
 
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
 
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+    public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
 
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
-//    @GetMapping("/current")
-//    public ResponseEntity<User> getCurrentUser(@CurrentUser UserPrincipal principal) {
-//
-//        return ResponseEntity.ok(null);
-//    }
-//
+    @GetMapping("/current")
+    public ResponseEntity<String> getCurrentUser(@CurrentUser UserPrincipal principal) {
+
+        return ResponseEntity.ok(principal.getUsername());
+    }
+
     @PostMapping
-    public ResponseEntity<User> saveUser(@RequestBody SaveUserRequest userRequest) {
+    public ResponseEntity<UserResponse> saveUser(@RequestBody SaveUserRequest userRequest) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userRequest));
     }
 //
-//    @PutMapping("/{username}")
-//    public ResponseEntity<User> update(@PathVariable String username,
-//                                       @CurrentUser UserPrincipal userPrincipal,
-//                                       @RequestPart("user") @Valid UserRequest userRequest,
-//                                       @RequestPart(name = "avatar", required = false) MultipartFile avatar,
-//                                       @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
-//
-//        return ResponseEntity.ok(userServiceImpl.updateUser(username, userPrincipal, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
-//    }
+    @PutMapping("/{username}")
+    public ResponseEntity<UserResponse> update(@PathVariable String username,
+                                       @CurrentUser UserPrincipal userPrincipal,
+                                       @RequestPart("user") UpdateUserRequest userRequest,
+                                       @RequestPart(name = "avatar", required = false) MultipartFile avatar,
+                                       @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
+
+        return ResponseEntity.ok(userService.updateUser(username, userPrincipal, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
+    }
 //
 //    @DeleteMapping("/{username}")
 //    public ResponseEntity<?> delete(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal) {

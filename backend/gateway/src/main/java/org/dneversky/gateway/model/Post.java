@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -16,6 +15,5 @@ public class Post {
 
     private int id;
     private String name;
-    private Set<User> users = new HashSet<>();
-
+    private Set<User> users;
 }

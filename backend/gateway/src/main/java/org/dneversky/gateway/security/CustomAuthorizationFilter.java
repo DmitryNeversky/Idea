@@ -31,7 +31,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final DefaultUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

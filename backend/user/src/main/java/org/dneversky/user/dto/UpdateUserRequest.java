@@ -1,4 +1,4 @@
-package org.dneversky.gateway.model;
+package org.dneversky.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,17 +7,15 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UpdateUserRequest {
 
-    private Long id;
+    private long id;
     private String username;
-    private Set<Role> roles;
 
     private String name;
     private String phone;
@@ -25,15 +23,14 @@ public class User {
     private String avatar;
     private String city;
     private String about;
-    private LocalDate registeredDate;
-    private Post post;
+    private int postId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username);
+        UpdateUserRequest that = (UpdateUserRequest) o;
+        return id == that.id && Objects.equals(username, that.username);
     }
 
     @Override

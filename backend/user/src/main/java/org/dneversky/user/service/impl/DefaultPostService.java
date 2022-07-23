@@ -2,7 +2,7 @@ package org.dneversky.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.dneversky.user.entity.Post;
-import org.dneversky.user.model.PostRequest;
+import org.dneversky.user.dto.PostRequest;
 import org.dneversky.user.repository.PostRepository;
 import org.dneversky.user.repository.UserRepository;
 import org.dneversky.user.service.PostService;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PostServiceImpl implements PostService {
+public class DefaultPostService implements PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -29,7 +29,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post getPost(Integer id) {
 
-        return postRepository.getById(id);
+        return postRepository.findById(id).orElseThrow(
+                () -> new org.dneversky.user.exception.EntityNotFoundException("Post with id " + id + " not found."));
     }
 
     @Override

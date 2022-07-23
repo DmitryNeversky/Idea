@@ -3,7 +3,9 @@ package org.dneversky.user.converter;
 import com.google.protobuf.Timestamp;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.gateway.UserServiceOuterClass;
+import org.dneversky.user.dto.SaveUserRequest;
 import org.dneversky.user.entity.User;
+import org.dneversky.user.dto.UpdateUserRequest;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -24,9 +26,7 @@ public final class UserConverter {
 
         return UserServiceOuterClass.User.newBuilder()
                 .setUsername(user.getUsername())
-                .setPassword(user.getPassword())
                 .addAllRoles(roleSet)
-                .setEnabled(user.isEnabled())
 
                 .setId(user.getId())
                 .setName(user.getName())
@@ -39,7 +39,7 @@ public final class UserConverter {
                 .build();
     }
 
-    public static User convert(UserServiceOuterClass.UserToSave user) {
+    public static User convert(UserServiceOuterClass.SaveUserRequest user) {
         LocalDate birthday = DateConverter.convert(user.getBirthday());
 
         return User.builder()
@@ -49,6 +49,48 @@ public final class UserConverter {
                 .name(user.getName())
                 .phone(user.getPhone())
                 .birthday(birthday)
+                .build();
+    }
+
+    public static SaveUserRequest convertToSaveUserRequest(UserServiceOuterClass.SaveUserRequest user) {
+        LocalDate birthday = DateConverter.convert(user.getBirthday());
+
+        return SaveUserRequest.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .name(user.getName())
+                .phone(user.getPhone())
+                .birthday(birthday)
+                .postId(user.getPostId())
+                .build();
+    }
+
+    public static UpdateUserRequest convert(UserServiceOuterClass.UpdateUserRequest user) {
+        LocalDate birthday = DateConverter.convert(user.getBirthday());
+
+        return UpdateUserRequest.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .phone(user.getPhone())
+                .birthday(birthday)
+                .avatar(user.getAvatar())
+                .city(user.getCity())
+                .about(user.getAbout())
+                .postId(user.getPostId())
+                .build();
+    }
+
+    public static UserServiceOuterClass.UserPrincipal convertToUserPrincipal(User user) {
+        Set<UserServiceOuterClass.Role> roleSet = user.getRoles().stream()
+                .map(RoleConverter::convert)
+                .collect(Collectors.toSet());
+
+        return UserServiceOuterClass.UserPrincipal.newBuilder()
+                .setId(user.getId())
+                .setUsername(user.getUsername())
+                .setPassword(user.getPassword())
+                .addAllRoles(roleSet)
                 .build();
     }
 }

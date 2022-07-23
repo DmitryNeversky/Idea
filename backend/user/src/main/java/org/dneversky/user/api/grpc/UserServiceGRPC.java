@@ -7,7 +7,7 @@ import org.dneversky.gateway.UserServiceGrpc;
 import org.dneversky.gateway.UserServiceOuterClass;
 import org.dneversky.user.converter.UserConverter;
 import org.dneversky.user.entity.User;
-import org.dneversky.user.service.impl.UserServiceImpl;
+import org.dneversky.user.service.impl.DefaultUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 @GrpcService
 public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
 
-    private final UserServiceImpl userService;
+    private final DefaultUserService userService;
 
     @Autowired
-    public UserServiceGRPC(UserServiceImpl userService) {
+    public UserServiceGRPC(DefaultUserService userService) {
         this.userService = userService;
     }
 
@@ -30,6 +30,19 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
 
         User user = userService.getUserByUsername(request.getUsername());
         UserServiceOuterClass.User response = UserConverter.convert(user);
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+
+        log.info("Returned user with username '{}' from getUserByUsername() method.", request.getUsername());
+    }
+
+    @Override
+    public void getUserPrincipalByUsername(UserServiceOuterClass.UserByUsernameRequest request, StreamObserver<UserServiceOuterClass.UserPrincipal> responseObserver) {
+        log.info("Received request with username '{}' in getUserPrincipalByUsername() method.", request.getUsername());
+
+        User user = userService.getUserByUsername(request.getUsername());
+        UserServiceOuterClass.UserPrincipal response = UserConverter.convertToUserPrincipal(user);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -65,15 +78,28 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
     }
 
     @Override
-    public void saveUser(UserServiceOuterClass.UserToSave request, StreamObserver<UserServiceOuterClass.User> responseObserver) {
+    public void saveUser(UserServiceOuterClass.SaveUserRequest request, StreamObserver<UserServiceOuterClass.User> responseObserver) {
         log.info("Received request for saving user with username '{}' in saveUser() method.", request.getUsername());
 
-        User user = userService.saveUser(UserConverter.convert(request));
+        User user = userService.saveUser(UserConverter.convertToSaveUserRequest(request));
         UserServiceOuterClass.User response = UserConverter.convert(user);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
 
         log.info("Returned user with id '{}' from saveUser() method.", request.getUsername());
+    }
+
+    @Override
+    public void updateUser(UserServiceOuterClass.UpdateUserRequest request, StreamObserver<UserServiceOuterClass.User> responseObserver) {
+        log.info("Received request for update user with username '{}' in saveUser() method.", request.getUsername());
+
+        User user = userService.updateUser(request.getUsername(), UserConverter.convert(request));
+        UserServiceOuterClass.User response = UserConverter.convert(user);
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+
+        log.info("Returned user with id '{}' from updateUser() method.", request.getUsername());
     }
 }

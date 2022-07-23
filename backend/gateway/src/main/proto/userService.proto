@@ -8,9 +8,7 @@ import "google/protobuf/timestamp.proto";
 message User {
   int64 id = 1;
   string username = 2;
-  string password = 3;
   repeated Role roles = 4;
-  bool enabled = 5;
   string name = 6;
   string phone = 7;
   google.protobuf.Timestamp birthday = 8;
@@ -21,13 +19,33 @@ message User {
   Post post = 13;
 }
 
-message UserToSave {
+message UserPrincipal {
+  int64 id = 1;
+  string username = 2;
+  string password = 3;
+  repeated Role roles = 4;
+  bool enabled = 5;
+}
+
+message SaveUserRequest {
   string username = 1;
   string password = 2;
   string name = 3;
   string phone = 4;
   google.protobuf.Timestamp birthday = 5;
   int32 postId = 6;
+}
+
+message UpdateUserRequest {
+  int64 id = 1;
+  string username = 2;
+  string name = 3;
+  string phone = 4;
+  google.protobuf.Timestamp birthday = 5;
+  int32 postId = 6;
+  string avatar = 7;
+  string city = 8;
+  string about = 9;
 }
 
 message Role {
@@ -64,5 +82,7 @@ service UserService {
   rpc getAllUsers(AllUsersRequest) returns (AllUsersResponse);
   rpc getUserByUsername(UserByUsernameRequest) returns (User);
   rpc getUserById(UserByIdRequest) returns (User);
-  rpc saveUser(UserToSave) returns (User);
+  rpc saveUser(SaveUserRequest) returns (User);
+  rpc updateUser(UpdateUserRequest) returns (User);
+  rpc getUserPrincipalByUsername(UserByUsernameRequest) returns (UserPrincipal);
 }

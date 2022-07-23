@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.*;
+import org.dneversky.user.dto.SaveUserRequest;
+import org.dneversky.user.dto.UpdateUserRequest;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -93,6 +95,22 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
     private Post post;
+
+    public void mergeUpdateRequest(UpdateUserRequest userRequest) {
+        name = userRequest.getName();
+        phone = userRequest.getPhone();
+        birthday = userRequest.getBirthday();
+        avatar = userRequest.getAvatar();
+        city = userRequest.getCity();
+        about = userRequest.getAbout();
+    }
+
+    public User(SaveUserRequest userRequest) {
+        this.username = userRequest.getUsername();
+        this.name = userRequest.getName();
+        this.phone = userRequest.getPhone();
+        this.birthday = userRequest.getBirthday();
+    }
 
     @Override
     public boolean equals(Object o) {

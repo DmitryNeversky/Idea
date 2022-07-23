@@ -1,10 +1,10 @@
 package org.dneversky.user.service;
 
+import org.dneversky.user.dto.SaveUserRequest;
 import org.dneversky.user.entity.Role;
 import org.dneversky.user.entity.User;
-import org.dneversky.user.model.PasswordChangeRequest;
-import org.dneversky.user.model.UserRequest;
-import org.springframework.web.multipart.MultipartFile;
+import org.dneversky.user.dto.PasswordChangeRequest;
+import org.dneversky.user.dto.UpdateUserRequest;
 
 import java.util.List;
 import java.util.Set;
@@ -17,9 +17,9 @@ public interface UserService {
 
     User getUserByUsername(String username);
 
-    User saveUser(User user);
+    User saveUser(SaveUserRequest user);
 
-    User updateUser(String username, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
+    User updateUser(String username, UpdateUserRequest userRequest);
 
     void deleteUser(String username);
 

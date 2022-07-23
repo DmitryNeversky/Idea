@@ -1,7 +1,7 @@
 package org.dneversky.user.service;
 
 import org.dneversky.user.entity.Post;
-import org.dneversky.user.model.PostRequest;
+import org.dneversky.user.dto.PostRequest;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package org.dneversky.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.dneversky.user.entity.Role;
-import org.dneversky.user.model.RoleRequest;
+import org.dneversky.user.dto.RoleRequest;
 import org.dneversky.user.repository.RoleRepository;
 import org.dneversky.user.repository.UserRepository;
 import org.dneversky.user.service.RoleService;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl implements RoleService {
+public class DefaultRoleService implements RoleService {
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
