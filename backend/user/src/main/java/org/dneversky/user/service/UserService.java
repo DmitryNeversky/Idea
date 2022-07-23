@@ -1,6 +1,5 @@
 package org.dneversky.user.service;
 
-import com.sun.security.auth.UserPrincipal;
 import org.dneversky.user.entity.Role;
 import org.dneversky.user.entity.User;
 import org.dneversky.user.model.PasswordChangeRequest;
@@ -14,7 +13,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User getUser(Long id);
+    User getUserById(Long id);
 
     User getUserByUsername(String username);
 

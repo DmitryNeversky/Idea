@@ -1,6 +1,8 @@
 syntax = 'proto3';
 package org.dneversky.gateway;
 
+import "google/protobuf/timestamp.proto";
+
 // Data Transfer Objects
 
 message User {
@@ -11,11 +13,11 @@ message User {
   bool enabled = 5;
   string name = 6;
   string phone = 7;
-  string birthday = 8;
+  google.protobuf.Timestamp birthday = 8;
   string avatar = 9;
   string city = 10;
   string about = 11;
-  string registeredDate = 12;
+  google.protobuf.Timestamp registeredDate = 12;
   Post post = 13;
 }
 
@@ -24,18 +26,20 @@ message UserToSave {
   string password = 2;
   string name = 3;
   string phone = 4;
-  string birthday = 5;
-  Post post = 6;
+  google.protobuf.Timestamp birthday = 5;
+  int32 postId = 6;
 }
 
 message Role {
   int32 id = 1;
   string name = 2;
+  repeated int64 usersId = 3;
 }
 
 message Post {
   int32 id = 1;
   string name = 2;
+  repeated int64 usersId = 3;
 }
 
 // Requests / Responses

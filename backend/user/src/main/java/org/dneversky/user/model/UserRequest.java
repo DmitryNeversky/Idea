@@ -34,10 +34,4 @@ public class UserRequest {
 
     @JsonIgnoreProperties("users")
     private Post post;
-
-    public UserRequest(String name, String phone, Date birthday) {
-        this.name = name;
-        this.phone = phone;
-        this.birthday = birthday;
-    }
 }

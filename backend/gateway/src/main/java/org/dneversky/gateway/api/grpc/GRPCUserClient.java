@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.dneversky.gateway.UserServiceGrpc;
 import org.dneversky.gateway.UserServiceOuterClass;
+import org.dneversky.gateway.converter.UserConverter;
 import org.dneversky.gateway.model.SaveUserRequest;
 import org.springframework.stereotype.Component;
 
@@ -11,12 +12,11 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class GRPCUserClient implements UserClient {
+public class GRPCUserClient {
 
     @GrpcClient(value = "localhost:9090")
     private UserServiceGrpc.UserServiceBlockingStub stub;
 
-    @Override
     public List<UserServiceOuterClass.User> getAllUsers() {
         log.info("Getting all users via grpc...");
 
@@ -28,7 +28,6 @@ public class GRPCUserClient implements UserClient {
         return response.getUsersList();
     }
 
-    @Override
     public UserServiceOuterClass.User getUserByUsername(String username) {
         log.info("Getting user by username {} via grpc...", username);
 
@@ -41,7 +40,6 @@ public class GRPCUserClient implements UserClient {
         return response;
     }
 
-    @Override
     public UserServiceOuterClass.User getUserById(Long id) {
         log.info("Getting user by id {} via grpc...", id);
 
@@ -54,22 +52,10 @@ public class GRPCUserClient implements UserClient {
         return response;
     }
 
-    @Override
     public UserServiceOuterClass.User saveUser(SaveUserRequest userRequest) {
         log.info("Saving user with username {} via grpc...", userRequest.getUsername());
 
-        UserServiceOuterClass.UserToSave request = UserServiceOuterClass.UserToSave
-                .newBuilder()
-                .setUsername(userRequest.getUsername())
-                .setPassword(userRequest.getPassword())
-                .setName(userRequest.getName())
-                .setPhone(userRequest.getPhone())
-                .setBirthday(userRequest.getBirthday().toString())
-                .setPost(UserServiceOuterClass.Post.newBuilder()
-                        .setId(userRequest.getPost().getId())
-                        .setName(userRequest.getPost().getName())
-                        .build())
-                .build();
+        UserServiceOuterClass.UserToSave request = UserConverter.convert(userRequest);
         UserServiceOuterClass.User response = stub.saveUser(request);
 
         log.info("Gotten saved user via grpc: {}", response);

@@ -1,6 +1,7 @@
 package org.dneversky.gateway.service.impl;
 
 import org.dneversky.gateway.api.grpc.GRPCUserClient;
+import org.dneversky.gateway.converter.UserConverter;
 import org.dneversky.gateway.model.SaveUserRequest;
 import org.dneversky.gateway.model.User;
 import org.dneversky.gateway.security.UserPrincipal;
@@ -23,12 +24,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userClient.getAllUsers().stream().map(User::buildUser).collect(Collectors.toList());
+        return userClient.getAllUsers().stream()
+                .map(UserConverter::convert)
+                .collect(Collectors.toList());
     }
 
     @Override
     public User getUserByUsername(String username) {
-        return User.buildUser(userClient.getUserByUsername(username));
+        return UserConverter.convert(userClient.getUserByUsername(username));
     }
 
     @Override
@@ -38,11 +41,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return User.buildUser(userClient.getUserById(id));
+        return UserConverter.convert(userClient.getUserById(id));
     }
 
     @Override
     public User saveUser(SaveUserRequest userRequest) {
-        return User.buildUser(userClient.saveUser(userRequest));
+        return UserConverter.convert(userClient.saveUser(userRequest));
     }
 }

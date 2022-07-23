@@ -1,43 +1,54 @@
 package org.dneversky.user.converter;
 
+import com.google.protobuf.Timestamp;
+import lombok.extern.slf4j.Slf4j;
 import org.dneversky.gateway.UserServiceOuterClass;
 import org.dneversky.user.entity.User;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class UserConverter {
+@Slf4j
+public final class UserConverter {
 
     public static UserServiceOuterClass.User convert(User user) {
+
+        Timestamp birthday = DateConverter.convert(user.getBirthday());
+        Timestamp registeredDate = DateConverter.convert(user.getRegisteredDate());
+        Set<UserServiceOuterClass.Role> roleSet = user.getRoles().stream()
+                .map(RoleConverter::convert)
+                .collect(Collectors.toSet());
+
         return UserServiceOuterClass.User.newBuilder()
-                .setId(user.getId())
                 .setUsername(user.getUsername())
                 .setPassword(user.getPassword())
-                .addAllRoles(user.getRoles().stream()
-                        .map(RoleConverter::convert)
-                        .collect(Collectors.toList()))
+                .addAllRoles(roleSet)
                 .setEnabled(user.isEnabled())
-                .setName(Optional.ofNullable(user.getName()).orElse(""))
+
+                .setId(user.getId())
+                .setName(user.getName())
+                .setBirthday(birthday)
+                .setRegisteredDate(registeredDate)
                 .setPost(PostConverter.convert(user.getPost()))
                 .setAbout(Optional.ofNullable(user.getAbout()).orElse(""))
                 .setPhone(Optional.ofNullable(user.getPhone()).orElse(""))
                 .setAvatar(Optional.ofNullable(user.getAvatar()).orElse(""))
-                .setBirthday(Optional.ofNullable(user.getBirthday().toString()).orElse(""))
-                .setRegisteredDate(Optional.of(user.getRegisteredDate().toString()).orElse(""))
                 .build();
     }
 
     public static User convert(UserServiceOuterClass.UserToSave user) {
+        LocalDate birthday = DateConverter.convert(user.getBirthday());
+
         return User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .roles(new HashSet<>())
                 .name(user.getName())
                 .phone(user.getPhone())
-                .birthday(new Date())
-                .post(PostConverter.convert(user.getPost()))
+                .birthday(birthday)
                 .build();
     }
 }

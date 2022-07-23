@@ -1,7 +1,7 @@
-package org.dneversky.user.converter;
+package org.dneversky.gateway.converter;
 
 import org.dneversky.gateway.UserServiceOuterClass;
-import org.dneversky.user.entity.Role;
+import org.dneversky.gateway.model.Role;
 
 public final class RoleConverter {
 

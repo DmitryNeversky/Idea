@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Data
@@ -16,19 +16,19 @@ public class SaveUserRequest {
     private String password;
     private String name;
     private String phone;
-    private Date birthday;
-    private Post post;
+    private LocalDate birthday;
+    private int postId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SaveUserRequest that = (SaveUserRequest) o;
-        return Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(name, that.name) && Objects.equals(phone, that.phone) && Objects.equals(birthday, that.birthday);
+        return Objects.equals(username, that.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, name, phone, birthday);
+        return Objects.hash(username);
     }
 }

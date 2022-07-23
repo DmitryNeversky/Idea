@@ -16,7 +16,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -55,8 +54,12 @@ public class User {
     @NotBlank(message = "Phone contains whitespaces or null value")
     private String phone;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @NotNull(message = "Birthday can not be null")
-    private Date birthday;
+    private LocalDate birthday;
 
     private String avatar;
 
@@ -90,18 +93,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
     private Post post;
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public User(String name, String phone, Date birthday, Post post) {
-        this.name = name;
-        this.phone = phone;
-        this.birthday = birthday;
-        this.post = post;
-    }
 
     @Override
     public boolean equals(Object o) {
