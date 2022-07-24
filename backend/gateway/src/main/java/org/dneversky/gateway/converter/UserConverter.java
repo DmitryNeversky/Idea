@@ -29,7 +29,7 @@ public final class UserConverter {
                 .build();
     }
 
-    public static UserResponse convertToResponseUser(UserServiceOuterClass.User user) {
+    public static UserResponse convertToUserResponse(UserServiceOuterClass.User user) {
         LocalDate birthday = DateConverter.convert(user.getBirthday());
         LocalDate registeredDate = DateConverter.convert(user.getRegisteredDate());
         Set<Role> roleSet = user.getRolesList().stream()

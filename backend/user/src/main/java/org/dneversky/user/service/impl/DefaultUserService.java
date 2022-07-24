@@ -87,7 +87,12 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void deleteUser(String username) {
+        if(!userRepository.findByUsername(username).isPresent()) {
+            throw new EntityNotFoundException("User with username " + username + " not found.");
+        }
 
+        User user = userRepository.getByUsername(username);
+        userRepository.delete(user);
     }
 
     @Override

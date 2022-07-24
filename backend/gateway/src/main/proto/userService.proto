@@ -72,6 +72,8 @@ message UserByIdRequest {
 
 message AllUsersRequest {}
 
+message DeleteUserResponse {}
+
 message AllUsersResponse {
   repeated User users = 1;
 }
@@ -85,4 +87,5 @@ service UserService {
   rpc saveUser(SaveUserRequest) returns (User);
   rpc updateUser(UpdateUserRequest) returns (User);
   rpc getUserPrincipalByUsername(UserByUsernameRequest) returns (UserPrincipal);
+  rpc deleteUser(UserByUsernameRequest) returns (DeleteUserResponse);
 }

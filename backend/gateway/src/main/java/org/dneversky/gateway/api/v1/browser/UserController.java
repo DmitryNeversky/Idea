@@ -53,7 +53,7 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userRequest));
     }
-//
+
     @PutMapping("/{username}")
     public ResponseEntity<UserResponse> update(@PathVariable String username,
                                        @RequestPart("user") UpdateUserRequest userRequest,
@@ -62,13 +62,13 @@ public class UserController {
 
         return ResponseEntity.ok(userService.updateUser(username, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
     }
-//
-//    @DeleteMapping("/{username}")
-//    public ResponseEntity<?> delete(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal) {
-//        userServiceImpl.deleteUser(username, userPrincipal);
-//
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<?> delete(@PathVariable String username) {
+        userService.deleteUser(username);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 //
 //
 //

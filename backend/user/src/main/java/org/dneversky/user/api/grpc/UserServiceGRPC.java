@@ -87,7 +87,7 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
 
-        log.info("Returned user with id '{}' from saveUser() method.", request.getUsername());
+        log.info("Returned user with username '{}' from saveUser() method.", request.getUsername());
     }
 
     @Override
@@ -100,6 +100,19 @@ public class UserServiceGRPC extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
 
-        log.info("Returned user with id '{}' from updateUser() method.", request.getUsername());
+        log.info("Returned user with username '{}' from updateUser() method.", request.getUsername());
+    }
+
+    @Override
+    public void deleteUser(UserServiceOuterClass.UserByUsernameRequest request, StreamObserver<UserServiceOuterClass.DeleteUserResponse> responseObserver) {
+        log.info("Received request for delete user with username '{}' in deleteUser() method.", request.getUsername());
+
+        userService.deleteUser(request.getUsername());
+        UserServiceOuterClass.DeleteUserResponse response = UserServiceOuterClass.DeleteUserResponse.newBuilder().build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+
+        log.info("Deleted user with username '{}' from deleteUser() method.", request.getUsername());
     }
 }
