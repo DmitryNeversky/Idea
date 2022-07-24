@@ -4,11 +4,10 @@ import com.google.protobuf.Timestamp;
 import lombok.extern.slf4j.Slf4j;
 import org.dneversky.gateway.UserServiceOuterClass;
 import org.dneversky.user.dto.SaveUserRequest;
-import org.dneversky.user.entity.User;
 import org.dneversky.user.dto.UpdateUserRequest;
+import org.dneversky.user.entity.User;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,19 +35,6 @@ public final class UserConverter {
                 .setAbout(Optional.ofNullable(user.getAbout()).orElse(""))
                 .setPhone(Optional.ofNullable(user.getPhone()).orElse(""))
                 .setAvatar(Optional.ofNullable(user.getAvatar()).orElse(""))
-                .build();
-    }
-
-    public static User convert(UserServiceOuterClass.SaveUserRequest user) {
-        LocalDate birthday = DateConverter.convert(user.getBirthday());
-
-        return User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roles(new HashSet<>())
-                .name(user.getName())
-                .phone(user.getPhone())
-                .birthday(birthday)
                 .build();
     }
 
@@ -91,6 +77,7 @@ public final class UserConverter {
                 .setUsername(user.getUsername())
                 .setPassword(user.getPassword())
                 .addAllRoles(roleSet)
+                .setEnabled(user.isEnabled())
                 .build();
     }
 }

@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.dneversky.gateway.exception.UnforeseenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -52,11 +53,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         try {
             return authenticationManager.authenticate(authenticationToken);
         } catch (BadCredentialsException e) {
-            log.error("BadCredentialsException: Incorrect user's data.");
+            throw new BadCredentialsException("Incorrect user's data.");
         } catch (AuthenticationException e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e.getCause());
+            throw new UnforeseenException("Error has occurred during server processing.");
         }
-        return null;  // null?
     }
 
     /** On successful authentication user by attemptAuthentication() method generates new Access Token and Refresh Token putting their hash in fields access_token and refresh_token in the response correspondingly **/
