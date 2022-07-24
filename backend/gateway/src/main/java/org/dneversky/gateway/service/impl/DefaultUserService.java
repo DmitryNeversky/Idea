@@ -5,7 +5,6 @@ import org.dneversky.gateway.converter.UserConverter;
 import org.dneversky.gateway.dto.SaveUserRequest;
 import org.dneversky.gateway.dto.UpdateUserRequest;
 import org.dneversky.gateway.dto.UserResponse;
-import org.dneversky.gateway.security.UserPrincipal;
 import org.dneversky.gateway.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +46,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public UserResponse updateUser(String username, UserPrincipal userPrincipal, UpdateUserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
+    public UserResponse updateUser(String username, UpdateUserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
         return UserConverter.convertToResponseUser(userClient.updateUser(userRequest));
     }
 }

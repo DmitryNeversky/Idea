@@ -13,5 +13,5 @@ public interface UserService {
     UserResponse getUserByUsername(String username);
     UserResponse getUserById(Long id);
     UserResponse saveUser(SaveUserRequest userRequest);
-    UserResponse updateUser(String username, UserPrincipal userPrincipal, UpdateUserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
+    UserResponse updateUser(String username, UpdateUserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
 }

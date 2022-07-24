@@ -3,13 +3,11 @@ package org.dneversky.gateway.api.v1.browser;
 import org.dneversky.gateway.dto.SaveUserRequest;
 import org.dneversky.gateway.dto.UpdateUserRequest;
 import org.dneversky.gateway.dto.UserResponse;
-import org.dneversky.gateway.model.User;
-import org.dneversky.gateway.security.CurrentUser;
-import org.dneversky.gateway.security.UserPrincipal;
 import org.dneversky.gateway.service.impl.DefaultUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,9 +43,9 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public ResponseEntity<String> getCurrentUser(@CurrentUser UserPrincipal principal) {
+    public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
 
-        return ResponseEntity.ok(principal.getUsername());
+        return ResponseEntity.ok(userService.getUserByUsername(authentication.getName()));
     }
 
     @PostMapping
@@ -58,12 +56,11 @@ public class UserController {
 //
     @PutMapping("/{username}")
     public ResponseEntity<UserResponse> update(@PathVariable String username,
-                                       @CurrentUser UserPrincipal userPrincipal,
                                        @RequestPart("user") UpdateUserRequest userRequest,
                                        @RequestPart(name = "avatar", required = false) MultipartFile avatar,
                                        @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
 
-        return ResponseEntity.ok(userService.updateUser(username, userPrincipal, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
+        return ResponseEntity.ok(userService.updateUser(username, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
     }
 //
 //    @DeleteMapping("/{username}")
