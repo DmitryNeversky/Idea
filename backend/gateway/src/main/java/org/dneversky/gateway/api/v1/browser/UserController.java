@@ -1,5 +1,6 @@
 package org.dneversky.gateway.api.v1.browser;
 
+import org.dneversky.gateway.advice.annotation.PrincipalOrAdminAccess;
 import org.dneversky.gateway.dto.SaveUserRequest;
 import org.dneversky.gateway.dto.UpdateUserRequest;
 import org.dneversky.gateway.dto.UserResponse;
@@ -55,6 +56,7 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
+//    @PrincipalOrAdminAccess
     public ResponseEntity<UserResponse> update(@PathVariable String username,
                                        @RequestPart("user") UpdateUserRequest userRequest,
                                        @RequestPart(name = "avatar", required = false) MultipartFile avatar,
@@ -64,6 +66,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{username}")
+    @PrincipalOrAdminAccess
     public ResponseEntity<?> delete(@PathVariable String username) {
         userService.deleteUser(username);
 

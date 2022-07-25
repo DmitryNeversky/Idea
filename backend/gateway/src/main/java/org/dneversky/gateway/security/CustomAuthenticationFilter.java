@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.dneversky.gateway.exception.UnforeseenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -52,11 +51,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         try {
             return authenticationManager.authenticate(authenticationToken);
-        } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Incorrect user's data.");
         } catch (AuthenticationException e) {
-            log.error(e.getMessage(), e.getCause());
-            throw new UnforeseenException("Error has occurred during server processing.");
+            throw new BadCredentialsException("User with such credentials not found.");
         }
     }
 

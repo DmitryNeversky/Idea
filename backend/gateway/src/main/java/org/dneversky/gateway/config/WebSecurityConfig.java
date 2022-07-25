@@ -1,6 +1,8 @@
-package org.dneversky.gateway.security;
+package org.dneversky.gateway.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.dneversky.gateway.security.CustomAuthenticationFilter;
+import org.dneversky.gateway.security.CustomAuthorizationFilter;
+import org.dneversky.gateway.service.impl.DefaultUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,11 +22,13 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private DefaultUserDetailsService userDetailsService;
+    private final DefaultUserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public WebSecurityConfig(DefaultUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     /** AuthenticationManager compares username & password from request's header with a real data storing in a database. **/
 

@@ -21,6 +21,11 @@ public class ControllerExceptionAdvice {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(PermissionException.class)
+    public ResponseEntity<?> handlePermissionException(PermissionException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(StatusRuntimeException.class)
     public ResponseEntity<?> handleStatusRuntimeException(StatusRuntimeException e) {
         Metadata trailers = e.getTrailers();

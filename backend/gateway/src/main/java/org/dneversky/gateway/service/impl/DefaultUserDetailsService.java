@@ -1,6 +1,7 @@
-package org.dneversky.gateway.security;
+package org.dneversky.gateway.service.impl;
 
 import org.dneversky.gateway.api.client.GRPCUserClient;
+import org.dneversky.gateway.security.UserPrincipal;
 import org.dneversky.gateway.service.DetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

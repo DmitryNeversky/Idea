@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,8 +62,8 @@ public final class UserConverter {
                 .setPhone(user.getPhone())
                 .setBirthday(birthday)
                 .setPostId(user.getPostId())
-                .setAbout(user.getAbout())
-                .setAvatar(user.getAvatar())
+                .setAbout(Optional.ofNullable(user.getAbout()).orElse(""))
+                .setAvatar(Optional.ofNullable(user.getAvatar()).orElse(""))
                 .build();
     }
 
