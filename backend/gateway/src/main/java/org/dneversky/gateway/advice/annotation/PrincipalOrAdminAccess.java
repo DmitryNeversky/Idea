@@ -8,4 +8,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface PrincipalOrAdminAccess {
+    String target() default "username";
+    String[] roles();
 }
