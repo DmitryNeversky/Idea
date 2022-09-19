@@ -47,7 +47,7 @@ services:
     depends_on:
       - rabbit
   frontend:
-    image: dneversky/idea-frontend
+    image: dneversky/ex72-demo-frontend
     container_name: frontend
     ports:
       - 80:80
