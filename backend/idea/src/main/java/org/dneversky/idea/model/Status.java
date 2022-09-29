@@ -5,7 +5,7 @@ public enum Status {
     LOOKING("Рассматривается"),
     REFUSED("Отказано");
 
-    private String name;
+    private final String name;
 
     Status(String name) {
         this.name = name;

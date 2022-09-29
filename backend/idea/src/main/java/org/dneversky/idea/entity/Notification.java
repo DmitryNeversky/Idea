@@ -37,4 +37,14 @@ public class Notification {
     public int hashCode() {
         return Objects.hash(id, title, message, createdDate);
     }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }

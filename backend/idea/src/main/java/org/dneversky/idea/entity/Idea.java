@@ -101,4 +101,15 @@ public class Idea implements Serializable {
     public int hashCode() {
         return Objects.hash(id, title, body, status, createdDate);
     }
+
+    @Override
+    public String toString() {
+        return "Idea{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                ", status=" + status +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }
