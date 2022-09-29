@@ -31,7 +31,6 @@ public class ControllerExceptionAdvice {
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<String> errorMessages = e.getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage).collect(Collectors.toList());
-
         return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
     }
 

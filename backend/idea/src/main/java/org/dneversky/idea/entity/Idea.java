@@ -8,9 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.dneversky.idea.model.Status;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,16 +18,14 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
+@Data
+@NoArgsConstructor
 public class Idea implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
 
     @Lob
@@ -82,8 +79,6 @@ public class Idea implements Serializable {
     @JoinColumn(name = "user_id")
     private Set<User> unratedUsers = new HashSet<>();
 
-    // for the response body
-
     @JsonProperty("rating")
     public int getRating() {
         return ratedUsers.size() - unratedUsers.size();
@@ -94,11 +89,16 @@ public class Idea implements Serializable {
         return lookedUsers.size();
     }
 
-    public Idea(String title, String body, Status status, LocalDate createdDate, User author) {
-        this.title = title;
-        this.body = body;
-        this.status = status;
-        this.createdDate = createdDate;
-        this.author = author;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Idea idea = (Idea) o;
+        return Objects.equals(id, idea.id) && Objects.equals(title, idea.title) && Objects.equals(body, idea.body) && status == idea.status && Objects.equals(createdDate, idea.createdDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, body, status, createdDate);
     }
 }
