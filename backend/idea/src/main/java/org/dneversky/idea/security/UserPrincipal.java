@@ -11,8 +11,7 @@ import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
-    private final Long id;
-
+    private final long id;
     private final String username;
     private final String password;
     private final Set<GrantedAuthority> authorities;
