@@ -78,7 +78,6 @@ public class IdeaServiceImpl implements IdeaService {
 
     @Override
     public Idea getIdea(Long id) {
-
         return ideaRepository.findById(id).orElseThrow(()
                 -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
     }
@@ -86,7 +85,6 @@ public class IdeaServiceImpl implements IdeaService {
     @Override
     public Idea saveIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages,
                          List<MultipartFile> addFiles, UserPrincipal principal) {
-
         User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found."));
 
@@ -101,7 +99,6 @@ public class IdeaServiceImpl implements IdeaService {
         uploadFiles(idea, addFiles);
 
         user.getIdeas().add(idea);
-
         idea.setAuthor(user);
 
         return ideaRepository.save(idea);
@@ -139,8 +136,7 @@ public class IdeaServiceImpl implements IdeaService {
             removeImages(idea, idea.getImages());
             removeFiles(idea, idea.getFiles().keySet());
 
-            idea.getAuthor().getIdeas().remove(idea); // ?
-
+            idea.getAuthor().getIdeas().remove(idea);
             ideaRepository.delete(idea);
 
             return;
@@ -172,7 +168,6 @@ public class IdeaServiceImpl implements IdeaService {
 
         if(!idea.getLookedUsers().contains(principal.getId())) {
             idea.getLookedUsers().add(principal.getId());
-
             ideaRepository.save(idea);
         }
 

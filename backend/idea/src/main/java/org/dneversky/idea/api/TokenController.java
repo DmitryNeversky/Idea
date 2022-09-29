@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.service.impl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,7 @@ public class TokenController {
 
     private final UserServiceImpl userServiceImpl;
 
+    @Autowired
     public TokenController(UserServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
