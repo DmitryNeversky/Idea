@@ -9,13 +9,13 @@ public interface TagService {
 
     List<Tag> getAllTags();
 
-    Tag getTag(Integer id);
+    Tag getTag(int id);
 
     Tag getTag(String name);
 
-    Tag saveTag(TagRequest requestTag);
+    Tag createTag(TagRequest requestTag);
 
-    Tag updateTag(Integer id, TagRequest requestTag);
+    Tag updateTag(int id, TagRequest requestTag);
 
-    void deleteTag(Integer id);
+    void deleteTag(int id);
 }

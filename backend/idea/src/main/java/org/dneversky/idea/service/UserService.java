@@ -8,17 +8,16 @@ import org.dneversky.idea.security.UserPrincipal;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Set;
 
 public interface UserService {
 
     List<User> getAllUsers();
 
-    User getUser(Long id);
+    User getUser(long id);
 
-    User getUserByUsername(String username);
+    User getUser(String username);
 
-    User saveUser(User user, boolean admin);
+    User createUser(User user, boolean admin);
 
     User updateUser(String username, UserPrincipal principal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
 
@@ -26,11 +25,9 @@ public interface UserService {
 
     void patchPassword(String username, UserPrincipal userPrincipal, PasswordChangeRequest passwordChangeRequest);
 
-    void deleteNotificationById(Integer id, UserPrincipal userPrincipal);
-
     void blockUser(String username, UserPrincipal userPrincipal);
 
     void unblockUser(String username, UserPrincipal userPrincipal);
 
-    void changeRoles(String username, Set<Role> roles, UserPrincipal userPrincipal);
+    void changeRoles(String username, List<Role> roles, UserPrincipal userPrincipal);
 }

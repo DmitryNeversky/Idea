@@ -2,7 +2,6 @@ package org.dneversky.idea.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dneversky.idea.entity.Notification;
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.exception.PermissionException;
@@ -31,7 +30,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -49,36 +47,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-
         return userRepository.findAll();
     }
 
     @Override
-    public User getUser(Long id) {
-
+    public User getUser(long id) {
         return userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("User with id " + id + " not found in the database."));
     }
 
     @Override
-    public User getUserByUsername(String username) {
-
+    public User getUser(String username) {
         return userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User with username " + username + " not found in the database."));
     }
 
     @Override
-    public User saveUser(User user, boolean admin) {
-        if(userRepository.findByUsername(user.getUsername()).isPresent()) {
+    public User createUser(User user, boolean admin) {
+        if(userRepository.findByUsername(user.getUsername()).isPresent())
             throw new EntityExistsException("User with username " + user.getUsername() + " already exists.");
-        }
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(LocalDate.now());
         if(admin) user.getRoles().add(roleServiceImpl.getRole(3));
         user.getRoles().add(roleServiceImpl.getRole("USER"));
         user.setEnabled(true);
-
         return userRepository.save(user);
     }
 
@@ -86,24 +78,17 @@ public class UserServiceImpl implements UserService {
     public User updateUser(String username, UserPrincipal principal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
-
         if(principal.getUsername().equals(username) || principal.isAdmin()) {
-
-            if (removeAvatar) {
-                removeAvatar(user);
-            }
+            if (removeAvatar) removeAvatar(user);
             uploadAvatar(user, avatar);
-
             user.setName(userRequest.getName());
             user.setPhone(userRequest.getPhone());
             user.setBirthday(userRequest.getBirthday());
             user.setCity(userRequest.getCity());
             user.setAbout(userRequest.getAbout());
             user.setPost(userRequest.getPost());
-
             return userRepository.save(user);
         }
-
         throw new PermissionException("You don't have permission to update a profile of user with username " + username + ".");
     }
 
@@ -111,43 +96,37 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(String username, UserPrincipal userPrincipal) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
-
         if(userPrincipal.getUsername().equals(username) || userPrincipal.isAdmin()) {
-
             removeAvatar(user);
-
             userRepository.delete(user);
             log.info("User {} deleted.", user.getUsername());
-
             return;
         }
 
         throw new PermissionException("You don't have permission to delete user with username " + username + ".");
     }
 
-    @Override
-    public void deleteNotificationById(Integer id, UserPrincipal principal) {
-        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found in the database."));
-        Notification notification = notificationRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Notification with id " + id + " not found."));
-
-        user.getNotifications().remove(notification);
-
-        userRepository.save(user);
-    }
+//    @Override
+//    public void deleteNotificationById(Integer id, UserPrincipal principal) {
+//        User user = userRepository.findByUsername(principal.getUsername()).orElseThrow(
+//                () -> new EntityNotFoundException("User with username " + principal.getUsername() + " not found in the database."));
+//        Notification notification = notificationRepository.findById(id).orElseThrow(
+//                () -> new EntityNotFoundException("Notification with id " + id + " not found."));
+//
+//        user.getNotifications().remove(notification);
+//
+//        userRepository.save(user);
+//    }
 
     public boolean verifyOldPassword(String username, String oldPassword) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
-
         return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 
     public boolean verifyNewPassword(String username, String newPassword) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
-
         return passwordEncoder.matches(newPassword, user.getPassword());
     }
 
@@ -156,14 +135,10 @@ public class UserServiceImpl implements UserService {
         if(userPrincipal.getUsername().equals(username) || userPrincipal.isAdmin()) {
             User user = userRepository.findByUsername(username).orElseThrow(
                     () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
-
             user.setPassword(passwordEncoder.encode(passwordChangeRequest.getNewPassword()));
-
             userRepository.save(user);
-
             return;
         }
-
         throw new PermissionException("You don't have permission to change the password of user with username " + username + ".");
     }
 
@@ -172,14 +147,10 @@ public class UserServiceImpl implements UserService {
         if(principal.isAdmin()) {
             User user = userRepository.findByUsername(username).orElseThrow(
                     () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
-
             user.setEnabled(false);
-
             userRepository.save(user);
-
             return;
         }
-
         throw new PermissionException("You don't have permission to block user with username " + username + ".");
     }
 
@@ -188,31 +159,22 @@ public class UserServiceImpl implements UserService {
         if(principal.isAdmin()) {
             User user = userRepository.findByUsername(username).orElseThrow(
                     () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
-
             user.setEnabled(true);
-
             userRepository.save(user);
-
             return;
         }
-
         throw new PermissionException("You don't have permission to unblock user with username " + username + ".");
     }
 
     @Override
-    public void changeRoles(String username, Set<Role> roles, UserPrincipal principal) {
+    public void changeRoles(String username, List<Role> roles, UserPrincipal principal) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
-
         if(principal.isSuperAdmin()) {
-
             user.setRoles(roles);
-
             userRepository.save(user);
-
             return;
         }
-
         throw new PermissionException("You don't have permission to change roles for user with username " + username + ".");
     }
 
