@@ -57,9 +57,9 @@ public class UserController {
         return ResponseEntity.ok(userServiceImpl.updateUser(username, userPrincipal, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
     }
 
-    @DeleteMapping("/{username}")
-    public ResponseEntity<?> deleteUser(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal) {
-        userServiceImpl.deleteUser(username, userPrincipal);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable long id, @CurrentUser UserPrincipal userPrincipal) {
+        userServiceImpl.deleteUser(id, userPrincipal);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

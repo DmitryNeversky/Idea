@@ -22,7 +22,7 @@ public interface UserService {
 
     User updateUser(String username, UserPrincipal principal, UserRequest userRequest, MultipartFile avatar, boolean removeAvatar);
 
-    void deleteUser(String username, UserPrincipal userPrincipal);
+    void deleteUser(long id, UserPrincipal userPrincipal);
 
     void patchPassword(String username, UserPrincipal userPrincipal, PasswordChangeRequest passwordChangeRequest);
 

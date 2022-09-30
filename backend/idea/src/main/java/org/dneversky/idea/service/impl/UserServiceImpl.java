@@ -87,17 +87,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String username, UserPrincipal userPrincipal) {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("User with username " + username + " not found in the database."));
-        if(userPrincipal.getUsername().equals(username) || userPrincipal.isAdmin()) {
+    public void deleteUser(long id, UserPrincipal userPrincipal) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("User id username " + id + " not found in the database."));
+        if(userPrincipal.getUsername().equals(user.getUsername()) || userPrincipal.isAdmin()) {
             imageService.removeImage(user.getAvatar());
             userRepository.delete(user);
             log.info("User {} deleted.", user.getUsername());
             return;
         }
 
-        throw new PermissionException("You don't have permission to delete user with username " + username + ".");
+        throw new PermissionException("You don't have permission to delete user with username " + user.getUsername() + ".");
     }
 
     public boolean verifyOldPassword(String username, String oldPassword) {
