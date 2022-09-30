@@ -17,9 +17,9 @@ public interface IdeaService {
 
     Idea getIdea(long id);
 
-    Idea createIdea(IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, UserPrincipal userPrincipal);
+    Idea createIdea(Idea idea, List<MultipartFile> attachedImages, List<MultipartFile> attachedFiles, UserPrincipal userPrincipal);
 
-    Idea updateIdea(long id, IdeaRequest ideaRequest, List<MultipartFile> addImages, List<MultipartFile> addFiles, UserPrincipal userPrincipal);
+    Idea updateIdea(long id, IdeaRequest ideaRequest, List<MultipartFile> attachedImages, List<MultipartFile> attachedFiles, UserPrincipal userPrincipal);
 
     void deleteIdea(long id, UserPrincipal userPrincipal);
 

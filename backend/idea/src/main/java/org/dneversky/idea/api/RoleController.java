@@ -31,7 +31,7 @@ public class RoleController {
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PostMapping
     public ResponseEntity<Role> saveRole(@RequestBody @Valid RoleRequest roleRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(roleServiceImpl.saveRole(roleRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(roleServiceImpl.createRole(roleRequest));
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})

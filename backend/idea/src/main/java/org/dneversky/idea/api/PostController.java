@@ -31,7 +31,7 @@ public class PostController {
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PostMapping
     public ResponseEntity<Post> savePost(@RequestBody @Valid PostRequest postRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(postServiceImpl.savePost(postRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(postServiceImpl.createPost(postRequest));
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})

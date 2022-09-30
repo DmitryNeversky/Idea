@@ -41,7 +41,7 @@ public class TagController {
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PostMapping
     public ResponseEntity<Tag> createTag(@RequestBody @Valid TagRequest tagRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(tagServiceImpl.saveTag(tagRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(tagServiceImpl.createTag(tagRequest));
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})

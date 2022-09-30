@@ -47,12 +47,12 @@ public class IdeaController {
     }
 
     @PostMapping
-    public ResponseEntity<Idea> createIdea(@RequestPart("idea") @Valid IdeaRequest ideaRequest,
+    public ResponseEntity<Idea> createIdea(@RequestPart("idea") @Valid Idea ideaRequest,
                                            @RequestPart(required = false) List<MultipartFile> attachedImages,
                                            @RequestPart(required = false) List<MultipartFile> attachedFiles,
                                            @CurrentUser UserPrincipal userPrincipal) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ideaServiceImpl.saveIdea(ideaRequest, attachedImages, attachedFiles, userPrincipal));
+                .body(ideaServiceImpl.createIdea(ideaRequest, attachedImages, attachedFiles, userPrincipal));
     }
 
     @PutMapping("/{id}")

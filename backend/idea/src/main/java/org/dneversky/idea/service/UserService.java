@@ -8,6 +8,7 @@ import org.dneversky.idea.security.UserPrincipal;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -29,5 +30,5 @@ public interface UserService {
 
     void unblockUser(String username, UserPrincipal userPrincipal);
 
-    void changeRoles(String username, List<Role> roles, UserPrincipal userPrincipal);
+    void changeRoles(String username, Set<Role> roles, UserPrincipal userPrincipal);
 }

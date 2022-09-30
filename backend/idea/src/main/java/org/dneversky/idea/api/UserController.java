@@ -41,12 +41,12 @@ public class UserController {
 
     @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        return ResponseEntity.ok((userServiceImpl.getUserByUsername(username)));
+        return ResponseEntity.ok((userServiceImpl.getUser(username)));
     }
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestPart("user") @Valid User user, @RequestPart("admin") boolean admin) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.saveUser(user, admin));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.createUser(user, admin));
     }
 
     @PutMapping("/{username}")
@@ -65,7 +65,7 @@ public class UserController {
 
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser(@CurrentUser UserPrincipal principal) {
-        return ResponseEntity.ok(userServiceImpl.getUserByUsername(principal.getUsername()));
+        return ResponseEntity.ok(userServiceImpl.getUser(principal.getUsername()));
     }
 
     @PatchMapping("/{username}/password")
@@ -98,12 +98,6 @@ public class UserController {
     @PatchMapping("/{username}/roles")
     public ResponseEntity<?> changeRoles(@PathVariable String username, @RequestBody Set<Role> roles, @CurrentUser UserPrincipal userPrincipal) {
         userServiceImpl.changeRoles(username, roles, userPrincipal);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/notification/{id}")
-    public ResponseEntity<?> deleteNotification(@PathVariable Integer id, @CurrentUser UserPrincipal userPrincipal) {
-        userServiceImpl.deleteNotificationById(id, userPrincipal);
         return ResponseEntity.ok().build();
     }
 }
