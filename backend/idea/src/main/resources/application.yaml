@@ -22,7 +22,8 @@ spring:
       max-file-size: 100MB
 server:
   port: 8080
-allowedOrigin: http://localhost
+allowedOrigin: http://localhost:4200
+uploadPath: /home/koshey/IdeaProjects/Ex72/frontend/src/assets/uploaded/
 ---
 spring:
   config:

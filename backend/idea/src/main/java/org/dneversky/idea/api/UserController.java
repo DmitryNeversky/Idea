@@ -45,8 +45,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestPart("user") @Valid User user, @RequestPart("admin") boolean admin) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.createUser(user, admin));
+    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.createUser(user, false));
     }
 
     @PutMapping("/{username}")

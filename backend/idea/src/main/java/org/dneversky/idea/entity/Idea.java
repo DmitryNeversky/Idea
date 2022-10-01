@@ -51,7 +51,7 @@ public class Idea implements Serializable {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_image", joinColumns = {@JoinColumn(name = "idea_id")})
-    private List<String> images = new ArrayList<>();
+    private Set<String> images = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "idea_file", joinColumns = {@JoinColumn(name = "idea_id")})

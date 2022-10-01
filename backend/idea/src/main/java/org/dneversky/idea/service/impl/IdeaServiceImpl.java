@@ -23,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -67,8 +69,10 @@ public class IdeaServiceImpl implements IdeaService {
 
     @Override
     public Idea getIdea(long id) {
-        return ideaRepository.findById(id).orElseThrow(
+        Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
+        System.out.println(idea.getImages());
+        return idea;
     }
 
     @Override
@@ -82,8 +86,7 @@ public class IdeaServiceImpl implements IdeaService {
 
         user.getIdeas().add(idea);
         idea.setAuthor(user);
-
-        idea.setImages(imageService.saveImages(attachedImages));
+        idea.setImages(new HashSet<>(imageService.saveImages(attachedImages)));
         idea.setFiles(fileService.saveFiles(attachedFiles));
 
         return ideaRepository.save(idea);
@@ -100,12 +103,13 @@ public class IdeaServiceImpl implements IdeaService {
             idea.setTags(ideaRequest.getTags());
 
             List<String> removedImages = imageService.removeImages(ideaRequest.getRemoveImages());
-            idea.getImages().removeAll(removedImages);
+            removedImages.forEach(idea.getImages()::remove);
             List<String> removedFiles = fileService.removeFiles(ideaRequest.getRemoveFiles());
             removedFiles.forEach(e -> idea.getFiles().remove(e));
 
-            idea.setImages(imageService.saveImages(attachedImages));
-            idea.setFiles(fileService.saveFiles(attachedFiles));
+            Set<String> savedImages = new HashSet<>(imageService.saveImages(attachedImages));
+            idea.getImages().addAll(savedImages);
+            idea.getFiles().putAll(fileService.saveFiles(attachedFiles));
 
             return ideaRepository.save(idea);
         }
@@ -118,7 +122,7 @@ public class IdeaServiceImpl implements IdeaService {
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
         if(principal.getUsername().equals(idea.getAuthor().getUsername()) || principal.isAdmin()) {
             imageService.removeImages(idea.getImages());
-            imageService.removeImages(idea.getFiles().keySet());
+            fileService.removeFiles(idea.getFiles().keySet());
             idea.getAuthor().getIdeas().remove(idea);
             ideaRepository.delete(idea);
             return;

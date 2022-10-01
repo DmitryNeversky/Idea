@@ -2,14 +2,16 @@
     <button (click)="togglePanel()" mat-icon-button aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
-<!--    <span>Web application</span>-->
+    <span>Web application</span>
     <span class="header-spacer"></span>
     <button mat-icon-button [matMenuTriggerFor]="NotifyMenu" class="notification-icon">
-        <mat-icon [matBadge]="currentUser.notifications.length > 0 ? currentUser.notifications.length : ''"
-                  matBadgePosition="after" matBadgeColor="warn">notifications</mat-icon>
+<!--        <mat-icon [matBadge]="currentUser.notifications.length > 0 ? currentUser.notifications.length : ''"-->
+<!--                  matBadgePosition="after" matBadgeColor="warn">notifications</mat-icon>-->
+        <mat-icon [matBadge]="''" matBadgePosition="after" matBadgeColor="warn">notifications</mat-icon>
     </button>
     <mat-menu #NotifyMenu="matMenu">
-        <p class="no-notifies" *ngIf="currentUser.notifications.length == 0">Уведомлений пока нет</p>
+<!--        <p class="no-notifies" *ngIf="currentUser.notifications.length == 0">Уведомлений пока нет</p>-->
+        <p class="no-notifies">Уведомлений пока нет</p>
         <div class="mat-menu-card" *ngFor="let notification of currentUser.notifications">
             <div class="mat-menu-header">
                 <span>{{notification.title}}</span>

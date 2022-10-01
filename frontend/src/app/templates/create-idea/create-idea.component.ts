@@ -59,9 +59,9 @@ export class CreateIdeaComponent implements OnInit{
     formData.append('idea', JSON.stringify(idea));
 
     for(let i = 0; i < this.imagesLoader.dataTransfer.files.length; i++)
-      formData.append('addImages', this.imagesLoader.dataTransfer.files[i]);
+      formData.append('attachedImages', this.imagesLoader.dataTransfer.files[i]);
     for (let i = 0; i < this.filesLoader.dataTransfer.files.length; i++)
-      formData.append('addFiles', this.filesLoader.dataTransfer.files[i])
+      formData.append('attachedFiles', this.filesLoader.dataTransfer.files[i])
 
     this.ideaService.saveIdea(formData).subscribe((idea: Idea) => {
       this.router.navigate(['ideas']);
