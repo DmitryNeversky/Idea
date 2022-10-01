@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.idea.api.v1;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -26,7 +26,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("v1")
 public class TokenController {
 
     private final Integer REFRESH_EXPIRE_MINUTES = 1440;

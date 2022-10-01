@@ -11,9 +11,11 @@ import java.util.List;
 
 public interface IdeaService {
 
-    List<Idea> getAllIdeas();
+    Long getIdeaAmount();
 
-    Page<Idea> getPagedIdeas(int page, int size, String sortDirection, String sortBy);
+    Page<Idea> getAllIdeas(int from, int to, String direction, String sortBy);
+
+    List<Idea> getAllIdeas();
 
     Idea getIdea(long id);
 

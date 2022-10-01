@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.idea.api.v1;
 
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.entity.User;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("v1/users")
 public class UserController {
 
     private final UserServiceImpl userServiceImpl;

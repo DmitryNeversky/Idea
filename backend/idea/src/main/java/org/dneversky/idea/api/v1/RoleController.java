@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.idea.api.v1;
 
 import org.dneversky.idea.entity.Role;
 import org.dneversky.idea.payload.RoleRequest;
@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/roles")
+@RequestMapping("v1/roles")
 public class RoleController {
 
     private final RoleServiceImpl roleServiceImpl;

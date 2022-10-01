@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.idea.api.v2;
 
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.model.Status;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/ideas")
+@RequestMapping("v2/ideas")
 public class IdeaController {
 
     private final IdeaServiceImpl ideaServiceImpl;
@@ -28,17 +28,17 @@ public class IdeaController {
         this.ideaServiceImpl = ideaServiceImpl;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Idea>> getAllIdeas() {
-        return ResponseEntity.ok(ideaServiceImpl.getAllIdeas());
+    @GetMapping("/amount")
+    public Long getIdeaAmount() {
+        return ideaServiceImpl.getIdeaAmount();
     }
 
-    @GetMapping("/pages")
-    public ResponseEntity<Page<Idea>> getPagedIdeas(@RequestParam(required = false, defaultValue = "0") Integer page,
-                                                    @RequestParam(required = false, defaultValue = "5") Integer size,
-                                                    @RequestParam(required = false, defaultValue = "ASC") String sortDirection,
-                                                    @RequestParam(required = false, defaultValue = "createdDate") String sortBy) {
-        return ResponseEntity.ok(ideaServiceImpl.getPagedIdeas(page, size, sortDirection, sortBy));
+    @GetMapping
+    public ResponseEntity<Page<Idea>> getAllIdeas(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                                  @RequestParam(required = false, defaultValue = "5") Integer size,
+                                                  @RequestParam(required = false, defaultValue = "ASC") String sortDirection,
+                                                  @RequestParam(required = false, defaultValue = "createdDate") String sortBy) {
+        return ResponseEntity.ok(ideaServiceImpl.getAllIdeas(page, size, sortDirection, sortBy));
     }
 
     @GetMapping("/{id}")

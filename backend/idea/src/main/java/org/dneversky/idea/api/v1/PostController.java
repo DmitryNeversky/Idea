@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.idea.api.v1;
 
 import org.dneversky.idea.entity.Post;
 import org.dneversky.idea.payload.PostRequest;
@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/posts")
+@RequestMapping("v1/posts")
 public class PostController {
 
     private final PostServiceImpl postServiceImpl;

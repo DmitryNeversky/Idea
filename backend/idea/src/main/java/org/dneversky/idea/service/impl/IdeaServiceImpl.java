@@ -39,40 +39,30 @@ public class IdeaServiceImpl implements IdeaService {
     private final ImageServiceImpl imageService;
 
     @Override
+    public Long getIdeaAmount() {
+        return ideaRepository.count();
+    }
+
+    @Override
+    public Page<Idea> getAllIdeas(int page, int size, String sortDirection, String sortBy) {
+        if(page < 0) throw new BadArgumentException("Argument 'page' must not be less than 0.");
+        if(size < 1) throw new BadArgumentException("Argument 'size' must not be less than 1.");
+        if(!sortDirection.equals("ASC") && !sortDirection.equals("DESC"))
+            throw new BadArgumentException("Argument 'direction' must be equals to 'ASC' or 'DESC'.");
+        if(Arrays.stream(Idea.class.getDeclaredFields()).noneMatch(f -> f.getName().equals(sortBy)))
+            throw new BadArgumentException("Argument 'sortBy' must to have existed field.");
+        return ideaRepository.findAll(PageRequest.of(page, size, Sort.Direction.valueOf(sortDirection), sortBy));
+    }
+
+    @Override
     public List<Idea> getAllIdeas() {
         return ideaRepository.findAll();
     }
 
     @Override
-    public Page<Idea> getPagedIdeas(int page, int size, String sortDirection, String sortBy) {
-
-        if(page < 0) {
-            throw new BadArgumentException("Argument 'page' must not be less than 0.");
-        }
-
-        if(size < 1) {
-            throw new BadArgumentException("Argument 'size' must not be less than 1.");
-        }
-
-        if(!sortDirection.equals("ASC") && !sortDirection.equals("DESC")) {
-            throw new BadArgumentException("Argument 'direction' must be equals to 'ASC' or 'DESC'.");
-        }
-
-        if(Arrays.stream(Idea.class.getDeclaredFields()).noneMatch(f -> f.getName().equals(sortBy))) {
-            throw new BadArgumentException("Argument 'sortBy' must to have existed field.");
-        }
-
-        return ideaRepository.findAll(
-                PageRequest.of(page, size, Sort.Direction.valueOf(sortDirection), sortBy)
-        );
-    }
-
-    @Override
     public Idea getIdea(long id) {
-        Idea idea = ideaRepository.findById(id).orElseThrow(
+        return ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        System.out.println(idea.getImages());
-        return idea;
     }
 
     @Override

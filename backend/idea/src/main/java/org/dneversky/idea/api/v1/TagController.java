@@ -1,4 +1,4 @@
-package org.dneversky.idea.api;
+package org.dneversky.idea.api.v1;
 
 import org.dneversky.idea.entity.Tag;
 import org.dneversky.idea.payload.TagRequest;
@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/tags")
+@RequestMapping("v1/tags")
 public class TagController {
 
     private final TagServiceImpl tagServiceImpl;
