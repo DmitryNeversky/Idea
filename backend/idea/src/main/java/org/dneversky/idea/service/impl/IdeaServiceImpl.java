@@ -6,7 +6,6 @@ import org.dneversky.idea.client.EmailSender;
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.exception.BadArgumentException;
-import org.dneversky.idea.exception.PermissionException;
 import org.dneversky.idea.model.EmailNotification;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
@@ -86,50 +85,41 @@ public class IdeaServiceImpl implements IdeaService {
     public Idea updateIdea(long id, IdeaRequest ideaRequest, List<MultipartFile> attachedImages, List<MultipartFile> attachedFiles, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
+        idea.setTitle(ideaRequest.getTitle());
+        idea.setBody(ideaRequest.getBody());
+        idea.setTags(ideaRequest.getTags());
 
-        if(principal.getUsername().equals(idea.getAuthor().getUsername())) {
-            idea.setTitle(ideaRequest.getTitle());
-            idea.setBody(ideaRequest.getBody());
-            idea.setTags(ideaRequest.getTags());
+        List<String> removedImages = imageService.removeImages(ideaRequest.getRemoveImages());
+        removedImages.forEach(idea.getImages()::remove);
+        List<String> removedFiles = fileService.removeFiles(ideaRequest.getRemoveFiles());
+        removedFiles.forEach(e -> idea.getFiles().remove(e));
 
-            List<String> removedImages = imageService.removeImages(ideaRequest.getRemoveImages());
-            removedImages.forEach(idea.getImages()::remove);
-            List<String> removedFiles = fileService.removeFiles(ideaRequest.getRemoveFiles());
-            removedFiles.forEach(e -> idea.getFiles().remove(e));
+        Set<String> savedImages = new HashSet<>(imageService.saveImages(attachedImages));
+        idea.getImages().addAll(savedImages);
+        idea.getFiles().putAll(fileService.saveFiles(attachedFiles));
 
-            Set<String> savedImages = new HashSet<>(imageService.saveImages(attachedImages));
-            idea.getImages().addAll(savedImages);
-            idea.getFiles().putAll(fileService.saveFiles(attachedFiles));
-
-            return ideaRepository.save(idea);
-        }
-        throw new PermissionException("You don't have permissions to update this Idea.");
+        return ideaRepository.save(idea);
     }
 
     @Override
     public void deleteIdea(long id, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        if(principal.getUsername().equals(idea.getAuthor().getUsername())) {
-            imageService.removeImages(idea.getImages());
-            fileService.removeFiles(idea.getFiles().keySet());
-            idea.getAuthor().getIdeas().remove(idea);
-            ideaRepository.delete(idea);
-            return;
-        }
-        throw new PermissionException("You don't have permissions to delete this Idea.");
+        imageService.removeImages(idea.getImages());
+        fileService.removeFiles(idea.getFiles().keySet());
+        idea.getAuthor().getIdeas().remove(idea);
+        ideaRepository.delete(idea);
     }
 
     @Override
     public Idea changeStatus(long id, Status status, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-
-            idea.setStatus(status);
-            emailSender.sendMessage(new EmailNotification(idea.getAuthor().getUsername(),
-                    "Status of your idea is changed",
-                    "Dear " + idea.getAuthor().getName() + ", status of your idea with id " + id + " and title " + idea.getTitle() + " has been changed to " + status.getName() + "."));
-            return ideaRepository.save(idea);
+        idea.setStatus(status);
+        emailSender.sendMessage(new EmailNotification(idea.getAuthor().getUsername(),
+                "Status of your idea is changed",
+                "Dear " + idea.getAuthor().getName() + ", status of your idea with id " + id + " and title " + idea.getTitle() + " has been changed to " + status.getName() + "."));
+        return ideaRepository.save(idea);
     }
 
     @Override

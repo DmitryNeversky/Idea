@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    @PrincipalOrAdminAccess(roles = {"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    @PrincipalOrAdminAccess
     public ResponseEntity<User> updateUser(@PathVariable String username,
                                            @RequestPart("user") @Valid UserRequest userRequest,
                                            @RequestPart(name = "avatar", required = false) MultipartFile avatar,
@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{username}")
-    @PrincipalOrAdminAccess(roles = {"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    @PrincipalOrAdminAccess
     public ResponseEntity<?> deleteUser(@PathVariable String username) {
         userServiceImpl.deleteUser(username);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -70,7 +70,7 @@ public class UserController {
     }
 
     @PatchMapping("/{username}/password")
-    @PrincipalOrAdminAccess(roles = {"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    @PrincipalOrAdminAccess
     public ResponseEntity<?> changePassword(@PathVariable String username,
                                             @Valid @RequestBody PasswordChangeRequest passwordChangeRequest) {
         if(!userServiceImpl.verifyOldPassword(username, passwordChangeRequest.getCurrentPassword())) {
@@ -82,21 +82,21 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     @PatchMapping("/{username}/block")
     public ResponseEntity<?> blockUserByUsername(@PathVariable String username) {
         userServiceImpl.blockUser(username);
         return ResponseEntity.ok().build();
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     @PatchMapping("/{username}/unblock")
     public ResponseEntity<?> unblockUserByUsername(@PathVariable String username) {
         userServiceImpl.unblockUser(username);
         return ResponseEntity.ok().build();
     }
 
-    @Secured("ROLE_SUPER_ADMIN")
+    @Secured("ROLE_ADMIN")
     @PatchMapping("/{username}/roles")
     public ResponseEntity<?> changeRoles(@PathVariable String username, @RequestBody String role) {
         userServiceImpl.changeRoles(username, role);

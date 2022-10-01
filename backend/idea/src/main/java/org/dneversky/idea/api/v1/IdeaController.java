@@ -1,5 +1,6 @@
 package org.dneversky.idea.api.v1;
 
+import org.dneversky.idea.advice.annotation.AuthorOrAdminAccess;
 import org.dneversky.idea.entity.Idea;
 import org.dneversky.idea.model.Status;
 import org.dneversky.idea.payload.IdeaRequest;
@@ -55,6 +56,7 @@ public class IdeaController {
     }
 
     @PutMapping("/{id}")
+    @AuthorOrAdminAccess
     public ResponseEntity<Idea> updateIdea(@PathVariable long id, @RequestPart("idea") @Valid IdeaRequest idea,
                                            @RequestPart(value = "addImages", required = false) List<MultipartFile> addImages,
                                            @RequestPart(value = "addFiles", required = false) List<MultipartFile> addFiles,
@@ -63,6 +65,7 @@ public class IdeaController {
     }
 
     @DeleteMapping("/{id}")
+    @AuthorOrAdminAccess
     public ResponseEntity<?> deleteIdea(@PathVariable long id, @CurrentUser UserPrincipal userPrincipal) {
         ideaServiceImpl.deleteIdea(id, userPrincipal);
         return ResponseEntity.noContent().build();
