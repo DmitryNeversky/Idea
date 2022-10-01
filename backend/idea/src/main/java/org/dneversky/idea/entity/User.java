@@ -17,7 +17,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -76,14 +79,8 @@ public class User {
     )
     private List<Idea> ideas = new ArrayList<>();
 
-    @JsonIgnoreProperties("users")
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 
     @JsonIgnoreProperties("users")
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -93,18 +90,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
     private Post post;
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public User(String name, String phone, Date birthday, Post post) {
-        this.name = name;
-        this.phone = phone;
-        this.birthday = birthday;
-        this.post = post;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -126,6 +111,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
+                ", role=" + role +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", birthday=" + birthday +

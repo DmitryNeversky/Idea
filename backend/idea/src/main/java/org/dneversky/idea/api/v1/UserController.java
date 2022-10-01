@@ -1,6 +1,6 @@
 package org.dneversky.idea.api.v1;
 
-import org.dneversky.idea.entity.Role;
+import org.dneversky.idea.advice.annotation.PrincipalOrAdminAccess;
 import org.dneversky.idea.entity.User;
 import org.dneversky.idea.payload.PasswordChangeRequest;
 import org.dneversky.idea.payload.UserRequest;
@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("v1/users")
@@ -50,16 +49,18 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<User> updateUser(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal,
+    @PrincipalOrAdminAccess(roles = {"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    public ResponseEntity<User> updateUser(@PathVariable String username,
                                            @RequestPart("user") @Valid UserRequest userRequest,
                                            @RequestPart(name = "avatar", required = false) MultipartFile avatar,
                                            @RequestPart(name = "removeAvatar", required = false) String removeAvatar) {
-        return ResponseEntity.ok(userServiceImpl.updateUser(username, userPrincipal, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
+        return ResponseEntity.ok(userServiceImpl.updateUser(username, userRequest, avatar, Boolean.parseBoolean(removeAvatar)));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable long id, @CurrentUser UserPrincipal userPrincipal) {
-        userServiceImpl.deleteUser(id, userPrincipal);
+    @DeleteMapping("/{username}")
+    @PrincipalOrAdminAccess(roles = {"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+        userServiceImpl.deleteUser(username);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -69,35 +70,36 @@ public class UserController {
     }
 
     @PatchMapping("/{username}/password")
-    public ResponseEntity<?> changePassword(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal,
+    @PrincipalOrAdminAccess(roles = {"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    public ResponseEntity<?> changePassword(@PathVariable String username,
                                             @Valid @RequestBody PasswordChangeRequest passwordChangeRequest) {
         if(!userServiceImpl.verifyOldPassword(username, passwordChangeRequest.getCurrentPassword())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("старый пароль не совпадает с текущим");
         } else if(userServiceImpl.verifyNewPassword(username, passwordChangeRequest.getNewPassword())) {
             return ResponseEntity.status(HttpStatus.FOUND).body("новый пароль эквивалентен текущему");
         }
-        userServiceImpl.patchPassword(username, userPrincipal, passwordChangeRequest);
+        userServiceImpl.patchPassword(username, passwordChangeRequest);
         return ResponseEntity.ok().build();
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PatchMapping("/{username}/block")
-    public ResponseEntity<?> blockUserByUsername(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal) {
-        userServiceImpl.blockUser(username, userPrincipal);
+    public ResponseEntity<?> blockUserByUsername(@PathVariable String username) {
+        userServiceImpl.blockUser(username);
         return ResponseEntity.ok().build();
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
     @PatchMapping("/{username}/unblock")
-    public ResponseEntity<?> unblockUserByUsername(@PathVariable String username, @CurrentUser UserPrincipal userPrincipal) {
-        userServiceImpl.unblockUser(username, userPrincipal);
+    public ResponseEntity<?> unblockUserByUsername(@PathVariable String username) {
+        userServiceImpl.unblockUser(username);
         return ResponseEntity.ok().build();
     }
 
     @Secured("ROLE_SUPER_ADMIN")
     @PatchMapping("/{username}/roles")
-    public ResponseEntity<?> changeRoles(@PathVariable String username, @RequestBody Set<Role> roles, @CurrentUser UserPrincipal userPrincipal) {
-        userServiceImpl.changeRoles(username, roles, userPrincipal);
+    public ResponseEntity<?> changeRoles(@PathVariable String username, @RequestBody String role) {
+        userServiceImpl.changeRoles(username, role);
         return ResponseEntity.ok().build();
     }
 }

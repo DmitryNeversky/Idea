@@ -49,3 +49,4 @@ spring:
 server:
   port: ${SERVER_PORT}
 allowedOrigin: ${ALLOWED_ORIGIN}
+uploadPath: ${UPLOAD_PATH}

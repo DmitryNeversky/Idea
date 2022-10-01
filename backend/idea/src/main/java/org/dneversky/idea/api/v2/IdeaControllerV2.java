@@ -19,12 +19,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("v2/ideas")
-public class IdeaController {
+public class IdeaControllerV2 {
 
     private final IdeaServiceImpl ideaServiceImpl;
 
     @Autowired
-    public IdeaController(IdeaServiceImpl ideaServiceImpl) {
+    public IdeaControllerV2(IdeaServiceImpl ideaServiceImpl) {
         this.ideaServiceImpl = ideaServiceImpl;
     }
 

@@ -87,7 +87,7 @@ public class IdeaServiceImpl implements IdeaService {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
 
-        if(principal.getUsername().equals(idea.getAuthor().getUsername()) || principal.isAdmin()) {
+        if(principal.getUsername().equals(idea.getAuthor().getUsername())) {
             idea.setTitle(ideaRequest.getTitle());
             idea.setBody(ideaRequest.getBody());
             idea.setTags(ideaRequest.getTags());
@@ -110,7 +110,7 @@ public class IdeaServiceImpl implements IdeaService {
     public void deleteIdea(long id, UserPrincipal principal) {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
-        if(principal.getUsername().equals(idea.getAuthor().getUsername()) || principal.isAdmin()) {
+        if(principal.getUsername().equals(idea.getAuthor().getUsername())) {
             imageService.removeImages(idea.getImages());
             fileService.removeFiles(idea.getFiles().keySet());
             idea.getAuthor().getIdeas().remove(idea);
@@ -125,15 +125,11 @@ public class IdeaServiceImpl implements IdeaService {
         Idea idea = ideaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entity Idea with id " + id + " not found."));
 
-        if(principal.isAdmin()) {
             idea.setStatus(status);
             emailSender.sendMessage(new EmailNotification(idea.getAuthor().getUsername(),
                     "Status of your idea is changed",
                     "Dear " + idea.getAuthor().getName() + ", status of your idea with id " + id + " and title " + idea.getTitle() + " has been changed to " + status.getName() + "."));
             return ideaRepository.save(idea);
-        }
-
-        throw new PermissionException("You don't have permissions to change status for this Idea.");
     }
 
     @Override
