@@ -71,12 +71,18 @@ public class Idea implements Serializable {
 
     @JsonIgnoreProperties("ideas")
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinTable(
+            name = "idea_rated_users",
+            joinColumns = {@JoinColumn(name = "idea_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private Set<User> ratedUsers = new HashSet<>();
 
     @JsonIgnoreProperties("ideas")
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinTable(
+            name = "idea_unrated_users",
+            joinColumns = {@JoinColumn(name = "idea_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private Set<User> unratedUsers = new HashSet<>();
 
     @JsonProperty("rating")

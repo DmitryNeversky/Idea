@@ -79,11 +79,13 @@ public class UserServiceImpl implements UserService {
         log.info("User with username {} deleted.", user.getUsername());
     }
 
+    @Override
     public boolean verifyOldPassword(String username, String oldPassword) {
         User user = getUser(username);
         return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 
+    @Override
     public boolean verifyNewPassword(String username, String newPassword) {
         User user = getUser(username);
         return passwordEncoder.matches(newPassword, user.getPassword());

@@ -28,4 +28,8 @@ public interface UserService {
     void unblockUser(String username);
 
     void changeRoles(String username, String role);
+
+    boolean verifyOldPassword(String username, String currentPassword);
+
+    boolean verifyNewPassword(String username, String newPassword);
 }

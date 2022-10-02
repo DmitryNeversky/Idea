@@ -72,7 +72,7 @@ public class User {
     private LocalDate registeredDate;
 
     @JsonIgnoreProperties("author")
-    @OneToMany(cascade = CascadeType.DETACH)
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.REMOVE})
     @JoinTable(
             name = "user_ideas",
             joinColumns = @JoinColumn(name = "user_id"),
