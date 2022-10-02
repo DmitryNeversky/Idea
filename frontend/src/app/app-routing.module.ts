@@ -30,7 +30,6 @@ import {AdminGuard} from "./security/admin.guard";
 import {AdminTagsComponent} from "./templates/admin/admin-tags/admin-tags.component";
 import {AdminPostsComponent} from "./templates/admin/admin-posts/admin-posts.component";
 import {UpdateIdeaGuard} from "./security/update-idea.guard";
-import {RolesResolver} from "./resolvers/roles.resolver";
 import {LoginGuard} from "./security/login.guard";
 
 const routes: Routes = [
@@ -67,7 +66,6 @@ const routes: Routes = [
                 resolve: {
                     idea: IdeaResolver,
                     currentUser: CurrentUserResolver,
-                    roles: RolesResolver
                 }
             },
             {
@@ -204,7 +202,6 @@ const routes: Routes = [
                         resolve: {
                             users: UsersResolver,
                             posts: PostsResolver,
-                            roles: RolesResolver,
                             currentUser: CurrentUserResolver
                         }
                     },

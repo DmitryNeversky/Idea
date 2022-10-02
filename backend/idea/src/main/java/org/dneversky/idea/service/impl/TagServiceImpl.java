@@ -43,7 +43,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag createTag(TagRequest tagRequest) {
-        if(getTag(tagRequest.getName()) != null)
+        if(tagRepository.findByName(tagRequest.getName()).isPresent())
             throw new EntityExistsException("Tag with name " + tagRequest.getName() + " already exists");
         Tag tag = new Tag();
         tag.setName(tagRequest.getName());

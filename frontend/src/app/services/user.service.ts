@@ -61,7 +61,7 @@ export class UserService {
     return this.httpClient.patch<void>(`${this.apiBaseUrl}/users/${username}/unblock`, {});
   }
 
-  public changeRoles(username: string, roles: Role[]): Observable<void> {
-    return this.httpClient.patch<void>(`${this.apiBaseUrl}/users/${username}/roles`, roles);
+  public changeRole(username: string, role: string): Observable<void> {
+    return this.httpClient.patch<void>(`${this.apiBaseUrl}/users/${username}/role`, role);
   }
 }

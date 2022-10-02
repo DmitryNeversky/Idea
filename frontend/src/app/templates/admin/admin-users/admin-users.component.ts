@@ -4,7 +4,6 @@ import {Post} from "../../../models/Post";
 import {ActivatedRoute} from "@angular/router";
 import {SharedService} from "../../../shared/shared.service";
 import {UserService} from "../../../services/user.service";
-import {Role} from "../../../models/Role";
 import {FormControl} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SnackbarService} from "../../../shared/snackbar/snackbar.service";
@@ -31,15 +30,14 @@ export class AdminUsersComponent implements OnInit {
   public filteredUsers: User[];
 
   public posts: Post[];
-  public roles: Role[];
+  public roles: string[] = ["USER", "ADMIN"];
 
   public currentUser: User;
   public modalUser: User;
 
   public rolesControl: FormControl = new FormControl();
-  public selectRoles: Role[] = [];
 
-  public isSuperAdmin: boolean = false;
+  public isAdmin: boolean = false;
   public preloader: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService,
@@ -49,9 +47,8 @@ export class AdminUsersComponent implements OnInit {
     this.posts = this.activatedRoute.snapshot.data.posts.map((p: Post) => p.name);
     this.users = this.activatedRoute.snapshot.data.users;
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
-    this.roles = this.activatedRoute.snapshot.data.roles;
 
-    this.isSuperAdmin = !!this.currentUser.roles.find(r => r.name == 'SUPER_ADMIN');
+    this.isAdmin = this.currentUser.role == 'ADMIN';
     this.filteredUsers = this.users;
     this.sort(1);
   }
@@ -186,9 +183,7 @@ export class AdminUsersComponent implements OnInit {
 
   openModal(user: User) {
     this.modalUser = user;
-    this.selectRoles = this.roles.filter(r => !!!user.roles.find(role => role.id == r.id));
-    user.roles.forEach(r => this.selectRoles.push(r));
-    this.rolesControl.setValue(user.roles);
+    this.rolesControl.setValue(user.role);
   }
 
   hideModal(event: any = null) {
@@ -219,16 +214,9 @@ export class AdminUsersComponent implements OnInit {
 
   changeRoles(user: User) {
     this.preloader = true;
-
-    let newRoles: Role[] = [];
-    this.rolesControl.value.forEach(e => {
-      newRoles.push(new Role(e.id, e.name));
-    })
-
-    console.log(newRoles)
-
-    this.userService.changeRoles(user.username, newRoles).subscribe(() => {
-      this.paginatedUsers.find(u => u.id == user.id).roles = this.rolesControl.value;
+    let newRole: string = this.rolesControl.value;
+    this.userService.changeRole(user.username, newRole).subscribe(() => {
+      this.paginatedUsers.find(u => u.id == user.id).role = this.rolesControl.value;
       this.preloader = false;
       this.snackbar.success("Роли применены.");
     }, (error: HttpErrorResponse) => {

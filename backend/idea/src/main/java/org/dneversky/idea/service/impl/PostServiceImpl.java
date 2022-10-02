@@ -44,7 +44,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post createPost(PostRequest postRequest) {
-        if(getPost(postRequest.getName()) != null)
+        if(postRepository.findByName(postRequest.getName()).isPresent())
             throw new EntityExistsException("Post with name " + postRequest.getName() + " already exists.");
         Post post = new Post();
         post.setName(postRequest.getName());

@@ -44,8 +44,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.createUser(user, false));
+    public ResponseEntity<User> createUser(@RequestPart("user") @Valid User user, @RequestPart("admin") boolean admin) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.createUser(user, admin));
     }
 
     @PutMapping("/{username}")
@@ -97,8 +97,8 @@ public class UserController {
     }
 
     @Secured("ROLE_ADMIN")
-    @PatchMapping("/{username}/roles")
-    public ResponseEntity<?> changeRoles(@PathVariable String username, @RequestBody String role) {
+    @PatchMapping("/{username}/role")
+    public ResponseEntity<?> changeRole(@PathVariable String username, @RequestBody String role) {
         userServiceImpl.changeRoles(username, role);
         return ResponseEntity.ok().build();
     }

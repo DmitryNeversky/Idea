@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user, boolean admin) {
-        if(getUser(user.getUsername()) != null)
+        if(userRepository.findByUsername(user.getUsername()).isPresent())
             throw new EntityExistsException("User with username " + user.getUsername() + " already exists.");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(LocalDate.now());

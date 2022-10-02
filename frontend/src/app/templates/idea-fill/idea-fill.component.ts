@@ -52,7 +52,7 @@ export class IdeaFillComponent implements OnInit {
     this.currentUser = this.activatedRoute.snapshot.data.currentUser;
     this.roles = this.activatedRoute.snapshot.data.roles
 
-    this.isAdmin = !!this.currentUser.roles.find(r => r.name == 'ADMIN' || r.name == 'SUPER_ADMIN');
+    this.isAdmin = this.currentUser.role == "ADMIN";
 
     if(!!this.idea.ratedUsers.find(u => u.id == this.currentUser.id)) {
       this.voted = 1;

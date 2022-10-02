@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  serverUrl: "http://backend:8080",
-  apiBaseUrl: "http://backend:8080/v1",
+  serverUrl: "http://localhost:8080",
+  apiBaseUrl: "http://localhost:8080/v1",
   uploadPath: "assets/uploaded/"
 };
 

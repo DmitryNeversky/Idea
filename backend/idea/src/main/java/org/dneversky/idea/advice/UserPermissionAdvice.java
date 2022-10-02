@@ -44,6 +44,7 @@ public class UserPermissionAdvice {
             }
         }
         if(targetUsername == null) {
+            System.out.println(targetUsername);
             return;
         }
         Authentication authentication = getAuthentication();

@@ -15,7 +15,7 @@ export class UpdateIdeaGuard implements CanActivate {
         let id = next.params.id;
         return new Observable<boolean>(obs => {
             this.currentUserService.getCurrentUser().subscribe((user: User) => {
-                obs.next(!!user.ideas.find(i => i.id == id) || !!user.roles.find(role => role.id == 3));
+                obs.next(!!user.ideas.find(i => i.id == id) || user.role == "ADMIN");
             });
         });
     }
