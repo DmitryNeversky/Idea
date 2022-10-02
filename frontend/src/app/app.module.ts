@@ -71,6 +71,7 @@ import {ModalComponent} from './templates/admin/modal/modal.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { HomeContentComponent } from './templates/home/home-content/home-content.component';
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -110,6 +111,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     AdminTagsComponent,
     AdminPostsComponent,
     ModalComponent,
+    HomeContentComponent,
   ],
   imports: [
     BrowserModule,

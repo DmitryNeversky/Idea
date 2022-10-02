@@ -31,6 +31,7 @@ import {AdminTagsComponent} from "./templates/admin/admin-tags/admin-tags.compon
 import {AdminPostsComponent} from "./templates/admin/admin-posts/admin-posts.component";
 import {UpdateIdeaGuard} from "./security/update-idea.guard";
 import {LoginGuard} from "./security/login.guard";
+import {HomeContentComponent} from "./templates/home/home-content/home-content.component";
 
 const routes: Routes = [
     {
@@ -45,7 +46,7 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'ideas'
+                component: HomeContentComponent,
             },
             {
                 path: 'ideas',
