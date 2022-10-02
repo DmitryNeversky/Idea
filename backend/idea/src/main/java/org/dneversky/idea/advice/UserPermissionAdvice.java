@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class UserAdvice {
+public class UserPermissionAdvice {
 
     /** Advice's created for checking if user is admin or profile's owner by username. **/
 

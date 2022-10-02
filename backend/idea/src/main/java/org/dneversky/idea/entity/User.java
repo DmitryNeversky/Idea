@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.dneversky.idea.payload.UserRequest;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -97,6 +98,15 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id) && Objects.equals(username, user.username);
+    }
+
+    public void buildUser(UserRequest userRequest) {
+        setName(userRequest.getName());
+        setPhone(userRequest.getPhone());
+        setBirthday(userRequest.getBirthday());
+        setCity(userRequest.getCity());
+        setAbout(userRequest.getAbout());
+        setPost(userRequest.getPost());
     }
 
     @Override
