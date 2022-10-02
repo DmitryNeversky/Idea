@@ -32,14 +32,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post getPost(int id) {
-        return postRepository.getById(id);
+        return postRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Post with id " + id + " not found."));
+    }
+
+    @Override
+    public Post getPost(String name) {
+        return postRepository.findByName(name).orElseThrow(
+                () -> new EntityNotFoundException("Post with name " + name + " not found."));
     }
 
     @Override
     public Post createPost(PostRequest postRequest) {
-        if(postRepository.existsByName(postRequest.getName())) {
+        if(getPost(postRequest.getName()) != null)
             throw new EntityExistsException("Post with name " + postRequest.getName() + " already exists.");
-        }
         Post post = new Post();
         post.setName(postRequest.getName());
         return postRepository.save(post);
@@ -47,16 +53,19 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post updatePost(int id, PostRequest postRequest) {
-        Post post = postRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Post with id " + id + " not found."));
+        Post post = getPost(id);
         post.setName(postRequest.getName());
         return postRepository.save(post);
     }
 
     @Override
     public void deletePost(int id) {
-        Post post = postRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Post with id " + id + " not found."));
+        Post post = getPost(id);
+        detachUsers(post);
+        postRepository.delete(post);
+    }
+
+    private void detachUsers(Post post) {
         if(post.getUsers() != null && post.getUsers().size() > 0) {
             Post defaultPost = postRepository.findByName("Default").orElse(null);
             post.getUsers().forEach(user -> {
@@ -64,7 +73,6 @@ public class PostServiceImpl implements PostService {
                 userRepository.save(user);
             });
         }
-        postRepository.delete(post);
     }
 
     @PostConstruct

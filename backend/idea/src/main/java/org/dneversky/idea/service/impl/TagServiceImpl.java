@@ -43,9 +43,8 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag createTag(TagRequest tagRequest) {
-        if(tagRepository.existsByName(tagRequest.getName())) {
+        if(getTag(tagRequest.getName()) != null)
             throw new EntityExistsException("Tag with name " + tagRequest.getName() + " already exists");
-        }
         Tag tag = new Tag();
         tag.setName(tagRequest.getName());
         return tagRepository.save(tag);
@@ -53,22 +52,24 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag updateTag(int id, TagRequest tagRequest) {
-        Tag tag = tagRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Tag with id " + id + " not found in the database."));
+        Tag tag = getTag(id);
         tag.setName(tagRequest.getName());
         return tagRepository.save(tag);
     }
 
     @Override
     public void deleteTag(int id) {
-        Tag tag = tagRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Tag with id " + id + " not found in the database."));
+        Tag tag = getTag(id);
+        detachIdeas(tag);
+        tagRepository.delete(tag);
+    }
+
+    private void detachIdeas(Tag tag) {
         if(tag.getIdeas() != null && tag.getIdeas().size() > 0) {
             tag.getIdeas().forEach(idea -> {
                 idea.getTags().remove(tag);
                 ideaRepository.save(idea);
             });
         }
-        tagRepository.delete(tag);
     }
 }

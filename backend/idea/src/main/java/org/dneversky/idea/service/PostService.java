@@ -11,6 +11,8 @@ public interface PostService {
 
     Post getPost(int id);
 
+    Post getPost(String name);
+
     Post createPost(PostRequest postRequest);
 
     Post updatePost(int id, PostRequest postRequest);
