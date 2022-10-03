@@ -13,21 +13,11 @@ Individual project which was used as Pet-project. It hasn't found an appointment
 - 🪛 Configurable interface (dark mode exists)
 - 🔪 Administrator managing (roles enabled)
 
-## Application preview
+## How to install using Docker Compose
 
-***Introduction login form***
-<br>
-<img src="https://github.com/dneversky/Idea/blob/master/Screenshot_20221003_084357.png" width="400px" height="200px" />
-
-***Main page with ideas***
-<br>
-<img src="https://github.com/dneversky/Idea/blob/master/Screenshot_20221003_084429.png" width="400px" height="200px" />
-
-***Notification settings***
-<br>
-<img src="https://github.com/dneversky/Idea/blob/master/Screenshot_20221003_084504.png" width="400px" height="200px" />
-
-***Administrating panel***
-<br>
-<img src="https://github.com/dneversky/Idea/blob/master/Screenshot_20221003_084750.png" width="400px" height="200px" />
-
+- download [docker-compose.yaml](https://github.com/dneversky/Idea/blob/master/docker-compose.yaml) configuration file
+- change environment variables for your own (optional)
+- go to the folder with the downloaded file
+- open a console and run the command `docker-compose up -d` (-d means detach mode)
+- as soon as application is started you may go to a browser on http://localhost:4200/ page 
+- in order to shutdown the application run the command `docker-compose down` in the same folder
