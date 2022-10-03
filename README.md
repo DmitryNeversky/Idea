@@ -15,14 +15,19 @@ Individual project which was used as Pet-project. It hasn't found an appointment
 
 ## Application preview
 
-### Introduction form
+***Introduction login form***
+<br>
 <img src="https://github.com/dneversky/Idea/blob/master/Screenshot_20221003_084357.png" width="400px" height="200px" />
 
-### Main page with ideas
+***Main page with ideas***
+<br>
 <img src="https://github.com/dneversky/Idea/blob/master/Screenshot_20221003_084429.png" width="400px" height="200px" />
 
-### Notification settings
+***Notification settings***
+<br>
 <img src="https://github.com/dneversky/Idea/blob/master/Screenshot_20221003_084504.png" width="400px" height="200px" />
 
-### Administrating panel
+***Administrating panel***
+<br>
 <img src="https://github.com/dneversky/Idea/blob/master/Screenshot_20221003_084750.png" width="400px" height="200px" />
+
