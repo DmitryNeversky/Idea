@@ -2,16 +2,44 @@
     <mat-card-title fxLayout.xs="column wrap" fxLayoutGap.xs="5%" fxLayout.gt-xs="row">
         <span fxFlex.gt-xs="100%" fxFlexOrder.xs="2" class="title">Description</span>
     </mat-card-title>
+    <hr class="silver">
     <mat-card-content>
         <p class="text">
-            Welcome to the app! If you're thinking about is it the best project I've ever seen? - I'll tell you - yes it is!
+            Individual project which was used as Pet-project. It hasn't found an appointment,
+            so It's decided to open that for a public. I found it useful for processing requests <br>
+            from employee inside a company. Wich request has status(accepted, looking, declined).
+            Before using the system each user must be registered. <br> Btw, there is a cool interface :D
+            I spent on it much time and there is adaptation existing for every device as well.
         </p>
-        <p>
-            I don't know what to place here. So, I just leave that phrase here for a while.
-        </p>
-        <p>
-            Oh, wanna tell you about the application's made of: Angular framework is used for Frontend. It is what you can see now. <br>
-            Spring is used for Backend. This one is processing and store data. But don't disappointing, there is lots of things that is being doing as well.
+        <h2>Applied technologies</h2>
+        <hr class="silver">
+        <p>Frontend: <a href="https://angular.io/" class="color-red">Angular 12</a> - is used for frontend development.</p>
+        <p>Backend: <a href="https://spring.io/" class="color-green">Spring Boot</a> - is used for backend development.</p>
+        <p>Broker: <a href="https://www.rabbitmq.com/" class="color-yellow">RabbitMQ</a> - is used for communication between services.</p>
+        <p>Database: <a href="https://www.mysql.com/" class="color-blue">MySQL</a> - is used for storing data.</p>
+        <p><span class="color-red">Json</span><span class="color-blue"> Web</span><span class="color-green"> Token</span> - is used for providing authentication and authorization.</p>
+        <h2>Why do you must use this application</h2>
+        <hr class="silver">
+        <p>- ✨ Beautiful design</p>
+        <p>- 🙂 Convinient to use</p>
+        <p>- 🪛 Configurable interface (dark mode exists)</p>
+        <p>- 🔪 Administrator managing (roles enabled)</p>
+        <h2>Installation using Docker Compose</h2>
+        <hr class="silver">
+        <p>- download <a href="https://github.com/dneversky/Idea/blob/master/docker-compose.yaml">docker-compose.yaml</a> configuration file</p>
+        <p>- change environment variables for your own (optional)</p>
+        <p>- go to the folder with the downloaded file</p>
+        <p>- open a console and run the command <span class="code">docker-compose up -d</span> (-d means detach mode)</p>
+        <p>- as soon as application is started you may go to a browser on http://localhost:4200/ page</p>
+        <p>- in order to shutdown the application run the command <span class="code">docker-compose down</span> in the same folder</p>
+        <h2>Get in contact</h2>
+        <hr class="silver">
+        <p class="contact">
+            <a href="https://github.com/dneversky">github profile</a>
+            <a href="https://github.com/dneversky/idea">project repository</a>
+            <a href="https://www.linkedin.com/in/dmitry-neverovsky-a3b461228/">linkedIn</a>
+            <a href="mailto:dneversky@gmail.com">write to gmail</a>
+            <a href="https://disk.yandex.ru/i/-zZgQXHOWi06xw">resume for employers</a>
         </p>
     </mat-card-content>
 </mat-card>
