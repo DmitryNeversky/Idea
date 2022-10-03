@@ -12,7 +12,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: idea
   idea:
-    image: dneversky/idea
+    image: dneversky/idea-service
     container_name: idea
     ports:
       - 8080:8080
@@ -34,20 +34,20 @@ services:
       - rabbit
     restart: always
   emailer:
-    image: dneversky/emailer
+    image: dneversky/email-service
     container_name: emailer
     ports:
       - 8081:8081
     environment:
-      SMTP_USERNAME: springapplication@yandex.ru
-      SMTP_PASSWORD: vuolmfprzkknmctq
+      SMTP_USERNAME: <username>@yandex.ru
+      SMTP_PASSWORD: <password>
       SERVER_PORT: 8081
       RABBITMQ_HOST: rabbit
       RABBITMQ_PORT: 5672
     depends_on:
       - rabbit
   frontend:
-    image: dneversky/ex72-demo-frontend
+    image: dneversky/idea-frontend
     container_name: frontend
     ports:
       - 80:80
