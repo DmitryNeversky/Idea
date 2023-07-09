@@ -6,6 +6,7 @@ import {map, startWith} from "rxjs/operators";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {Tag} from "../../models/Tag";
+import {MatLegacyChipInputEvent} from "@angular/material/legacy-chips";
 
 @Component({
   selector: 'app-chips',
@@ -37,7 +38,7 @@ export class ChipsComponent {
         map((tag: Tag | null) => tag ? this._filter(tag) : this.allTags.slice()));
   }
 
-  add(event: MatChipInputEvent): void {
+  add(event: MatLegacyChipInputEvent): void {
     const value = (event.value || '').trim();
 
     if (value && !this.tags.find(t => t.name == value)) {

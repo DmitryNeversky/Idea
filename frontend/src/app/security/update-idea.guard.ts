@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from "@angular/router";
 import {Observable} from "rxjs";
 import {User} from "../models/User";
 import {CurrentUserService} from "../services/current-user.service";
@@ -7,7 +7,7 @@ import {CurrentUserService} from "../services/current-user.service";
 @Injectable({
     providedIn: "root"
 })
-export class UpdateIdeaGuard implements CanActivate {
+export class UpdateIdeaGuard  {
 
     constructor(private router: Router, private currentUserService: CurrentUserService) {}
 
