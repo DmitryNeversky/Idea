@@ -17,7 +17,7 @@ public class Application {
 
     private static void createDirectories() throws IOException {
 //        String UPLOAD_PATH = System.getenv("UPLOAD_PATH");  // for production
-        String UPLOAD_PATH = "/home/koshey/IdeaProjects/Ex72/frontend/src/assets/uploaded/";
+        String UPLOAD_PATH = "C:\\Users\\dneve\\IdeaProjects\\Idea\\frontend\\src\\assets\\uploaded\\";
         if(!Files.exists(Paths.get(UPLOAD_PATH))) {
             Files.createDirectory(Paths.get(UPLOAD_PATH));
             Files.createDirectory(Paths.get(UPLOAD_PATH + "/files"));
