@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {IdeaService} from "../services/idea.service";
 import {Idea} from "../models/Idea";
@@ -7,7 +7,7 @@ import {Idea} from "../models/Idea";
 @Injectable({
   providedIn: 'root'
 })
-export class IdeaResolver  {
+export class IdeaResolver implements Resolve<Idea> {
 
   constructor(private ideaService: IdeaService) {}
 

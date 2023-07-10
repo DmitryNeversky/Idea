@@ -12,7 +12,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatOptionModule} from "@angular/material/core";
-import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 
 @NgModule({
     declarations: [
@@ -21,8 +20,7 @@ import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
         ChipsComponent,
     ],
     exports: [
-        ChipsComponent,
-        MatLegacyChipsModule,
+        ChipsComponent
     ],
     imports: [
         CommonModule,
@@ -30,7 +28,7 @@ import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
         MatButtonModule,
         MatSnackBarModule,
         MatFormFieldModule,
-        MatLegacyChipsModule,
+        MatChipsModule,
         MatIconModule,
         ReactiveFormsModule,
         MatAutocompleteModule,

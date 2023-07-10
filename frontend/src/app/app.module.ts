@@ -51,6 +51,7 @@ import {UserComponent} from './templates/user/user.component';
 import {TokenInterceptor} from "./interceptors/token.interceptor";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {UserIdeasComponent} from './templates/user/ideas/user-ideas.component';
+import {NgxMaskModule} from "ngx-mask";
 import {SettingsComponent} from './templates/settings/settings.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {ProfileComponent} from './templates/settings/profile/profile.component';
@@ -70,8 +71,7 @@ import {ModalComponent} from './templates/admin/modal/modal.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {HomeContentComponent} from './templates/home/home-content/home-content.component';
-import {NgxMaskPipe} from "ngx-mask";
+import { HomeContentComponent } from './templates/home/home-content/home-content.component';
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [
     {
@@ -149,13 +149,13 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,
+    NgxMaskModule.forRoot(),
     MatTabsModule,
     MatChipsModule,
     MatSortModule,
     MatSlideToggleModule,
     MatSliderModule,
     MatCheckboxModule,
-    NgxMaskPipe,
   ],
   providers: [IdeaService, SharedService, INTERCEPTOR_PROVIDERS,
           {
